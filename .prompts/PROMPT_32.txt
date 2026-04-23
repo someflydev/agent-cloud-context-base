@@ -1,0 +1,274 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is PROMPT_32 of 33. PROMPT_18–31 authored the full canonical example
+surface. This prompt builds the cross-provider integration testing harness
+and the arc-overview documentation (`docs/`):
+
+  examples/canonical-integration-tests/    cross-provider test harness
+  verification/{functions,containers,kubernetes,iac,scenarios}/
+                                          parity runners
+  verification/policies/                                 IaC isolation
+                                                         lint policies
+  docs/iac-isolation-contract.md           normative IaC contract
+  docs/provider-parity-matrix.md           coverage matrix across the
+                                          provider × runtime × language ×
+                                          IaC matrix
+  docs/{functions,containers,kubernetes}-arc-overview.md
+                                          per-arc overview docs
+
+Use **`accb`** / **`.accb/`** in everything; never `acb` / `.acb/`.
+
+   [CLOUD ARC: Prompt 32 of 33 — Integration Testing Harness + Arc Docs]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+One prompt per session. Maintain `tmp/PROMPT_32_checklist.md`.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+`accb` is a context-first foundation for cloud-native backend repos. The
+canonical example surface is complete. This prompt makes the cross-
+provider verification surface real (not just per-example) and writes the
+narrative docs that explain the arcs at a survey level.
+
+Sequence:
+  PROMPT_01–31  Through canonical examples + expansion prompts          (done)
+  PROMPT_32     Integration testing harness + arc docs                  (this prompt)
+  PROMPT_33     Final wiring (root README, ARCHITECTURE_MAP, e2e smoke)
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read:
+
+  1. `README.md`, `AGENT.md`
+  2. `python3 scripts/work.py resume`
+  3. `memory/INDEX.md` and concepts (especially the per-arc concepts)
+  4. `tmp/dogfooding-audit.md` (PROMPT_24 follow-up)
+  5. `verification/example_registry.yaml` (current state)
+  6. `verification/stack_support_matrix.yaml` (current state)
+  7. `examples/canonical-aws-lambda/s3-trigger-image-moderation/python/tests/`
+  8. `examples/canonical-cloud-run/public-api-private-worker-job/python-fastapi/tests/`
+  9. `examples/canonical-eks/multi-role-platform/python/tests/`
+ 10. `examples/canonical-integration-tests/` (currently empty —
+     this prompt populates it)
+ 11. `scripts/run_verification.py`
+ 12. `scripts/validate_iac_isolation.py`
+
+================================================================================
+PART 1 — examples/canonical-integration-tests/
+================================================================================
+
+Five reference harnesses derived repos can copy and adapt. Each is a
+small, self-contained directory with its own README, fixtures, and
+runner script.
+
+  1.1  aws-localstack-lambda-test/
+       Python pytest harness using the LocalStack container; aws-cli
+       bootstrap of S3/DynamoDB/SQS resources; lambda invoke via
+       endpoint-url; teardown.
+
+  1.2  gcp-emulator-firestore-pubsub-test/
+       Python pytest harness using Firestore + Pub/Sub emulators
+       (cloudsdktool image); functions-framework run of the handler
+       container; teardown.
+
+  1.3  azure-azurite-fn-test/
+       .NET test using Azurite; Functions Core Tools for the host;
+       teardown.
+
+  1.4  ephemeral-real-pulumi-up-down/
+       Python harness using the Pulumi Automation API to apply a
+       minimal `test` stack; runs assertions; tears down. Includes a
+       max-runtime guard and an explicit "this lane costs real money"
+       README.
+
+  1.5  ephemeral-real-terraform-apply/
+       Bash harness using `terraform apply -auto-approve` against a
+       minimal test workspace; pytest assertions; `terraform destroy`
+       teardown. Same cost guard.
+
+Each harness must declare:
+  - prerequisite environment variables
+  - approximate runtime
+  - approximate cost (Lane B harnesses)
+  - skip behavior when prerequisites are missing
+
+================================================================================
+PART 2 — verification/{functions,containers,kubernetes,iac,scenarios}/ PARITY RUNNERS
+================================================================================
+
+Each subdir gets a `run_parity_check.py` that walks the relevant
+canonical-* families and asserts:
+
+  - every example has the expected layout (per its prompt's Part 1)
+  - every example's IaC trees pass `validate_iac_isolation.py`
+  - every example's structured-log shape declares the required fields
+  - every example's catalog entry matches the on-disk reality
+
+functions/run_parity_check.py — covers canonical-aws-lambda,
+canonical-gcp-functions, canonical-azure-functions
+containers/run_parity_check.py — covers canonical-cloud-run,
+canonical-app-runner, canonical-container-apps
+kubernetes/run_parity_check.py — covers canonical-eks, canonical-gke,
+canonical-aks
+iac/run_parity_check.py — covers canonical-iac-terraform,
+canonical-iac-pulumi (all 10 trees)
+scenarios/run_scenario_check.py — covers context/scenarios/
+scenario-profile-map.yaml and asserts every pattern resolves to a manifest,
+archetype, support services, and at least one canonical example or an
+explicit `examples_deferred: true` marker.
+
+Each runner is invokable standalone (`python3 verification/functions/
+run_parity_check.py`) and is dispatched by `run_verification.py
+--tier medium` and `--tier full`.
+
+================================================================================
+PART 3 — verification/policies/ LINT POLICIES
+================================================================================
+
+Add machine-readable lint policy stubs that PROMPT_17's
+`validate_iac_isolation.py` references:
+
+  no-default-creds.policy.yaml
+  dev-test-disjoint.policy.yaml
+  secret-not-in-source.policy.yaml
+  resource-name-env-suffixed.policy.yaml
+  no-checked-in-tfvars-or-pulumi-secrets.policy.yaml
+
+Each is a small yaml with rule_id, severity, description, file_globs,
+disallowed_patterns or required_patterns, fix_hint. The script in
+PROMPT_17 already enforces these in code; this directory makes the
+rules visible to operators and external tools.
+
+================================================================================
+PART 4 — docs/iac-isolation-contract.md (NORMATIVE)
+================================================================================
+
+The single normative document describing the dev/test isolation
+contract. Sections:
+
+  - Why isolation matters (cross-env contamination is the canonical
+    cloud bug)
+  - The five lint policies (Part 3) restated as MUST rules
+  - Terraform conformance shape (per-env state backend keys, tfvars,
+    naming)
+  - Pulumi conformance shape (one stack per env, secret config, naming)
+  - Acceptable deviations (rare, must be declared in the manifest)
+  - Verification commands (validate_iac_isolation.py + run_verification
+    --tier medium)
+
+Length: 100–200 lines. This is REFERENCE material, not narrative; lean
+on tables and explicit MUST/SHOULD wording.
+
+================================================================================
+PART 5 — docs/provider-parity-matrix.md
+================================================================================
+
+A rendered view of `verification/stack_support_matrix.yaml`. For each
+cell (provider × runtime tier × language × IaC tool), show:
+  - Supported / Deferred / Not Planned
+  - link to canonical example when supported
+  - link to issue or follow-up arc when deferred
+
+This document is REGENERATED periodically (operator-driven) from the
+matrix yaml. Add a small generator at
+`scripts/render_parity_matrix.py` that reads the yaml and rewrites this
+file (`--check` mode for CI: verify the file is in sync).
+
+================================================================================
+PART 6 — docs/{functions,containers,kubernetes}-arc-overview.md
+================================================================================
+
+Three narrative arc-overview docs, each 200–400 lines, structured:
+
+  - Arc Goal (one paragraph)
+  - Examples Authored (bullet list with provider × language × example
+    name)
+  - Doctrines Anchored (bullet list with file paths)
+  - Stacks Anchored (bullet list)
+  - Workflows Anchored (bullet list)
+  - Scenario Patterns Covered (table mapping scenario pattern → canonical
+    example families)
+  - Validation Gates (table mapping gate ID → covering example)
+  - Lane Coverage (table mapping example × Lane A / B / C presence)
+  - Known Gaps + Follow-on Arcs (bullet list)
+  - How To Generate A New Repo From This Arc (one-paragraph + example
+    `new_cloud_repo.py` invocation)
+
+================================================================================
+PART 7 — WIRING + DOGFOODING AUDIT FOLLOW-UP
+================================================================================
+
+  7.1  Update `scripts/run_verification.py`:
+         - `--tier fast`   adds `iac/run_parity_check.py` and
+                           `scenarios/run_scenario_check.py`
+         - `--tier medium` adds all five parity runners
+         - `--tier full`   adds Lane B ephemeral-real harnesses
+                          (skipped if creds absent; warned)
+
+  7.2  Update `scripts/work.py verify` to dispatch to
+       `run_verification --tier fast` (already partially wired in
+       PROMPT_17).
+
+  7.3  Resolve `tmp/dogfooding-audit.md` (PROMPT_24 follow-up):
+         For every legitimate divergence between a per-example IaC tree
+         and the canonical-iac-* references, leave the divergence and
+         document why in the example's README.
+         For every accidental divergence, fix the example to match the
+         canonical reference. Capture the resolution in
+         `memory/concepts/dogfooding-audit-resolutions.md`.
+
+================================================================================
+VERIFICATION (this prompt)
+================================================================================
+
+  1. `find examples/canonical-integration-tests -mindepth 1 -maxdepth 1 -type d | wc -l`
+     shows 5.
+  2. Each parity runner exits 0 against the current repo state:
+     `verification/functions/run_parity_check.py`,
+     `verification/containers/run_parity_check.py`,
+     `verification/kubernetes/run_parity_check.py`,
+     `verification/iac/run_parity_check.py`, and
+     `verification/scenarios/run_scenario_check.py`.
+  3. `python3 scripts/run_verification.py --tier medium` exits 0.
+  4. `docs/iac-isolation-contract.md`, `docs/provider-parity-matrix.md`,
+     `docs/functions-arc-overview.md`, `docs/containers-arc-overview.md`,
+     `docs/kubernetes-arc-overview.md` exist.
+  5. `python3 scripts/render_parity_matrix.py --check` exits 0 (the
+     rendered file matches the yaml).
+  6. `python3 scripts/work.py verify` runs cleanly.
+  7. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' examples/canonical-integration-tests/ verification/{functions,containers,kubernetes,iac,scenarios}/ verification/policies/ docs/iac-isolation-contract.md docs/provider-parity-matrix.md docs/functions-arc-overview.md docs/containers-arc-overview.md docs/kubernetes-arc-overview.md`
+     returns nothing.
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run.
+
+  - [ ] All 5 cross-provider integration-test harnesses exist.
+  - [ ] All 5 parity/scenario runners exist and pass.
+  - [ ] All 5 lint policies exist in `verification/policies/`.
+  - [ ] `docs/iac-isolation-contract.md` is normative and complete.
+  - [ ] `docs/provider-parity-matrix.md` exists and is generated from the
+        yaml; `render_parity_matrix.py --check` clean.
+  - [ ] All 3 arc-overview docs (functions, containers, kubernetes) exist
+        with the Part 6 sections.
+  - [ ] `run_verification.py` tiers wire in the new runners.
+  - [ ] Dogfooding audit resolved with `memory/concepts/dogfooding-audit-resolutions.md`.
+  - [ ] No `acb` / `.acb/` references.
+  - [ ] `tmp/PROMPT_32_checklist.md` is fully checked.
+  - [ ] `memory/concepts/integration-harness-and-arc-docs.md` exists
+        noting the parity surface is closed and that PROMPT_33 wires the
+        final root README + ARCHITECTURE_MAP + end-to-end smoke.
+  - [ ] `memory/INDEX.md` lists the new concepts.
+
+End of PROMPT_32.

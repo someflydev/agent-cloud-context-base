@@ -1,0 +1,129 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is PROMPT_26 of 33. PROMPT_19 authored the GCP Cloud Functions seed set.
+This prompt completes the first-class GCP Cloud Functions canonical surface
+under `examples/canonical-gcp-functions/` by adding the remaining required
+examples that were deferred from the seed pass.
+
+Use **`accb`** / **`.accb/`** in everything; never `acb` / `.acb/`.
+
+ [CLOUD ARC: Prompt 26 of 33 — Canonical GCP Cloud Functions Expansion]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+One prompt per session. Maintain `tmp/PROMPT_26_checklist.md`.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+Reuse the PROMPT_19 contract exactly. The layout, Lane A emulator pattern,
+Lane B ephemeral-real pattern, replay contract, observability contract, and
+registry/catalog shape are already defined.
+
+Sequence:
+  PROMPT_01–25  Through AWS Lambda expansion                              (done)
+  PROMPT_26     Canonical GCP Cloud Functions expansion                   (this prompt)
+  PROMPT_27     Canonical Azure Functions expansion
+  PROMPT_28     Canonical Cloud Run + App Runner expansion
+  PROMPT_29     Canonical Container Apps expansion
+  PROMPT_30     Canonical EKS + GKE + AKS expansion
+  PROMPT_31     Canonical Pulumi starter expansion
+  PROMPT_32     Integration testing harness + arc docs
+  PROMPT_33     Final wiring
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read:
+
+  1. `README.md`, `AGENT.md`
+  2. `python3 scripts/work.py resume`
+  3. `.prompts/PROMPT_19.txt` (FULL READ — layout + lane contract)
+  4. `examples/canonical-gcp-functions/` (all seed examples)
+  5. `verification/example_registry.yaml`
+  6. `examples/catalog.json`
+  7. `verification/stack_support_matrix.yaml`
+  8. `context/stacks/gcp-cloudfn-{python,typescript-node,go}.md`
+  9. `templates/function/gcp-cloudfn/`, `templates/iac/{terraform,pulumi/*}/gcp/`
+
+================================================================================
+PART 1 — REUSE PROMPT_19 VERBATIM
+================================================================================
+
+Reuse PROMPT_19's contract verbatim:
+
+  - same directory layout
+  - same Lane A emulator structure
+  - same Lane B ephemeral-real structure
+  - same replay and observability rules inherited from PROMPT_18
+  - same registry/catalog entry shape
+
+================================================================================
+PART 2 — REQUIRED GCP EXPANSION EXAMPLES (4 examples)
+================================================================================
+
+Author the remaining required examples:
+
+  2.1  gcs-trigger-ocr-to-firestore/typescript/
+  2.2  gcs-trigger-ocr-to-firestore/go/
+  2.3  pubsub-translation-stream/python/
+  2.4  firebase-onboarding/python/
+
+Keep the workflows and intent exactly as described in PROMPT_19's original
+Part 2 descriptions. This prompt only restores the deferred required surface.
+
+================================================================================
+PART 3 — REGISTRY + CATALOG + SUPPORT MATRIX
+================================================================================
+
+Append the 4 new entries to `verification/example_registry.yaml` and
+`examples/catalog.json` using the PROMPT_19 / PROMPT_18 entry shapes.
+
+Update `verification/stack_support_matrix.yaml` so GCP Cloud Functions now
+has the full first-class surface originally promised in PROMPT_19:
+
+  - python, typescript, go are SUPPORTED with the full example set
+  - java remains DEFERRED for rare JVM-oriented cases
+  - dotnet, ruby, and php remain NOT PLANNED in this arc
+
+================================================================================
+VERIFICATION (this prompt)
+================================================================================
+
+  1. `find examples/canonical-gcp-functions -mindepth 2 -maxdepth 2 -type d | wc -l`
+     shows 7 example directories.
+  2. Every GCP function example has the PROMPT_18 Part 1 layout with the
+     PROMPT_19 provider substitutions.
+  3. `python3 scripts/validate_iac_isolation.py` is clean for every new
+     example's Terraform and Pulumi tree.
+  4. `python3 scripts/verify_examples.py --family canonical-gcp-functions`
+     runs without crashing.
+  5. Catalog + registry + support matrix reflect the full 7-example surface.
+  6. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' examples/canonical-gcp-functions/`
+     returns nothing.
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run.
+
+  - [ ] All 7 GCP Cloud Functions examples now exist with the established layout.
+  - [ ] The 4 deferred required examples from PROMPT_19 are now authored.
+  - [ ] Every GCP example has replay coverage and declared structured logs.
+  - [ ] Terraform + Pulumi-language IaC for every GCP example is
+        `validate_iac_isolation` clean.
+  - [ ] Catalog + registry + support matrix reflect the full GCP surface.
+  - [ ] No `acb` / `.acb/` references.
+  - [ ] `tmp/PROMPT_26_checklist.md` is fully checked.
+  - [ ] `memory/concepts/gcp-functions-canonical-arc.md` is updated to note
+        the full 7-example surface and that PROMPT_27 completes Azure.
+  - [ ] `memory/INDEX.md` lists the updated concept.
+
+End of PROMPT_26.

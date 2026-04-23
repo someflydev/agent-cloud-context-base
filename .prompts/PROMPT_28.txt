@@ -1,0 +1,141 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is PROMPT_28 of 33. PROMPT_21 authored the Cloud Run + App Runner seed
+set. This prompt completes those managed-container families by adding the
+remaining required Cloud Run and App Runner examples that were deferred from
+the seed pass.
+
+Use **`accb`** / **`.accb/`** in everything; never `acb` / `.acb/`.
+
+ [CLOUD ARC: Prompt 28 of 33 — Canonical Cloud Run + App Runner Expansion]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+One prompt per session. Maintain `tmp/PROMPT_28_checklist.md`.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+Reuse PROMPT_21 exactly. The container layout, Dockerfile expectations, Lane A
+local-container rules, Lane B ephemeral-real rules, replay rules, and
+registry/catalog shapes already exist.
+
+Sequence:
+  PROMPT_01–27  Through Azure Functions expansion                        (done)
+  PROMPT_28     Canonical Cloud Run + App Runner expansion               (this prompt)
+  PROMPT_29     Canonical Container Apps expansion
+  PROMPT_30     Canonical EKS + GKE + AKS expansion
+  PROMPT_31     Canonical Pulumi starter expansion
+  PROMPT_32     Integration testing harness + arc docs
+  PROMPT_33     Final wiring
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read:
+
+  1. `README.md`, `AGENT.md`
+  2. `python3 scripts/work.py resume`
+  3. `.prompts/PROMPT_21.txt` (FULL READ — container layout + lane contract)
+  4. `examples/canonical-cloud-run/` and `examples/canonical-app-runner/`
+     (all seed examples)
+  5. `verification/example_registry.yaml`
+  6. `examples/catalog.json`
+  7. `verification/stack_support_matrix.yaml`
+  8. `context/stacks/cloudrun-*.md`, `context/stacks/apprunner-*.md`
+  9. `templates/container/{cloudrun,apprunner}/`,
+     `templates/iac/{terraform,pulumi/*}/{aws,gcp}/`
+
+================================================================================
+PART 1 — REUSE PROMPT_21 VERBATIM
+================================================================================
+
+Reuse PROMPT_21 Part 1, Part 4, and Part 5 exactly:
+
+  - same container layout
+  - same Dockerfile constraints
+  - same Lane A and Lane B definitions
+  - same registry/catalog entry shape
+
+================================================================================
+PART 2 — REQUIRED CLOUD RUN EXPANSION EXAMPLES (3 examples)
+================================================================================
+
+Author the remaining required Cloud Run examples:
+
+  2.1  public-api-private-worker-job/go-echo/
+  2.2  public-api-private-worker-job/typescript-hono/
+  2.3  cloudrun-job-nightly-report/python-fastapi/
+
+================================================================================
+PART 3 — REQUIRED APP RUNNER EXPANSION EXAMPLES (2 examples)
+================================================================================
+
+Author the remaining required App Runner examples:
+
+  3.1  public-api-with-vpc-connector/go-echo/
+  3.2  supplier-onboarding/python-fastapi/
+
+Keep the workflows and intent exactly as described in PROMPT_21's original
+Part 2 and Part 3 descriptions. This prompt only restores the deferred
+required surface.
+
+================================================================================
+PART 4 — REGISTRY + CATALOG + SUPPORT MATRIX
+================================================================================
+
+Append the 5 new entries to `verification/example_registry.yaml` and
+`examples/catalog.json` using the PROMPT_21 / PROMPT_18 entry shapes.
+
+Update `verification/stack_support_matrix.yaml` so the managed-container
+surface promised in PROMPT_21 is now real:
+
+  - Cloud Run × {python-fastapi, typescript-hono, go-echo, multi-container-sidecar,
+    cloudrun-job} is SUPPORTED
+  - App Runner × {python-fastapi, go-echo} is SUPPORTED
+
+================================================================================
+VERIFICATION (this prompt)
+================================================================================
+
+  1. `find examples/canonical-cloud-run -mindepth 2 -maxdepth 2 -type d | wc -l`
+     shows 5.
+  2. `find examples/canonical-app-runner -mindepth 2 -maxdepth 2 -type d | wc -l`
+     shows 3.
+  3. Every example has the PROMPT_21 Part 1 layout and a runnable Dockerfile.
+  4. `python3 scripts/validate_iac_isolation.py` is clean for every new
+     example's Terraform and Pulumi tree.
+  5. `python3 scripts/verify_examples.py --family canonical-cloud-run` and
+     `--family canonical-app-runner` run without crashing.
+  6. Catalog + registry + support matrix reflect the full managed-container
+     AWS/GCP surface.
+  7. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' examples/canonical-cloud-run/ examples/canonical-app-runner/`
+     returns nothing.
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run.
+
+  - [ ] All 5 Cloud Run examples now exist with the PROMPT_21 layout.
+  - [ ] All 3 App Runner examples now exist with the PROMPT_21 layout.
+  - [ ] The 5 deferred required examples from PROMPT_21 are now authored.
+  - [ ] Terraform + Pulumi-language IaC for every Cloud Run / App Runner
+        example is `validate_iac_isolation` clean.
+  - [ ] Catalog + registry + support matrix reflect the full Cloud Run +
+        App Runner surface.
+  - [ ] No `acb` / `.acb/` references.
+  - [ ] `tmp/PROMPT_28_checklist.md` is fully checked.
+  - [ ] `memory/concepts/managed-container-canonical-arc-aws-gcp.md` is
+        updated to note the full 8-example AWS/GCP managed-container surface
+        and that PROMPT_29 completes Container Apps.
+  - [ ] `memory/INDEX.md` lists the updated concept.
+
+End of PROMPT_28.

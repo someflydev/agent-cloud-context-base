@@ -1,0 +1,214 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is PROMPT_11 of 33. PROMPT_01–10 built foundations through the managed-
+container stack surface. This prompt authors the KUBERNETES tier stacks
+(EKS, GKE, AKS) plus workload role packs (api / worker / job / cronjob /
+control-plane) and supporting overlays (Helm, Kustomize, OTel collector,
+KEDA).
+
+Use **`accb`** / **`.accb/`** in everything; never `acb` / `.acb/`.
+
+                  [CLOUD ARC: Prompt 11 of 33 — Stacks: Kubernetes]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+One prompt per session. Maintain `tmp/PROMPT_11_checklist.md`.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+`accb` is a context-first foundation for cloud-native backend repos:
+functions, managed containers, kubernetes platforms across AWS / GCP /
+Azure. Modeled on `agent-context-base` (`acb`) but never copies its text.
+
+Sequence:
+  PROMPT_01–10  Through managed-container stacks                        (done)
+  PROMPT_11     Stacks: kubernetes                                      (this prompt)
+  PROMPT_12     Stacks: IaC + cross-cutting
+  PROMPT_13–17  Workflows, manifests, templates, generation, validation
+  PROMPT_18–31  Canonical examples + expansion prompts
+  PROMPT_32     Integration testing harness
+  PROMPT_33     Final wiring
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read:
+
+  1. `README.md`, `AGENT.md`
+  2. `python3 scripts/work.py resume`
+  3. `memory/INDEX.md` and concepts
+  4. `context/router/stack-router.md` (k8s stacks section)
+  5. `context/doctrine/k8s-workload-role-separation.md`
+  6. `context/doctrine/k8s-multi-tenancy-and-namespacing.md`
+  7. `context/doctrine/container-image-discipline.md`
+  8. `context/doctrine/identity-and-least-privilege.md`
+  9. `context/stacks/cloudrun-python-fastapi.md` (model voice)
+ 10. `context/accb/profile-rules.json` (k8s capability gates)
+
+================================================================================
+PART 1 — STACK FILE FORMAT (k8s variant)
+================================================================================
+
+Each k8s stack file follows the container-variant format from PROMPT_10
+Part 1 with these k8s-specific adaptations:
+
+  ## Cluster Surface
+
+  - control plane version pin
+  - default node pool sizing/instance class guidance
+  - networking plugin (VPC CNI / GKE Dataplane V2 / Azure CNI Overlay)
+  - ingress story (ALB Ingress / GKE Gateway / Application Gateway / NGINX)
+  - identity-to-pod story (IRSA / Workload Identity / Workload Identity for
+    AKS)
+
+  ## Workload Surface (per role pack)
+
+  - kind (Deployment / StatefulSet / Job / CronJob)
+  - replicas / parallelism / concurrencyPolicy
+  - probes (liveness / readiness / startup)
+  - resource requests/limits guidance
+  - autoscaling (HPA / KEDA / VPA where appropriate)
+  - PodDisruptionBudget guidance
+
+  ## Manifests / Charts
+
+  - kustomize base + overlays/dev + overlays/test layout, OR
+  - helm chart values.dev.yaml + values.test.yaml layout
+  - both layouts are first-class in `accb`; pick per repo preference
+
+  (Networking, Identity, Secrets, Observability, Validation, Anti-Patterns
+  remain as in PROMPT_09 Part 1.)
+
+Each k8s stack file 60–150 lines. No frontmatter.
+
+================================================================================
+PART 2 — CLUSTER BASE STACKS (3 files)
+================================================================================
+
+Author in `context/stacks/`:
+
+  2.1  `eks-base.md`
+       — control plane 1.30+; managed node groups + Karpenter optional;
+         AWS VPC CNI; ALB Ingress Controller; IRSA via OIDC; AWS Load
+         Balancer Controller; cluster-autoscaler (or Karpenter); Pod
+         Identity Agent (newer alternative to IRSA where supported)
+  2.2  `gke-base.md`
+       — Autopilot first-class; Standard mode for special needs; Workload
+         Identity (GKE-native); GKE Gateway controller; Cloud DNS for
+         in-cluster; Multi Cluster Ingress; Anthos Service Mesh optional
+  2.3  `aks-base.md`
+       — control plane with AKS-managed; Workload Identity for AKS via
+         OIDC + federated credentials; Application Gateway Ingress
+         Controller (AGIC) or NGINX; AKS-managed Prometheus + Grafana
+         optional; KEDA add-on first-class
+
+================================================================================
+PART 3 — WORKLOAD ROLE PACKS (5 files)
+================================================================================
+
+These files are provider-agnostic. They describe the SHAPE of a k8s
+workload role and how it composes with the cluster bases above.
+
+  3.1  `k8s-api-workload.md`
+       — Deployment + Service + HPA on CPU and/or RPS via custom metric;
+         readiness probe gates rollout; PodDisruptionBudget; rolling
+         update strategy with maxSurge/maxUnavailable
+  3.2  `k8s-worker-workload.md`
+       — Deployment + KEDA scaler on queue depth (SQS / Pub/Sub /
+         Service Bus / Event Hubs / Kafka); concurrent message processing
+         per pod; graceful shutdown signal handling; idempotency contract
+         per worker
+  3.3  `k8s-job-workload.md`
+       — Job per invocation; parallelism + completions explicit;
+         backoffLimit; ttlSecondsAfterFinished; activeDeadlineSeconds
+  3.4  `k8s-cronjob-workload.md`
+       — CronJob with concurrencyPolicy: Forbid (default), startingDead-
+         lineSeconds, successfulJobsHistoryLimit, failedJobsHistoryLimit
+  3.5  `k8s-control-plane-workload.md`
+       — Deployment with leader-election (lease-based) where needed;
+         strict resource limits; minimal external surface; long-lived
+         informer/reconciler pattern
+
+================================================================================
+PART 4 — CHART AND OVERLAY CONVENTIONS (4 files)
+================================================================================
+
+  4.1  `k8s-helm-conventions.md`
+       — Chart.yaml shape; values.dev.yaml + values.test.yaml; secret
+         injection from external-secrets-operator (ESO); image tag
+         resolution; helm test conventions; chart linting (helm lint,
+         kubeconform)
+  4.2  `k8s-kustomize-conventions.md`
+       — base/ + overlays/dev + overlays/test; namePrefix per env;
+         configMapGenerator; secretGenerator (only for non-secret config)
+         vs ESO; kustomize build piped to kubeconform
+  4.3  `k8s-otel-collector.md`
+       — OpenTelemetry Operator-managed collector; daemonset for node
+         metrics; deployment for app traces; exporter targets per provider
+         (CloudWatch / Cloud Trace+Logs / Azure Monitor)
+  4.4  `k8s-keda-autoscaling.md`
+       — KEDA install + ScaledObject patterns for SQS, Pub/Sub, Service
+         Bus, Event Hubs, Kafka, Redis; cooldown periods; minReplicaCount
+         and maxReplicaCount discipline
+
+================================================================================
+PART 5 — STACK CROSS-REFERENCES
+================================================================================
+
+For each k8s file, ensure:
+
+  - Validation gate references include `k8s-role-separation-evident`,
+    `k8s-rolling-rollout-and-rollback-paths`, and (for tenant-aware
+    workloads) `k8s-tenant-isolation-evident`.
+  - Identity references the relevant identity stack:
+      `eks-base.md` → `context/stacks/identity-aws-iam.md` (IRSA section)
+      `gke-base.md` → `context/stacks/identity-gcp-iam-sa.md` (Workload
+                       Identity section)
+      `aks-base.md` → `context/stacks/identity-azure-entra-mi.md`
+                       (Workload Identity for AKS section)
+  - Secrets references External Secrets Operator + the provider secret
+    store stack (PROMPT_12).
+  - Observability references `context/stacks/observability-otel-cloud.md`
+    AND `k8s-otel-collector.md`.
+  - The autoscaling section in each role pack references KEDA (when
+    queue-driven) or HPA + custom metrics.
+
+================================================================================
+VERIFICATION
+================================================================================
+
+  1. `ls context/stacks/eks-base.md context/stacks/gke-base.md context/stacks/aks-base.md`
+     succeeds (3 files).
+  2. `ls context/stacks/k8s-*-workload.md | wc -l` shows 5 (the role packs).
+  3. `ls context/stacks/k8s-helm-conventions.md context/stacks/k8s-kustomize-conventions.md context/stacks/k8s-otel-collector.md context/stacks/k8s-keda-autoscaling.md`
+     succeeds (4 files).
+  4. Total k8s stack files added by this prompt: 12.
+  5. `wc -l` for every new file: 60–150 lines.
+  6. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' context/stacks/eks-base.md context/stacks/gke-base.md context/stacks/aks-base.md context/stacks/k8s-*.md`
+     returns nothing.
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run.
+
+  - [ ] All 12 k8s stack files exist (3 cluster bases + 5 role packs +
+        4 chart/overlay/observability/autoscaling files).
+  - [ ] Each file follows the Part 1 format adapted for k8s.
+  - [ ] No `acb` / `.acb/` references.
+  - [ ] Stack names match `stack-router.md`.
+  - [ ] Forward references to identity/secrets/observability/KEDA present.
+  - [ ] `tmp/PROMPT_11_checklist.md` is fully checked.
+  - [ ] `memory/concepts/k8s-stack-surface.md` exists noting the 12 k8s
+        files and that PROMPT_12 adds IaC + cross-cutting stacks.
+  - [ ] `memory/INDEX.md` lists `k8s-stack-surface.md`.
+
+End of PROMPT_11.

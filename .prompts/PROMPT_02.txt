@@ -1,0 +1,365 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is PROMPT_02 of 33 in the sequence that builds `accb` from the ground up.
+PROMPT_01 created the skeleton (directories, .gitignore, README/AGENT/CLAUDE,
+PLAN.example.md, index/placeholder stubs, memory/INDEX.md). This prompt
+authors the FOUNDATIONAL doctrine layer in `context/doctrine/`.
+
+It is philosophically modeled on `agent-context-base` (`acb`) but NEVER
+copies text from it. Re-author every doctrine for the cloud problem space
+(serverless functions, managed containers, kubernetes platforms across AWS /
+GCP / Azure with Terraform and Pulumi IaC).
+
+**Naming convention:** This repo uses **`accb`** and derived repos receive a
+**`.accb/`** payload. Never write `acb` or `.acb/` in any artifact.
+
+              [CLOUD ARC: Prompt 2 of 33 — Doctrine: Foundations]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+Run this entire prompt in one fresh coding-assistant session and stop at its
+boundary. Do not begin PROMPT_03 in the same session.
+
+Create `tmp/PROMPT_02_checklist.md` with headings: Objective, Verification
+steps, Completion gates, Follow-ups / known gaps. Update it as you work.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+1. WHAT YOU ARE BUILDING
+
+`agent-cloud-context-base` (`accb`) is a context-first foundation for
+generating and running assistant-friendly CLOUD-NATIVE backend repositories.
+It is not an app template and not a prompt dump. It is a system for keeping
+cloud specs, validation rules, IaC integration discipline, canonical cloud
+examples, repo generation, and session startup narrow enough that long
+autonomous sessions stay trustworthy.
+
+It is philosophically modeled on `agent-context-base` (`acb`) but built FROM
+THE GROUND UP for the cloud problem space:
+
+  - serverless functions    (AWS Lambda, GCP Cloud Functions, Azure Functions)
+  - managed containers      (Cloud Run, App Runner, Container Apps)
+  - kubernetes platforms    (EKS, GKE, AKS)
+
+2. CORE PHILOSOPHICAL DEBTS TO `acb`
+
+Reproduce these structural ideas (with cloud framing), do not copy text:
+
+  - LAYER SEPARATION: doctrine ≠ workflow ≠ stack ≠ archetype ≠ example
+    ≠ template ≠ skill ≠ anchor ≠ spec ≠ validation. Never collapse them.
+  - ROUTER-FIRST INFERENCE: users say "add an S3-triggered Lambda" and the
+    router picks the smallest useful bundle.
+  - MANIFEST-DRIVEN BUNDLES: yaml manifests enumerate required_context,
+    optional_context, preferred_examples, repo_signals, task_hints,
+    bootstrap_defaults.
+  - CANONICAL EXAMPLES > IMPROVISATION: each example is real, runnable code
+    for one preferred pattern per (provider, runtime, language) cell.
+  - VALIDATION GATES AS AUTONOMY RAILS: every change to a boundary names its
+    proof path before coding. `done` requires proof; otherwise `blocked` or
+    `incomplete`.
+  - .accb/ PAYLOAD CONTRACT: derived repos receive a hidden `.accb/` bundle
+    composing the chosen profile.
+  - RUNTIME CONTINUITY: `scripts/work.py` manages PLAN.md, context/TASK.md,
+    context/SESSION.md, context/MEMORY.md, memory/summaries/.
+  - PROMPT-FIRST DISCIPLINE: monotonic `.prompts/PROMPT_NN.txt` files,
+    self-contained for fresh sessions.
+  - CONTEXT COMPLEXITY BUDGET: tiny/small/medium/large/cross-cloud profiles.
+  - DOCUMENTATION TIMING DISCIPLINE: derived repos start lean.
+  - DOGFOODING: new arcs reuse existing artifacts.
+
+3. THE SEQUENCE
+
+  PROMPT_01  Repo skeleton + boot docs                            (done)
+  PROMPT_02  Doctrine: foundations                                (this prompt)
+  PROMPT_03  Doctrine: advanced + anchors
+  PROMPT_04  Specs + validation modules + context/accb/profile-rules.json
+  PROMPT_05  scripts/work.py + memory layer
+  PROMPT_06  Routers
+  PROMPT_07  Archetypes + scenario catalog
+  PROMPT_08  Skills
+  PROMPT_09  Stacks: cloud functions
+  PROMPT_10  Stacks: managed containers
+  PROMPT_11  Stacks: kubernetes
+  PROMPT_12  Stacks: IaC + cross-cutting
+  PROMPT_13  Workflows
+  PROMPT_14  Manifests
+  PROMPT_15  Templates
+  PROMPT_16  Generation pipeline
+  PROMPT_17  Validation scripts
+  PROMPT_18  Canonical AWS Lambda examples
+  PROMPT_19  Canonical GCP Cloud Functions examples
+  PROMPT_20  Canonical Azure Functions examples
+  PROMPT_21  Canonical Cloud Run + App Runner examples
+  PROMPT_22  Canonical Container Apps examples
+  PROMPT_23  Canonical EKS + GKE + AKS multi-role platforms
+  PROMPT_24  Canonical IaC, observability, secrets, eventing, prompts
+  PROMPT_25  Canonical AWS Lambda expansion
+  PROMPT_26  Canonical GCP Cloud Functions expansion
+  PROMPT_27  Canonical Azure Functions expansion
+  PROMPT_28  Canonical Cloud Run + App Runner expansion
+  PROMPT_29  Canonical Container Apps expansion
+  PROMPT_30  Canonical EKS + GKE + AKS expansion
+  PROMPT_31  Canonical Pulumi starter expansion
+  PROMPT_32  Cloud integration testing harness + arc docs
+  PROMPT_33  Final wiring
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read these (and ONLY these) before writing anything:
+
+  1. `README.md`
+  2. `AGENT.md`
+  3. `memory/INDEX.md` and `memory/concepts/cloud-arc-bootstrap-genesis.md`
+  4. `context/doctrine/` (confirm it is empty apart from `.gitkeep`)
+  5. `context/anchors/` (confirm it is empty — anchors land in PROMPT_03)
+
+If a sibling `agent-context-base/` is present, you MAY glance at the
+following for SHAPE/voice inspiration only (never copy prose):
+  agent-context-base/context/doctrine/core-principles.md
+  agent-context-base/context/doctrine/testing-philosophy.md
+  agent-context-base/context/doctrine/canonical-examples.md
+  agent-context-base/context/doctrine/prompt-first-conventions.md
+  agent-context-base/context/doctrine/commit-hygiene.md
+  agent-context-base/context/doctrine/documentation-timing-discipline.md
+
+================================================================================
+PART 1 — DOCTRINE FILE FORMAT
+================================================================================
+
+Every doctrine file in `context/doctrine/*.md` follows this structure:
+
+  # <Title Case>
+
+  <One-paragraph statement of the rule and why it exists.>
+
+  ## <Section header>
+
+  - <Imperative bullet>
+  - <Imperative bullet>
+
+  ## <Another section header>
+
+  ...
+
+Keep voice short, declarative, imperative. Examples should be concrete cloud
+artifacts (Lambda triggers, Cloud Run revisions, Helm overlays, Terraform
+state backends, Pulumi stacks) — never local-Dokku or terminal examples.
+
+Each file should be 30–120 lines. If you need more, the topic probably wants
+to split across multiple doctrines.
+
+Do NOT add YAML frontmatter to doctrine files. Spec/validation files
+(PROMPT_04) are the only artifacts that carry frontmatter.
+
+================================================================================
+PART 2 — FOUNDATIONAL DOCTRINE FILES TO AUTHOR
+================================================================================
+
+Author the following 12 files in `context/doctrine/`. Each filename is
+exact. Each must be re-authored from scratch with cloud framing.
+
+2.1  `core-principles.md`
+
+  Smallest useful thing first; v1 over speculative v3. Layer separation
+  (doctrine vs workflow vs stack vs archetype vs example vs template vs
+  skill vs anchor vs spec vs validation). Real-work focus. Inference over
+  internal vocabulary. Canonical patterns over hybrids. Test cloud boundaries
+  properly (functions, containers, k8s workloads, managed services).
+  Generated repos start lean. Front-facing docs follow implementation. The
+  base repo (`accb`) is a base, not a permanent meta-platform.
+
+2.2  `testing-philosophy-cloud.md`
+
+  Default test layers for cloud workloads:
+    - unit tests for pure logic (validators, transforms, idempotency-key
+      builders)
+    - smoke tests that exercise the entry point (function handler, container
+      health, k8s pod readiness) with mocked managed-service clients
+    - integration tests in one of three lanes (declared per manifest):
+        Lane A: local emulator/mock (LocalStack, GCP emulators, Azurite)
+        Lane B: ephemeral real (IaC apply against `test` workspace/stack,
+                run tests, then destroy) — PREFERRED for medium+ profiles
+        Lane C: record/replay for costly third-party calls
+  Mocking the managed-service boundary in an integration test is an
+  anti-pattern (use Lane A or Lane B). Smoke and integration are different
+  tools — never conflate. CI is operator-driven and not added by default.
+
+2.3  `iac-dev-test-isolation.md`
+
+  Dev and test environments must never share state backends, state keys,
+  resource names, secret paths, KMS keys, env-var prefixes, or managed
+  resource identifiers. Terraform: separate workspaces or per-env state
+  backends with disjoint keys. Pulumi: separate stacks per environment with
+  isolated state and config secrets. Resource names must differ by
+  deterministic suffix (e.g. `<repo>-<env>-<role>`). Test teardown is the
+  default; persistent test resources require explicit operator opt-in. The
+  `validate_iac_isolation.py` script (PROMPT_17) enforces these rules in CI.
+
+2.4  `trigger-boundary-discipline.md`
+
+  Cloud functions are thin trigger edges, not platforms. A function should
+  validate the trigger payload, perform one bounded transformation or
+  orchestration step, and hand off to managed services for any heavier work
+  (containers for ffmpeg/ML, k8s jobs for long-running compute, Step
+  Functions / Workflows / Durable Functions for multi-step orchestration).
+  Functions MUST NOT host long-running loops, in-process queues, scheduled
+  background tasks (use the platform scheduler), or heavy CPU/GPU work.
+  When the trigger boundary becomes blurry, escalate to the
+  function-vs-container-vs-k8s doctrine.
+
+2.5  `idempotency-and-replay.md`
+
+  Every cloud-function and event-driven workload must declare an
+  idempotency strategy: dedupe key (event ID, object version, message ID,
+  business key), an idempotency store (DynamoDB / Firestore / Cosmos /
+  Redis), TTL semantics, and the replay safety contract (re-running with
+  the same dedupe key never duplicates state). Replay testing is part of
+  the integration-test contract: send the same trigger twice and assert
+  exactly-once effect at the persistence boundary. DLQ retries inherit this
+  contract.
+
+2.6  `function-vs-container-vs-k8s.md`
+
+  Tier selection rule:
+    - FUNCTION when the work is one trigger → one short transformation →
+      one persistence step, fits within provider time/memory limits, and
+      cold-start latency is acceptable.
+    - MANAGED CONTAINER when the workload needs custom binaries (ffmpeg,
+      GDAL, headless Chrome), 1–N service boundaries with a small set of
+      companions (private worker, scheduled job), or steady traffic where
+      cold starts hurt. Keep it on Cloud Run / App Runner / Container Apps
+      until you need multiple workload classes with separate scaling.
+    - KUBERNETES when topology is structural: API + worker fleet + jobs +
+      crons + control plane all need separate scaling, recovery, image
+      lifecycle, or isolation. K8s costs operational surface — only pay
+      that cost when topology demands it.
+  When in doubt, start one tier lower and escalate explicitly.
+
+2.7  `identity-and-least-privilege.md`
+
+  Every cloud resource accessed by code must have an explicit identity
+  binding: AWS IAM role (Lambda execution role, ECS task role, IRSA for
+  EKS), GCP service account (CloudFn SA, Workload Identity for GKE), Azure
+  managed identity (system or user-assigned, Workload Identity for AKS).
+  Permissions are scoped to the smallest action set that proves the
+  workload's trigger contract. Wildcard resources (`*`) require an
+  explicit doctrine waiver in the manifest. Identity bindings are part of
+  the IaC, not click-ops.
+
+2.8  `cloud-secret-handling.md`
+
+  Secrets live in provider-native secret stores only: AWS Secrets Manager
+  / Parameter Store, GCP Secret Manager, Azure Key Vault. They are bound
+  to workloads via identity (IAM, SA, MI) — never via copy/paste env vars
+  in IaC. Secret values must NEVER appear in source, in `.tfvars`, in
+  Pulumi config without `--secret`, in container images, or in logs. Dev
+  and test secret paths are disjoint (see iac-dev-test-isolation). Secret
+  rotation is a manifest concern; the rotation cadence is declared per
+  secret family.
+
+2.9  `observability-cloud-native.md`
+
+  Three pillars for every cloud workload, declared in the manifest and
+  exercised in tests: structured logs (JSON, correlation ID, tenant ID,
+  trace ID), metrics (provider-native + custom counters for business
+  events), traces (OpenTelemetry exported to provider-native backend or a
+  vendor). Function workloads require a trace context propagated from the
+  trigger payload. Container/k8s workloads require an OTel collector
+  sidecar or daemonset. Logs MUST NOT contain secrets, raw PII, or full
+  request bodies that include credentials.
+
+2.10 `prompt-first-conventions.md`
+
+  Prompt files live in `.prompts/PROMPT_NN.txt` with strictly monotonic
+  numbering. Never renumber, never reuse gaps. Each prompt is
+  self-contained for one fresh assistant session: it embeds the shared
+  context briefing, declares its boot sequence, lists its parts, names
+  its verification commands, and lists its completion gates. Per-session
+  state lives in `tmp/PROMPT_NN_checklist.md` (gitignored). Resume and
+  completion summaries land in `memory/summaries/PROMPT_NN_*.md`
+  (gitignored). The work.py runtime tracks queue, quota, pause/resume,
+  and start/done state.
+
+2.11 `canonical-examples.md`
+
+  Examples reduce ambiguity, not create it. One canonical example per
+  (provider, runtime, language) cell, with paired Terraform AND at least
+  one Pulumi-language equivalent, and dev/test stacks. Examples are real
+  runnable code, not prose snippets. Templates are scaffolds; examples
+  are completed patterns. When doctrine changes, audit affected examples
+  immediately. If no example fits a request, say so explicitly and route
+  to the relevant invariant doc plus the closest verified example.
+  `examples/catalog.json` is the index; `verification/example_registry.yaml`
+  records trust and last-verified state.
+
+2.12 `documentation-timing-discipline.md`
+
+  Derived cloud repos defer substantial root README, root `docs/`, and
+  Mermaid architecture diagrams until implementation has real shape to
+  describe. Day-one prose is speculative and rots fast. The base repo
+  (`accb`) documents itself fully because its job is to be documentation
+  for derived repos. Front-facing prose is earned by working code.
+  Templates for these docs (`templates/readme/`) are intentionally
+  scaffolded as "fill once you have substance" placeholders.
+
+================================================================================
+PART 3 — DOCTRINE COMPLETENESS NOTES
+================================================================================
+
+This prompt deliberately handles only the foundational layer. PROMPT_03 will
+add the advanced doctrine (managed-service-selection, vpc-and-private-
+networking, eventing-and-dlq-discipline, cost-and-quota-awareness,
+multi-environment-promotion, cold-start-and-runtime-selection,
+serverless-state-discipline, container-image-discipline,
+k8s-workload-role-separation, k8s-multi-tenancy-and-namespacing,
+pulumi-stack-discipline, terraform-workspace-discipline, context-loading-
+rules, context-complexity-budget-cloud, stop-conditions, naming-and-clarity)
+and ALL anchor files.
+
+Do not author any of those in this prompt. Doing so violates the per-prompt
+boundary and will leak scope into PROMPT_03.
+
+================================================================================
+VERIFICATION
+================================================================================
+
+  1. `ls context/doctrine/` shows exactly the 12 files from Part 2 (plus the
+     pre-existing `.gitkeep` if you did not delete it; you should delete it
+     now since the directory has content).
+  2. `wc -l context/doctrine/*.md` — each file is between 30 and 120 lines.
+  3. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' context/doctrine/`
+     returns nothing.
+  4. `grep -rIn -E 'Dokku|Hanami|Phoenix|Tapir|Hono.*Drizzle' context/doctrine/`
+     returns nothing — these are `acb`-specific stacks; doctrine here must
+     be cloud-native.
+  5. Manual read: each doctrine reads cleanly in 2–3 minutes; the why is
+     explicit; examples are cloud artifacts.
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run — that is allowed for this promptset.
+
+  - [ ] All 12 doctrine files from Part 2 exist with the prescribed scope.
+  - [ ] No file exceeds 120 lines or falls below 30.
+  - [ ] No `acb` / `.acb/` references anywhere in `context/doctrine/`.
+  - [ ] No `acb`-stack-specific examples (Dokku, Hanami, Phoenix, Hono+
+        Drizzle, etc.) appear in any doctrine.
+  - [ ] `context/doctrine/.gitkeep` removed (the directory now has real files).
+  - [ ] `tmp/PROMPT_02_checklist.md` is fully checked.
+  - [ ] `memory/concepts/cloud-doctrine-foundations.md` exists with one
+        paragraph naming the 12 doctrines authored and noting that PROMPT_03
+        will add advanced doctrine + anchors.
+  - [ ] `memory/INDEX.md` lists `cloud-doctrine-foundations.md` under
+        `## concepts/`.
+
+End of PROMPT_02.

@@ -1,0 +1,179 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is PROMPT_20 of 33. PROMPT_18 + PROMPT_19 authored the initial-build
+AWS Lambda + GCP Cloud Functions seed examples. This prompt mirrors that
+seed arc for Azure Functions under `examples/canonical-azure-functions/`.
+
+Use **`accb`** / **`.accb/`** in everything; never `acb` / `.acb/`.
+
+         [CLOUD ARC: Prompt 20 of 33 — Canonical Azure Functions Examples]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+One prompt per session. Maintain `tmp/PROMPT_20_checklist.md`.
+
+Initial-build rule: in this first real build pass, author only the seed set
+in Part 2. Record the remaining planned variants as deferred follow-ups in
+`tmp/PROMPT_20_checklist.md`; do not add catalog/registry entries for
+deferred items yet.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+`accb` is a context-first foundation for cloud-native backend repos.
+Canonical examples per provider follow the layout contract in PROMPT_18
+Part 1 with provider-native substitutions.
+
+Sequence:
+  PROMPT_01–19  Through GCP Cloud Functions examples                    (done)
+  PROMPT_20     Canonical Azure Functions examples                      (this prompt)
+  PROMPT_21     Canonical Cloud Run + App Runner examples
+  PROMPT_22     Canonical Container Apps examples
+  PROMPT_23     Canonical EKS + GKE + AKS multi-role platforms
+  PROMPT_24     Canonical IaC + observability + secrets + eventing + prompts
+  PROMPT_25–31  Expansion prompts for deferred required examples
+  PROMPT_32     Integration testing harness + arc docs
+  PROMPT_33     Final wiring
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read:
+
+  1. `README.md`, `AGENT.md`
+  2. `python3 scripts/work.py resume`
+  3. `memory/INDEX.md` and concepts (especially the two prior canonical-arc
+     concepts)
+  4. `examples/canonical-aws-lambda/s3-trigger-image-moderation/python/`
+     (LAYOUT TEMPLATE)
+  5. `examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/python/`
+     (Lane A emulator pattern reference)
+  6. `context/stacks/azure-fn-{python,typescript-node,dotnet-isolated}.md`
+  7. `context/stacks/iac-pulumi-{python,typescript,dotnet}.md`,
+     `context/stacks/iac-terraform-azure.md`
+  8. `context/stacks/eventing-azure-servicebus-eventgrid.md`,
+     `context/stacks/storage-azure-blob-cosmos-azuresql.md`,
+     `context/stacks/identity-azure-entra-mi.md`,
+     `context/stacks/secrets-azure-key-vault.md`,
+     `context/stacks/observability-otel-cloud.md`
+  9. `templates/function/azure-fn/`,
+     `templates/iac/{terraform,pulumi/*}/azure/`
+
+================================================================================
+PART 1 — REUSE LAYOUT FROM PROMPT_18
+================================================================================
+
+Same example directory layout, registry/catalog shape, integration test
+lanes, replay contract, and observability declaration as PROMPT_18 Parts
+1, 3, 4, 5. Provider-native substitutions:
+
+  - Lane A "LocalStack" → Lane A "Azurite + Azure Functions Core Tools"
+    (Azurite for blob/queue/table; Cosmos DB Emulator optional but
+    flaky on macOS — declare as "linux-only" in the README).
+  - Lane B → `pulumi up --stack test` or `terraform apply` against
+    real Azure subscription.
+  - Identity binding → `identity-azure-entra-mi.md` (system-assigned
+    or user-assigned managed identity).
+  - Secrets → `secrets-azure-key-vault.md` (Key Vault references in
+    app settings).
+
+================================================================================
+PART 2 — REQUIRED SEED EXAMPLES (3 examples)
+================================================================================
+
+Author the following 3 seed examples in `examples/canonical-azure-functions/`:
+
+  2.1  blob-trigger-receipt-ocr/python/             Python (Pulumi-Python)
+       — Blob Storage create → Form Recognizer (Document Intelligence)
+         OCR → Cosmos DB receipt write → Event Grid event for
+         downstream. Idempotency by blob name + version.
+
+  2.2  servicebus-classification/dotnet-isolated/   .NET 8 isolated (Pulumi-DotNet)
+       — Service Bus queue → Azure OpenAI classification → Cosmos DB
+         enriched ticket → Service Bus topic per team. DLQ + retry per
+         eventing-and-dlq-discipline.
+
+  2.3  cosmos-changefeed-search-sync/typescript/    TypeScript (Pulumi-TS)
+       — Cosmos DB Change Feed → product document transform → Azure AI
+         Search index update → Service Bus retry queue on failure.
+         Idempotency by Cosmos `_etag`.
+
+Remaining required expansion set (authored in PROMPT_27; do NOT author in
+this prompt):
+  blob-trigger-receipt-ocr/typescript/
+  blob-trigger-receipt-ocr/dotnet-isolated/
+  eventgrid-alert-router/python/
+
+================================================================================
+PART 3 — INTEGRATION TEST LANE A (AZURITE)
+================================================================================
+
+Lane A `tests/integration/lane-a-azurite/`:
+
+  - `docker-compose.yml` running:
+      - `mcr.microsoft.com/azure-storage/azurite` for blob/queue/table
+      - The Functions Core Tools container OR a host-side `func start`
+        invocation (document both)
+      - Optional: `mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator`
+        for Cosmos (linux-only; mark macOS as "use Lane B").
+  - Service Bus and Event Grid have NO local emulators. Examples that
+    require them MUST use Lane B for the full path; Lane A only proves
+    the handler logic with an in-memory fake (use the `mock_sb_client`
+    fixture in `tests/_helpers/`).
+  - `bootstrap.sh` to create containers / topics / cosmos collections.
+  - `test_handler.py|.ts|.cs` that invokes the Functions host.
+  - `teardown.sh`.
+
+Lane B is the SAME shape as PROMPT_18 Part 3 with Azure credentials
+and `--stack test`.
+
+================================================================================
+PART 4 — REGISTRY + CATALOG + SUPPORT MATRIX
+================================================================================
+
+Append entries with `family: canonical-azure-functions`,
+`provider: azure`. Update `examples/catalog.json`. Update
+`verification/stack_support_matrix.yaml`: Azure Functions × {python,
+typescript, dotnet-isolated} marked supported with first-class seed
+examples; powershell remains DEFERRED for ops-only cases.
+
+================================================================================
+VERIFICATION (this prompt)
+================================================================================
+
+  1. `find examples/canonical-azure-functions -mindepth 2 -maxdepth 2 -type d | wc -l`
+     shows 3 example directories.
+  2. Every example has the PROMPT_18 Part 1 layout.
+  3. `python3 scripts/validate_iac_isolation.py` clean for every example.
+  4. `python3 scripts/verify_examples.py --family canonical-azure-functions`
+     runs without crashing.
+  5. Catalog + registry + support matrix updated.
+  6. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' examples/canonical-azure-functions/`
+     returns nothing.
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run.
+
+  - [ ] All 3 seed examples (Part 2) exist with the layout from PROMPT_18 Part 1.
+  - [ ] Lane A azurite integration tests + replay tests for each.
+  - [ ] Terraform + Pulumi-language IaC for each, validate_iac_isolation
+        clean.
+  - [ ] Structured-log shape declared per example.
+  - [ ] Catalog + registry + support matrix updated.
+  - [ ] No `acb` / `.acb/` references.
+  - [ ] `tmp/PROMPT_20_checklist.md` is fully checked.
+  - [ ] `memory/concepts/azure-functions-canonical-arc.md` exists with
+        one paragraph noting the 3 seed examples and that PROMPT_21
+        starts the managed-container seed arc.
+  - [ ] `memory/INDEX.md` lists `azure-functions-canonical-arc.md`.
+
+End of PROMPT_20.

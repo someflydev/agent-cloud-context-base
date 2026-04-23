@@ -1,0 +1,615 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is the FIRST prompt in a 33-prompt sequence (PROMPT_01 through PROMPT_33)
+that builds `agent-cloud-context-base` from the ground up. The repo is a
+context-first foundation for generating and running assistant-friendly
+CLOUD-NATIVE backend repositories (serverless functions, managed containers,
+Kubernetes platforms across AWS / GCP / Azure with Terraform and Pulumi IaC).
+
+It is philosophically modeled on `agent-context-base` (short name: `acb`) but
+NEVER copies text from it. Every doctrine, anchor, manifest, archetype,
+router, stack, workflow, skill, memory artifact, and spec is re-forged with
+cloud-native concerns first-class. Treat any nearby `agent-context-base/`
+directory as inspiration for SHAPE only.
+
+**Naming convention:** This repo and everything it generates uses **`accb`**
+(one extra `c` for "cloud"). Derived repos receive a hidden **`.accb/`**
+payload directory. Never write `acb` or `.acb/` in any artifact that belongs
+to this repo — that name belongs to the sibling `agent-context-base`.
+
+              [CLOUD ARC: Prompt 1 of 33 — Repo Skeleton + Boot Docs]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+Run this entire prompt in one fresh coding-assistant session and stop at its
+boundary. Do not begin PROMPT_02 in the same session.
+
+Before making changes, create a local per-prompt checklist file in `tmp/` and
+keep it updated throughout the session. Do not commit it. Use:
+
+  - `tmp/PROMPT_01_checklist.md`
+
+Use a compact checklist with these headings:
+
+  # PROMPT_01 Checklist
+  - Objective
+  - Verification steps
+  - Completion gates
+  - Follow-ups / known gaps
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+1. WHAT YOU ARE BUILDING
+
+`agent-cloud-context-base` (`accb`) is a context-first foundation for
+generating and running assistant-friendly CLOUD-NATIVE backend repositories.
+It is not an app template and not a prompt dump. It is a system for keeping
+cloud specs, validation rules, IaC integration discipline, canonical cloud
+examples, repo generation, and session startup narrow enough that long
+autonomous sessions stay trustworthy.
+
+It is philosophically modeled on `agent-context-base` (`acb`, which targets
+local backends, terminal tools, polyglot labs, and Dokku deploys) but is
+built FROM THE GROUND UP for the cloud problem space:
+
+  - serverless functions    (AWS Lambda, GCP Cloud Functions, Azure Functions)
+  - managed containers      (Cloud Run, App Runner, Container Apps)
+  - kubernetes platforms    (EKS, GKE, AKS)
+
+Nothing is copied from `acb`. Every doctrine, anchor, manifest, archetype,
+router, stack, workflow, skill, memory artifact, and spec is re-forged with
+cloud-native concerns first-class (managed services, triggers, identity,
+secrets, IaC dev/test isolation, idempotency, replay, eventing).
+
+2. CORE PHILOSOPHICAL DEBTS TO `acb`
+
+Reproduce these structural ideas (with cloud framing), do not copy text:
+
+  - LAYER SEPARATION: doctrine ≠ workflow ≠ stack ≠ archetype ≠ example
+    ≠ template ≠ skill ≠ anchor ≠ spec ≠ validation. Never collapse them.
+  - ROUTER-FIRST INFERENCE: users say "add an S3-triggered Lambda" and the
+    router picks the smallest useful bundle. No internal vocabulary required.
+  - MANIFEST-DRIVEN BUNDLES: yaml manifests enumerate required_context,
+    optional_context, preferred_examples, repo_signals, task_hints,
+    bootstrap_defaults. Routers/archetypes/stacks reference manifests, not
+    raw file lists.
+  - CANONICAL EXAMPLES > IMPROVISATION: each example is real, runnable code
+    for one preferred pattern per (provider, runtime, language) cell.
+  - VALIDATION GATES AS AUTONOMY RAILS: every change to a boundary must name
+    its proof path before coding (changed-boundary-proof + provider-specific
+    gates). `done` requires proof; otherwise `blocked` or `incomplete`.
+  - .accb/ PAYLOAD CONTRACT: a derived repo gets a hidden `.accb/` bundle
+    that composes the chosen profile (archetype + primary stack + manifests
+    + support services) into `.accb/SESSION_BOOT.md`,
+    `.accb/profile/selection.json`, `.accb/specs/AGENT_RULES.md`,
+    `.accb/validation/CHECKLIST.md`, `.accb/validation/MATRIX.json`,
+    `.accb/validation/COVERAGE.json`, `.accb/INDEX.json`.
+  - RUNTIME CONTINUITY: `scripts/work.py` manages `PLAN.md`,
+    `context/TASK.md`, `context/SESSION.md`, `context/MEMORY.md`,
+    `memory/summaries/PROMPT_XX_*.md`, plus `resume`, `checkpoint`, `next`,
+    `pause`, `done`, `start`, `verify`.
+  - MEMORY LAYER: `memory/INDEX.md` indexes durable artifacts in
+    `memory/concepts/` (architectural truths) and gitignored
+    `memory/sessions/` + `memory/summaries/` (per-prompt resume + completion
+    summaries).
+  - PROMPT-FIRST DISCIPLINE: monotonic `.prompts/PROMPT_NN.txt` files, each
+    self-contained for a fresh session, per-session checklist in
+    `tmp/PROMPT_NN_checklist.md` (gitignored).
+  - CONTEXT COMPLEXITY BUDGET: tiny/small/medium/large/cross-cloud profiles
+    cap stacks/archetypes/workflows/examples per first-pass bundle, with
+    bounded escalation rules.
+  - DOCUMENTATION TIMING DISCIPLINE: defer substantial root README/docs in
+    derived repos until implementation has real shape. The base repo itself
+    documents fully; derived cloud repos start lean.
+  - DOGFOODING: new arcs reuse existing artifacts (e.g. cloud-function
+    examples reuse the canonical IaC patterns instead of inventing parallel
+    Terraform layouts).
+
+3. DIRECTORY LAYOUT (what THIS prompt creates and later prompts populate)
+
+```
+agent-cloud-context-base/
+├── README.md                            # front door (minimal until P26)
+├── AGENT.md                             # boot doc (paired with CLAUDE.md)
+├── CLAUDE.md                            # boot doc (near-identical to AGENT.md)
+├── .gitignore                           # tmp/, work/, PLAN.md, context/MEMORY.md
+├── PLAN.example.md                      # roadmap scaffold for derived repos
+├── context/
+│   ├── specs/{product,architecture,agent,evolution}/
+│   ├── validation/{archetypes,stacks}/
+│   ├── accb/                            # payload metadata stub (PROMPT_01) + profile-rules.json (PROMPT_04)
+│   ├── anchors/                         # boot-time anchors
+│   ├── doctrine/                        # cross-language stable rules
+│   ├── workflows/                       # task playbooks
+│   ├── stacks/                          # implementation surfaces
+│   ├── archetypes/                      # repo shapes
+│   ├── scenarios/                       # workload-pattern catalog distilled from excellent-cloud prompts
+│   ├── skills/                          # cognitive procedures
+│   ├── router/                          # task / provider / runtime / stack / archetype / scenario / iac routers
+│   └── memory/                          # operating rules + templates
+├── manifests/                           # yaml bundle selection
+├── templates/                           # starter scaffolds (incl. iac/, function/, container/, k8s/)
+├── examples/                            # canonical examples
+│   └── catalog.json
+├── verification/                        # tests, registry, policies, scenarios
+├── scripts/                             # work.py, new_cloud_repo.py, accb_*, validate_*, run_verification.py
+├── memory/{concepts,sessions,summaries}/
+├── docs/{architecture,usage}/
+└── .prompts/                            # PROMPT_01.txt … PROMPT_33.txt
+```
+
+Derived repos generated by `scripts/new_cloud_repo.py` (PROMPT_16) receive a
+hidden `.accb/` payload at their root:
+
+```
+<derived-repo>/
+├── .accb/
+│   ├── SESSION_BOOT.md
+│   ├── INDEX.json
+│   ├── profile/{selection.json,scenario-patterns.json}
+│   ├── specs/{AGENT_RULES.md, ARCHITECTURE.md, PRODUCT.md, EVOLUTION.md, VALIDATION.md}
+│   ├── validation/{CHECKLIST.md, MATRIX.json, COVERAGE.json}
+│   └── scripts/{accb_payload.py, accb_verify.py, accb_inspect.py}
+├── .prompts/
+├── AGENT.md, CLAUDE.md, README.md
+└── ...
+```
+
+4. THE SEQUENCE (so you know what comes next)
+
+  PROMPT_01  Repo skeleton + boot docs                            (this prompt)
+  PROMPT_02  Doctrine: foundations
+  PROMPT_03  Doctrine: advanced + anchors
+  PROMPT_04  Specs + validation modules + context/accb/profile-rules.json
+  PROMPT_05  scripts/work.py + memory layer
+  PROMPT_06  Routers
+  PROMPT_07  Archetypes + scenario catalog
+  PROMPT_08  Skills
+  PROMPT_09  Stacks: cloud functions
+  PROMPT_10  Stacks: managed containers
+  PROMPT_11  Stacks: kubernetes
+  PROMPT_12  Stacks: IaC + cross-cutting
+  PROMPT_13  Workflows
+  PROMPT_14  Manifests
+  PROMPT_15  Templates
+  PROMPT_16  Generation pipeline (new_cloud_repo.py, accb_payload.py, accb_inspect.py, accb_verify.py)
+  PROMPT_17  Validation scripts (validate_iac_isolation.py, run_verification.py)
+  PROMPT_18  Canonical AWS Lambda examples
+  PROMPT_19  Canonical GCP Cloud Functions examples
+  PROMPT_20  Canonical Azure Functions examples
+  PROMPT_21  Canonical Cloud Run + App Runner examples
+  PROMPT_22  Canonical Container Apps examples
+  PROMPT_23  Canonical EKS + GKE + AKS multi-role platforms
+  PROMPT_24  Canonical IaC, observability, secrets, eventing, prompts
+  PROMPT_25  Canonical AWS Lambda expansion
+  PROMPT_26  Canonical GCP Cloud Functions expansion
+  PROMPT_27  Canonical Azure Functions expansion
+  PROMPT_28  Canonical Cloud Run + App Runner expansion
+  PROMPT_29  Canonical Container Apps expansion
+  PROMPT_30  Canonical EKS + GKE + AKS expansion
+  PROMPT_31  Canonical Pulumi starter expansion
+  PROMPT_32  Cloud integration testing harness + arc docs
+  PROMPT_33  Final wiring: docs, README, ARCHITECTURE_MAP, e2e smoke
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+This is PROMPT_01, so almost nothing exists yet. Read these:
+
+  1. The repo root with `ls -la` to confirm only this `.prompts/PROMPT_01.txt`
+     and possibly stray `.git`, `human-notes.md`, or sibling reference
+     directories exist.
+  2. If `agent-context-base/` exists as a SIBLING directory at the same level
+     for inspiration, you may glance at:
+       agent-context-base/AGENT.md
+       agent-context-base/CLAUDE.md
+       agent-context-base/README.md
+       agent-context-base/.gitignore
+       agent-context-base/docs/repo-layout.md
+     ONLY for shape inspiration. Do not copy any prose. Re-author all wording
+     for cloud framing, and rename every `acb` / `.acb/` reference to
+     `accb` / `.accb/`.
+  3. If `excellent-cloud-prompts/` exists as a sibling, inspect ONLY the
+     introductions and provider section headers of:
+       excellent-cloud-prompts/01--funcs--100-excellent-prompts.md
+       excellent-cloud-prompts/03--containers--100-excellent-prompts.md
+       excellent-cloud-prompts/05--k8s--100-excellent-prompts.md
+     Confirm the workload families this repo must support: function-first
+     trigger workflows, managed-container middle-band systems, and
+     k8s-worthy multi-role platforms. Later prompts will distill these into
+     `context/scenarios/`; do not import or paste full prompt entries.
+
+Do not read further. This prompt creates the skeleton; later prompts populate
+it.
+
+================================================================================
+PART 1 — DIRECTORY SKELETON
+================================================================================
+
+Create the directory tree exactly as listed in Section 3 of the briefing
+above. Use empty directories where content arrives in later prompts.
+
+To make `git` aware of empty directories, place a `.gitkeep` file in any
+directory that this prompt does not otherwise populate. Do NOT add `.gitkeep`
+to directories that get a real file in this prompt.
+
+Concrete directories to create (relative to repo root):
+
+  context/specs/product/
+  context/specs/architecture/
+  context/specs/agent/
+  context/specs/evolution/
+  context/validation/archetypes/
+  context/validation/stacks/
+  context/accb/
+  context/anchors/
+  context/doctrine/
+  context/workflows/
+  context/stacks/
+  context/archetypes/
+  context/scenarios/
+  context/skills/
+  context/router/
+  context/memory/
+  manifests/
+  templates/agent-md/
+  templates/claude-md/
+  templates/readme/
+  templates/gitignore/
+  templates/iac/terraform/
+  templates/iac/pulumi/typescript/
+  templates/iac/pulumi/python/
+  templates/iac/pulumi/go/
+  templates/iac/pulumi/dotnet/
+  templates/function/
+  templates/container/
+  templates/k8s/
+  templates/smoke-tests/
+  templates/integration-tests/
+  templates/observability/
+  templates/manifest/
+  templates/prompt-first/
+  examples/canonical-aws-lambda/
+  examples/canonical-gcp-functions/
+  examples/canonical-azure-functions/
+  examples/canonical-cloud-run/
+  examples/canonical-app-runner/
+  examples/canonical-container-apps/
+  examples/canonical-eks/
+  examples/canonical-gke/
+  examples/canonical-aks/
+  examples/canonical-iac-terraform/
+  examples/canonical-iac-pulumi/
+  examples/canonical-integration-tests/
+  examples/canonical-smoke-tests/
+  examples/canonical-observability/
+  examples/canonical-secrets/
+  examples/canonical-eventing/
+  examples/canonical-prompts/
+  verification/policies/
+  verification/scenarios/
+  verification/functions/
+  verification/containers/
+  verification/kubernetes/
+  verification/iac/
+  verification/scripts/
+  scripts/
+  memory/concepts/
+  memory/sessions/
+  memory/summaries/
+  docs/architecture/
+  docs/usage/
+  tmp/
+
+Place a `.gitkeep` in each empty directory.
+
+================================================================================
+PART 2 — ROOT FILES
+================================================================================
+
+2.1  `.gitignore`
+
+Author a `.gitignore` covering:
+  - `tmp/`
+  - `work/`
+  - `PLAN.md`                       (PLAN.example.md is tracked; PLAN.md is not)
+  - `context/TASK.md`
+  - `context/SESSION.md`
+  - `context/MEMORY.md`
+  - `memory/sessions/`
+  - `memory/summaries/`
+  - common Python: `__pycache__/`, `*.pyc`, `.venv-tools/`, `.pytest_cache/`,
+    `.ruff_cache/`, `.mypy_cache/`
+  - common Node: `node_modules/`, `dist/`, `build/`, `.turbo/`
+  - common Go: `*.exe`, `*.test`, `*.out`
+  - common Rust: `target/`
+  - common .NET: `bin/`, `obj/`
+  - common Terraform: `.terraform/`, `*.tfstate`, `*.tfstate.*`,
+    `terraform.tfvars`, `*.auto.tfvars`, `crash.log`, `crash.*.log`
+  - common Pulumi: `.pulumi/`, `Pulumi.*.encrypted.yaml`
+  - editor / OS: `.DS_Store`, `.idea/`, `.vscode/`, `*.swp`
+
+2.2  `README.md`
+
+Front door, deliberately minimal until PROMPT_33. Include:
+
+  # agent-cloud-context-base (accb)
+
+  `agent-cloud-context-base` (`accb`) is a context-first foundation for
+  generating and running assistant-friendly cloud-native backend repositories.
+
+  Status: under construction. The system is being built incrementally through
+  the `.prompts/PROMPT_NN.txt` sequence (see `.prompts/`).
+
+  ## Scope
+
+  - Serverless functions (AWS Lambda, GCP Cloud Functions, Azure Functions)
+  - Managed containers (Cloud Run, App Runner, Container Apps)
+  - Kubernetes platforms (EKS, GKE, AKS)
+  - Infrastructure as Code (Terraform; Pulumi in TypeScript, Python, Go, .NET)
+  - First-class dev/test environment isolation for every cloud surface
+
+  Derived repos receive a hidden `.accb/` payload that captures the chosen
+  profile (archetype + primary stack + manifests + support services), the
+  validation contract, and a session boot document.
+
+  ## Boot
+
+  See `AGENT.md` and `CLAUDE.md`. Once the runtime tools land in PROMPT_05,
+  start sessions with `python3 scripts/work.py resume`.
+
+  Do not document features that do not yet exist in this repo.
+
+2.3  `AGENT.md`
+
+Boot doc. Source of truth for operating rules. Include sections:
+
+  > **Sync note:** AGENT.md and CLAUDE.md are intentionally near-identical.
+  > When updating operating rules, update both files. AGENT.md is the source
+  > of truth for rule wording; CLAUDE.md may add Claude Code-specific notes.
+
+  Purpose: boot an assistant into the smallest useful context bundle for this
+  cloud-native repo (`accb`).
+
+  ## First Reads
+
+  1. `README.md`
+  2. `docs/repo-layout.md` (after PROMPT_33)
+  3. `python3 scripts/work.py resume` (after PROMPT_05)
+  4. `memory/INDEX.md` (after PROMPT_05)
+  5. `docs/usage/SPEC_DRIVEN_ACCB_PAYLOADS.md` (after PROMPT_33)
+  6. one router, one workflow, one stack, and one example only when the task
+     still needs narrowing
+
+  ## Operating Rules
+
+  - Treat `.accb/` (in derived repos) as the generated repo-local operating
+    boundary.
+  - Treat `tmp/*.md`, `context/TASK.md`, `context/SESSION.md`, and
+    `context/MEMORY.md` as local runtime state, not doctrine.
+  - Validation is mandatory before claiming completion unless the operator
+    explicitly waives it. Use `blocked`, `incomplete`, and `done` precisely.
+  - Always declare the IaC dev/test isolation surface before generating any
+    cloud resource — separate state, env-var prefix, secret path, and
+    resource naming for `dev` and `test`.
+  - Prefer manifest-defined bundles over improvised loading.
+  - Do not add `memory/summaries/` or `memory/sessions/` file entries to
+    `memory/INDEX.md`; those directories are gitignored and should only be
+    described at the tier level.
+  - Use `python3 scripts/work.py checkpoint` at natural boundaries (after
+    PROMPT_05).
+
+  ## New Repo Routing
+
+  - When started in `agent-cloud-context-base`, assume the operator wants a
+    new generated cloud repo unless they explicitly say they want to modify
+    the base repo itself.
+  - For new generated repos, prefer `scripts/new_cloud_repo.py` over manual
+    scaffolding (after PROMPT_16).
+  - Make provider, runtime tier (function | container | k8s), language, IaC
+    tool, and dev/test isolation assumptions explicit before generation.
+
+  ## Verification
+
+  - Base repo: `python3 scripts/validate_context.py` (after PROMPT_17)
+  - Generated repo: `python .accb/scripts/accb_verify.py`
+  - IaC isolation: `python3 scripts/validate_iac_isolation.py <path>`
+
+2.4  `CLAUDE.md`
+
+Near-identical to AGENT.md. Open with the same sync note. Add a
+`Claude Code-specific Notes` section near the bottom with:
+
+  - Use `Bash`, `Read`, `Edit`, `Write` tools directly; reserve agent
+    spawning for genuine multi-step research.
+  - Treat `tmp/PROMPT_NN_checklist.md` as the per-session todo surface.
+  - When the user types `/<skill-name>` invoke via the Skill tool only when
+    the skill exists in the available list.
+
+2.5  `PLAN.example.md`
+
+A short scaffold derived repos can copy as their own `PLAN.md`. Sections:
+
+  # PLAN
+
+  ## Now
+  - <one or two near-term goals>
+
+  ## Next
+  - <one or two adjacent goals>
+
+  ## Later
+  - <roadmap-level themes only; not a backlog>
+
+  ## Notes
+  - PLAN.md is roadmap-level only. Per-session work belongs in `tmp/`.
+
+================================================================================
+PART 3 — INDEX FILES (placeholders that later prompts will populate)
+================================================================================
+
+3.1  `examples/catalog.json`
+
+```
+{
+  "schema_version": 1,
+  "examples": []
+}
+```
+
+3.2  `verification/example_registry.yaml`
+
+```
+schema_version: 1
+families: []
+```
+
+3.3  `verification/stack_support_matrix.yaml`
+
+```
+schema_version: 1
+matrix: {}
+```
+
+3.4  `verification/policies/README.md`
+
+A short stub stating: "Static lint policies enforced by validate_iac_isolation
+and run_verification. Populated in PROMPT_17."
+
+3.5  `verification/README.md`
+
+A short stub describing the role of `verification/` and listing the planned
+subdirectories (functions, containers, kubernetes, iac, policies, scenarios,
+scripts).
+
+3.6  `scripts/README.md`
+
+A short stub listing planned scripts (filled in PROMPT_05 / PROMPT_16 /
+PROMPT_17): work.py, new_cloud_repo.py, accb_payload.py, accb_inspect.py,
+accb_verify.py, validate_context.py, validate_manifests.py,
+validate_iac_isolation.py, verify_examples.py, run_verification.py,
+preview_context_bundle.py, pattern_diff.py.
+
+3.7  `memory/INDEX.md`
+
+```
+# Memory Index
+
+Tracked artifacts only. Do not add entries for `memory/sessions/` or
+`memory/summaries/` (gitignored).
+
+## concepts/
+
+(empty — populated as the system grows)
+```
+
+3.8  `templates/README.md`
+
+Short stub explaining: "Templates are starter scaffolds for derived repos.
+Populated by PROMPT_15."
+
+3.9  `examples/README.md`
+
+Short stub explaining: "Canonical examples for cloud-native patterns.
+Populated by PROMPT_18 through PROMPT_24. See `catalog.json` for the index."
+
+3.10 `manifests/README.md`
+
+Short stub: "Machine-readable bundle selection for cloud archetypes,
+runtimes, providers, and IaC tools. Populated by PROMPT_14."
+
+3.11 `docs/README.md`
+
+Short stub: "Architecture and usage docs. Populated by PROMPT_33."
+
+3.12 `context/accb/README.md`
+
+Short stub: "Composition rules and payload metadata for derived `.accb/`
+bundles. `profile-rules.json` lands in PROMPT_04."
+
+================================================================================
+PART 4 — git INITIALIZATION
+================================================================================
+
+If the repo root is not yet a git repository (`.git/` does not exist), run:
+
+  git init -b main
+
+If a `.git` already exists, skip init.
+
+Verify the working tree is clean apart from the new files you are about to
+add. Do not stage any sibling reference directories (`agent-context-base/`,
+`excellent-cloud-prompts/`) — they belong to other repositories. If they
+appear inside this repo's working tree, add them to `.gitignore` explicitly
+with a comment noting they are reference-only and not part of this base.
+
+If any YAML-based verification fails because `import yaml` is unavailable in
+this or later prompts, bootstrap a repo-local `.venv-tools` with `uv` and a
+specific Python version instead of relying on a global Python:
+
+  uv venv --python 3.12 .venv-tools
+  # Do not activate the environment; call tools via ./.venv-tools/bin/<name>
+  ./.venv-tools/bin/python -m pip install pyyaml
+
+Record the bootstrap in the checklist follow-ups section.
+
+================================================================================
+VERIFICATION
+================================================================================
+
+This is the foundation prompt; verification is necessarily light because
+nothing executable exists yet. Required checks:
+
+  1. `find . -type d -not -path '*/.git/*' -not -path '*/tmp/*' | sort`
+     produces the directory layout from Section 3 plus all directories from
+     Part 1.
+  2. `cat .gitignore` shows the entries from Part 2.1.
+  3. Every empty directory contains exactly one `.gitkeep`.
+  4. `cat README.md AGENT.md CLAUDE.md` reads cleanly without referring to
+     features that do not yet exist (the only forward-references allowed are
+     framed with "after PROMPT_NN").
+  5. `grep -rIn --exclude-dir=.git --exclude-dir=tmp --exclude-dir=.prompts -E '\bacb\b|\.acb/' .`
+     returns nothing — no stray `acb` or `.acb/` references outside
+     `.prompts/`; everything newly created for this repo must use `accb` /
+     `.accb/`.
+  6. `python3 -c "import json; json.load(open('examples/catalog.json'))"`
+     succeeds.
+  7. `python3 -c "import yaml; yaml.safe_load(open('verification/example_registry.yaml'))"`
+     succeeds (if missing, use the repo-local `.venv-tools` bootstrap note
+     above and record the dependency in the checklist follow-ups section).
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+Mark this prompt `done` only when ALL of the following are true. (You may
+edit this file in place to tick the boxes off after the prompt has been run
+— that is allowed for this promptset.)
+
+  - [ ] All directories from Part 1 exist.
+  - [ ] All root files from Part 2 exist with the specified content.
+  - [ ] All index/placeholder files from Part 3 exist with the specified
+        content.
+  - [ ] `.gitkeep` exists in every empty directory.
+  - [ ] No stray `acb` / `.acb/` references anywhere in the new tree
+        outside `.prompts/` (per Verification step 5).
+  - [ ] `tmp/PROMPT_01_checklist.md` is fully checked.
+  - [ ] `memory/concepts/cloud-arc-bootstrap-genesis.md` exists with a 1–2
+        paragraph note: "PROMPT_01 created the skeleton. The next prompt
+        (PROMPT_02) authors foundational doctrine. No runtime, validation,
+        generation, or examples exist yet. The repo's short name is `accb`
+        and derived repos receive a `.accb/` payload."
+  - [ ] `memory/INDEX.md` lists `cloud-arc-bootstrap-genesis.md` under
+        `## concepts/`.
+
+If any gate fails, mark the session `incomplete` (or `blocked` if a real
+obstacle prevents completion) and write a short `tmp/HANDOFF.md` (gitignored)
+describing the next concrete step.
+
+End of PROMPT_01.

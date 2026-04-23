@@ -1,0 +1,406 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is PROMPT_07 of 33. PROMPT_01–06 built the skeleton, doctrine, anchors,
+specs, validation, profile-rules, work.py, memory layer, and routers. This
+prompt authors all archetype files in `context/archetypes/` and the
+excellent-cloud-derived scenario catalog in `context/scenarios/`.
+
+Use **`accb`** / **`.accb/`** in everything; never `acb` / `.acb/`.
+
+              [CLOUD ARC: Prompt 7 of 33 — Archetypes + Scenarios]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+One prompt per session. Maintain `tmp/PROMPT_07_checklist.md`.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+`accb` is a context-first foundation for cloud-native backend repos:
+functions (Lambda, Cloud Functions, Azure Functions), managed containers
+(Cloud Run, App Runner, Container Apps), kubernetes (EKS, GKE, AKS).
+Modeled on `agent-context-base` (`acb`) but never copies its text.
+
+Sequence:
+  PROMPT_01–06  Skeleton + doctrine + specs + accb + work.py + routers   (done)
+  PROMPT_07     Archetypes + scenario catalog                             (this prompt)
+  PROMPT_08     Skills
+  PROMPT_09–12  Stacks
+  PROMPT_13     Workflows
+  PROMPT_14     Manifests
+  PROMPT_15     Templates
+  PROMPT_16–17  Generation pipeline + validation scripts
+  PROMPT_18–31  Canonical examples + expansion prompts
+  PROMPT_32     Integration testing harness
+  PROMPT_33     Final wiring
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read:
+
+  1. `README.md`, `AGENT.md`
+  2. `python3 scripts/work.py resume`
+  3. `memory/INDEX.md` and concepts
+  4. `context/router/archetype-router.md` (the 12 archetype names live there)
+  5. `context/doctrine/function-vs-container-vs-k8s.md`
+  6. `context/doctrine/k8s-workload-role-separation.md`
+  7. `context/doctrine/k8s-multi-tenancy-and-namespacing.md`
+  8. `context/doctrine/eventing-and-dlq-discipline.md`
+  9. `context/accb/profile-rules.json` (archetype_capabilities,
+     archetype_validation_gates)
+
+If a sibling `agent-context-base/` exists, you MAY glance at (SHAPE only):
+  agent-context-base/context/archetypes/backend-api-service.md
+  agent-context-base/context/archetypes/data-pipeline.md
+  agent-context-base/context/archetypes/multi-backend-service.md
+
+================================================================================
+PART 1 — ARCHETYPE FILE FORMAT
+================================================================================
+
+Each archetype file in `context/archetypes/*.md` follows this shape:
+
+  # <Archetype Name>
+
+  Use this archetype for <one-paragraph summary of when this shape applies>.
+
+  ## Common Goals
+
+  - <bullet>
+  - <bullet>
+
+  ## Required Context
+
+  - `context/doctrine/<file>.md`
+  - the dominant provider+runtime+language stack pack
+  - the dominant IaC stack pack
+  - one canonical example from `examples/canonical-<family>/`
+
+  ## Common Workflows
+
+  - `context/workflows/<file>.md`
+  - `context/workflows/<file>.md`
+
+  ## Likely Manifests
+
+  - `manifests/<file>.yaml`
+
+  ## Likely Examples
+
+  - `examples/canonical-<family>/<example>/`
+
+  ## Typical Anti-Patterns
+
+  - <bullet>
+  - <bullet>
+
+  ## Validation Gates (summary)
+
+  - <gate-id>: <one-line summary>
+  - <gate-id>: <one-line summary>
+
+Keep each archetype file 50–150 lines. No frontmatter.
+
+================================================================================
+PART 2 — ARCHETYPE FILES TO AUTHOR
+================================================================================
+
+Author the following 12 files in `context/archetypes/`:
+
+2.1  `cloud-function-repo.md`
+
+  Single function with explicit IaC dev/test pair. The narrowest cloud
+  archetype. Capabilities: function, iac. Required workflows: add-cloud-
+  function, add-iac-stack, add-iac-isolation-pair, add-secret-binding (if
+  any secret), add-cloud-smoke-tests, add-cloud-integration-tests.
+  Anti-patterns: long-running loops in the handler; mocked managed-service
+  in integration test; shared dev/test resource names.
+
+2.2  `multi-function-platform.md`
+
+  Several functions sharing IaC, identity, and a common eventing seam.
+  Capabilities: function, eventing, iac, secrets. Required workflows
+  add the eventing seam + DLQ + replay. Anti-patterns: pretending the
+  platform is one big function; sharing handler code in ways that prevent
+  per-function deploy.
+
+2.3  `managed-container-service.md`
+
+  Single Cloud Run / App Runner / Container Apps service. Capabilities:
+  container, iac. Required workflows: add-managed-container-service,
+  add-cloud-runtime-image, add-iac-stack, add-iac-isolation-pair,
+  add-cloud-smoke-tests. Anti-patterns: hosting multiple unrelated
+  services in one image to save money; baking secrets into the image.
+
+2.4  `managed-container-multi-service.md`
+
+  Public API + private worker(s) + scheduled job. Capabilities: container,
+  eventing, iac, secrets. Workflows add the eventing seam, the VPC/private
+  network path, and integration tests across services. Anti-patterns:
+  exposing private workers to the public internet; sharing one image
+  across services with different runtime needs.
+
+2.5  `k8s-platform-repo.md`
+
+  EKS / GKE / AKS with API + worker + jobs + crons + control plane.
+  Capabilities: k8s-api, k8s-worker, k8s-job, k8s-cron, iac. Required
+  workflows: add-k8s-workload-role per role, add-helm-or-kustomize-overlay
+  for dev/test overlays, add-iac-isolation-pair (cluster + workload
+  identity). Anti-patterns: collapsing roles into one Deployment; cluster-
+  wide RBAC for tenant code.
+
+2.6  `k8s-multi-tenant-platform.md`
+
+  K8s with namespace-per-tenant, ResourceQuota, LimitRange, NetworkPolicy.
+  Capabilities: k8s-api, k8s-worker, k8s-tenancy, iac, secrets.
+  Anti-patterns: cross-namespace direct access; tenant-shared secrets;
+  unbounded HPAs.
+
+2.7  `cloud-event-pipeline.md`
+
+  Trigger → enrich → persist → fan-out. The dominant shape for ingestion,
+  CDC relay, OCR pipelines, etc. Capabilities: function (often with one
+  container step for heavier enrichment), eventing, iac, secrets.
+  Required workflows: add-replay-and-dlq-handling, add-cloud-storage-
+  integration, add-cloud-database-integration, add-cloud-integration-tests.
+
+2.8  `cloud-data-acquisition.md`
+
+  Fetch external sources, archive raw payloads to object storage,
+  normalize into managed storage. Mix of functions (HTTP/scheduled
+  triggers) and possibly a container worker for heavier parsing.
+  Capabilities: function, container, storage, eventing, iac.
+
+2.9  `cloud-rag-pipeline.md`
+
+  Ingest documents, chunk + embed, upsert into a vector store, serve a
+  retrieval API. Capabilities: function, container, vector-store, iac,
+  secrets. References `context/stacks/observability-otel-cloud.md` and
+  the storage stacks.
+
+2.10 `cloud-control-plane.md`
+
+  Thin orchestration layer (function or small container) over heavier
+  compute (k8s job, ECS task, Cloud Run job, Container Apps job, Batch).
+  Capabilities: function, container, iac, secrets. The plane stays small;
+  the compute stays separate.
+
+2.11 `cloud-iac-only-repo.md`
+
+  Platform-team catalog: Terraform modules and/or Pulumi component
+  resources, no application code. Capabilities: iac. Required workflows:
+  add-iac-stack, add-iac-isolation-pair. Anti-patterns: leaking
+  application opinions into module defaults; forcing a specific provider
+  region in a module.
+
+2.12 `cloud-multi-provider-experiment.md`
+
+  Comparative AWS / GCP / Azure surfaces for one workload. Capabilities:
+  function, container, iac, comparative. Required workflows reference
+  every provider's add-*-trigger or add-managed-container-service.
+  Anti-patterns: hiding provider-specific behavior under a leaky shared
+  abstraction; declaring victory after only one provider passes its gates.
+
+================================================================================
+PART 3 — SCENARIO CATALOG FILES TO AUTHOR
+================================================================================
+
+The sibling `excellent-cloud-prompts/` repository is reference-only and must
+not be copied into this repo. This prompt distills its three `*100-excellent*`
+catalogs into a compact workload-pattern layer under `context/scenarios/`.
+These files let `accb` understand the kinds of projects it should help
+produce without becoming a prompt dump.
+
+Author the following files:
+
+3.1  `context/scenarios/README.md`
+
+  Explain that scenarios are workload taxonomies, not implementation
+  templates. They translate business-shaped prompts into archetype,
+  runtime-tier, provider, support-service, manifest, canonical-example, and
+  validation choices. State explicitly that the source catalogs are:
+
+    - `excellent-cloud-prompts/01--funcs--100-excellent-prompts.md`
+    - `excellent-cloud-prompts/03--containers--100-excellent-prompts.md`
+    - `excellent-cloud-prompts/05--k8s--100-excellent-prompts.md`
+
+  Do not reproduce the full prompt entries. Rephrase the recurring patterns.
+
+3.2  `context/scenarios/function-scenarios.md`
+
+  Distill function-first workload families from the 100 function prompts.
+  Required sections:
+
+  - `object-intake-enrichment`: S3/GCS/Blob trigger, metadata validation,
+    AI/OCR/moderation/enrichment, managed-store write, fan-out event.
+  - `signed-webhook-orchestrator`: HTTP/API trigger, signature verification,
+    raw event persistence, dedupe, async handoff, 202 response.
+  - `queue-backed-worker`: queue trigger, bounded work item, visibility/
+    retry awareness, DLQ, idempotent artifact/status write.
+  - `change-event-relay`: stream/change-feed trigger, canonical event
+    transform, idempotency marker, downstream bus/topic publish.
+  - `identity-or-alert-trigger`: auth/monitoring trigger, ownership lookup,
+    audit write, notification or provisioning side effect.
+  - `scheduled-report-or-maintenance`: timer/scheduler trigger, bounded
+    report or cleanup, deterministic output key, cost/quota guardrails.
+
+  For each family include: typical providers, likely archetype, likely
+  manifests, support-service capabilities, canonical example families, and
+  validation gates.
+
+3.3  `context/scenarios/container-scenarios.md`
+
+  Distill managed-container middle-band workload families from the 100
+  managed-container prompts. Required sections:
+
+  - `public-api-private-worker-job`: public API, private worker/callback
+    service, scheduled or event-driven job, managed state, object storage,
+    eventing, provider-native secrets.
+  - `heavy-runtime-service`: custom image because of Chrome, FFmpeg, GDAL,
+    LibreOffice, native image processing, geospatial, or document rendering.
+  - `partner-adapter-gateway`: API boundary plus private adapter/dispatcher
+    over VPC/VNet/private connectivity, signed archive, retry queue.
+  - `multi-container-sidecar`: primary service plus OTel/Envoy/upload
+    sidecar in one revision/app when the provider supports it.
+  - `job-first-container`: Cloud Run Job / ACA Job / scheduled batch with
+    no always-on API, idempotent by run key.
+
+  For each family include likely archetype, provider-specific stack choices,
+  support services, IaC isolation defaults, and validation gates.
+
+3.4  `context/scenarios/kubernetes-scenarios.md`
+
+  Distill k8s-worthy workload families from the 100 k8s prompts. Required
+  sections:
+
+  - `multi-role-platform`: API + worker + job + cron + optional control
+    plane, each separately owned and scaled.
+  - `stream-replay-platform`: sustained stream/queue ingest, lag recovery,
+    backfill/replay jobs, export crons.
+  - `rag-knowledge-mesh`: upload/corpus sync API, extraction/chunking/
+    embedding workers, index rebuild jobs, freshness scans.
+  - `regulated-document-platform`: secure intake, malware/OCR/classification
+    workers, human review, audit/export/retention jobs.
+  - `workflow-control-plane`: control API, scheduler/execution workers,
+    reconciliation crons, replay of failed steps.
+  - `heterogeneous-compute-platform`: CPU/GPU/heavy-memory worker classes
+    with explicit node pool and rollout differences.
+
+  For each family include why k8s is warranted, role decomposition,
+  provider cluster stack, support services, and validation gates.
+
+3.5  `context/scenarios/scenario-profile-map.yaml`
+
+  Machine-readable index used by `scenario-router.md`, manifests, docs, and
+  tests. `source_catalogs` values are provenance labels for the sibling
+  reference repo; they are not runtime dependencies and the reference files
+  are not copied into `accb`. Shape:
+
+```yaml
+schema_version: 1
+source_catalogs:
+  functions: excellent-cloud-prompts/01--funcs--100-excellent-prompts.md
+  containers: excellent-cloud-prompts/03--containers--100-excellent-prompts.md
+  kubernetes: excellent-cloud-prompts/05--k8s--100-excellent-prompts.md
+patterns:
+  function.object-intake-enrichment:
+    runtime_tier: function
+    archetype: cloud-event-pipeline
+    likely_manifests:
+      aws: func-aws-lambda-python
+      gcp: func-gcp-cloudfn-python
+      azure: func-azure-fn-python
+    support_services:
+      aws: [aws-s3, aws-dynamodb, aws-eventbridge, aws-secrets-manager]
+      gcp: [gcp-gcs, gcp-firestore, gcp-pubsub, gcp-secret-manager]
+      azure: [azure-blob, azure-cosmos, azure-eventgrid, azure-key-vault]
+    preferred_examples:
+      - examples/canonical-aws-lambda/s3-trigger-image-moderation/
+      - examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/
+      - examples/canonical-azure-functions/blob-trigger-receipt-ocr/
+  container.public-api-private-worker-job:
+    runtime_tier: managed_container
+    archetype: managed-container-multi-service
+    likely_manifests:
+      gcp: container-cloudrun-fastapi
+      aws: container-apprunner-fastapi
+      azure: container-aca-dotnet
+  k8s.multi-role-platform:
+    runtime_tier: k8s
+    archetype: k8s-platform-repo
+    likely_manifests:
+      aws: k8s-eks-multi-role-python
+      gcp: k8s-gke-multi-role-python
+      azure: k8s-aks-multi-role-dotnet
+```
+
+  The checked-in file must include at least 15 patterns total: 6 function,
+  5 container, and 4 k8s. Each pattern must name runtime_tier, archetype,
+  likely_manifests, support_services by provider where applicable, and
+  preferred_examples when an example family exists.
+
+3.6  `context/scenarios/excellent-cloud-source-map.md`
+
+  A short traceability note mapping each source catalog to the `accb`
+  artifacts it informed:
+
+  - function catalog → function scenarios, function stacks, function
+    manifests, PROMPT_18–20 examples
+  - container catalog → container scenarios, container stacks, container
+    manifests, PROMPT_21–22 examples
+  - k8s catalog → k8s scenarios, k8s stacks, k8s manifests, PROMPT_23
+    examples
+
+  Include a "No Copying Rule" section: use patterns and representative
+  names only; do not paste the original 100-entry catalogs into `accb`.
+
+================================================================================
+VERIFICATION
+================================================================================
+
+  1. `ls context/archetypes/ | wc -l` shows 12.
+  2. `wc -l context/archetypes/*.md` — each 50–150 lines.
+  3. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' context/archetypes/`
+     returns nothing.
+  4. Every archetype name appears in `context/router/archetype-router.md`
+     mappings.
+  5. Every archetype name appears as a key in
+     `context/accb/profile-rules.json` `archetype_capabilities`.
+  6. `ls context/scenarios/` shows README.md, function-scenarios.md,
+     container-scenarios.md, kubernetes-scenarios.md,
+     scenario-profile-map.yaml, excellent-cloud-source-map.md.
+  7. `python3 -c "import yaml; yaml.safe_load(open('context/scenarios/scenario-profile-map.yaml'))"`
+     succeeds.
+  8. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' context/scenarios/`
+     returns nothing.
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run.
+
+  - [ ] All 12 archetype files exist with the required sections.
+  - [ ] `.gitkeep` removed from `context/archetypes/`.
+  - [ ] No `acb` / `.acb/` references.
+  - [ ] Archetype names match `archetype-router.md` and
+        `archetype_capabilities` in `profile-rules.json`.
+  - [ ] Scenario catalog files exist, scenario-profile-map.yaml parses,
+        and at least 15 scenario patterns are present.
+  - [ ] `tmp/PROMPT_07_checklist.md` is fully checked.
+  - [ ] `memory/concepts/archetype-system.md` exists with one paragraph
+        listing the 12 archetypes and noting that PROMPT_08 authors skills.
+  - [ ] `memory/concepts/scenario-catalog-system.md` exists with one
+        paragraph explaining how the excellent-cloud prompt catalogs were
+        distilled into `context/scenarios/`.
+  - [ ] `memory/INDEX.md` lists `archetype-system.md` and
+        `scenario-catalog-system.md`.
+
+End of PROMPT_07.

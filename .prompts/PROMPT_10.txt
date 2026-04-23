@@ -1,0 +1,207 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is PROMPT_10 of 33. PROMPT_01–09 built foundations through the function
+stack surface. This prompt authors the MANAGED-CONTAINER tier stacks
+(Cloud Run, App Runner, Container Apps).
+
+Use **`accb`** / **`.accb/`** in everything; never `acb` / `.acb/`.
+
+              [CLOUD ARC: Prompt 10 of 33 — Stacks: Managed Containers]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+One prompt per session. Maintain `tmp/PROMPT_10_checklist.md`.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+`accb` is a context-first foundation for cloud-native backend repos:
+functions, managed containers, kubernetes platforms across AWS / GCP /
+Azure. Modeled on `agent-context-base` (`acb`) but never copies its text.
+
+Sequence:
+  PROMPT_01–09  All foundations + function stacks                       (done)
+  PROMPT_10     Stacks: managed containers                              (this prompt)
+  PROMPT_11     Stacks: kubernetes
+  PROMPT_12     Stacks: IaC + cross-cutting
+  PROMPT_13–17  Workflows, manifests, templates, generation pipeline,
+                validation scripts
+  PROMPT_18–31  Canonical examples + expansion prompts
+  PROMPT_32     Integration testing harness
+  PROMPT_33     Final wiring
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read:
+
+  1. `README.md`, `AGENT.md`
+  2. `python3 scripts/work.py resume`
+  3. `memory/INDEX.md` and concepts
+  4. `context/router/stack-router.md` (managed-container mappings)
+  5. `context/doctrine/container-image-discipline.md`
+  6. `context/doctrine/function-vs-container-vs-k8s.md`
+  7. `context/doctrine/vpc-and-private-networking.md`
+  8. `context/stacks/aws-lambda-python.md` (model for stack file voice)
+  9. `context/accb/profile-rules.json` (manifest_capabilities for container
+     manifests; capability_validation_gates for `container`)
+
+================================================================================
+PART 1 — STACK FILE FORMAT (Container variant)
+================================================================================
+
+Same shape as PROMPT_09 Part 1, with these container-specific sections
+replacing the function-only ones:
+
+  ## Image Surface
+
+  - base image (digest-pinned)
+  - distroless or slim recommendation
+  - multi-stage build outline
+  - non-root user
+  - SBOM + scan recommendation
+
+  ## Service Surface
+
+  - listening port + health/readiness probe paths
+  - request concurrency model
+  - autoscaling levers (min/max instances or HPA basis)
+  - cold-start vs always-on tradeoffs
+
+  ## Networking
+
+  - default reachability (public/private)
+  - VPC connector / VNet integration / VPC config story
+  - egress rules
+
+  ## Local Run
+
+  ```bash
+  <docker run / podman / pack / functions-framework-equivalent>
+  ```
+
+  (The Idempotency, Identity, Secrets, Observability, Validation, and
+  Anti-Patterns sections remain as in PROMPT_09 Part 1.)
+
+================================================================================
+PART 2 — CLOUD RUN STACKS (5 files)
+================================================================================
+
+Author in `context/stacks/`:
+
+  2.1  `cloudrun-python-fastapi.md`        — Python 3.12 + FastAPI + uvicorn;
+                                            Artifact Registry image
+  2.2  `cloudrun-typescript-hono.md`       — Node 20 + Hono; tsup bundle
+  2.3  `cloudrun-go-echo.md`               — Go 1.22 + Echo; multi-stage
+                                            build to distroless/static
+  2.4  `cloudrun-job.md`                   — Cloud Run Jobs (one-shot or
+                                            scheduled task); language-
+                                            agnostic; includes parallelism
+                                            and retry semantics
+  2.5  `cloudrun-multi-container-sidecar.md` — Sidecar pattern (e.g. OTel
+                                            collector + Envoy); shared
+                                            volumes; startup ordering
+
+Trigger surface for Cloud Run services: HTTP (public + IAM-gated),
+Eventarc (with Cloud Run as receiver), Pub/Sub push.
+
+================================================================================
+PART 3 — AWS APP RUNNER STACKS (4 files)
+================================================================================
+
+Author:
+
+  3.1  `apprunner-python-fastapi.md`       — Python 3.12 + FastAPI; ECR
+                                            image source or source-code
+                                            connection
+  3.2  `apprunner-typescript-hono.md`      — Node 20 + Hono
+  3.3  `apprunner-go-echo.md`              — Go 1.22 + Echo
+  3.4  `apprunner-vpc-connector.md`        — Cross-cutting: how to attach
+                                            App Runner to a VPC for
+                                            private database / private
+                                            endpoint access; egress rules
+
+Trigger surface for App Runner: HTTP. Background work belongs in Lambda /
+ECS / EventBridge — App Runner is request-driven only.
+
+================================================================================
+PART 4 — AZURE CONTAINER APPS STACKS (6 files)
+================================================================================
+
+Author:
+
+  4.1  `aca-python-fastapi.md`             — Python 3.12 + FastAPI; ACR
+                                            image
+  4.2  `aca-typescript-hono.md`            — Node 20 + Hono
+  4.3  `aca-go-echo.md`                    — Go 1.22 + Echo
+  4.4  `aca-dotnet-aspnet.md`              — .NET 8 + ASP.NET Core minimal
+                                            APIs; chiseled Ubuntu
+  4.5  `aca-jobs.md`                       — Container Apps Jobs
+                                            (manual / event / scheduled);
+                                            scaling rules
+  4.6  `aca-dapr.md`                       — Dapr building blocks (pub/sub,
+                                            state, secrets, bindings) for
+                                            ACA workloads; when to use vs
+                                            direct SDK
+
+Trigger surface for ACA services: HTTP, KEDA-driven event (Service Bus,
+Event Hubs, queues, custom). Jobs: manual, scheduled, event-driven.
+
+================================================================================
+PART 5 — STACK CROSS-REFERENCES
+================================================================================
+
+For each container stack:
+
+  - Validation gate references:
+      `cloudrun-revision-readiness`,
+      `container-image-buildable`,
+      `container-health-and-readiness`,
+      `container-private-network-when-required`
+  - Identity stack: same forward references as PROMPT_09 Part 5
+  - Secrets stack: same forward references
+  - Observability: `context/stacks/observability-otel-cloud.md`
+  - Image registry references: ECR / Artifact Registry / ACR per provider
+
+Add an `apprunner-vpc-connector.md` cross-reference to
+`context/doctrine/vpc-and-private-networking.md`. The `aca-dapr.md` file
+must explicitly call out when Dapr is overkill (single-component apps) and
+when it shines (cross-language eventing across multiple ACA services).
+
+================================================================================
+VERIFICATION
+================================================================================
+
+  1. `ls context/stacks/cloudrun-*.md context/stacks/apprunner-*.md context/stacks/aca-*.md | wc -l`
+     shows 15 (5 + 4 + 6).
+  2. `wc -l context/stacks/cloudrun-*.md context/stacks/apprunner-*.md context/stacks/aca-*.md`
+     — each 60–150 lines.
+  3. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' context/stacks/cloudrun-*.md context/stacks/apprunner-*.md context/stacks/aca-*.md`
+     returns nothing.
+  4. Every container stack name in `context/router/stack-router.md` Managed-
+     Container Stacks section matches a file you authored.
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run.
+
+  - [ ] All 15 managed-container stack files exist with the Part 1 format
+        adapted per Parts 2–4.
+  - [ ] No `acb` / `.acb/` references.
+  - [ ] Stack names match `stack-router.md`.
+  - [ ] Forward references to identity/secrets/observability are present.
+  - [ ] `tmp/PROMPT_10_checklist.md` is fully checked.
+  - [ ] `memory/concepts/managed-container-stack-surface.md` exists with
+        one paragraph noting the 15 container stacks and that PROMPT_11
+        adds k8s stacks.
+  - [ ] `memory/INDEX.md` lists `managed-container-stack-surface.md`.
+
+End of PROMPT_10.

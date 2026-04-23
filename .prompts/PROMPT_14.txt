@@ -1,0 +1,307 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is PROMPT_14 of 33. PROMPT_01–13 built foundations through workflows.
+This prompt authors all manifests in `manifests/`.
+
+Use **`accb`** / **`.accb/`** in everything; never `acb` / `.acb/`.
+
+                     [CLOUD ARC: Prompt 14 of 33 — Manifests]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+One prompt per session. Maintain `tmp/PROMPT_14_checklist.md`.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+`accb` is a context-first foundation for cloud-native backend repos:
+functions, managed containers, kubernetes platforms across AWS / GCP /
+Azure with Terraform and Pulumi IaC. Modeled on `agent-context-base`
+(`acb`) but never copies its text.
+
+Sequence:
+  PROMPT_01–13  Through workflows                                       (done)
+  PROMPT_14     Manifests                                               (this prompt)
+  PROMPT_15     Templates
+  PROMPT_16–17  Generation pipeline + validation scripts
+  PROMPT_18–31  Canonical examples + expansion prompts
+  PROMPT_32     Integration testing harness
+  PROMPT_33     Final wiring
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read:
+
+  1. `README.md`, `AGENT.md`
+  2. `python3 scripts/work.py resume`
+  3. `memory/INDEX.md` and concepts
+  4. `context/accb/profile-rules.json` (manifest_capabilities — every
+     manifest you author must appear there)
+  5. `context/router/stack-router.md`, `context/router/iac-router.md`
+  6. `context/doctrine/iac-dev-test-isolation.md`
+  7. `context/archetypes/cloud-function-repo.md`
+  8. `context/archetypes/managed-container-multi-service.md`
+  9. `context/archetypes/k8s-platform-repo.md`
+
+If a sibling `agent-context-base/` exists, you MAY glance at (SHAPE only):
+  agent-context-base/manifests/backend-api-fastapi-polars.yaml
+  agent-context-base/manifests/dokku-deployable-fastapi.yaml
+
+================================================================================
+PART 1 — MANIFEST FILE FORMAT (schema_version: 2)
+================================================================================
+
+Every manifest in `manifests/*.yaml` follows this shape (derived from the
+acb manifest schema, extended with cloud-specific fields):
+
+```yaml
+schema_version: 2
+name: <manifest-name>
+description: <one paragraph>
+archetype: <archetype filename without .md>
+primary_stack: <stack filename without extension | none for comparative reference manifests>
+secondary_stacks:
+  - <stack name>
+  - <stack name>
+provider: <aws | gcp | azure | multi>
+runtime_tier: <function | managed_container | k8s | null>
+primary_language: <python | typescript | go | java | dotnet | hcl | null>
+generated_repo_target: <true | false>
+iac_tool: <terraform | pulumi-typescript | pulumi-python | pulumi-go | pulumi-dotnet>
+triggers:
+  - <user-facing phrase>
+aliases:
+  - <user-facing phrase>
+scenario_patterns:
+  - <pattern id from context/scenarios/scenario-profile-map.yaml>
+required_context:
+  - context/doctrine/<file>.md
+  - context/stacks/<file>.md
+  - context/archetypes/<file>.md
+  - context/scenarios/<file>.md
+optional_context:
+  - context/doctrine/<file>.md
+  - context/workflows/<file>.md
+preferred_examples:
+  - examples/canonical-<family>/<example>/
+recommended_templates:
+  - templates/agent-md/AGENT.template.md
+  - templates/claude-md/CLAUDE.template.md
+  - templates/iac/<...>/<...>
+  - templates/<runtime-tier>/<...>/<...>
+repo_signals:
+  - <file or path glob>
+task_hints:
+  - <workflow-name>
+warnings:
+  - <text>
+bootstrap_defaults:
+  - include_iac_dev_test_pair
+  - include_smoke_tests
+  - include_integration_tests
+  - include_secret_binding_example
+  - include_observability_bundle
+iac_layout:
+  root_dir: <iac/terraform | iac/pulumi/<language>>
+  dev_path: <relative dir or file path for dev>
+  test_path: <relative dir or file path for test>
+  state_backend: <s3 | gcs | azurerm | pulumi-cloud | pulumi-self-managed>
+env_isolation:
+  env_var_prefix_dev: <PREFIX_DEV_>
+  env_var_prefix_test: <PREFIX_TEST_>
+  secret_path_dev: <provider-specific path>
+  secret_path_test: <provider-specific path>
+cloud_integration_test_strategy: <localstack | emulator | azurite | ephemeral_real | record_replay>
+cost_band_per_test_run: <currency_amount_or_range>
+smoke_test_expectations:
+  - <expectation>
+prompt_first_support: supported
+```
+
+For Terraform manifests, `iac_layout.dev_path` and `iac_layout.test_path`
+point to the per-environment directories under `iac/terraform/`. For Pulumi
+manifests, they point to the flat stack files under
+`iac/pulumi/<language>/Pulumi.dev.yaml` and `Pulumi.test.yaml`.
+
+`generated_repo_target: true` is the normal case for single-provider,
+runnable repo profiles. Set `generated_repo_target: false` only for catalog /
+reference manifests that intentionally do NOT map to a v1
+`new_cloud_repo.py` scaffold. Those reference-only manifests MAY use
+`runtime_tier: null`, `provider: multi`, `primary_stack: none`, or
+`primary_language: null` where appropriate.
+
+================================================================================
+PART 2 — FUNCTION MANIFESTS (9 files)
+================================================================================
+
+Author in `manifests/`:
+
+  func-aws-lambda-python.yaml
+  func-aws-lambda-typescript.yaml
+  func-aws-lambda-go.yaml
+  func-gcp-cloudfn-python.yaml
+  func-gcp-cloudfn-typescript.yaml
+  func-gcp-cloudfn-go.yaml
+  func-azure-fn-python.yaml
+  func-azure-fn-typescript.yaml
+  func-azure-fn-dotnet-isolated.yaml
+
+Each manifest:
+  - archetype: cloud-function-repo (or multi-function-platform when the
+    manifest includes multiple functions; for v1 keep them single-function
+    archetype)
+  - primary_stack: matches the function stack from PROMPT_09
+  - secondary_stacks: secrets + storage + identity + observability for the
+    provider, plus the chosen IaC stack
+  - cloud_integration_test_strategy: `localstack` for AWS Python/TS/Go;
+    `emulator` for GCP; `azurite` for Azure
+  - iac_tool: language-affinity Pulumi for Python/TS/Go and Azure .NET
+  - scenario_patterns: include one or more matching `function.*` pattern
+    IDs from `context/scenarios/scenario-profile-map.yaml`
+  - cost_band_per_test_run: e.g. "$0–$5/run; LocalStack covers most"
+
+================================================================================
+PART 3 — CONTAINER MANIFESTS (9 files)
+================================================================================
+
+Author:
+
+  container-cloudrun-fastapi.yaml
+  container-cloudrun-hono.yaml
+  container-cloudrun-go-echo.yaml
+  container-apprunner-fastapi.yaml
+  container-apprunner-hono.yaml
+  container-apprunner-go-echo.yaml
+  container-aca-fastapi.yaml
+  container-aca-dotnet.yaml
+  container-aca-jobs.yaml            (Jobs flavor; archetype:
+                                      managed-container-multi-service)
+
+cloud_integration_test_strategy: `ephemeral_real` for Cloud Run / App
+Runner / ACA (none of them have a credible local emulator). Cost band:
+"$1–$15/run depending on dwell time".
+Each manifest includes at least one `container.*` scenario pattern.
+
+================================================================================
+PART 4 — KUBERNETES MANIFESTS (6 files)
+================================================================================
+
+Author:
+
+  k8s-eks-multi-role-python.yaml
+  k8s-eks-multi-role-go.yaml
+  k8s-gke-multi-role-python.yaml
+  k8s-gke-multi-role-go.yaml
+  k8s-aks-multi-role-dotnet.yaml
+  k8s-aks-multi-role-typescript.yaml
+
+archetype: k8s-platform-repo. primary_stack: the cluster base.
+secondary_stacks: all five role packs (k8s-api-workload, k8s-worker-workload,
+k8s-job-workload, k8s-cronjob-workload, k8s-control-plane-workload), helm
+or kustomize conventions, KEDA autoscaling, OTel collector, identity
+binding, secrets binding, eventing for the provider.
+
+cloud_integration_test_strategy: `ephemeral_real` (kind for fast-tier;
+real EKS/GKE/AKS in test workspace for full-tier). Cost band:
+"$5–$50/run depending on cluster lifetime".
+Each manifest includes at least one `k8s.*` scenario pattern.
+
+================================================================================
+PART 5 — IaC-ONLY MANIFESTS (7 files)
+================================================================================
+
+Author:
+
+  iac-terraform-aws.yaml
+  iac-terraform-gcp.yaml
+  iac-terraform-azure.yaml
+  iac-pulumi-typescript.yaml
+  iac-pulumi-python.yaml
+  iac-pulumi-go.yaml
+  iac-pulumi-dotnet.yaml
+
+archetype: cloud-iac-only-repo. `generated_repo_target: false`.
+primary_stack: the matching IaC stack. provider: the matching provider.
+primary_language: `hcl` for Terraform manifests; Pulumi language for Pulumi
+manifests. runtime_tier: `null`. cloud_integration_test_strategy:
+`ephemeral_real` (apply + destroy). Cost band: "$0–$5/run".
+Set `scenario_patterns: []` because these manifests describe IaC catalogs,
+not application workload scenarios. These are reference-only v1 manifests:
+they feed validation, routing, and canonical IaC references, but
+`new_cloud_repo.py` does NOT scaffold them as standalone repos in this arc.
+
+================================================================================
+PART 6 — MULTI-PROVIDER EXPERIMENT MANIFEST (1 file)
+================================================================================
+
+Author:
+
+  multi-provider-event-pipeline.yaml
+
+archetype: cloud-multi-provider-experiment. `generated_repo_target: false`.
+provider: `multi`. runtime_tier: `null`. primary_language: `null`.
+primary_stack: none (this is genuinely cross-provider). secondary_stacks: representative function +
+eventing + storage stacks per provider (AWS + GCP + Azure trio).
+required_context: includes `context/doctrine/managed-service-selection.md`,
+`context/skills/managed-service-substitution.md`. Warnings: this is the
+ONLY cataloged comparative multi-provider manifest; everything else stays
+single-provider for generated repos.
+Use `scenario_patterns` that reference comparative event-pipeline function
+patterns from `scenario-profile-map.yaml`. This manifest is reference-only
+for v1 and exists to guide comparison work, not to drive
+`new_cloud_repo.py`.
+
+================================================================================
+PART 7 — MANIFEST INTEGRITY
+================================================================================
+
+After authoring, confirm:
+
+  - Every manifest name in `manifests/` appears as a key in
+    `context/accb/profile-rules.json` `manifest_capabilities`.
+  - Every `scenario_patterns` entry resolves to a key in
+    `context/scenarios/scenario-profile-map.yaml`.
+  - Every `primary_stack` value resolves to a file in `context/stacks/`.
+  - Every `archetype` value resolves to a file in `context/archetypes/`.
+  - Every `task_hints` entry resolves to a workflow in `context/workflows/`.
+  - Every `iac_layout.dev_path` and `iac_layout.test_path` is distinct.
+  - Every `env_isolation.env_var_prefix_dev` differs from `*_test`.
+  - Every `env_isolation.secret_path_dev` differs from `*_test`.
+
+================================================================================
+VERIFICATION
+================================================================================
+
+  1. `ls manifests/*.yaml | wc -l` shows 32 (9 + 9 + 6 + 7 + 1).
+  2. `python3 -c "import yaml,glob; [yaml.safe_load(open(p)) for p in glob.glob('manifests/*.yaml')]"`
+     succeeds.
+  3. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' manifests/`
+     returns nothing.
+  4. A small Python script (you may put it inline in `tmp/check_manifests.py`)
+     confirms every Part 7 integrity condition.
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run.
+
+  - [ ] All 32 manifest files exist with valid YAML and the schema from
+        Part 1.
+  - [ ] `.gitkeep` removed from `manifests/`.
+  - [ ] No `acb` / `.acb/` references.
+  - [ ] Every Part 7 integrity check passes.
+  - [ ] `tmp/PROMPT_14_checklist.md` is fully checked.
+  - [ ] `memory/concepts/manifest-system.md` exists with one paragraph
+        listing the 32 manifests and noting that PROMPT_15 authors
+        templates.
+  - [ ] `memory/INDEX.md` lists `manifest-system.md`.
+
+End of PROMPT_14.

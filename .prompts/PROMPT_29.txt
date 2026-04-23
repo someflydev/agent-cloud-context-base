@@ -1,0 +1,116 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is PROMPT_29 of 33. PROMPT_22 authored the Container Apps seed set.
+This prompt completes the first-class Azure Container Apps canonical surface
+under `examples/canonical-container-apps/` by adding the remaining required
+examples that were deferred from the seed pass.
+
+Use **`accb`** / **`.accb/`** in everything; never `acb` / `.acb/`.
+
+   [CLOUD ARC: Prompt 29 of 33 — Canonical Container Apps Expansion]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+One prompt per session. Maintain `tmp/PROMPT_29_checklist.md`.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+Reuse PROMPT_22 exactly. The container layout, Lane A local-container
+contract, Lane B ephemeral-real contract, and registry/catalog shape already
+exist.
+
+Sequence:
+  PROMPT_01–28  Through Cloud Run + App Runner expansion                 (done)
+  PROMPT_29     Canonical Container Apps expansion                       (this prompt)
+  PROMPT_30     Canonical EKS + GKE + AKS expansion
+  PROMPT_31     Canonical Pulumi starter expansion
+  PROMPT_32     Integration testing harness + arc docs
+  PROMPT_33     Final wiring
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read:
+
+  1. `README.md`, `AGENT.md`
+  2. `python3 scripts/work.py resume`
+  3. `.prompts/PROMPT_22.txt` (FULL READ — layout + lane contract)
+  4. `examples/canonical-container-apps/` (all seed examples)
+  5. `verification/example_registry.yaml`
+  6. `examples/catalog.json`
+  7. `verification/stack_support_matrix.yaml`
+  8. `context/stacks/aca-*.md`
+  9. `templates/container/aca/`, `templates/iac/{terraform,pulumi/*}/azure/`
+
+================================================================================
+PART 1 — REUSE PROMPT_22 VERBATIM
+================================================================================
+
+Reuse PROMPT_22's layout, lane, registry, and catalog contract exactly.
+
+================================================================================
+PART 2 — REQUIRED CONTAINER APPS EXPANSION EXAMPLES (2 examples)
+================================================================================
+
+Author the remaining required examples:
+
+  2.1  public-api-private-worker-jobs/dotnet-aspnet/
+  2.2  public-api-private-worker-jobs/typescript-hono/
+
+Keep the workflows and intent exactly as described in PROMPT_22's original
+Part 2 descriptions. This prompt only restores the deferred required surface.
+
+================================================================================
+PART 3 — REGISTRY + CATALOG + SUPPORT MATRIX
+================================================================================
+
+Append the 2 new entries to `verification/example_registry.yaml` and
+`examples/catalog.json` using the PROMPT_22 / PROMPT_21 entry shapes.
+
+Update `verification/stack_support_matrix.yaml` so Container Apps ×
+{dotnet-aspnet, typescript-hono, python-fastapi, dapr} is SUPPORTED with the
+full example set.
+
+================================================================================
+VERIFICATION (this prompt)
+================================================================================
+
+  1. `find examples/canonical-container-apps -mindepth 2 -maxdepth 2 -type d | wc -l`
+     shows 4.
+  2. Every Container Apps example has the PROMPT_21 Part 1 layout with the
+     PROMPT_22 provider substitutions.
+  3. Every new example's Dockerfile builds locally.
+  4. `python3 scripts/validate_iac_isolation.py` is clean for every new
+     example's Terraform and Pulumi tree.
+  5. `python3 scripts/verify_examples.py --family canonical-container-apps`
+     runs without crashing.
+  6. Catalog + registry + support matrix reflect the full Container Apps surface.
+  7. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' examples/canonical-container-apps/`
+     returns nothing.
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run.
+
+  - [ ] All 4 Container Apps examples now exist with the established layout.
+  - [ ] The 2 deferred required examples from PROMPT_22 are now authored.
+  - [ ] Terraform + Pulumi-language IaC for every Container Apps example is
+        `validate_iac_isolation` clean.
+  - [ ] Catalog + registry + support matrix reflect the full Container Apps surface.
+  - [ ] The Dapr example remains explicitly documented as a tradeoff pattern.
+  - [ ] No `acb` / `.acb/` references.
+  - [ ] `tmp/PROMPT_29_checklist.md` is fully checked.
+  - [ ] `memory/concepts/container-apps-canonical-arc.md` is updated to note
+        the full 4-example surface and that PROMPT_30 completes the k8s arc.
+  - [ ] `memory/INDEX.md` lists the updated concept.
+
+End of PROMPT_29.

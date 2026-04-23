@@ -1,0 +1,248 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is PROMPT_09 of 33. PROMPT_01–08 built the skeleton, doctrine, anchors,
+specs, validation, profile-rules, work.py, memory layer, routers, archetypes,
+and skills. This prompt authors the FUNCTION-tier stack files in
+`context/stacks/` covering AWS Lambda, GCP Cloud Functions (Gen2), and Azure
+Functions across the primary language/runtime surface for this arc.
+
+Use **`accb`** / **`.accb/`** in everything; never `acb` / `.acb/`.
+
+                  [CLOUD ARC: Prompt 9 of 33 — Stacks: Cloud Functions]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+One prompt per session. Maintain `tmp/PROMPT_09_checklist.md`.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+`accb` is a context-first foundation for cloud-native backend repos:
+functions (Lambda, Cloud Functions, Azure Functions), managed containers
+(Cloud Run, App Runner, Container Apps), kubernetes (EKS, GKE, AKS).
+Modeled on `agent-context-base` (`acb`) but never copies its text.
+
+Sequence:
+  PROMPT_01–08  All foundations done                                    (done)
+  PROMPT_09     Stacks: cloud functions                                 (this prompt)
+  PROMPT_10     Stacks: managed containers
+  PROMPT_11     Stacks: kubernetes
+  PROMPT_12     Stacks: IaC + cross-cutting
+  PROMPT_13     Workflows
+  PROMPT_14     Manifests
+  PROMPT_15     Templates
+  PROMPT_16–17  Generation pipeline + validation scripts
+  PROMPT_18–31  Canonical examples + expansion prompts
+  PROMPT_32     Integration testing harness
+  PROMPT_33     Final wiring
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read:
+
+  1. `README.md`, `AGENT.md`
+  2. `python3 scripts/work.py resume`
+  3. `memory/INDEX.md` and concepts
+  4. `context/router/stack-router.md` (function stack mappings)
+  5. `context/doctrine/trigger-boundary-discipline.md`
+  6. `context/doctrine/cold-start-and-runtime-selection.md`
+  7. `context/doctrine/serverless-state-discipline.md`
+  8. `context/doctrine/idempotency-and-replay.md`
+  9. `context/accb/profile-rules.json` (manifest_capabilities,
+     stack_validation_gates, capability_validation_gates)
+
+If a sibling `agent-context-base/` exists, you MAY glance at (SHAPE only):
+  agent-context-base/context/stacks/python-fastapi-uv-ruff-orjson-polars.md
+  agent-context-base/context/stacks/typescript-hono-bun.md
+
+Use these for VOICE/format only. Function stack content is entirely new.
+
+================================================================================
+PART 1 — STACK FILE FORMAT
+================================================================================
+
+Each stack file in `context/stacks/*.md` follows this shape:
+
+  # <Stack Title>
+
+  <One-paragraph statement of when to load this stack and what it owns.>
+
+  ## Runtime Surface
+
+  - runtime version pin (e.g. python 3.12 / node 20 / go 1.22 / dotnet 8)
+  - packaging format (zip, image, source upload, layers)
+  - cold-start budget reference (link to doctrine)
+  - max execution time + memory
+  - supported triggers (provider-native list)
+
+  ## Project Layout
+
+  ```
+  <recommended file/dir layout for this stack>
+  ```
+
+  ## Handler Skeleton
+
+  ```<lang>
+  <minimal handler signature and imports>
+  ```
+
+  ## Local Invocation
+
+  ```bash
+  <command(s) to invoke locally>
+  ```
+
+  ## Idempotency Pattern
+
+  - dedupe key derivation (event-shape-specific)
+  - dedupe store binding (DynamoDB / Firestore / Cosmos)
+  - replay test command
+
+  ## Identity Binding
+
+  - role/SA/MI shape
+  - least-privilege scope rules
+
+  ## Secrets
+
+  - provider secret store + binding pattern (env / SDK / volume)
+  - rotation cadence default
+
+  ## Observability
+
+  - structured log shape (JSON fields)
+  - trace context propagation source field
+  - metrics emission pattern
+
+  ## Validation Gates (cross-reference)
+
+  - <gate-id> from `profile-rules.json`
+
+  ## Anti-Patterns
+
+  - <bullet>
+
+Each stack file 60–150 lines. No frontmatter.
+
+Language policy for this arc:
+  - python, typescript, and go are the default cross-cloud function languages
+  - dotnet is Azure-specific in workload examples and stack coverage
+  - java is not part of the primary scaffold surface
+  - ruby and php are excluded from this promptset
+
+================================================================================
+PART 2 — AWS LAMBDA STACKS (3 files)
+================================================================================
+
+Author the following in `context/stacks/`:
+
+  2.1  `aws-lambda-python.md`         — Python 3.12 default; uv or pip; AWS
+                                        Lambda Powertools optional; layers
+                                        for shared deps
+  2.2  `aws-lambda-typescript-node.md` — Node 20; esbuild bundle; AWS SDK v3;
+                                        @aws-lambda-powertools optional
+  2.3  `aws-lambda-go.md`              — Go 1.22; lambda runtime via aws-
+                                        lambda-go; zip provided.al2023
+
+Each file follows the format in Part 1. Trigger lists must include S3,
+DynamoDB Streams, SQS, SNS, EventBridge (rule + scheduler), API Gateway
+(REST + HTTP), API Gateway WebSocket, Cognito triggers, Kinesis, IoT,
+CloudWatch Logs subscriptions, CodePipeline events.
+
+================================================================================
+PART 3 — GCP CLOUD FUNCTIONS (Gen2) STACKS (3 files)
+================================================================================
+
+Author:
+
+  3.1  `gcp-cloudfn-python.md`         — Python 3.12; functions-framework;
+                                        Cloud Run-backed Gen2
+  3.2  `gcp-cloudfn-typescript-node.md` — Node 20; @google-cloud/functions-
+                                        framework; tsup or esbuild
+  3.3  `gcp-cloudfn-go.md`             — Go 1.22; functions-framework-go
+
+Trigger lists: HTTP, Cloud Storage (GCS), Pub/Sub, Eventarc (Cloud Audit
+Logs and other CloudEvent sources), Firestore Native triggers, Firebase
+Auth, Firebase Realtime DB, Cloud Scheduler (HTTP), Workflows callbacks.
+
+================================================================================
+PART 4 — AZURE FUNCTIONS STACKS (3 files)
+================================================================================
+
+Author:
+
+  4.1  `azure-fn-python.md`            — Python v2 model (decorators);
+                                        Functions Core Tools v4
+  4.2  `azure-fn-typescript-node.md`   — Node 20; @azure/functions v4 model
+  4.3  `azure-fn-dotnet-isolated.md`   — .NET 8 isolated process model
+                                        (the supported model going forward)
+
+Trigger lists: HTTP, Blob Storage, Queue Storage, Service Bus (queue +
+topic), Event Grid, Event Hubs, Cosmos DB Change Feed, Timer (NCRONTAB),
+Cognito-equivalent (Entra External ID validation), SignalR.
+
+================================================================================
+PART 5 — STACK CROSS-REFERENCES
+================================================================================
+
+For each stack file, ensure:
+
+  - the "Validation Gates" section references the matching gate IDs from
+    `context/accb/profile-rules.json`:
+      `lambda-handler-contract`, `cloudfn-trigger-contract`,
+      `azure-fn-trigger-contract`, `function-idempotency-proof`
+  - the "Identity Binding" section references the relevant identity stack
+    that PROMPT_12 will author:
+      `context/stacks/identity-aws-iam.md`,
+      `context/stacks/identity-gcp-iam-sa.md`,
+      `context/stacks/identity-azure-entra-mi.md`
+  - the "Secrets" section references the relevant secrets stack that
+    PROMPT_12 will author:
+      `context/stacks/secrets-aws-secrets-manager.md`,
+      `context/stacks/secrets-gcp-secret-manager.md`,
+      `context/stacks/secrets-azure-key-vault.md`
+  - the "Observability" section references
+    `context/stacks/observability-otel-cloud.md` (PROMPT_12)
+
+These references are forward-looking; they will resolve once PROMPT_12 lands.
+
+================================================================================
+VERIFICATION
+================================================================================
+
+  1. `ls context/stacks/ | wc -l` shows 9 (3 AWS + 3 GCP + 3 Azure).
+  2. `wc -l context/stacks/aws-lambda-*.md context/stacks/gcp-cloudfn-*.md context/stacks/azure-fn-*.md`
+     — every file 60–150 lines.
+  3. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' context/stacks/`
+     returns nothing.
+  4. Every stack name listed in `context/router/stack-router.md` Function
+     Stacks section matches a file you authored here.
+  5. `grep -E 'identity-(aws|gcp|azure)-' context/stacks/aws-lambda-python.md context/stacks/gcp-cloudfn-python.md context/stacks/azure-fn-python.md`
+     finds the forward references.
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run.
+
+  - [ ] All 9 function stack files exist.
+  - [ ] Each file follows the Part 1 format.
+  - [ ] No `acb` / `.acb/` references.
+  - [ ] Stack names match `stack-router.md`.
+  - [ ] Forward references to identity/secrets/observability stacks present.
+  - [ ] `tmp/PROMPT_09_checklist.md` is fully checked.
+  - [ ] `memory/concepts/function-stack-surface.md` exists with one
+        paragraph naming the 9 function stacks and noting that PROMPT_10
+        adds managed-container stacks.
+  - [ ] `memory/INDEX.md` lists `function-stack-surface.md`.
+
+End of PROMPT_09.

@@ -1,0 +1,127 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is PROMPT_30 of 33. PROMPT_23 authored the k8s seed set. This prompt
+completes the first-class EKS, GKE, and AKS multi-role platform surface by
+adding the remaining required examples that were deferred from the seed pass.
+
+Use **`accb`** / **`.accb/`** in everything; never `acb` / `.acb/`.
+
+ [CLOUD ARC: Prompt 30 of 33 — Canonical EKS + GKE + AKS Expansion]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+One prompt per session. Maintain `tmp/PROMPT_30_checklist.md`.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+Reuse PROMPT_23 exactly. The multi-role platform layout, Helm + Kustomize
+parallel contract, kind lane, ephemeral-real lane, replay contract, and
+registry/catalog shape already exist.
+
+Sequence:
+  PROMPT_01–29  Through Container Apps expansion                         (done)
+  PROMPT_30     Canonical EKS + GKE + AKS expansion                      (this prompt)
+  PROMPT_31     Canonical Pulumi starter expansion
+  PROMPT_32     Integration testing harness + arc docs
+  PROMPT_33     Final wiring
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read:
+
+  1. `README.md`, `AGENT.md`
+  2. `python3 scripts/work.py resume`
+  3. `.prompts/PROMPT_23.txt` (FULL READ — layout + lane + replay contract)
+  4. `examples/canonical-eks/`, `examples/canonical-gke/`,
+     `examples/canonical-aks/` (all seed platforms)
+  5. `verification/example_registry.yaml`
+  6. `examples/catalog.json`
+  7. `verification/stack_support_matrix.yaml`
+  8. `context/stacks/{eks,gke,aks}-base.md`
+  9. `templates/k8s/{eks,gke,aks}/`,
+     `templates/iac/{terraform,pulumi/*}/{aws,gcp,azure}/`
+
+================================================================================
+PART 1 — REUSE PROMPT_23 VERBATIM
+================================================================================
+
+Reuse PROMPT_23's layout, test-lane, replay, and registry/catalog contract
+exactly.
+
+================================================================================
+PART 2 — REQUIRED K8S EXPANSION EXAMPLES (3 examples)
+================================================================================
+
+Author the remaining required examples:
+
+  2.1  examples/canonical-eks/multi-role-platform/go/
+  2.2  examples/canonical-gke/multi-role-platform/go/
+       Include the `keda-autoscaled-workers/` sub-example promised in
+       PROMPT_23's original Part 3 description.
+  2.3  examples/canonical-aks/multi-role-platform/typescript/
+
+Keep the workflows and intent exactly as described in PROMPT_23's original
+Parts 2–4. This prompt only restores the deferred required surface.
+
+================================================================================
+PART 3 — REGISTRY + CATALOG + SUPPORT MATRIX
+================================================================================
+
+Append the 3 new entries to `verification/example_registry.yaml` and
+`examples/catalog.json` using the PROMPT_23 shapes.
+
+Update `verification/stack_support_matrix.yaml` so the full promised k8s
+surface is now real:
+
+  - EKS × {python, go} is SUPPORTED
+  - GKE × {python, go} is SUPPORTED
+  - AKS × {dotnet, typescript} is SUPPORTED
+
+================================================================================
+VERIFICATION (this prompt)
+================================================================================
+
+  1. `find examples/canonical-eks examples/canonical-gke examples/canonical-aks -mindepth 3 -maxdepth 3 -type d | wc -l`
+     shows 6 example directories.
+  2. Every platform has the PROMPT_23 Part 1 layout with parallel Kustomize
+     and Helm manifests.
+  3. Every new platform's containers all build locally.
+  4. `python3 scripts/validate_iac_isolation.py` is clean for every new
+     example's Terraform and Pulumi tree.
+  5. `python3 scripts/verify_examples.py --family canonical-eks`,
+     `--family canonical-gke`, and `--family canonical-aks` run without
+     crashing.
+  6. Catalog + registry + support matrix reflect the full k8s surface.
+  7. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' examples/canonical-eks/ examples/canonical-gke/ examples/canonical-aks/`
+     returns nothing.
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run.
+
+  - [ ] All 6 k8s multi-role platforms now exist with the PROMPT_23 layout.
+  - [ ] The 3 deferred required examples from PROMPT_23 are now authored.
+  - [ ] Every platform has parallel Kustomize + Helm manifests.
+  - [ ] Worker idempotency + cron concurrency coverage exists across the
+        full k8s surface.
+  - [ ] Terraform + Pulumi-language IaC for every platform is
+        `validate_iac_isolation` clean.
+  - [ ] Catalog + registry + support matrix reflect the full k8s surface.
+  - [ ] No `acb` / `.acb/` references.
+  - [ ] `tmp/PROMPT_30_checklist.md` is fully checked.
+  - [ ] `memory/concepts/k8s-canonical-arc-complete.md` is updated to note
+        the full 6-platform surface and that PROMPT_31 completes the Pulumi
+        starter cross-product before parity wiring.
+  - [ ] `memory/INDEX.md` lists the updated concept.
+
+End of PROMPT_30.

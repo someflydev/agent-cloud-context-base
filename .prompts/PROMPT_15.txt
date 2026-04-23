@@ -1,0 +1,367 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is PROMPT_15 of 33. PROMPT_01–14 built foundations through manifests.
+This prompt authors all template scaffolds in `templates/`.
+
+Use **`accb`** / **`.accb/`** in everything; never `acb` / `.acb/`.
+
+                     [CLOUD ARC: Prompt 15 of 33 — Templates]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+One prompt per session. Maintain `tmp/PROMPT_15_checklist.md`.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+`accb` is a context-first foundation for cloud-native backend repos:
+functions, managed containers, kubernetes platforms across AWS / GCP /
+Azure with Terraform and Pulumi IaC. Modeled on `agent-context-base`
+(`acb`) but never copies its text.
+
+Sequence:
+  PROMPT_01–14  Through manifests                                       (done)
+  PROMPT_15     Templates                                               (this prompt)
+  PROMPT_16     Generation pipeline (new_cloud_repo.py + accb_payload.py
+                + accb_inspect.py + accb_verify.py)
+  PROMPT_17     Validation scripts
+  PROMPT_18–31  Canonical examples + expansion prompts
+  PROMPT_32     Integration testing harness
+  PROMPT_33     Final wiring
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read:
+
+  1. `README.md`, `AGENT.md`
+  2. `python3 scripts/work.py resume`
+  3. `memory/INDEX.md` and concepts
+  4. `templates/README.md` (PROMPT_01 stub — replace it)
+  5. `context/doctrine/iac-dev-test-isolation.md`
+  6. `context/doctrine/container-image-discipline.md`
+  7. `context/doctrine/k8s-workload-role-separation.md`
+  8. `context/doctrine/documentation-timing-discipline.md`
+  9. `context/stacks/iac-terraform-conventions.md`
+ 10. `context/stacks/iac-pulumi-python.md`
+ 11. one container stack of each cloud (e.g. cloudrun-python-fastapi.md,
+     apprunner-python-fastapi.md, aca-dotnet-aspnet.md)
+ 12. one cluster base (e.g. eks-base.md)
+
+Templates are STARTER SCAFFOLDS, not canonical examples. They are short,
+safe defaults a derived repo can fill in. Doctrine and canonical examples
+control the recommended pattern.
+
+================================================================================
+PART 1 — TEMPLATE GROUPS
+================================================================================
+
+Replace the PROMPT_01 stub `templates/README.md` with:
+
+  # Templates
+
+  Templates are starter scaffolds for derived cloud repos. Use them when
+  `scripts/new_cloud_repo.py` (PROMPT_16) or a focused manual change needs a
+  short, adaptable starting point.
+
+  - templates are not canonical examples (those live in `examples/`)
+  - templates stay short and adaptable
+  - doctrine and canonical examples still control the recommended pattern
+  - front-facing templates such as `readme/README.template.md` follow the
+    documentation-timing-discipline doctrine — substantive prose only after
+    the derived repo has earned it
+
+  ## Groups
+
+  - `agent-md/`, `claude-md/` — assistant entrypoints
+  - `readme/` — minimal-front-door bootstrap doc
+  - `gitignore/` — stack-aware ignore rules
+  - `iac/terraform/<aws|gcp|azure>/` — provider-specific Terraform with
+    dev+test pair
+  - `iac/pulumi/<typescript|python|go>/<aws|gcp|azure>/` plus
+    `iac/pulumi/dotnet/azure/` — Pulumi starters aligned with the
+    language policy for this arc
+  - `function/aws-lambda/<python|typescript|go>/`,
+    `function/gcp-cloudfn/<python|typescript|go>/`,
+    `function/azure-fn/<python|typescript|dotnet-isolated>/` —
+    handler skeletons + minimal IaC reference
+  - `container/<cloudrun|apprunner>/<python-fastapi|typescript-hono|go-echo>/`
+    plus `container/aca/<python-fastapi|typescript-hono|go-echo|dotnet-aspnet>/` —
+    Dockerfile + minimal service skeleton
+  - `k8s/<eks|gke|aks>/{base,overlays/dev,overlays/test}/` — Kustomize
+    starter
+  - `k8s/helm-chart/` — Helm chart scaffold with values.dev / values.test
+  - `smoke-tests/`, `integration-tests/` — starter test scripts per stack
+    family
+  - `observability/` — OTel collector config + structured-log fixtures
+  - `manifest/` — `profile-summary.template.yaml` for derived repos
+  - `prompt-first/` — `PROMPT_01.template.txt`, `PROMPT_02.template.txt`,
+    plus `PROMPT_03.template.txt`
+    The third template is the graft template used by `work.py graft`.
+
+================================================================================
+PART 2 — BOOT-DOC TEMPLATES (3 files)
+================================================================================
+
+  2.1  `templates/agent-md/AGENT.template.md`
+       — Mirror of the base `AGENT.md` but with `{{repo_name}}`,
+         `{{archetype}}`, `{{provider}}`, `{{runtime_tier}}`,
+         `{{primary_language}}`, `{{iac_tool}}` placeholders. Includes
+         the First Reads, Operating Rules, New Repo Routing, Verification
+         sections adapted to `.accb/` references in the derived repo.
+
+  2.2  `templates/claude-md/CLAUDE.template.md`
+       — Near-identical to AGENT.template.md with the Claude Code-specific
+         Notes appended.
+
+  2.3  `templates/readme/README.template.md`
+       — Minimal scaffold: `# {{repo_name}}` + one-paragraph status (per
+         documentation-timing) + a "Boot" line pointing to AGENT.md and
+         `python3 scripts/work.py resume`. Explicitly comments inside the
+         file: "Expand this README only after the repo has earned its
+         shape."
+
+================================================================================
+PART 3 — GITIGNORE TEMPLATES (7 files)
+================================================================================
+
+  3.1  `templates/gitignore/base.gitignore.template`
+       — Always-on entries (`tmp/`, `work/`, `PLAN.md`, `context/TASK.md`,
+         `context/SESSION.md`, `context/MEMORY.md`, `memory/sessions/`,
+         `memory/summaries/`, OS/editor cruft).
+
+  3.2  `templates/gitignore/python.gitignore.template`
+  3.3  `templates/gitignore/node.gitignore.template`
+  3.4  `templates/gitignore/go.gitignore.template`
+  3.5  `templates/gitignore/dotnet.gitignore.template`
+  3.6  `templates/gitignore/terraform.gitignore.template`
+  3.7  `templates/gitignore/pulumi.gitignore.template`
+
+  Each language template contains only language-specific entries. The
+  Terraform and Pulumi templates contain only IaC-tool-specific entries.
+  The `new_cloud_repo.py` generator concatenates `base + chosen languages +
+  chosen iac tool templates` into the derived repo's `.gitignore`.
+
+================================================================================
+PART 4 — IaC TEMPLATES
+================================================================================
+
+4.1  Terraform per provider (`templates/iac/terraform/{aws,gcp,azure}/`)
+
+  Each directory contains:
+    `dev/main.tf.template`
+    `dev/variables.tf.template`
+    `dev/outputs.tf.template`
+    `dev/backend.tf.template`        (per-env state backend)
+    `dev/dev.tfvars.template`
+    `test/main.tf.template`
+    `test/variables.tf.template`
+    `test/outputs.tf.template`
+    `test/backend.tf.template`
+    `test/test.tfvars.template`
+    `providers.tf.template`           (provider versions, default tags/labels)
+    `README.template.md`              (how to init/plan/apply each env)
+
+  Resource names use `<repo>-<env>-<role>` shape. Backend keys are
+  disjoint per env (e.g. `state/dev/<repo>.tfstate` vs
+  `state/test/<repo>.tfstate`).
+
+4.2  Pulumi per language per provider (`templates/iac/pulumi/{typescript,
+     python,go}/{aws,gcp,azure}/` plus `templates/iac/pulumi/dotnet/azure/`)
+
+  Each directory contains:
+    `Pulumi.yaml.template`
+    `Pulumi.dev.yaml.template`
+    `Pulumi.test.yaml.template`
+    Language-specific entrypoint:
+      typescript: `index.ts.template`, `package.json.template`,
+                  `tsconfig.json.template`
+      python:     `__main__.py.template`, `requirements.txt.template`
+      go:         `main.go.template`, `go.mod.template`
+      dotnet:     `Program.cs.template`, `*.csproj.template`
+    `README.template.md`
+
+  Stack secrets are referenced via `pulumi config get --secret`, never
+  inlined. Resource names include the stack name as suffix.
+
+================================================================================
+PART 5 — FUNCTION TEMPLATES (9 directories)
+================================================================================
+
+`templates/function/<provider>/<language>/`:
+
+  aws-lambda/python/handler.py.template
+  aws-lambda/typescript/handler.ts.template + package.json.template
+  aws-lambda/go/handler.go.template + go.mod.template
+  gcp-cloudfn/python/main.py.template + requirements.txt.template
+  gcp-cloudfn/typescript/index.ts.template + package.json.template
+  gcp-cloudfn/go/function.go.template + go.mod.template
+  azure-fn/python/function_app.py.template + requirements.txt.template
+                                            + host.json.template
+  azure-fn/typescript/src/functions/handler.ts.template + package.json.template
+                                                       + host.json.template
+  azure-fn/dotnet-isolated/Function.cs.template + Program.cs.template
+                                                + *.csproj.template
+                                                + host.json.template
+
+Each handler is a minimal viable trigger handler with:
+  - structured log line on entry
+  - dedupe-key extraction stub
+  - one persistence call stub (commented)
+  - return shape per provider
+
+================================================================================
+PART 6 — CONTAINER TEMPLATES (per managed-container target × language)
+================================================================================
+
+`templates/container/<target>/<language>/`:
+
+  cloudrun/python-fastapi/Dockerfile.template + app/main.py.template
+  cloudrun/typescript-hono/Dockerfile.template + src/index.ts.template
+  cloudrun/go-echo/Dockerfile.template + cmd/server/main.go.template
+  apprunner/python-fastapi/Dockerfile.template + app/main.py.template
+  apprunner/typescript-hono/Dockerfile.template + src/index.ts.template
+  apprunner/go-echo/Dockerfile.template + cmd/server/main.go.template
+  aca/python-fastapi/Dockerfile.template + app/main.py.template
+  aca/typescript-hono/Dockerfile.template + src/index.ts.template
+  aca/go-echo/Dockerfile.template + cmd/server/main.go.template
+  aca/dotnet-aspnet/Dockerfile.template + Program.cs.template
+
+Every Dockerfile: digest-pinned base, multi-stage, non-root user, expose
+the port the corresponding manifest declares, healthcheck instruction.
+
+================================================================================
+PART 7 — KUBERNETES TEMPLATES
+================================================================================
+
+  7.1  `templates/k8s/<eks|gke|aks>/base/` containing:
+         `kustomization.yaml.template`
+         `namespace.yaml.template`
+         `deployment-api.yaml.template`
+         `deployment-worker.yaml.template`
+         `job.yaml.template`
+         `cronjob.yaml.template`
+         `service-api.yaml.template`
+         `serviceaccount.yaml.template`     (with provider identity binding
+                                            annotations)
+         `hpa-api.yaml.template`
+         `pdb-api.yaml.template`
+         `networkpolicy-default-deny.yaml.template`
+         `README.template.md`
+
+  7.2  `templates/k8s/<eks|gke|aks>/overlays/dev/kustomization.yaml.template`
+  7.3  `templates/k8s/<eks|gke|aks>/overlays/test/kustomization.yaml.template`
+
+       Each overlay sets `namePrefix`, `namespace`, image tag, env vars,
+       and replicas appropriate to env.
+
+  7.4  `templates/k8s/helm-chart/` with `Chart.yaml.template`,
+       `values.dev.yaml.template`, `values.test.yaml.template`,
+       `templates/_helpers.tpl.template`, and per-role templates
+       mirroring 7.1.
+
+================================================================================
+PART 8 — TEST + OBSERVABILITY + MANIFEST + PROMPT TEMPLATES
+================================================================================
+
+  8.1  `templates/smoke-tests/`
+         function-smoke.py.template          (handler invocation; mock SDK)
+         function-smoke.ts.template
+         function-smoke.go.template
+         container-health-smoke.sh.template
+         k8s-pod-readiness-smoke.sh.template
+
+  8.2  `templates/integration-tests/`
+         localstack-compose.yaml.template
+         gcp-emulators-compose.yaml.template
+         azurite-compose.yaml.template
+         pulumi-up-down.py.template          (uses Pulumi Automation API)
+         terraform-apply-destroy.sh.template
+
+  8.3  `templates/observability/`
+         otel-collector-cloudrun.yaml.template
+         otel-collector-eks-daemonset.yaml.template
+         otel-lambda-extension.json.template
+         structured-log-shape.md.template
+
+  8.4  `templates/manifest/profile-summary.template.yaml`
+         A derived-repo summary of the chosen profile (archetype +
+         primary_stack + secondary_stacks + iac_tool + env_isolation +
+         cost_band_per_test_run). `accb_payload.py` (PROMPT_16) writes a
+         filled version into `.accb/profile/selection.json` and a
+         human-readable echo into the derived repo root.
+
+  8.5  `templates/prompt-first/`
+         PROMPT_01.template.txt
+         PROMPT_02.template.txt
+         PROMPT_03.template.txt
+         `PROMPT_01.template.txt` bootstraps a cloud repo.
+         `PROMPT_02.template.txt` adds the first IaC isolation pair.
+         `PROMPT_03.template.txt` is the template `work.py graft`
+         installs into target repos; it walks an existing cloud repo and
+         produces a starter prompt sequence as the cloud-flavored variant
+         of the `acb` graft template.
+
+================================================================================
+PART 9 — TEMPLATE PLACEHOLDER CONVENTION
+================================================================================
+
+Use `{{snake_case}}` placeholders. The full set used across templates:
+
+  {{repo_name}}, {{repo_slug}}, {{archetype}}, {{provider}},
+  {{runtime_tier}}, {{primary_language}}, {{iac_tool}},
+  {{env_var_prefix_dev}}, {{env_var_prefix_test}},
+  {{secret_path_dev}}, {{secret_path_test}},
+  {{state_backend_dev}}, {{state_backend_test}},
+  {{primary_region_dev}}, {{primary_region_test}},
+  {{image_registry}}, {{image_repository}}, {{image_tag}},
+  {{cluster_name_dev}}, {{cluster_name_test}}, {{namespace_dev}},
+  {{namespace_test}}
+
+`new_cloud_repo.py` (PROMPT_16) substitutes these from the chosen manifest
++ CLI flags.
+
+================================================================================
+VERIFICATION
+================================================================================
+
+  1. `find templates -type f -name '*.template*' | wc -l` shows >100
+     (the exact count depends on how you split files; aim for one
+     template per leaf concept).
+  2. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' templates/`
+     returns nothing.
+  3. Every directory listed in Part 1 exists.
+  4. Spot-check three templates for Part 9 placeholder usage.
+  5. Spot-check one `iac/terraform/<provider>/` pair: dev + test backend
+     configs are disjoint.
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run.
+
+  - [ ] All template directory groups (Part 1) exist.
+  - [ ] Boot doc templates (Part 2) exist.
+  - [ ] Gitignore templates (Part 3) exist.
+  - [ ] IaC templates (Part 4) exist with disjoint dev/test surfaces.
+  - [ ] Function templates (Part 5) exist for all listed cells.
+  - [ ] Container templates (Part 6) exist for all listed cells.
+  - [ ] K8s templates (Part 7) exist with base + overlays/dev + overlays/test.
+  - [ ] Test, observability, manifest, and prompt templates (Part 8) exist.
+  - [ ] All placeholders use the Part 9 convention.
+  - [ ] No `acb` / `.acb/` references in any template.
+  - [ ] `templates/README.md` rewritten per Part 1.
+  - [ ] `tmp/PROMPT_15_checklist.md` is fully checked.
+  - [ ] `memory/concepts/template-system.md` exists with one paragraph
+        listing the template families and noting that PROMPT_16 implements
+        the generation pipeline that consumes them.
+  - [ ] `memory/INDEX.md` lists `template-system.md`.
+
+End of PROMPT_15.

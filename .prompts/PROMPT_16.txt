@@ -1,0 +1,445 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is PROMPT_16 of 33. PROMPT_01–15 built the full context surface
+(doctrine, anchors, specs, validation, profile-rules, work.py, memory,
+routers, archetypes, skills, scenario catalog, 57 stack files, 28 workflows, 32 manifests,
+templates). This prompt implements the GENERATION PIPELINE:
+
+  - `scripts/new_cloud_repo.py` — derived-repo bootstrap entrypoint
+  - `scripts/accb_payload.py`   — composes `.accb/` payload contents
+  - `scripts/accb_inspect.py`   — pretty-prints `.accb/profile/selection.json`
+  - `scripts/accb_verify.py`    — asserts `.accb/` truth still matches
+                                  generated repo state
+
+Use **`accb`** / **`.accb/`** in everything; never `acb` / `.acb/`.
+
+                [CLOUD ARC: Prompt 16 of 33 — Generation Pipeline]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+One prompt per session. Maintain `tmp/PROMPT_16_checklist.md`.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+`accb` is a context-first foundation for cloud-native backend repos:
+functions, managed containers, kubernetes platforms across AWS / GCP /
+Azure with Terraform and Pulumi IaC. Modeled on `agent-context-base`
+(`acb`) but never copies its text. Derived repos receive a `.accb/`
+payload composed from the chosen profile (archetype + primary stack +
+manifests + support services).
+
+Sequence:
+  PROMPT_01–15  Through templates                                       (done)
+  PROMPT_16     Generation pipeline                                     (this prompt)
+  PROMPT_17     Validation scripts
+  PROMPT_18–31  Canonical examples + expansion prompts
+  PROMPT_32     Integration testing harness
+  PROMPT_33     Final wiring
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read:
+
+  1. `README.md`, `AGENT.md`
+  2. `python3 scripts/work.py resume`
+  3. `memory/INDEX.md` and concepts (especially `template-system.md`,
+     `manifest-system.md`, `spec-validation-and-accb-rules.md`)
+  4. `context/accb/profile-rules.json` (FULL READ — this is the rule
+     surface you will consume)
+  5. `context/accb/README.md`
+  6. `manifests/` — read at least 3 manifests (one function, one container,
+     one k8s) end-to-end to internalize the schema
+  7. `templates/manifest/profile-summary.template.yaml`
+  8. `context/specs/{product,architecture,agent,evolution}/base.md`
+  9. `context/validation/base.md`
+ 10. `context/doctrine/iac-dev-test-isolation.md`
+ 11. `scripts/work.py` (FULL READ — your scripts will be invoked alongside
+     it; understand the runtime continuity contract)
+
+If a sibling `agent-context-base/` exists, you MAY glance at (SHAPE only):
+  agent-context-base/scripts/new_repo.py
+  agent-context-base/scripts/acb_payload.py
+  agent-context-base/scripts/acb_inspect.py
+  agent-context-base/scripts/acb_verify.py
+  agent-context-base/scripts/manifest_tools.py
+
+================================================================================
+PART 1 — scripts/accb_payload.py
+================================================================================
+
+A library + CLI that composes the `.accb/` payload contents for a derived
+repo. Stdlib only (Python 3.10+); pyyaml is acceptable since manifests are
+yaml. If YAML support is missing, use the repo-local `.venv-tools` bootstrap
+from PROMPT_01 rather than a global install. Do not activate the tools
+environment; invoke the needed executable directly from `./.venv-tools/bin/`.
+This v1 payload builder only serves scaffoldable single-provider repos. If a
+manifest is catalog/reference-only (`generated_repo_target: false`), fail
+fast with a clear message and point the operator at the standalone canonical
+references from PROMPT_24 instead of trying to coerce null runtime/provider
+fields into a runnable repo contract.
+
+Public API (importable from `new_cloud_repo.py`):
+
+  build_payload(
+      *,
+      archetype: str,
+      primary_stack: str,
+      primary_language: str,
+      provider: str,
+      runtime_tier: str,
+      iac_tool: str,
+      manifest: str,
+      support_services: list[str],
+      scenario_patterns: list[str] | None = None,
+      target_root: pathlib.Path,
+      include_startup_features: bool = False,
+  ) -> PayloadResult
+
+`PayloadResult` is a dataclass with: written_files (list of paths),
+selection (dict matching `.accb/profile/selection.json`), gates_total,
+covered_capabilities.
+
+Behavior:
+
+  1.1  Read `context/accb/profile-rules.json`, `context/scenarios/
+       scenario-profile-map.yaml`, and the chosen manifest
+       (yaml). Validate that `archetype` is in
+       `archetype_capabilities`, `manifest` is in `manifest_capabilities`,
+       every `support_services` value is in `support_service_capabilities`,
+       and every supplied `scenario_patterns` value is in the scenario
+       profile map. If `scenario_patterns` is omitted, default to the
+       chosen manifest's `scenario_patterns` list.
+
+  1.1b Reject manifests that declare `generated_repo_target: false` (or
+       otherwise resolve to a non-scaffoldable contract such as
+       `provider: multi`, `runtime_tier: null`, or `primary_stack: none`).
+       Raise a clear error that this arc only scaffolds single-provider
+       runnable repos and that catalog/reference manifests should use the
+       canonical IaC / observability / secrets / eventing materials from
+       PROMPT_24 instead.
+
+  1.2  Compute the union of capabilities for this profile:
+         capabilities = archetype_capabilities[archetype]
+                        ∪ manifest_capabilities[manifest]
+                        ∪ flat_union(support_service_capabilities[s] for s in support_services)
+
+  1.3  Compose `.accb/profile/selection.json`:
+
+```json
+{
+  "schema_version": 1,
+  "archetype": "<archetype>",
+  "primary_stack": "<stack>",
+  "primary_language": "<language>",
+  "provider": "<provider>",
+  "runtime_tier": "<runtime_tier>",
+  "iac_tool": "<iac_tool>",
+  "manifest": "<manifest>",
+  "scenario_patterns": ["..."],
+  "support_services": ["..."],
+  "capabilities": ["..."],
+  "doctrines": [...default_doctrines from profile-rules...],
+  "routers": [...default_routers...],
+  "anchors": [...default_anchors...],
+  "validation_gates": [
+    ...default_validation_gates +
+    archetype_validation_gates[archetype] +
+    stack_validation_gates.get(primary_stack, []) +
+    flat_union(capability_validation_gates[c] for c in capabilities)
+  ],
+  "startup_features": {
+    "budget_report_enabled": <include_startup_features>,
+    "startup_trace_enabled": <include_startup_features>,
+    "route_check_enabled":   <include_startup_features>
+  }
+}
+```
+
+  Deduplicate `validation_gates` by gate ID before writing
+  `selection.json`. If the same gate is contributed by multiple sources,
+  keep one entry in `selection.json` and record all contributing sources in
+  `MATRIX.json`.
+
+  1.3b Compose `.accb/profile/scenario-patterns.json`: a compact copy of
+       the selected pattern records from `scenario-profile-map.yaml`
+       (pattern ID, runtime_tier, archetype, likely_manifest for the active
+       provider, support_services for the active provider, preferred
+       examples). Derived repos verify against this captured profile rather
+       than requiring the sibling `excellent-cloud-prompts/` repo.
+
+  1.4  Compose `.accb/specs/{PRODUCT,ARCHITECTURE,AGENT_RULES,EVOLUTION,
+       VALIDATION}.md` by concatenating the matching `context/specs/.../base.md`
+       and `context/validation/base.md` files (preserving frontmatter)
+       with a generated header noting the composition source.
+
+  1.5  Compose `.accb/validation/CHECKLIST.md`: human-readable checklist
+       of every gate ID + summary + command_hint.
+
+  1.6  Compose `.accb/validation/MATRIX.json`: machine-readable map of
+       gate_id → {category, summary, command_hint, optional command,
+       sources: ["default" | "archetype" | "stack" | "capability", ...]}.
+
+  1.7  Compose `.accb/validation/COVERAGE.json`: which capability has
+       at least one gate; flag any capability with zero gates.
+
+  1.8  Compose `.accb/SESSION_BOOT.md`: the file an assistant reads on
+       session start. Sections: Active Profile (summary), Required Boot
+       Reads (in order), Validation Path Reminder, Routing Quick
+       Reference (one-liners), Stop Conditions Summary.
+
+  1.9  Vendor `.accb/scripts/accb_payload.py`,
+       `.accb/scripts/accb_inspect.py`, and `.accb/scripts/accb_verify.py`
+       into the derived repo so inspection and `accb_verify.py --fix`
+       work without reaching back to the base repo.
+
+  1.10 Compose `.accb/INDEX.json`: lists every file written, file size,
+       SHA-256.
+
+CLI (`python3 scripts/accb_payload.py --help`):
+
+  python3 scripts/accb_payload.py \
+    --archetype cloud-function-repo \
+    --primary-stack aws-lambda-python \
+    --primary-language python \
+    --provider aws \
+    --runtime-tier function \
+    --iac-tool pulumi-python \
+    --manifest func-aws-lambda-python \
+    --scenario-pattern function.object-intake-enrichment \
+    --support-service aws-s3 --support-service aws-dynamodb \
+    --support-service aws-secrets-manager \
+    --output-dir /tmp/intake
+
+The CLI flag set must match the keyword args of `build_payload`.
+
+================================================================================
+PART 2 — scripts/accb_inspect.py
+================================================================================
+
+CLI: `python3 scripts/accb_inspect.py [--repo PATH] [--json]`
+
+Reads `<repo>/.accb/profile/selection.json` and prints a tree:
+
+  Profile
+  ├── archetype: <name>
+  ├── primary_stack: <name> (language: <lang>)
+  ├── provider: <provider> | runtime_tier: <tier>
+  ├── iac_tool: <tool>
+  ├── manifest: <name>
+  ├── scenario_patterns
+  │   └── [...]
+  ├── support_services
+  │   ├── <name> → capabilities: [...]
+  │   └── ...
+  ├── capabilities (union)
+  │   └── [...]
+  ├── doctrines (loaded by default)
+  │   └── [...]
+  └── validation_gates
+      ├── default        ([n] gates)
+      ├── archetype      ([n] gates)
+      ├── stack          ([n] gates)
+      └── capability     ([n] gates per capability)
+
+`--json` prints the same content as JSON for tooling. Exit 1 if `.accb/`
+is missing.
+
+================================================================================
+PART 3 — scripts/accb_verify.py
+================================================================================
+
+CLI: `python3 scripts/accb_verify.py [--repo PATH]`
+
+Asserts that the derived repo's truth still matches `.accb/`:
+
+  - every file referenced in `.accb/INDEX.json` still exists with the
+    recorded SHA-256 (or warn that the assistant has edited the payload
+    by hand)
+  - every doctrine listed in `.accb/profile/selection.json.doctrines`
+    is referenced from at least one boot doc OR appears under
+    `.accb/specs/AGENT_RULES.md`
+  - every validation gate's executable `command` runs cleanly when
+    present (or is annotated as deferred); `command_hint` remains
+    human-readable guidance and is not executed blindly
+  - every scenario pattern listed in `.accb/profile/selection.json` appears
+    in `.accb/profile/scenario-patterns.json`
+  - the archetype's repo signals (e.g. presence of `iac/terraform/dev/`
+    for an iac_tool of terraform) match the derived repo
+
+Exit codes: 0 clean, 1 mismatch, 2 environmental.
+
+A `--fix` flag re-runs `accb_payload.build_payload` with the saved
+selection and overwrites `.accb/` (operator-only; not invoked
+automatically).
+
+================================================================================
+PART 4 — scripts/new_cloud_repo.py
+================================================================================
+
+The user-facing bootstrap entrypoint.
+
+CLI flags (long form first; short forms optional):
+
+  --archetype <name>                 (required)
+  --provider <aws|gcp|azure>         (required)
+  --runtime-tier <function|managed_container|k8s>  (required)
+  --primary-stack <name>             (required)
+  --primary-language <name>          (required)
+  --iac-tool <terraform|pulumi-typescript|pulumi-python|pulumi-go|pulumi-dotnet>
+                                     (required)
+  --manifest <name>                  (required)
+  --scenario-pattern <pattern-id>     (optional; repeatable; defaults to
+                                     the chosen manifest's scenario_patterns)
+  --support-service <name>           (zero or more; repeatable)
+  --include-dev-test-pair            (default true)
+  --include-localstack-or-emulator   (Lane A integration test scaffold)
+  --include-ephemeral-real-test      (Lane B integration test scaffold)
+  --include-secret-binding-example   (default true)
+  --include-observability-bundle     (default true)
+  --target-dir <path>                (required)
+  --initial-prompt-text <"text">     (optional)
+  --initial-prompt-file <path>       (optional; mutually exclusive with above)
+  --include-startup-features         (turns on budget/trace/route-check
+                                     gates in the derived `.accb/` profile)
+  --no-init-git                      (skip `git init` in target)
+  --dry-run                          (print plan; write nothing)
+
+Behavior:
+
+  4.1  Validate every flag against `context/accb/profile-rules.json`,
+       `context/scenarios/scenario-profile-map.yaml`, and the chosen
+       manifest. Any unknown archetype/provider/stack/manifest/scenario/
+       service exits 1 with a clear error. If the chosen manifest is
+       marked `generated_repo_target: false` (or otherwise implies a
+       non-scaffoldable contract), exit 1 with an explicit message that
+       `new_cloud_repo.py` only handles single-provider runnable repos in
+       v1 and point to the relevant standalone references in PROMPT_24.
+
+  4.2  Resolve the template set: base + chosen language gitignores + iac
+       tool templates + function/container/k8s template subset matching
+       (provider, runtime_tier, primary_language) + smoke + integration +
+       observability templates per the include-* flags + manifest profile
+       summary template + prompt-first templates.
+
+  4.3  Render templates (Part 9 of PROMPT_15 placeholder substitution).
+       Substitution sources: CLI flags + manifest fields (especially
+       env_isolation, iac_layout) + computed values (repo_slug from
+       target dir name, selected scenario pattern names, stable random
+       suffixes for resource names where documented).
+
+  4.4  Write the derived repo tree:
+         <target>/AGENT.md, CLAUDE.md, README.md, .gitignore, PLAN.md
+         <target>/.prompts/PROMPT_01.txt
+         <target>/.prompts/PROMPT_02.txt
+         <target>/iac/terraform/dev/...            (for Terraform manifests)
+         <target>/iac/terraform/test/...           (for Terraform manifests)
+         <target>/iac/pulumi/<language>/Pulumi.yaml
+         <target>/iac/pulumi/<language>/Pulumi.dev.yaml
+         <target>/iac/pulumi/<language>/Pulumi.test.yaml
+                                                  (for Pulumi manifests)
+         <target>/<runtime>/<lang>/...             (handler/Dockerfile/k8s)
+         <target>/tests/smoke/...
+         <target>/tests/integration/...            (Lane A/Lane B per flags)
+         <target>/observability/...
+         <target>/scripts/work.py                  (copy of base work.py)
+         <target>/.accb/                           (build_payload output,
+                                                  including `.accb/scripts/`)
+       `PROMPT_01.txt` is the bootstrap prompt and `PROMPT_02.txt` adds the
+       first IaC isolation pair.
+
+  4.5  If `--initial-prompt-text` or `--initial-prompt-file` is set,
+       write a sentinel `.accb/INITIAL_PROMPT.txt` containing the prompt
+       (preserved verbatim for the operator to paste into the first
+       session).
+
+  4.6  Print a "Next Steps" footer:
+         1. cd <target>
+         2. git init -b main && git add . && git commit -m "initial scaffold"
+         3. python3 scripts/work.py resume
+         4. cat .accb/SESSION_BOOT.md
+         5. open .prompts/PROMPT_01.txt in a fresh session
+
+  4.7  Exit 0 on success; 1 on validation; 2 on environmental.
+
+================================================================================
+PART 5 — TESTS
+================================================================================
+
+Add `verification/scripts/` Python tests using `unittest`:
+
+  - `test_accb_payload_minimal.py` — call `build_payload` with a minimal
+    function profile against a temp dir; assert all `.accb/*` files,
+    including `.accb/scripts/`, exist with expected JSON shape.
+
+  - `test_accb_inspect_smoke.py` — point inspect at the temp dir from
+    above; assert exit 0 and key headings present.
+
+  - `test_accb_verify_clean.py` — point verify at the same dir; assert
+    exit 0.
+
+  - `test_accb_verify_mismatch.py` — mutate one file; assert exit 1.
+
+  - `test_new_cloud_repo_dry_run.py` — invoke `new_cloud_repo.py
+    --dry-run` for one function profile, one container profile, one
+    k8s profile; assert the planned write set matches a checked-in
+    golden snapshot at `verification/scripts/golden/<profile>.txt`.
+
+  - `test_new_cloud_repo_rejects_reference_only_manifest.py` — invoke
+    `new_cloud_repo.py --dry-run` against one IaC-only manifest and the
+    multi-provider manifest; assert exit 1 and an error string that tells
+    the operator those manifests are catalog/reference-only in v1 and
+    should use PROMPT_24 canonical references instead.
+
+Author the golden snapshot files. The CI mantra: golden snapshots are
+hand-curated, not auto-regenerated; if a snapshot needs to change, the
+operator updates it deliberately.
+
+================================================================================
+VERIFICATION
+================================================================================
+
+  1. `python3 scripts/accb_payload.py --help` lists every flag from Part 1.
+  2. `python3 scripts/accb_inspect.py --help`  works.
+  3. `python3 scripts/accb_verify.py --help`   works.
+  4. `python3 scripts/new_cloud_repo.py --help` lists every flag from Part 4.
+  5. `python3 -m unittest discover -s verification/scripts -p "test_*.py"`
+     all pass.
+  6. `python3 scripts/new_cloud_repo.py --dry-run --archetype cloud-function-repo
+       --provider aws --runtime-tier function --primary-stack aws-lambda-python
+       --primary-language python --iac-tool pulumi-python
+       --manifest func-aws-lambda-python --target-dir /tmp/accb-smoke`
+     prints a plan that matches the golden snapshot for that profile.
+  7. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' scripts/accb_*.py scripts/new_cloud_repo.py verification/scripts/`
+     returns nothing.
+  8. `python3 scripts/new_cloud_repo.py --dry-run ... --manifest iac-terraform-aws`
+     exits 1 with the documented "reference-only manifest" error.
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run.
+
+  - [ ] `scripts/accb_payload.py` implements Part 1 with the public API
+        and CLI specified.
+  - [ ] `scripts/accb_inspect.py` implements Part 2.
+  - [ ] `scripts/accb_verify.py` implements Part 3.
+  - [ ] `scripts/new_cloud_repo.py` implements Part 4.
+  - [ ] All Part 5 unit tests + golden snapshots exist and pass,
+        including rejection coverage for reference-only manifests.
+  - [ ] No `acb` / `.acb/` references in any new file.
+  - [ ] `tmp/PROMPT_16_checklist.md` is fully checked.
+  - [ ] `memory/concepts/generation-pipeline.md` exists with one paragraph
+        describing the four scripts and noting that PROMPT_17 implements
+        validation gates that close the autonomy loop.
+  - [ ] `memory/INDEX.md` lists `generation-pipeline.md`.
+
+End of PROMPT_16.

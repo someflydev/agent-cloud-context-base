@@ -1,0 +1,134 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is PROMPT_25 of 33. PROMPT_18 authored the AWS Lambda seed set. This
+prompt completes the first-class AWS Lambda canonical example surface under
+`examples/canonical-aws-lambda/` by adding the remaining required examples
+that were deferred from the seed pass.
+
+Use **`accb`** / **`.accb/`** in everything; never `acb` / `.acb/`.
+
+     [CLOUD ARC: Prompt 25 of 33 — Canonical AWS Lambda Expansion]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+One prompt per session. Maintain `tmp/PROMPT_25_checklist.md`.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+`accb` now has the AWS Lambda layout, test-lane, replay, observability,
+registry, and catalog contract from PROMPT_18. Reuse that contract exactly.
+This prompt adds only the remaining required AWS examples; it does not invent
+new layout variants.
+
+Sequence:
+  PROMPT_01–24  Through cross-cutting canonical seed references            (done)
+  PROMPT_25     Canonical AWS Lambda expansion                             (this prompt)
+  PROMPT_26     Canonical GCP Cloud Functions expansion
+  PROMPT_27     Canonical Azure Functions expansion
+  PROMPT_28     Canonical Cloud Run + App Runner expansion
+  PROMPT_29     Canonical Container Apps expansion
+  PROMPT_30     Canonical EKS + GKE + AKS expansion
+  PROMPT_31     Canonical Pulumi starter expansion
+  PROMPT_32     Integration testing harness + arc docs
+  PROMPT_33     Final wiring
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read:
+
+  1. `README.md`, `AGENT.md`
+  2. `python3 scripts/work.py resume`
+  3. `.prompts/PROMPT_18.txt` (FULL READ — layout + lane + replay contract)
+  4. `examples/canonical-aws-lambda/` (all seed examples, end to end)
+  5. `verification/example_registry.yaml`
+  6. `examples/catalog.json`
+  7. `verification/stack_support_matrix.yaml`
+  8. `context/stacks/aws-lambda-{python,typescript-node,go}.md`
+  9. `templates/function/aws-lambda/`, `templates/iac/{terraform,pulumi/*}/aws/`
+
+================================================================================
+PART 1 — REUSE PROMPT_18 VERBATIM
+================================================================================
+
+Reuse PROMPT_18 Part 1, Part 3, Part 4, Part 5, and Part 6 exactly:
+
+  - same directory layout
+  - same Terraform + Pulumi-language IaC requirement
+  - same Lane A LocalStack + Lane B ephemeral-real structure
+  - same replay and observability rules
+  - same registry/catalog entry shape
+
+================================================================================
+PART 2 — REQUIRED AWS EXPANSION EXAMPLES (6 examples)
+================================================================================
+
+Author the remaining required examples:
+
+  2.1  s3-trigger-image-moderation/typescript/
+  2.2  s3-trigger-image-moderation/go/
+  2.3  apigw-stripe-webhook/python/
+  2.4  sqs-document-translation/python/
+  2.5  eventbridge-cdc-relay/typescript/
+  2.6  cognito-post-confirmation/python/
+
+Keep the workflows and intent exactly as described in PROMPT_18's original
+Part 2 descriptions. This prompt only restores the deferred required surface.
+
+================================================================================
+PART 3 — REGISTRY + CATALOG + SUPPORT MATRIX
+================================================================================
+
+Append the 6 new entries to `verification/example_registry.yaml` and
+`examples/catalog.json` using PROMPT_18's existing entry shape.
+
+Update `verification/stack_support_matrix.yaml` so the AWS Lambda first-class
+surface is honest:
+
+  - python, typescript, and go remain SUPPORTED with full example coverage
+  - java remains DEFERRED for rare JVM-oriented cases
+  - dotnet and ruby remain NOT PLANNED in this arc
+
+================================================================================
+VERIFICATION (this prompt)
+================================================================================
+
+  1. `find examples/canonical-aws-lambda -mindepth 2 -maxdepth 2 -type d | wc -l`
+     shows 9 example directories.
+  2. Every AWS Lambda example has the PROMPT_18 Part 1 layout.
+  3. `python3 scripts/validate_iac_isolation.py` is clean for every new
+     example's Terraform and Pulumi tree.
+  4. `python3 scripts/verify_examples.py --family canonical-aws-lambda`
+     runs without crashing.
+  5. `examples/catalog.json` parses and contains all 9 AWS Lambda entries.
+  6. `verification/example_registry.yaml` parses and contains all 9 AWS
+     Lambda entries.
+  7. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' examples/canonical-aws-lambda/`
+     returns nothing.
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run.
+
+  - [ ] All 9 AWS Lambda examples now exist with the PROMPT_18 layout.
+  - [ ] The 6 deferred required examples from PROMPT_18 are now authored.
+  - [ ] Every AWS Lambda example has replay coverage and declared structured logs.
+  - [ ] Terraform + Pulumi-language IaC for every AWS Lambda example is
+        `validate_iac_isolation` clean.
+  - [ ] Catalog + registry + support matrix reflect the full AWS Lambda surface.
+  - [ ] No `acb` / `.acb/` references.
+  - [ ] `tmp/PROMPT_25_checklist.md` is fully checked.
+  - [ ] `memory/concepts/aws-lambda-canonical-arc.md` is updated to note the
+        full 9-example surface and that PROMPT_26 completes the GCP expansion.
+  - [ ] `memory/INDEX.md` lists the updated concept.
+
+End of PROMPT_25.

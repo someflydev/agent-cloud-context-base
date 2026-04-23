@@ -1,0 +1,416 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is the LAST prompt in the 33-prompt sequence. PROMPT_01–32 built the
+full system: doctrine, anchors, specs, validation, profile-rules, work.py,
+memory layer, routers, archetypes, skills, scenario catalog, 57 stack files, 28 workflows,
+32 manifests, templates, the generation pipeline, the validation script
+layer, the expanded canonical examples across function/container/k8s tiers,
+the cross-cutting canonical examples (IaC, observability, secrets, eventing,
+prompts), the integration testing harness, parity runners, lint policies,
+the IaC isolation contract, the parity matrix, and the three arc-overview
+docs.
+
+This prompt finishes the system: rewrite the root `README.md` from the
+deliberate stub into the full front door; author `docs/ARCHITECTURE_MAP.md`,
+`docs/repo-purpose.md`, `docs/repo-layout.md`, `docs/context-boot-sequence.md`,
+`docs/runtime-state-workflow.md`, `docs/session-start.md`,
+`docs/memory-layer-overview.md`, the architecture and usage doc subdirs,
+and run the end-to-end generation smoke that proves the whole machine
+works.
+
+Use **`accb`** / **`.accb/`** in everything; never `acb` / `.acb/`.
+
+           [CLOUD ARC: Prompt 33 of 33 — Final Wiring + E2E Smoke]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+One prompt per session. Maintain `tmp/PROMPT_33_checklist.md`.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+`accb` is a context-first foundation for cloud-native backend repos:
+serverless functions (Lambda, Cloud Functions, Azure Functions), managed
+containers (Cloud Run, App Runner, Container Apps), kubernetes platforms
+(EKS, GKE, AKS), with first-class Terraform and Pulumi-{ts,py,go} IaC plus
+Azure-focused Pulumi-dotnet support and dev/test isolation throughout. Modeled on `agent-context-base`
+(`acb`) but never copies its text. Derived repos receive a `.accb/`
+payload composed from the chosen profile.
+
+Sequence:
+  PROMPT_01–32  Full system + canonical examples + integration harness  (done)
+  PROMPT_33     Final wiring + e2e smoke                                (this prompt)
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read:
+
+  1. `README.md` (the deliberate stub from PROMPT_01)
+  2. `AGENT.md`, `CLAUDE.md`
+  3. `python3 scripts/work.py resume`
+  4. `memory/INDEX.md` and ALL files in `memory/concepts/` (each prior
+     prompt left a concept artifact; you'll synthesize them into the
+     ARCHITECTURE_MAP)
+  5. `context/accb/profile-rules.json`
+  6. `manifests/` (one of each manifest family)
+  7. `examples/catalog.json`
+  8. `verification/example_registry.yaml`
+  9. `verification/stack_support_matrix.yaml`
+ 10. `docs/iac-isolation-contract.md`,
+     `docs/provider-parity-matrix.md`,
+     `docs/functions-arc-overview.md`,
+     `docs/containers-arc-overview.md`,
+     `docs/kubernetes-arc-overview.md`
+ 11. `scripts/work.py`, `scripts/new_cloud_repo.py`,
+     `scripts/accb_payload.py`, `scripts/accb_inspect.py`,
+     `scripts/accb_verify.py`, `scripts/run_verification.py`,
+     `scripts/validate_iac_isolation.py`
+
+If a sibling `agent-context-base/` exists, you MAY glance at (SHAPE only):
+  agent-context-base/README.md
+  agent-context-base/docs/ARCHITECTURE_MAP.md
+  agent-context-base/docs/repo-purpose.md
+  agent-context-base/docs/repo-layout.md
+  agent-context-base/docs/context-boot-sequence.md
+  agent-context-base/docs/runtime-state-workflow.md
+  agent-context-base/docs/session-start.md
+  agent-context-base/docs/memory-layer-overview.md
+  agent-context-base/docs/architecture-mental-model.md
+
+Use these for SHAPE and section headings only. Re-author every word for
+cloud framing and `accb` terminology.
+
+================================================================================
+PART 1 — ROOT README REWRITE
+================================================================================
+
+Replace `README.md` with the full front door. Required sections:
+
+  # agent-cloud-context-base (accb)
+
+  One-paragraph statement: context-first foundation for generating and
+  running assistant-friendly cloud-native backend repositories.
+
+  ## Start Here By Goal
+
+  Goal table: Understand the base / Generate a new repo / Turn a workload
+  scenario into a profile / Work inside a generated repo / Browse canonical
+  examples / Verify the repo. Each
+  row points to AGENT.md, docs/context-boot-sequence.md, doc-of-the-day,
+  and a CLI command.
+
+  ## What Problem It Solves
+
+  Four-bullet problem statement: assistant drift; repo intent
+  rediscovery; pattern improvisation; opaque generation. Each bullet
+  references the matching `accb` mechanism (profile-rules, work.py,
+  canonical examples, .accb/ payload).
+
+  ## Canonical Examples
+
+  Table mirroring the family list: family / what it shows / providers /
+  languages / IaC tools / link to catalog entry. Pulled from
+  `examples/catalog.json` and `verification/example_registry.yaml`.
+
+  ## Scenario Catalog
+
+  Short section explaining that `context/scenarios/` distills the three
+  excellent-cloud prompt catalogs into workload patterns. Link to
+  `context/scenarios/scenario-profile-map.yaml`, `context/router/
+  scenario-router.md`, and `context/workflows/plan-scenario-derived-repo.md`.
+
+  ## First-Class Coverage
+
+  Provider × runtime tier × language matrix at a glance, with a link to
+  `docs/provider-parity-matrix.md`.
+
+  ## Docs Index
+
+  Architecture and design / Operator usage / Session startup and
+  continuity / Arc overviews (functions, containers, kubernetes) /
+  Reference / IaC isolation contract / Parity matrix.
+
+  ## Verification Commands
+
+  ```bash
+  python3 scripts/validate_context.py
+  python3 scripts/validate_manifests.py
+  python3 scripts/validate_iac_isolation.py <iac-dir>
+  python3 scripts/run_verification.py --tier fast
+  python3 scripts/accb_payload.py --archetype cloud-function-repo \
+    --primary-stack aws-lambda-python --primary-language python \
+    --provider aws --runtime-tier function --iac-tool pulumi-python \
+    --manifest func-aws-lambda-python --output-dir /tmp/accb-smoke
+  ```
+
+================================================================================
+PART 2 — docs/repo-purpose.md
+================================================================================
+
+What `accb` optimizes for and what it deliberately does NOT try to be:
+
+  - Optimizes for: cloud-native backends with explicit triggers, IaC
+    dev/test isolation, identity-bound secrets, real validation gates.
+  - Does NOT try to be: a frontend framework catalog, a local-Dokku
+    operator, a multi-cloud abstraction layer, a vendor portability
+    promise. Each "not" item gets one paragraph explaining the tradeoff.
+
+================================================================================
+PART 3 — docs/repo-layout.md
+================================================================================
+
+A tabular survey of the directory tree (mirrors the layout from
+PROMPT_01 Section 3 + everything later prompts added). Each row: path,
+role, owning prompt, link to deeper doc.
+Include `context/scenarios/` as the workload-pattern layer between
+archetypes/manifests and user-facing scenario prompts.
+
+================================================================================
+PART 4 — docs/context-boot-sequence.md
+================================================================================
+
+Deterministic startup contract for assistants:
+
+  - Read AGENT.md
+  - Run `python3 scripts/work.py resume`
+  - Read memory/INDEX.md and the briefing-relevant concept artifact
+  - Confirm provider / runtime tier / language / IaC tool from prompt
+    or `.accb/profile/selection.json`
+  - Load one router, one workflow, one stack pack, one archetype, one
+    scenario pattern, one canonical example
+  - Refuse to broaden until ambiguity is resolved
+
+Include a Mermaid diagram of the boot flow (function vs container vs
+k8s branch).
+
+================================================================================
+PART 5 — docs/runtime-state-workflow.md
+================================================================================
+
+PLAN.md / context/TASK.md / context/SESSION.md / context/MEMORY.md /
+memory/summaries/ roles + the work.py command pairing for each state
+transition (init-project, resume, checkpoint, pause, done, next).
+
+================================================================================
+PART 6 — docs/session-start.md
+================================================================================
+
+Quick-start checklist + commands for an operator opening a fresh
+session in `accb` itself or in a derived `.accb/`-bearing repo.
+
+================================================================================
+PART 7 — docs/memory-layer-overview.md
+================================================================================
+
+Memory artifact roles (concepts vs sessions vs summaries) + decision
+flow for what goes where + INDEX.md discipline.
+
+================================================================================
+PART 8 — docs/architecture/ASSISTANT_RUNTIME_MODEL.md
+================================================================================
+
+Subsystem table: Routers / Scenarios / Manifests / Profile composer /
+Validation gates / Runtime continuity / Memory / Examples. For each subsystem:
+files involved, command surface, failure modes, escalation rules.
+
+================================================================================
+PART 9 — docs/architecture/CONTEXT_ENGINEERING_GUIDE.md
+================================================================================
+
+Which artifact solves which problem. A Q→A doc:
+  - "How do I keep the assistant from drifting?" → router + budget
+    profile + bundle approval
+  - "How do I prevent silent IaC contamination?" → validate_iac_
+    isolation + manifest env_isolation declaration
+  - "How do I keep examples honest?" → catalog + registry + parity
+    runners
+  - "How do I turn a cloud workload prompt into a concrete repo?" →
+    scenario-router + scenario-profile-map + plan-scenario-derived-repo
+  - "How do I ensure derived repos boot the same way?" → .accb/
+    payload + SESSION_BOOT.md
+  - …
+
+================================================================================
+PART 10 — docs/usage/ subdir (4 files)
+================================================================================
+
+  10.1 docs/usage/STARTING_NEW_PROJECTS.md
+       The end-to-end "I want a new cloud repo" walkthrough. Include
+       three worked examples (one function, one container, one k8s)
+       with the exact `new_cloud_repo.py` invocation. One worked example
+       must start from a scenario-pattern prompt rather than explicit
+       provider/runtime flags.
+
+  10.2 docs/usage/ADVANCED_ASSISTANT_OPERATIONS.md
+       Long sessions, multi-agent, higher-autonomy operating modes.
+       When to enable budget_report / startup_trace / route_check
+       feature gates.
+
+  10.3 docs/usage/SPEC_DRIVEN_ACCB_PAYLOADS.md
+       `.accb/` composition contract: how profile-rules, archetype,
+       primary_stack, manifest, scenario_patterns, support_services
+       intersect to produce the payload. How to detect drift via accb_verify.
+
+  10.4 docs/usage/ASSISTANT_BEHAVIOR_SPEC.md
+       Normative MUST/SHOULD contract for assistant behavior in `accb`-
+       derived repos. Includes the validation-status vocabulary
+       (`done` requires proof; otherwise `blocked` or `incomplete`).
+
+================================================================================
+PART 11 — docs/ARCHITECTURE_MAP.md
+================================================================================
+
+The shortest accurate map of how `accb` works:
+
+  - System Shape (one-paragraph + bullet list)
+  - Spec + Validation Flow (Mermaid: context/specs + context/validation
+    + context/accb/profile-rules.json → accb_payload.py → .accb/*)
+  - .accb composition flow (Mermaid: archetype + primary_stack +
+    manifests + support services → profile-rules.json → doctrines +
+    routers + capabilities + validation gates → .accb/ payload)
+  - Session execution loop (Mermaid)
+  - Context validation layer table (budget_report / startup_trace /
+    route_check)
+  - Cloud capability areas (functions / containers / k8s) with per-
+    arc status (linking to the three arc-overview docs)
+  - Scenario catalog flow (Mermaid: excellent-cloud reference catalogs →
+    context/scenarios/* → scenario-router → manifest/profile selection)
+  - Future Direction (one Mermaid for clearly-future-facing work:
+    additional managed-service families, optional second-pass language
+    runtimes, and reference-only comparative manifest arcs)
+  - Directory Index
+  - Recommended Follow-On Reads
+
+================================================================================
+PART 12 — END-TO-END SMOKE
+================================================================================
+
+Run a real generation against a temp directory and verify the result:
+
+  1.  Generate a function-tier repo:
+
+      ```bash
+      python3 scripts/new_cloud_repo.py \
+        --archetype cloud-function-repo \
+        --provider aws --runtime-tier function \
+        --primary-stack aws-lambda-python --primary-language python \
+        --iac-tool pulumi-python \
+        --manifest func-aws-lambda-python \
+        --support-service aws-s3 --support-service aws-dynamodb \
+        --support-service aws-secrets-manager \
+        --include-localstack-or-emulator \
+        --include-secret-binding-example \
+        --include-observability-bundle \
+        --target-dir /tmp/accb-smoke-fn
+      ```
+
+  2.  Verify the generated repo:
+
+      ```bash
+      cd /tmp/accb-smoke-fn
+      python3 scripts/work.py resume                  # clean briefing
+      python3 .accb/scripts/accb_verify.py            # exit 0
+      python3 .accb/scripts/accb_inspect.py           # tree printed
+      ```
+
+      Then return to the base repo:
+
+      ```bash
+      cd -
+      python3 scripts/validate_iac_isolation.py /tmp/accb-smoke-fn/iac/pulumi/python
+      ```
+
+      All exit 0.
+
+  3.  Generate a container-tier and a k8s-tier repo (smaller scope; only
+      verify exit codes, not full deploy):
+
+      ```bash
+      python3 scripts/new_cloud_repo.py \
+        --archetype managed-container-multi-service \
+        --provider gcp --runtime-tier managed_container \
+        --primary-stack cloudrun-python-fastapi --primary-language python \
+        --iac-tool pulumi-python --manifest container-cloudrun-fastapi \
+        --include-secret-binding-example --include-observability-bundle \
+        --target-dir /tmp/accb-smoke-cn
+
+      python3 scripts/new_cloud_repo.py \
+        --archetype k8s-platform-repo \
+        --provider azure --runtime-tier k8s \
+        --primary-stack aks-base --primary-language dotnet \
+        --iac-tool pulumi-dotnet --manifest k8s-aks-multi-role-dotnet \
+        --include-secret-binding-example --include-observability-bundle \
+        --target-dir /tmp/accb-smoke-k8s
+      ```
+
+  4.  Run the full verification tier on the base repo:
+
+      ```bash
+      python3 scripts/run_verification.py --tier medium
+      ```
+
+      Exit 0.
+
+================================================================================
+PART 13 — MEMORY + INDEX FINAL PASS
+================================================================================
+
+Walk every file in `memory/concepts/`. Resolve any that are now stale
+(e.g. a concept claimed something would land in PROMPT_NN that actually
+shipped earlier or later). Update wording.
+
+Append `memory/concepts/cloud-arc-bootstrap-complete.md` with a one-
+paragraph note: "PROMPT_33 closed the 33-prompt arc. The system has
+[N] doctrines, [N] anchors, [N] stacks, [N] manifests, [N] examples
+across [N] families. The end-to-end generation smoke passed for
+function/container/k8s tiers. Future arcs should follow the prompt-first
+discipline."
+
+Update `memory/INDEX.md` to list every concept artifact (no entries for
+gitignored summaries/sessions).
+
+================================================================================
+VERIFICATION (this prompt)
+================================================================================
+
+  1. `cat README.md` shows the full front door from Part 1.
+  2. Every doc in Parts 2–11 exists.
+  3. `docs/ARCHITECTURE_MAP.md` includes every Mermaid diagram from
+     Part 11.
+  4. The Part 12 end-to-end smoke ran cleanly: all three generated repos
+     exist; `.accb/SESSION_BOOT.md` reads sensibly in each;
+     `validate_iac_isolation.py` clean against each.
+  5. `python3 scripts/run_verification.py --tier medium` exits 0.
+  6. `python3 scripts/work.py verify` exits 0.
+  7. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' README.md docs/`
+     returns nothing (all references in docs use `accb` / `.accb/`).
+  8. `memory/INDEX.md` lists every concept artifact.
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run.
+
+  - [ ] Root `README.md` rewritten per Part 1.
+  - [ ] All docs from Parts 2–11 exist.
+  - [ ] `docs/ARCHITECTURE_MAP.md` is the canonical short map.
+  - [ ] All three generated repos in Part 12 exist and verify clean.
+  - [ ] `python3 scripts/run_verification.py --tier medium` clean.
+  - [ ] All `memory/concepts/` artifacts up to date.
+  - [ ] `memory/concepts/cloud-arc-bootstrap-complete.md` written.
+  - [ ] `memory/INDEX.md` final.
+  - [ ] No `acb` / `.acb/` references anywhere outside intentional
+        comparisons (e.g. "modeled on `agent-context-base` (`acb`)").
+  - [ ] `tmp/PROMPT_33_checklist.md` is fully checked.
+  - [ ] (Optional) Cleanup: review and prune any leftover `tmp/*.md` from
+        prior prompts that no longer reflect current state.
+
+End of PROMPT_33. End of the agent-cloud-context-base bootstrap arc.

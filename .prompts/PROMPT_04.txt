@@ -1,0 +1,588 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is PROMPT_04 of 33. PROMPT_01 created the skeleton. PROMPT_02 + PROMPT_03
+authored the doctrine layer (29 files) and anchors (7 files). This prompt
+authors the canonical spec narratives in `context/specs/`, the validation
+narratives in `context/validation/`, and the machine-readable composition
+rules in `context/accb/profile-rules.json` (which `scripts/accb_payload.py`
+in PROMPT_16 will consume to compose `.accb/` payloads in derived repos).
+
+Use **`accb`** / **`.accb/`** in everything; never `acb` / `.acb/`.
+
+         [CLOUD ARC: Prompt 4 of 33 — Specs + Validation + accb/profile-rules.json]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+Run this entire prompt in one fresh coding-assistant session. Do not begin
+PROMPT_05 in the same session. Maintain `tmp/PROMPT_04_checklist.md`.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+`accb` is a context-first foundation for generating and running
+assistant-friendly CLOUD-NATIVE backend repositories: serverless functions
+(AWS Lambda, GCP Cloud Functions, Azure Functions), managed containers
+(Cloud Run, App Runner, Container Apps), kubernetes platforms (EKS, GKE,
+AKS). Modeled on `agent-context-base` (`acb`) but never copies its text.
+
+Core philosophical debts to `acb`:
+  - LAYER SEPARATION; ROUTER-FIRST INFERENCE; MANIFEST-DRIVEN BUNDLES;
+    CANONICAL EXAMPLES > IMPROVISATION; VALIDATION GATES AS AUTONOMY RAILS;
+    .accb/ PAYLOAD CONTRACT (derived repos); RUNTIME CONTINUITY (work.py);
+    PROMPT-FIRST DISCIPLINE; CONTEXT COMPLEXITY BUDGET; DOCUMENTATION
+    TIMING DISCIPLINE; DOGFOODING.
+
+Sequence map:
+  PROMPT_01–03  Skeleton + doctrine + anchors                     (done)
+  PROMPT_04     Specs + validation modules + accb/profile-rules  (this prompt)
+  PROMPT_05     scripts/work.py + memory layer
+  PROMPT_06–08  Routers, archetypes + scenarios, skills
+  PROMPT_09–12  Stacks (functions, containers, k8s, IaC + cross-cutting)
+  PROMPT_13     Workflows
+  PROMPT_14     Manifests
+  PROMPT_15     Templates
+  PROMPT_16–17  Generation pipeline + validation scripts
+  PROMPT_18–31  Canonical examples + expansion prompts
+  PROMPT_32     Cloud integration testing harness + arc docs
+  PROMPT_33     Final wiring
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read these:
+
+  1. `README.md`, `AGENT.md`
+  2. `memory/INDEX.md` and the two `memory/concepts/` files from PROMPT_02–03
+  3. `context/doctrine/core-principles.md`
+  4. `context/doctrine/iac-dev-test-isolation.md`
+  5. `context/doctrine/idempotency-and-replay.md`
+  6. `context/doctrine/observability-cloud-native.md`
+  7. `context/doctrine/context-complexity-budget-cloud.md`
+  8. `context/anchors/cloud-identity.md`, `context/anchors/iac-isolation.md`
+
+If a sibling `agent-context-base/` exists, you MAY glance at:
+  agent-context-base/context/specs/README.md
+  agent-context-base/context/specs/{product,architecture,agent,evolution}/base.md
+  agent-context-base/context/validation/README.md
+  agent-context-base/context/validation/base.md
+  agent-context-base/context/acb/README.md
+  agent-context-base/context/acb/profile-rules.json
+SHAPE inspiration only.
+
+================================================================================
+PART 1 — SPEC NARRATIVE MODULES
+================================================================================
+
+Specs are canonical narrative modules used to compose `.accb/specs/*.md` in
+derived repos. Every spec file carries YAML frontmatter so the payload
+composer can preserve origin metadata.
+
+Author the following in `context/specs/`:
+
+1.1  `context/specs/README.md`
+
+  Short doc explaining: spec layers (product / architecture / agent /
+  evolution), the role of frontmatter, and that `scripts/accb_payload.py`
+  (PROMPT_16) consumes these to build `.accb/specs/`.
+
+1.2  Frontmatter schema (use in every spec/validation file):
+
+```
+---
+accb_origin: canonical
+accb_source_path: <path relative to repo root>
+accb_role: <product | architecture | agent | evolution | validation>
+accb_version: 1
+---
+```
+
+1.3  `context/specs/product/base.md`
+
+  Body: "Baseline Product Intent" — derived repos must make their cloud-
+  facing purpose explicit. Every meaningful slice must answer: who or what
+  consumes the result; which trigger boundary becomes newly true; what
+  behavior would count as broken; which validation result proves the slice
+  is real; which cost/quota envelope it consumes.
+
+1.4  `context/specs/architecture/base.md`
+
+  Body: "Baseline Architecture Constraints" — structure stays explicit
+  enough that an assistant can identify the changed cloud boundary, the
+  owning workload (function/container/k8s role), and the correct validation
+  path without broad scanning. Architectural truth must make concrete:
+  trigger contracts, identity bindings, secret bindings, persistence seams,
+  network seams, IaC dev/test isolation surface, observability surface.
+
+1.5  `context/specs/agent/base.md`
+
+  Body: "Baseline Agent Operating Rules" — agents act autonomously only
+  within explicit constraints. Default rhythm: rehydrate local context;
+  identify one active boundary; plan validation path before coding;
+  implement one reviewable slice; run the relevant checks; update
+  continuity artifacts only when the truth changed. Required session
+  behavior: re-read `.accb/SESSION_BOOT.md` and `.accb/profile/selection.json`
+  at session start; declare provider+runtime+language+IaC tool before
+  loading stack packs; do not claim completion until the relevant checks
+  actually ran; if proof is blocked, say `blocked`; if work remains
+  without proof, say `incomplete`; say `done` only after proof.
+
+1.6  `context/specs/evolution/base.md`
+
+  Body: "Safe Evolution Rules" — new features extend the existing spec/
+  validation model instead of bypassing it. Every meaningful change
+  preserves or refines: trigger contracts, identity bindings, IaC
+  isolation, validation gates, startup order, repo-local operator
+  guidance. Spec drift is a real defect because it makes future
+  autonomy unsafe.
+
+1.7  Subdirectory READMEs (each a 2–3 line stub)
+
+  `context/specs/product/archetypes/README.md`
+  `context/specs/architecture/archetypes/README.md`
+  `context/specs/architecture/capabilities/README.md`
+  `context/specs/architecture/stacks/README.md`
+  `context/specs/agent/doctrine/README.md`
+  `context/specs/agent/routers/README.md`
+  `context/specs/evolution/archetypes/README.md`
+
+  Each says: "Per-archetype/capability/stack/doctrine/router spec overlays.
+  Empty in v1; populated by later arcs as cloud-specific specialization
+  emerges."
+
+================================================================================
+PART 2 — VALIDATION NARRATIVE MODULES
+================================================================================
+
+Validation describes how truth is checked, not how success is narrated.
+Every slice identifies the smallest real proof command set that demonstrates
+the changed cloud boundary.
+
+Author in `context/validation/`:
+
+2.1  `context/validation/README.md`
+
+  Short doc: validation modules are canonical narratives composed into
+  `.accb/specs/VALIDATION.md` and `.accb/validation/{CHECKLIST.md,
+  MATRIX.json, COVERAGE.json}` by `scripts/accb_payload.py`.
+
+2.2  `context/validation/base.md`
+
+  Frontmatter (accb_role: validation), then body: "Baseline Validation
+  Contract" — every slice identifies the smallest real proof command set
+  for the changed boundary. Minimum expectations:
+    - a direct changed-boundary proof (Lane B preferred over Lane A)
+    - an IaC isolation proof (validate_iac_isolation.py clean)
+    - a startup or readiness proof when processes/triggers changed
+    - an operator-readable failure mode when prerequisites are missing
+    - updated validation notes when the expected proof path changed
+  Each plan makes four things visible: command/harness; success condition;
+  failure condition; prerequisite/environment assumption that can block.
+
+2.3  Per-archetype validation references (one short file each — full per-
+     archetype gates live in `profile-rules.json`):
+
+  `context/validation/archetypes/cloud-function-repo.md`
+  `context/validation/archetypes/multi-function-platform.md`
+  `context/validation/archetypes/managed-container-service.md`
+  `context/validation/archetypes/managed-container-multi-service.md`
+  `context/validation/archetypes/k8s-platform-repo.md`
+  `context/validation/archetypes/k8s-multi-tenant-platform.md`
+  `context/validation/archetypes/cloud-event-pipeline.md`
+  `context/validation/archetypes/cloud-data-acquisition.md`
+  `context/validation/archetypes/cloud-rag-pipeline.md`
+  `context/validation/archetypes/cloud-control-plane.md`
+  `context/validation/archetypes/cloud-iac-only-repo.md`
+  `context/validation/archetypes/cloud-multi-provider-experiment.md`
+
+  Each file (10–25 lines): the proof commands operators run and the
+  failure modes they should expect. Do not duplicate doctrine; reference it.
+
+2.4  Per-stack validation references (one short file per first-class stack
+     family — exhaustive per-stack files appear in PROMPT_09–12):
+
+  `context/validation/stacks/aws-lambda-python.md`
+  `context/validation/stacks/aws-lambda-typescript-node.md`
+  `context/validation/stacks/gcp-cloudfn-python.md`
+  `context/validation/stacks/azure-fn-dotnet-isolated.md`
+  `context/validation/stacks/cloudrun-python-fastapi.md`
+  `context/validation/stacks/eks-base.md`
+  `context/validation/stacks/iac-terraform-conventions.md`
+  `context/validation/stacks/iac-pulumi-python.md`
+
+  Each (10–25 lines): the validation invariants for that stack. Stub format
+  for now; deeper stack-specific validation arrives in PROMPT_09–12.
+
+================================================================================
+PART 3 — context/accb/profile-rules.json
+================================================================================
+
+This file is the machine-readable composition rule set. `accb_payload.py`
+(PROMPT_16) reads it to compose `.accb/profile/selection.json`,
+`.accb/specs/AGENT_RULES.md`, `.accb/validation/CHECKLIST.md`,
+`.accb/validation/MATRIX.json`, `.accb/validation/COVERAGE.json`, and
+`.accb/INDEX.json` for any derived repo.
+
+Author `context/accb/profile-rules.json` with this exact top-level shape
+(populate the contents per the schema below):
+
+Validation gate records may include an optional executable `command` field in
+addition to the human-readable `command_hint`. `command_hint` is operator
+guidance; `command` is only for gates that can actually be executed by tools.
+
+```json
+{
+  "schema_version": 1,
+  "default_doctrines": [
+    "core-principles",
+    "testing-philosophy-cloud",
+    "iac-dev-test-isolation",
+    "trigger-boundary-discipline",
+    "idempotency-and-replay",
+    "function-vs-container-vs-k8s",
+    "identity-and-least-privilege",
+    "cloud-secret-handling",
+    "observability-cloud-native",
+    "context-loading-rules",
+    "context-complexity-budget-cloud",
+    "stop-conditions"
+  ],
+  "default_routers": [
+    "task-router",
+    "provider-router",
+    "runtime-router",
+    "stack-router",
+    "archetype-router",
+    "scenario-router",
+    "iac-router",
+    "repo-signal-hints"
+  ],
+  "default_anchors": [
+    "repo-identity",
+    "session-start",
+    "context-loading-principles",
+    "context-integrity",
+    "anti-patterns",
+    "cloud-identity",
+    "iac-isolation"
+  ],
+  "startup_features": {
+    "budget_report_enabled": false,
+    "startup_trace_enabled": false,
+    "route_check_enabled": false
+  },
+  "doctrine_module_map": {
+    "core-principles": "validation-first-autonomy",
+    "testing-philosophy-cloud": "testing-philosophy",
+    "iac-dev-test-isolation": "iac-isolation",
+    "trigger-boundary-discipline": "trigger-boundary",
+    "idempotency-and-replay": "idempotency",
+    "function-vs-container-vs-k8s": "tier-selection",
+    "identity-and-least-privilege": "identity-discipline",
+    "cloud-secret-handling": "secret-discipline",
+    "observability-cloud-native": "observability",
+    "context-loading-rules": "startup-rehydration",
+    "context-complexity-budget-cloud": "context-budget-discipline",
+    "stop-conditions": "stop-conditions",
+    "managed-service-selection": "managed-service-discipline",
+    "vpc-and-private-networking": "network-seam",
+    "eventing-and-dlq-discipline": "eventing-discipline",
+    "cost-and-quota-awareness": "cost-discipline",
+    "multi-environment-promotion": "promotion",
+    "cold-start-and-runtime-selection": "runtime-discipline",
+    "serverless-state-discipline": "state-discipline",
+    "container-image-discipline": "image-discipline",
+    "k8s-workload-role-separation": "k8s-roles",
+    "k8s-multi-tenancy-and-namespacing": "k8s-tenancy",
+    "pulumi-stack-discipline": "pulumi-discipline",
+    "terraform-workspace-discipline": "terraform-discipline",
+    "naming-and-clarity": "naming",
+    "dogfooding-cloud-arc": "dogfooding"
+  },
+  "archetype_capabilities": {
+    "cloud-function-repo":             ["function", "iac"],
+    "multi-function-platform":         ["function", "eventing", "iac", "secrets"],
+    "managed-container-service":       ["container", "iac"],
+    "managed-container-multi-service": ["container", "eventing", "iac", "secrets"],
+    "k8s-platform-repo":               ["k8s-api", "k8s-worker", "k8s-job", "k8s-cron", "iac"],
+    "k8s-multi-tenant-platform":       ["k8s-api", "k8s-worker", "k8s-tenancy", "iac", "secrets"],
+    "cloud-event-pipeline":            ["function", "eventing", "iac", "secrets"],
+    "cloud-data-acquisition":          ["function", "container", "storage", "eventing", "iac"],
+    "cloud-rag-pipeline":              ["function", "container", "vector-store", "iac", "secrets"],
+    "cloud-control-plane":             ["function", "container", "iac", "secrets"],
+    "cloud-iac-only-repo":             ["iac"],
+    "cloud-multi-provider-experiment": ["function", "container", "iac", "comparative"]
+  },
+  "manifest_capabilities": {
+    "func-aws-lambda-python":          ["function", "secrets", "iac"],
+    "func-aws-lambda-typescript":      ["function", "secrets", "iac"],
+    "func-aws-lambda-go":              ["function", "secrets", "iac"],
+    "func-gcp-cloudfn-python":         ["function", "secrets", "iac"],
+    "func-gcp-cloudfn-typescript":     ["function", "secrets", "iac"],
+    "func-gcp-cloudfn-go":             ["function", "secrets", "iac"],
+    "func-azure-fn-python":            ["function", "secrets", "iac"],
+    "func-azure-fn-typescript":        ["function", "secrets", "iac"],
+    "func-azure-fn-dotnet-isolated":   ["function", "secrets", "iac"],
+    "container-cloudrun-fastapi":      ["container", "secrets", "iac"],
+    "container-cloudrun-hono":         ["container", "secrets", "iac"],
+    "container-cloudrun-go-echo":      ["container", "secrets", "iac"],
+    "container-apprunner-fastapi":     ["container", "secrets", "iac"],
+    "container-apprunner-hono":        ["container", "secrets", "iac"],
+    "container-apprunner-go-echo":     ["container", "secrets", "iac"],
+    "container-aca-fastapi":           ["container", "secrets", "iac"],
+    "container-aca-dotnet":            ["container", "secrets", "iac"],
+    "container-aca-jobs":              ["container", "eventing", "secrets", "iac"],
+    "k8s-eks-multi-role-python":       ["k8s-api", "k8s-worker", "k8s-job", "k8s-cron", "iac", "secrets"],
+    "k8s-eks-multi-role-go":           ["k8s-api", "k8s-worker", "k8s-job", "k8s-cron", "iac", "secrets"],
+    "k8s-gke-multi-role-python":       ["k8s-api", "k8s-worker", "k8s-job", "k8s-cron", "iac", "secrets", "vector-store"],
+    "k8s-gke-multi-role-go":           ["k8s-api", "k8s-worker", "k8s-job", "k8s-cron", "iac", "secrets", "vector-store"],
+    "k8s-aks-multi-role-dotnet":       ["k8s-api", "k8s-worker", "k8s-job", "k8s-cron", "iac", "secrets"],
+    "k8s-aks-multi-role-typescript":   ["k8s-api", "k8s-worker", "k8s-job", "k8s-cron", "iac", "secrets"],
+    "iac-terraform-aws":               ["iac"],
+    "iac-terraform-gcp":               ["iac"],
+    "iac-terraform-azure":             ["iac"],
+    "iac-pulumi-typescript":           ["iac"],
+    "iac-pulumi-python":               ["iac"],
+    "iac-pulumi-go":                   ["iac"],
+    "iac-pulumi-dotnet":               ["iac"],
+    "multi-provider-event-pipeline":   ["function", "eventing", "iac", "comparative"]
+  },
+  "support_service_capabilities": {
+    "aws-s3":              ["storage"],
+    "aws-dynamodb":        ["storage"],
+    "aws-rds-postgres":    ["storage"],
+    "aws-sqs":             ["eventing"],
+    "aws-sns":             ["eventing"],
+    "aws-eventbridge":     ["eventing"],
+    "aws-secrets-manager": ["secrets"],
+    "aws-ssm-parameter":   ["secrets"],
+    "aws-cognito":         ["identity"],
+    "aws-opensearch":      ["search"],
+    "aws-elasticache":     ["storage"],
+    "gcp-gcs":             ["storage"],
+    "gcp-firestore":       ["storage"],
+    "gcp-cloudsql":        ["storage"],
+    "gcp-pubsub":          ["eventing"],
+    "gcp-eventarc":        ["eventing"],
+    "gcp-secret-manager":  ["secrets"],
+    "gcp-identity-platform": ["identity"],
+    "gcp-vertex-vector-search": ["vector-store"],
+    "gcp-memorystore":     ["storage"],
+    "azure-blob":          ["storage"],
+    "azure-cosmos":        ["storage"],
+    "azure-sql":           ["storage"],
+    "azure-servicebus":    ["eventing"],
+    "azure-eventgrid":     ["eventing"],
+    "azure-eventhubs":     ["eventing"],
+    "azure-key-vault":     ["secrets"],
+    "azure-entra-id":      ["identity"],
+    "azure-ai-search":     ["search"],
+    "azure-cache-redis":   ["storage"]
+  },
+  "default_validation_gates": [
+    {
+      "id": "changed-boundary-proof",
+      "category": "completion",
+      "summary": "Do not claim completion until the changed cloud boundary was exercised by a real check.",
+      "command_hint": "Run at least one direct proof command for the touched boundary (Lane A emulator or Lane B ephemeral real)."
+    },
+    {
+      "id": "iac-dev-test-disjoint",
+      "category": "iac",
+      "summary": "Dev and test must never share state backend keys, secret paths, or resource names.",
+      "command": "python3 scripts/validate_iac_isolation.py <iac dir>",
+      "command_hint": "python3 scripts/validate_iac_isolation.py <iac dir>"
+    },
+    {
+      "id": "secret-not-in-source",
+      "category": "secrets",
+      "summary": "No secret values appear in source, IaC tfvars, Pulumi config without --secret, container images, or logs.",
+      "command_hint": "Grep + the validate_iac_isolation policy."
+    },
+    {
+      "id": "identity-least-privilege-declared",
+      "category": "identity",
+      "summary": "Every workload-to-resource access has an explicit identity binding scoped to the smallest action set.",
+      "command_hint": "IaC review + the identity-least-privilege policy."
+    },
+    {
+      "id": "startup-rehydration",
+      "category": "operations",
+      "summary": "Refresh repo-local operating context when work changes startup order, constraints, or verification commands.",
+      "command_hint": "Refresh `.accb/profile/selection.json` and `.accb/SESSION_BOOT.md` when truth changed."
+    }
+  ],
+  "archetype_validation_gates": {
+    "cloud-function-repo": [
+      {"id": "function-trigger-contract", "category": "trigger", "summary": "Exercise the function with a real trigger event fixture."},
+      {"id": "function-idempotency-proof", "category": "replay", "summary": "Replay the same trigger with the same dedupe key and assert exactly-once effect."}
+    ],
+    "multi-function-platform": [
+      {"id": "function-trigger-contract", "category": "trigger", "summary": "Exercise each function with a real trigger event fixture."},
+      {"id": "function-idempotency-proof", "category": "replay", "summary": "Replay each trigger and assert exactly-once effect."},
+      {"id": "eventing-dlq-path", "category": "eventing", "summary": "Verify DLQ destination, alarm, and replay path."}
+    ],
+    "managed-container-service": [
+      {"id": "container-image-buildable", "category": "build", "summary": "Container image builds with a clean SBOM and non-root user."},
+      {"id": "container-health-and-readiness", "category": "smoke", "summary": "Service responds to health and readiness probes after deploy."}
+    ],
+    "managed-container-multi-service": [
+      {"id": "container-image-buildable", "category": "build", "summary": "All images build clean."},
+      {"id": "container-health-and-readiness", "category": "smoke", "summary": "Public + private services respond to probes."},
+      {"id": "container-private-network-when-required", "category": "network", "summary": "Private worker is unreachable from the public internet."}
+    ],
+    "k8s-platform-repo": [
+      {"id": "k8s-role-separation-evident", "category": "topology", "summary": "API, worker, job, cron live in distinct workloads."},
+      {"id": "k8s-rolling-rollout-and-rollback-paths", "category": "rollout", "summary": "Rolling update and rollback both succeed in test."},
+      {"id": "eventing-dlq-path", "category": "eventing", "summary": "Worker DLQ path is exercised."}
+    ],
+    "k8s-multi-tenant-platform": [
+      {"id": "k8s-role-separation-evident", "category": "topology", "summary": "Roles are separated."},
+      {"id": "k8s-tenant-isolation-evident", "category": "tenancy", "summary": "ResourceQuota, LimitRange, NetworkPolicy per tenant namespace."}
+    ],
+    "cloud-event-pipeline": [
+      {"id": "function-trigger-contract", "category": "trigger", "summary": "Each pipeline stage exercised with a real trigger."},
+      {"id": "eventing-dlq-path", "category": "eventing", "summary": "DLQ + replay path verified."},
+      {"id": "function-idempotency-proof", "category": "replay", "summary": "End-to-end replay assertion."}
+    ],
+    "cloud-iac-only-repo": [
+      {"id": "iac-plan-clean", "category": "iac", "summary": "terraform plan / pulumi preview clean for both dev and test."}
+    ],
+    "cloud-multi-provider-experiment": [
+      {"id": "comparative-parity-evident", "category": "comparative", "summary": "Each provider implementation passes its own provider-specific gates."}
+    ]
+  },
+  "stack_validation_gates": {
+    "aws-lambda-python": [
+      {"id": "lambda-handler-contract", "category": "trigger", "summary": "Handler invoked with a real event JSON; status, response shape, and side effects asserted."}
+    ],
+    "aws-lambda-typescript-node": [
+      {"id": "lambda-handler-contract", "category": "trigger", "summary": "Handler invoked with a real event JSON; status, response shape, and side effects asserted."}
+    ],
+    "gcp-cloudfn-python": [
+      {"id": "cloudfn-trigger-contract", "category": "trigger", "summary": "Function invoked with a real CloudEvent or HTTP request; idempotency asserted."}
+    ],
+    "azure-fn-dotnet-isolated": [
+      {"id": "azure-fn-trigger-contract", "category": "trigger", "summary": "Function invoked with the real binding payload; isolated-process startup asserted."}
+    ],
+    "cloudrun-python-fastapi": [
+      {"id": "cloudrun-revision-readiness", "category": "smoke", "summary": "Cloud Run revision passes readiness; one representative route exercised."}
+    ],
+    "eks-base": [
+      {"id": "eks-cluster-reachable", "category": "smoke", "summary": "kubectl get nodes succeeds; sample workload Ready."}
+    ],
+    "iac-terraform-conventions": [
+      {"id": "terraform-plan-clean", "category": "iac", "summary": "terraform plan returns no unintended drift in dev and test."}
+    ],
+    "iac-pulumi-python": [
+      {"id": "pulumi-preview-clean", "category": "iac", "summary": "pulumi preview returns no unintended drift in dev and test."}
+    ]
+  },
+  "capability_validation_gates": {
+    "function": [
+      {"id": "function-trigger-contract", "category": "trigger", "summary": "At least one representative trigger fixture exercises the handler end to end."}
+    ],
+    "container": [
+      {"id": "container-health-and-readiness", "category": "smoke", "summary": "Health and readiness probes pass after deploy."}
+    ],
+    "k8s-api": [
+      {"id": "k8s-role-separation-evident", "category": "topology", "summary": "API role is its own Deployment."}
+    ],
+    "k8s-worker": [
+      {"id": "k8s-worker-bounded-work-item", "category": "workers", "summary": "Worker claims and processes a bounded test work item end to end."}
+    ],
+    "k8s-job": [
+      {"id": "k8s-job-completion", "category": "jobs", "summary": "Job runs to completion in test with parallelism explicit."}
+    ],
+    "k8s-cron": [
+      {"id": "k8s-cron-execution", "category": "cron", "summary": "CronJob fires on schedule in test; concurrencyPolicy honored."}
+    ],
+    "k8s-tenancy": [
+      {"id": "k8s-tenant-isolation-evident", "category": "tenancy", "summary": "ResourceQuota + NetworkPolicy enforce tenant isolation in test."}
+    ],
+    "iac": [
+      {"id": "iac-plan-clean", "category": "iac", "summary": "terraform plan / pulumi preview clean for dev and test."},
+      {"id": "iac-dev-test-disjoint", "category": "iac", "summary": "validate_iac_isolation passes."}
+    ],
+    "secrets": [
+      {"id": "secret-binding-via-identity", "category": "secrets", "summary": "Workload reads secrets via identity binding, not env-var copy/paste."}
+    ],
+    "identity": [
+      {"id": "identity-least-privilege-declared", "category": "identity", "summary": "All identity bindings are scoped to least privilege."}
+    ],
+    "eventing": [
+      {"id": "eventing-dlq-path", "category": "eventing", "summary": "DLQ destination + alarm + replay path verified."}
+    ],
+    "storage": [
+      {"id": "storage-real-roundtrip-in-test-stack", "category": "data", "summary": "Workload writes and reads through the real managed-service boundary in test."}
+    ],
+    "vector-store": [
+      {"id": "rag-retrieval-sanity", "category": "retrieval", "summary": "One indexing + one retrieval query succeed against a deterministic corpus in test."}
+    ],
+    "search": [
+      {"id": "search-index-and-query", "category": "retrieval", "summary": "Index + query succeed in test."}
+    ],
+    "comparative": [
+      {"id": "comparative-parity-evident", "category": "comparative", "summary": "Every provider implementation passes its own gates."}
+    ]
+  }
+}
+```
+
+Validate the JSON: `python3 -c "import json; json.load(open('context/accb/profile-rules.json'))"` must succeed.
+
+================================================================================
+PART 4 — CROSS-REFERENCES TO ADD
+================================================================================
+
+Update `context/accb/README.md` (the Part-3-tracked stub from PROMPT_01)
+with one paragraph: "Composition rules consumed by `scripts/accb_payload.py`
+(PROMPT_16). Adding a new doctrine, anchor, archetype, manifest, or support
+service to the system requires an entry here so the payload composer can
+include it in derived `.accb/` bundles."
+
+================================================================================
+VERIFICATION
+================================================================================
+
+  1. `find context/specs context/validation -type f -name '*.md' | sort` shows
+     all files from Parts 1 and 2.
+  2. `python3 -c "import json; json.load(open('context/accb/profile-rules.json'))"`
+     succeeds.
+  3. Every spec/validation `*.md` (excluding READMEs) starts with the
+     required YAML frontmatter (Part 1.2).
+  4. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' context/specs context/validation context/accb`
+     returns nothing (frontmatter uses `accb_*`, not `acb_*`).
+  5. Every doctrine name in `default_doctrines` AND `doctrine_module_map`
+     resolves to an existing file in `context/doctrine/` (29 doctrines now
+     exist).
+  6. Every anchor in `default_anchors` resolves to an existing file in
+     `context/anchors/` (7 anchors).
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run.
+
+  - [ ] All spec files (Part 1) exist with valid frontmatter.
+  - [ ] All validation files (Part 2) exist with valid frontmatter.
+  - [ ] `context/accb/profile-rules.json` parses as JSON and matches Part 3.
+  - [ ] `context/accb/README.md` updated per Part 4.
+  - [ ] `.gitkeep` removed from `context/specs/*`, `context/validation/*`,
+        `context/accb/`.
+  - [ ] No `acb` / `.acb/` references anywhere in the new tree.
+  - [ ] Every doctrine name referenced in `profile-rules.json` resolves to
+        an existing doctrine file.
+  - [ ] `tmp/PROMPT_04_checklist.md` is fully checked.
+  - [ ] `memory/concepts/spec-validation-and-accb-rules.md` exists noting
+        what this prompt produced and that PROMPT_05 implements
+        `scripts/work.py` and the memory layer.
+  - [ ] `memory/INDEX.md` lists the new concept artifact.
+
+End of PROMPT_04.

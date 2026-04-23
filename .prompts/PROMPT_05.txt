@@ -1,0 +1,309 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is PROMPT_05 of 33. PROMPT_01–04 built the directory skeleton, all
+doctrine (29 files), all anchors (7 files), all spec + validation narratives,
+and `context/accb/profile-rules.json`. This prompt implements
+`scripts/work.py` (the runtime continuity tool) and the memory layer
+(`context/memory/*.md`, `memory/INDEX.md` enrichment, runtime-file scaffolds).
+
+Use **`accb`** / **`.accb/`** in everything; never `acb` / `.acb/`.
+
+           [CLOUD ARC: Prompt 5 of 33 — scripts/work.py + Memory Layer]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+One prompt per session. Maintain `tmp/PROMPT_05_checklist.md`.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+`accb` is a context-first foundation for cloud-native backend repos:
+functions (Lambda, Cloud Functions, Azure Functions), managed containers
+(Cloud Run, App Runner, Container Apps), kubernetes (EKS, GKE, AKS).
+Modeled on `agent-context-base` (`acb`) but never copies its text.
+
+Core debts: LAYER SEPARATION; ROUTER-FIRST INFERENCE; MANIFEST-DRIVEN
+BUNDLES; CANONICAL EXAMPLES > IMPROVISATION; VALIDATION GATES AS AUTONOMY
+RAILS; .accb/ PAYLOAD CONTRACT; RUNTIME CONTINUITY (work.py); PROMPT-FIRST
+DISCIPLINE; CONTEXT COMPLEXITY BUDGET; DOCUMENTATION TIMING; DOGFOODING.
+
+Sequence:
+  PROMPT_01–04  Skeleton + doctrine + anchors + specs + validation + accb/  (done)
+  PROMPT_05     scripts/work.py + memory layer                             (this prompt)
+  PROMPT_06–08  Routers, archetypes + scenarios, skills
+  PROMPT_09–12  Stacks (functions, containers, k8s, IaC + cross-cutting)
+  PROMPT_13     Workflows
+  PROMPT_14     Manifests
+  PROMPT_15     Templates
+  PROMPT_16–17  Generation pipeline + validation scripts
+  PROMPT_18–31  Canonical examples + expansion prompts
+  PROMPT_32     Integration testing harness + arc docs
+  PROMPT_33     Final wiring
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read:
+
+  1. `README.md`, `AGENT.md`, `CLAUDE.md`
+  2. `memory/INDEX.md` and all `memory/concepts/` files
+  3. `context/doctrine/prompt-first-conventions.md`
+  4. `context/doctrine/context-loading-rules.md`
+  5. `context/doctrine/context-complexity-budget-cloud.md`
+  6. `context/anchors/session-start.md`
+  7. `context/specs/agent/base.md`
+  8. `context/validation/base.md`
+  9. `context/accb/profile-rules.json` (confirm `startup_features` block)
+
+If a sibling `agent-context-base/` exists, you MAY glance at (SHAPE only):
+  agent-context-base/scripts/work.py              (primary shape reference)
+  agent-context-base/context/memory/MEMORY.contract.md
+  agent-context-base/context/memory/MEMORY.template.md
+  agent-context-base/context/memory/memory-operating-rules.md
+  agent-context-base/context/memory/handoff-snapshots.md
+  agent-context-base/context/memory/stop-hook-guidance.md
+
+Never copy prose. Re-author with `accb` terminology and cloud framing.
+
+================================================================================
+PART 1 — scripts/work.py
+================================================================================
+
+Implement `scripts/work.py` as a single Python 3 file (stdlib only; no
+external dependencies) with an argparse dispatcher. Required subcommands:
+
+  init-project         Scaffold runtime files from the *.example.md files.
+  resume               Print the Session Context Briefing (details below).
+  checkpoint           Snapshot runtime state at a natural boundary.
+  next                 Print the next recommended prompt file (if any).
+  start PROMPT_NN.txt  Mark a prompt session started (writes a row).
+  pause PROMPT_NN.txt  Pause the prompt (reason required).
+  done PROMPT_NN.txt   Mark the prompt done (completion summary required).
+  recent-commits       Print the last 10 commits with timestamps.
+  log-quota            Append a quota-usage row (--assistant, --used-pct-5h).
+  verify               Run local structural verification (dispatches to
+                       validate_context.py etc. when available).
+  budget-report        Score a declared context bundle against the complexity
+                       budget (PROMPT_04 `profile-rules.json.startup_features`).
+  route-check          Heuristic router output preview from free-text prompt.
+  startup-trace        Write a startup-trace record for the current session.
+  graft TARGET         Install `accb` runtime continuity into an existing
+                       local repo (writes work.py + context/memory rules +
+                       a vendored copy of
+                       `templates/prompt-first/PROMPT_03.template.txt`
+                       as an analysis prompt — NEVER copies doctrine,
+                       archetypes, stacks, examples, or validation).
+
+Key behaviors:
+
+  1.1  `resume` prints a "Session Context Briefing" with:
+         - git anchor (last commit SHA + subject + timestamp + changed files)
+         - runtime-file states (TASK.md, SESSION.md, MEMORY.md, PLAN.md)
+           with age, word count, and warnings when stale
+         - next-step hint (from TASK.md next-step or plan-review signal)
+         - plan-review signal (is PLAN.md stale relative to recent commits?)
+         - complexity budget posture (profile guess from active prompt)
+         - quota readiness (from the quota log)
+         - relevant `memory/summaries/PROMPT_NN_*.md` file (if resuming)
+
+  1.2  `checkpoint` does NOT rewrite TASK.md / SESSION.md automatically; it
+       prints a review hint and updates a tiny checkpoint log at
+       `work/checkpoint.log` (gitignored under `work/`).
+
+  1.3  `init-project` reads `PLAN.example.md`, `context/TASK.example.md`,
+       `context/SESSION.example.md`, `context/MEMORY.example.md` (authored
+       in PROMPT_15) and writes the non-example versions only if missing.
+
+  1.4  `graft` is the cloud equivalent of `acb`'s graft command: given a
+       target repo path, it writes a minimal `.accb/` discipline layer into
+       that repo (work.py copy, `context/memory/` rules, a vendored
+       `templates/prompt-first/PROMPT_03.template.txt`
+       rendered into the target repo — PROMPT_15 authors the template;
+       before then, graft prints "prompt template not yet populated —
+       install planned for PROMPT_15").
+
+  1.5  `budget-report`, `route-check`, `startup-trace` gate on the
+       `startup_features` block in `context/accb/profile-rules.json`. When
+       `enabled: false`, the subcommand prints "feature gated off in
+       profile-rules.json" and exits 0.
+
+  1.6  All output is human-readable by default; pass `--json` for machine-
+       readable output on any subcommand.
+
+  1.7  Use dataclasses for structured state:
+         RuntimeFileSpec, RuntimeFileState, GitAnchor, RepoInspection.
+
+  1.8  Never modify files outside the repo root. Never git commit or push.
+       `graft` may write into the target repo; all other commands are
+       read-only to non-runtime files.
+
+  1.9  Exit codes: 0 on success; 1 on user error; 2 on environmental error
+       (not a git repo, missing runtime file when required, etc.).
+
+Provide `python3 scripts/work.py --help` that lists all subcommands. Each
+subcommand has `--help` with a one-paragraph description and flag list.
+
+================================================================================
+PART 2 — context/memory/ operating rules
+================================================================================
+
+Author the following in `context/memory/`:
+
+2.1  `context/memory/memory-operating-rules.md`
+
+  The durable operating rules for the memory layer:
+    - memory/concepts/ holds tracked architectural truths (commit these)
+    - memory/sessions/ and memory/summaries/ are gitignored session state
+    - memory/INDEX.md indexes concepts/ only (not sessions or summaries)
+    - each concept has a short header + frontmatter-free body (50–150 lines)
+    - concepts are updated when architectural truth changes, not when
+      implementation details change
+    - the INDEX.md uses one-line entries with a short hook
+
+2.2  `context/memory/handoff-snapshots.md`
+
+  Rules for writing `memory/summaries/PROMPT_NN_resume.md` and
+  `memory/summaries/PROMPT_NN_completion.md`:
+    - resume.md captures paused state, the boundary reached, what is safe
+      to pick up next, and the full command the next session should run
+    - completion.md captures what the prompt delivered, what verification
+      passed, and any deferred items
+    - both are gitignored; they survive across sessions via `work.py`
+    - they never duplicate content that already lives in TASK.md / PLAN.md
+
+2.3  `context/memory/stop-hook-guidance.md`
+
+  When a hook or budget trigger requires stopping mid-session:
+    - write `tmp/HANDOFF.md` with the exact resume command
+    - write `memory/summaries/PROMPT_NN_resume.md`
+    - checkpoint via `work.py checkpoint`
+    - state the blocker explicitly in TASK.md (`Blocked by: ...`)
+
+2.4  `context/memory/MEMORY.contract.md`
+
+  Schema contract for `context/MEMORY.md` (the derived-repo continuity
+  file). Fields: Repo Purpose; Active Boundary; Non-obvious Invariants;
+  Known Gotchas; External References. Limits: 300 lines, 3000 words.
+  MEMORY.md is durable repo-local truth. Updates happen at prompt
+  boundaries and on architectural changes; not every session.
+
+2.5  `context/memory/MEMORY.template.md`
+
+  A plain template a derived repo can copy into `context/MEMORY.md` on
+  init-project. Contains the section headers from Part 2.4 with short
+  placeholder prose for each.
+
+================================================================================
+PART 3 — memory/INDEX.md initial structure
+================================================================================
+
+Rewrite `memory/INDEX.md` with the following structure (adjust the concept
+list to match what actually exists at the end of this prompt):
+
+```
+# Memory Index
+
+Tracked artifacts only. Do not add entries for `memory/sessions/` or
+`memory/summaries/` (gitignored).
+
+## concepts/
+
+- [cloud-arc-bootstrap-genesis.md](concepts/cloud-arc-bootstrap-genesis.md) — PROMPT_01 skeleton milestone
+- [cloud-doctrine-foundations.md](concepts/cloud-doctrine-foundations.md) — PROMPT_02 foundational doctrine
+- [cloud-doctrine-and-anchors-complete.md](concepts/cloud-doctrine-and-anchors-complete.md) — PROMPT_03 advanced doctrine + anchors
+- [spec-validation-and-accb-rules.md](concepts/spec-validation-and-accb-rules.md) — PROMPT_04 specs, validation, profile-rules.json
+- [runtime-continuity-and-memory.md](concepts/runtime-continuity-and-memory.md) — PROMPT_05 work.py + memory layer
+
+## Tiers
+
+- concepts/   durable, tracked, architectural truths
+- sessions/   gitignored; per-session state managed by work.py
+- summaries/  gitignored; per-prompt resume + completion summaries
+```
+
+================================================================================
+PART 4 — runtime state scaffolds (tracked example files)
+================================================================================
+
+These live at repo root / `context/` (example variants are tracked; the
+non-example variants are gitignored and are written by `work.py init-project`
+in derived repos).
+
+4.1  `PLAN.example.md`
+
+  (Already created in PROMPT_01 with placeholder content. No change here.)
+
+4.2  `context/TASK.example.md`
+
+  Scaffold with sections: Active Boundary; Next Safe Step; Blockers;
+  Related Files. Keep it ≤ 60 lines.
+
+4.3  `context/SESSION.example.md`
+
+  Scaffold with sections: Session Goal; Actions Taken; Verification Run;
+  Next Session Hint. Keep it ≤ 60 lines.
+
+4.4  `context/MEMORY.example.md`
+
+  A cloud-specific variant of the MEMORY template (Part 2.5) pre-filled
+  with cloud-flavored placeholders (e.g. "Provider: <aws|gcp|azure>",
+  "Runtime tier: <function|container|k8s>", "IaC tool: <terraform|pulumi-*>",
+  "Dev/test isolation surface: <description>"). Keep it ≤ 80 lines.
+
+================================================================================
+PART 5 — scripts/README.md (populate)
+================================================================================
+
+Replace the stub from PROMPT_01 with a short doc describing:
+  - `work.py` (implemented here; lists all subcommands with one-line
+    summaries)
+  - `new_cloud_repo.py`, `accb_payload.py`, `accb_inspect.py`,
+    `accb_verify.py` (planned for PROMPT_16)
+  - `validate_context.py`, `validate_manifests.py`,
+    `validate_iac_isolation.py`, `verify_examples.py`,
+    `run_verification.py` (planned for PROMPT_17)
+  - `preview_context_bundle.py`, `pattern_diff.py` (planned for PROMPT_17)
+
+================================================================================
+VERIFICATION
+================================================================================
+
+  1. `python3 scripts/work.py --help` prints all subcommands.
+  2. `python3 scripts/work.py resume` runs on a clean repo and prints a
+     Session Context Briefing (degrades gracefully when PLAN.md / TASK.md
+     / SESSION.md / MEMORY.md are absent).
+  3. `python3 scripts/work.py next` prints the recommended next prompt
+     (PROMPT_06.txt once this prompt is complete).
+  4. `python3 scripts/work.py budget-report --bundle AGENT.md` prints
+     "feature gated off in profile-rules.json" and exits 0.
+  5. All files from Part 2 exist; all scaffolds from Part 4 exist.
+  6. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' scripts/work.py context/memory/`
+     returns nothing.
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run.
+
+  - [ ] `scripts/work.py` implements every subcommand in Part 1 with the
+        specified behavior and exit codes.
+  - [ ] `scripts/work.py --help` and every `<subcommand> --help` works.
+  - [ ] `scripts/work.py resume` runs cleanly on the current repo state.
+  - [ ] All files in `context/memory/` (Part 2) exist with the described
+        content.
+  - [ ] `memory/INDEX.md` rewritten per Part 3.
+  - [ ] Runtime scaffolds in Part 4 exist.
+  - [ ] `scripts/README.md` updated per Part 5.
+  - [ ] `.gitkeep` removed from `context/memory/` and `scripts/`.
+  - [ ] No `acb` / `.acb/` references anywhere new.
+  - [ ] `tmp/PROMPT_05_checklist.md` is fully checked.
+  - [ ] `memory/concepts/runtime-continuity-and-memory.md` exists.
+
+End of PROMPT_05.

@@ -1,0 +1,310 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is PROMPT_13 of 33. PROMPT_01–12 built foundations through the full
+stack surface (57 stack files). This prompt authors all workflow files in
+`context/workflows/`.
+
+Use **`accb`** / **`.accb/`** in everything; never `acb` / `.acb/`.
+
+                     [CLOUD ARC: Prompt 13 of 33 — Workflows]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+One prompt per session. Maintain `tmp/PROMPT_13_checklist.md`.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+`accb` is a context-first foundation for cloud-native backend repos:
+functions, managed containers, kubernetes platforms across AWS / GCP /
+Azure with Terraform and Pulumi IaC. Modeled on `agent-context-base`
+(`acb`) but never copies its text.
+
+Sequence:
+  PROMPT_01–12  Through full stack surface                              (done)
+  PROMPT_13     Workflows                                               (this prompt)
+  PROMPT_14     Manifests
+  PROMPT_15     Templates
+  PROMPT_16–17  Generation pipeline + validation scripts
+  PROMPT_18–31  Canonical examples + expansion prompts
+  PROMPT_32     Integration testing harness
+  PROMPT_33     Final wiring
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read:
+
+  1. `README.md`, `AGENT.md`
+  2. `python3 scripts/work.py resume`
+  3. `memory/INDEX.md` and concepts
+  4. `context/router/task-router.md` (workflow names live here)
+  5. `context/doctrine/testing-philosophy-cloud.md`
+  6. `context/doctrine/iac-dev-test-isolation.md`
+  7. `context/doctrine/eventing-and-dlq-discipline.md`
+  8. `context/doctrine/idempotency-and-replay.md`
+  9. `context/archetypes/cloud-event-pipeline.md`
+ 10. `context/archetypes/managed-container-multi-service.md`
+ 11. `context/archetypes/k8s-platform-repo.md`
+
+If a sibling `agent-context-base/` exists, you MAY glance at (SHAPE only):
+  agent-context-base/context/workflows/add-api-endpoint.md
+  agent-context-base/context/workflows/add-storage-integration.md
+  agent-context-base/context/workflows/bootstrap-repo.md
+  agent-context-base/context/workflows/generate-prompt-sequence.md
+
+================================================================================
+PART 1 — WORKFLOW FILE FORMAT
+================================================================================
+
+Each workflow file in `context/workflows/*.md`:
+
+  # <Workflow Title>
+
+  Use this workflow when <one-paragraph statement>.
+
+  ## Preconditions
+
+  - <bullet>
+  - <bullet>
+
+  ## Sequence
+
+  1. <step>
+  2. <step>
+  ...
+
+  ## Outputs
+
+  - <file or boundary that exists after this workflow>
+
+  ## Validation Gates
+
+  - <gate-id> from `profile-rules.json`
+  - <gate-id>
+
+  ## Related Docs
+
+  - `context/doctrine/<file>.md`
+  - `context/stacks/<file>.md` (the dominant active stack)
+  - `examples/canonical-<family>/<example>/` (when applicable)
+
+  ## Common Pitfalls
+
+  - <bullet>
+  - <bullet>
+
+Each workflow 40–120 lines. No frontmatter.
+
+================================================================================
+PART 2 — WORKFLOW FILES TO AUTHOR
+================================================================================
+
+Author the following 28 files in `context/workflows/`:
+
+2.1   `bootstrap-cloud-repo.md`
+      Generate a new derived repo from `accb` via `scripts/new_cloud_repo.py`
+      (PROMPT_16). Preconditions: archetype, provider, runtime tier,
+      primary language, IaC tool chosen; dev/test isolation surface
+      declared. Sequence: choose manifest closest to target; run
+      `new_cloud_repo.py` with explicit flags; review the generated
+      `.accb/` payload; commit the initial scaffold.
+
+2.2   `generate-prompt-sequence.md`
+      Author a prompt sequence (`.prompts/PROMPT_NN.txt`) for a derived
+      cloud repo. Sequence: identify end state; break into commit-friendly
+      increments; assign monotonic numbers; reference exact filenames;
+      ensure each prompt references actual repo state, not wishful state.
+
+2.3   `add-cloud-function.md`
+      Generic entry workflow that routes to a provider-specific trigger
+      workflow. Preconditions: provider chosen. Sequence: route to the
+      add-aws-lambda-trigger / add-gcp-cloud-function-trigger / add-
+      azure-function-trigger workflow.
+
+2.4   `add-aws-lambda-trigger.md`
+      Add a new Lambda function with a specific trigger (S3 / SQS /
+      DynamoDB Stream / EventBridge / API Gateway / Cognito). Sequence:
+      identify trigger payload shape; author handler; declare IaC
+      resources (function + execution role + trigger + DLQ); declare
+      idempotency contract; add unit + smoke + integration tests
+      (Lane A LocalStack or Lane B ephemeral real).
+
+2.5   `add-gcp-cloud-function-trigger.md`
+      Same shape for Cloud Functions Gen2: identify trigger
+      (HTTP / GCS / Pub/Sub / Eventarc / Firestore / Firebase Auth);
+      author handler with functions-framework decorators; declare IaC
+      (function + service account + trigger); declare idempotency; tests.
+
+2.6   `add-azure-function-trigger.md`
+      Same shape for Azure Functions: identify trigger (HTTP / Blob /
+      Queue / Service Bus / Event Grid / Event Hubs / Cosmos / Timer);
+      author handler with the v4 / v2 model decorators per language;
+      declare IaC (function app + binding + identity + key vault refs);
+      tests.
+
+2.7   `add-managed-container-service.md`
+      Add a Cloud Run / App Runner / Container Apps service. Sequence:
+      author Dockerfile per `container-image-discipline`; author service
+      code in chosen language; declare IaC (service + revision settings +
+      identity + secrets); add health/readiness probes; smoke test +
+      integration test.
+
+2.8   `add-k8s-workload-role.md`
+      Add a single role (api / worker / job / cronjob / control-plane)
+      to a k8s platform repo. Sequence: pick role pack; author manifest
+      (Deployment / Job / CronJob); add to base/ + overlays/dev +
+      overlays/test (Kustomize) OR templates/ + values.dev/test.yaml
+      (Helm); add probes/quotas; integration test against real cluster
+      or kind.
+
+2.9   `add-iac-stack.md`
+      Add a new IaC stack (Terraform or Pulumi-language). Sequence: pick
+      tool per `iac-tool-selection`; author module/component; declare
+      per-env state backend or stack; declare resource naming with
+      env suffix; `terraform plan` / `pulumi preview` clean in dev.
+
+2.10  `add-iac-isolation-pair.md`
+      Add a paired dev + test isolation surface for an existing IaC
+      stack. Sequence: declare disjoint state backend keys; declare
+      disjoint env-var prefixes; declare disjoint secret paths; ensure
+      resource names differ by suffix; run `validate_iac_isolation.py`.
+
+2.11  `add-secret-binding.md`
+      Bind a secret to a workload via identity (NOT env-var copy/paste).
+      Sequence: pick provider secret store; author IaC for the secret
+      (with placeholder value pointing to actual store via reference);
+      grant the workload identity read access scoped to that secret;
+      verify workload can read at runtime.
+
+2.12  `add-eventing-seam.md`
+      Add an eventing seam (queue / topic / bus / stream + DLQ).
+      Sequence: pick the primitive per `eventing-seam-selection`; author
+      IaC for the resource + DLQ; configure retry policy; add producer
+      + consumer wiring; test the DLQ path explicitly.
+
+2.13  `add-cloud-storage-integration.md`
+      Wire object storage (S3 / GCS / Blob). Sequence: author IaC for
+      the bucket/container with lifecycle, encryption, and (if needed)
+      event notifications; bind workload identity to the bucket; add
+      a real-roundtrip integration test (write + read in test stack).
+
+2.14  `add-cloud-database-integration.md`
+      Wire a managed database (DynamoDB / Firestore / Cosmos / RDS /
+      Cloud SQL / Azure SQL). Sequence: author IaC; choose connection
+      pattern (proxy for SQL; direct SDK for document); add migrations
+      if SQL; add real-roundtrip integration test.
+
+2.15  `add-vpc-private-network-path.md`
+      Attach a workload to a VPC for private resource access. Sequence:
+      justify per `vpc-and-private-networking`; author IaC (VPC config
+      for Lambda / VPC connector for Cloud Run / VNet integration for
+      ACA); test reachability AND outbound DNS.
+
+2.16  `add-identity-binding.md`
+      Create or modify an identity (IAM role / SA / MI) and bind it to
+      a workload + a set of resources. Sequence: identify the smallest
+      action set needed; author IaC; verify with a positive and negative
+      test (allowed action succeeds; disallowed action 403s).
+
+2.17  `add-observability-bundle.md`
+      Add structured logs + metrics + traces to a workload. Sequence:
+      pick the OTel exporter target per provider; author the structured
+      log shape; configure trace context propagation from the trigger
+      payload; add custom metrics for business events; verify a single
+      request emits logs + a metric + a trace in test.
+
+2.18  `add-cloud-smoke-tests.md`
+      Add smoke tests for a function / container / k8s workload.
+      Sequence: pick the smoke layer (handler invocation with mocked
+      managed-service clients for functions; container health probe for
+      containers; pod readiness for k8s); add one happy-path assertion
+      runnable in seconds.
+
+2.19  `add-cloud-integration-tests.md`
+      Add Lane A (emulator) or Lane B (ephemeral real) integration
+      tests. Sequence: pick lane per manifest declaration; author the
+      test harness (LocalStack docker-compose / GCP emulators /
+      Azurite / Pulumi Automation API up-down / `terraform apply` +
+      `destroy`); assert the changed boundary end to end; declare
+      teardown.
+
+2.20  `add-replay-and-dlq-handling.md`
+      Add explicit replay and DLQ handling to an event-driven workload.
+      Sequence: declare dedupe-key strategy; author the dedupe store
+      binding; author the DLQ destination + alarm + replay tool;
+      integration test the replay path (send same event twice; assert
+      single effect; send poison message; assert DLQ landing).
+
+2.21  `add-cloud-runtime-image.md`
+      Author or update a container image per `container-image-discipline`.
+      Sequence: pick base image (digest pinned); multi-stage build;
+      non-root user; SBOM (syft); vuln scan (trivy); push to ECR /
+      Artifact Registry / ACR with both git-SHA and semver tags.
+
+2.22  `add-helm-or-kustomize-overlay.md`
+      Add or update an overlay for an existing k8s workload. Sequence:
+      decide Helm vs Kustomize per repo convention; add base+overlay
+      OR templates+values per env; render and lint; apply against test
+      cluster.
+
+2.23  `promote-dev-to-test.md`
+      Promote a change from dev to test. Sequence: confirm dev IaC
+      plan/preview is clean; run the test workspace/stack apply;
+      confirm validate_iac_isolation passes; run integration tests
+      against test; confirm DLQs empty.
+
+2.24  `plan-scenario-derived-repo.md`
+      Turn a business-shaped workload prompt, including prompts resembling
+      the excellent-cloud catalogs, into a concrete `new_cloud_repo.py`
+      invocation and first prompt sequence. Sequence: run scenario-router;
+      load `context/scenarios/scenario-profile-map.yaml`; preserve explicit
+      provider/runtime/language/IaC choices; choose likely manifest,
+      archetype, support services, and canonical examples; print the exact
+      bootstrap command; stop if the scenario implies a different runtime
+      tier than the user requested.
+
+2.25  `refactor.md`, `fix-bug.md`, `post-flight-refinement.md`,
+      `refresh-mermaid-diagrams.md` (FOUR small workflows in one batch
+      for housekeeping; each 30–60 lines; no cloud-specific procedure
+      beyond doctrine references).
+
+  Naming: 2.25 actually expands to 4 separate files. Total workflow file
+  count: 28 (the 24 numbered above + 4 housekeeping).
+
+================================================================================
+VERIFICATION
+================================================================================
+
+  1. `ls context/workflows/ | wc -l` shows 28.
+  2. `wc -l context/workflows/*.md` — each 30–120 lines.
+  3. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' context/workflows/`
+     returns nothing.
+  4. Every workflow filename referenced in `context/router/task-router.md`
+     resolves to a file you authored.
+  5. Every archetype's `Common Workflows` section in `context/archetypes/`
+     references workflows that exist.
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run.
+
+  - [ ] All 28 workflow files exist with the Part 1 format.
+  - [ ] `.gitkeep` removed from `context/workflows/`.
+  - [ ] No `acb` / `.acb/` references.
+  - [ ] Workflow names match `task-router.md` and archetype references.
+  - [ ] `tmp/PROMPT_13_checklist.md` is fully checked.
+  - [ ] `memory/concepts/workflow-system.md` exists with one paragraph
+        listing the 28 workflows and noting that PROMPT_14 authors
+        manifests.
+  - [ ] `memory/INDEX.md` lists `workflow-system.md`.
+
+End of PROMPT_13.

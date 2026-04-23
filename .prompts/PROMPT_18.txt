@@ -1,0 +1,311 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is PROMPT_18 of 33. PROMPT_01–17 built foundations through the
+validation script layer. This prompt authors the INITIAL-BUILD AWS LAMBDA
+SEED EXAMPLES under `examples/canonical-aws-lambda/`. Each seed example is
+real, runnable code with paired Terraform AND Pulumi-language IaC, dev/test
+isolation, smoke + integration tests, and registry entries.
+
+Use **`accb`** / **`.accb/`** in everything; never `acb` / `.acb/`.
+
+           [CLOUD ARC: Prompt 18 of 33 — Canonical AWS Lambda Examples]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+One prompt per session. Maintain `tmp/PROMPT_18_checklist.md`.
+
+Initial-build rule: in this first real build pass, author only the seed set
+in Part 2. Record the remaining planned variants as deferred follow-ups in
+`tmp/PROMPT_18_checklist.md`; do not add catalog/registry entries for
+deferred items yet.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+`accb` is a context-first foundation for cloud-native backend repos.
+PROMPT_18–31 author the canonical example surface in two passes: PROMPT_18–24
+seed the families, and PROMPT_25–31 complete the deferred required expansion
+set. Each example carries provider, runtime tier, language, IaC tool, and
+dev/test isolation. The catalog in `examples/catalog.json` and the registry in
+`verification/example_registry.yaml` index every example.
+
+Sequence:
+  PROMPT_01–17  All system layers + generation + validation             (done)
+  PROMPT_18     Canonical AWS Lambda examples                           (this prompt)
+  PROMPT_19     Canonical GCP Cloud Functions examples
+  PROMPT_20     Canonical Azure Functions examples
+  PROMPT_21     Canonical Cloud Run + App Runner examples
+  PROMPT_22     Canonical Container Apps examples
+  PROMPT_23     Canonical EKS + GKE + AKS multi-role platforms
+  PROMPT_24     Canonical IaC + observability + secrets + eventing + prompts
+  PROMPT_25     Canonical AWS Lambda expansion
+  PROMPT_26     Canonical GCP Cloud Functions expansion
+  PROMPT_27     Canonical Azure Functions expansion
+  PROMPT_28     Canonical Cloud Run + App Runner expansion
+  PROMPT_29     Canonical Container Apps expansion
+  PROMPT_30     Canonical EKS + GKE + AKS expansion
+  PROMPT_31     Canonical Pulumi starter expansion
+  PROMPT_32     Cloud integration testing harness + arc docs
+  PROMPT_33     Final wiring
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read:
+
+  1. `README.md`, `AGENT.md`
+  2. `python3 scripts/work.py resume`
+  3. `memory/INDEX.md` and concepts
+  4. `context/doctrine/canonical-examples.md`
+  5. `context/doctrine/iac-dev-test-isolation.md`
+  6. `context/doctrine/idempotency-and-replay.md`
+  7. `context/doctrine/cloud-secret-handling.md`
+  8. `context/stacks/aws-lambda-python.md`,
+     `context/stacks/aws-lambda-typescript-node.md`,
+     `context/stacks/aws-lambda-go.md`
+  9. `context/stacks/iac-pulumi-python.md`,
+     `context/stacks/iac-pulumi-typescript.md`,
+     `context/stacks/iac-pulumi-go.md`,
+     `context/stacks/iac-terraform-aws.md`
+ 10. `context/stacks/eventing-aws-eventbridge-sqs-sns.md`,
+     `context/stacks/storage-aws-s3-dynamodb-rds.md`,
+     `context/stacks/identity-aws-iam.md`,
+     `context/stacks/secrets-aws-secrets-manager.md`,
+     `context/stacks/observability-otel-cloud.md`
+ 11. `templates/function/aws-lambda/`, `templates/iac/{terraform,pulumi/*}/aws/`
+ 12. `verification/example_registry.yaml` (current shape)
+ 13. `examples/catalog.json` (current shape)
+
+If a sibling `agent-context-base/` exists, you MAY glance at (SHAPE only):
+  agent-context-base/examples/canonical-api/fastapi-endpoint-example.py
+  agent-context-base/examples/canonical-integration-tests/fastapi-db-integration-test-example.py
+
+================================================================================
+PART 1 — EXAMPLE LAYOUT CONTRACT
+================================================================================
+
+Each example is a self-contained directory with this structure:
+
+```
+examples/canonical-aws-lambda/<example-name>/
+├── README.md                          # what the example does, run instructions
+├── src/                               # handler code
+├── iac/
+│   ├── terraform/
+│   │   ├── dev/{main.tf, backend.tf, dev.tfvars}
+│   │   └── test/{main.tf, backend.tf, test.tfvars}
+│   └── pulumi/<language>/
+│       ├── Pulumi.yaml
+│       ├── Pulumi.dev.yaml
+│       ├── Pulumi.test.yaml
+│       └── <entrypoint>               # __main__.py / index.ts / main.go
+├── tests/
+│   ├── smoke/                         # handler invocation + mocked SDK
+│   ├── integration/
+│   │   ├── lane-a-localstack/         # docker-compose.yml + pytest/jest
+│   │   └── lane-b-ephemeral-real/     # pulumi/terraform up + tests + down
+│   └── replay/                        # idempotency proof: same dedupe key twice
+├── observability/
+│   └── structured-log-shape.md        # JSON fields the handler emits
+└── catalog-entry.json                 # appended into examples/catalog.json
+```
+
+Per-example registry entry (appended to
+`verification/example_registry.yaml`):
+
+```yaml
+- family: canonical-aws-lambda
+  name: <example-name>
+  provider: aws
+  runtime_tier: function
+  language: <python|typescript|go>
+  iac_tool_terraform: true
+  iac_tool_pulumi: pulumi-<language>
+  dev_test_disjoint: true
+  verify_command: "bash examples/canonical-aws-lambda/<example-name>/tests/verify.sh"
+  last_verified_at: null
+  last_verified_status: pending
+```
+
+================================================================================
+PART 2 — REQUIRED SEED EXAMPLES (3 examples)
+================================================================================
+
+Author the following 3 seed examples:
+
+  2.1  s3-trigger-image-moderation/python/      Python (boto3 + Pulumi-Python)
+       — S3 PutObject → validate metadata → Rekognition (label + moderation)
+         → DynamoDB processing record → EventBridge fan-out for flagged
+         items. Idempotency by S3 object version. Observability: structured
+         logs with object key + version + correlation ID; CloudWatch metric
+         per moderation decision.
+
+  2.2  apigw-stripe-webhook/typescript/         TypeScript (Pulumi-TS)
+       — API Gateway HTTP API → Lambda verifies Stripe signature
+         (Secrets Manager) → DynamoDB raw event store with dedupe key →
+         Step Functions fulfillment workflow → 202 Accepted return.
+         Replay test: send same event ID twice; assert single workflow
+         start.
+
+  2.3  sqs-document-translation/go/             Go (Pulumi-Go)
+       — SQS-triggered Lambda → S3 source fetch → Amazon Translate →
+         S3 destination write → DynamoDB job status → DLQ for terminal
+         failures. Visibility-timeout-aware retries. Replay test: same
+         message twice; assert single artifact.
+
+Remaining required expansion set (authored in PROMPT_25; do NOT author in
+this prompt):
+  s3-trigger-image-moderation/typescript/
+  s3-trigger-image-moderation/go/
+  apigw-stripe-webhook/python/
+  sqs-document-translation/python/
+  eventbridge-cdc-relay/typescript/
+  cognito-post-confirmation/python/
+
+================================================================================
+PART 3 — INTEGRATION TEST LANES (per example)
+================================================================================
+
+Lane A (LocalStack): a `tests/integration/lane-a-localstack/` directory
+with:
+  - `docker-compose.yml` running LocalStack with the services this
+    example needs (`SERVICES=s3,dynamodb,sqs,sns,events,...`)
+  - `bootstrap.sh` that creates required resources via aws CLI against
+    `--endpoint-url http://localhost:4566`
+  - `test_handler.py|.ts|.go` that invokes the handler against the
+    LocalStack endpoints
+  - `teardown.sh` that brings the stack down
+
+Lane B (ephemeral real): a `tests/integration/lane-b-ephemeral-real/`
+directory with:
+  - `up.sh` that runs `pulumi up --stack test --yes` (or
+    `terraform apply -auto-approve` against test workspace)
+  - `test_handler.py|.ts|.go` that invokes the deployed function via
+    the AWS API
+  - `down.sh` that runs `pulumi destroy --stack test --yes`
+  - a max-runtime guard (`timeout 1800` wrapping the suite)
+  - explicit guidance: this lane requires AWS credentials and incurs
+    real cost; the cost band is declared in the example README
+
+Lane C (record/replay) is unused for AWS Lambda examples — no third-
+party calls are mocked here. Bedrock-using examples would use Lane C
+when added in a later arc.
+
+================================================================================
+PART 4 — REPLAY (IDEMPOTENCY) TESTS
+================================================================================
+
+Every example has `tests/replay/test_replay.py|.ts|.go`:
+  - send the same trigger payload (same dedupe key) twice through the
+    Lane A or Lane B harness
+  - assert exactly-once effect at the persistence boundary (DynamoDB
+    item count = 1; downstream events emitted = 1; etc.)
+  - assert the second invocation returns successfully (no retry
+    surprises) but performs no additional side effect
+
+================================================================================
+PART 5 — OBSERVABILITY DECLARATION
+================================================================================
+
+Every example has `observability/structured-log-shape.md` listing the
+JSON fields emitted on every handler invocation. Required fields:
+
+  timestamp, level, msg, trace_id, request_id, correlation_id (event ID
+  or upstream request ID), provider (aws), runtime_tier (function),
+  function_name, dedupe_key, decision (ALLOW | FLAG | DROP, where
+  applicable), latency_ms.
+
+Use AWS Lambda Powertools (Python/TS) or the equivalent structured-log
+helper in Go. Observability emission must be visible in both Lane A
+(LocalStack-captured logs) and Lane B (CloudWatch).
+
+================================================================================
+PART 6 — REGISTRY + CATALOG UPDATES
+================================================================================
+
+  6.1  Append entries to `verification/example_registry.yaml` per Part 1.
+
+  6.2  Update `examples/catalog.json` with one entry per example:
+
+```json
+{
+  "family": "canonical-aws-lambda",
+  "name": "<example-name>",
+  "path": "examples/canonical-aws-lambda/<example-name>/<language>",
+  "provider": "aws",
+  "runtime_tier": "function",
+  "language": "<language>",
+  "iac": { "terraform": true, "pulumi": "pulumi-<language>" },
+  "dev_test_disjoint": true,
+  "verified": false
+}
+```
+
+  6.3  Update `verification/stack_support_matrix.yaml` to mark
+       AWS Lambda × {python, typescript, go} cells supported with first-
+       class examples. Mark java as DEFERRED for rare JVM-oriented cases.
+       Mark dotnet and ruby as NOT PLANNED in this arc.
+
+================================================================================
+PART 7 — VERIFICATION PER EXAMPLE
+================================================================================
+
+For each example, before declaring done:
+
+  - `python3 scripts/validate_iac_isolation.py examples/canonical-aws-lambda/<example>/iac/terraform`
+    exits 0
+  - `python3 scripts/validate_iac_isolation.py examples/canonical-aws-lambda/<example>/iac/pulumi/<lang>`
+    exits 0
+  - smoke tests pass against mocked SDK clients
+  - Lane A integration tests pass (LocalStack must be running locally —
+    document in the example README; CI will skip Lane A by default)
+  - Replay tests pass against Lane A
+  - Lane B is documented but does NOT run in this prompt's verification
+    (operator-driven, real-cost; PROMPT_32 wires it as an optional
+     `--tier full` gate)
+
+================================================================================
+VERIFICATION (this prompt)
+================================================================================
+
+  1. `find examples/canonical-aws-lambda -mindepth 2 -maxdepth 2 -type d | wc -l`
+     shows 3 example directories (the initial-build seed set).
+  2. Every example has the layout from Part 1.
+  3. `python3 scripts/validate_iac_isolation.py` clean for every example.
+  4. `python3 scripts/verify_examples.py --family canonical-aws-lambda`
+     runs without crashing (passes are nice-to-have for this prompt; the
+     gate is "no script error").
+  5. `examples/catalog.json` parses and contains the 3 new entries.
+  6. `verification/example_registry.yaml` parses and contains the 3 new
+     entries.
+  7. `verification/stack_support_matrix.yaml` reflects the AWS Lambda
+     coverage state.
+  8. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' examples/canonical-aws-lambda/`
+     returns nothing.
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run.
+
+  - [ ] All 3 seed examples (Part 2) exist with the Part 1 layout.
+  - [ ] Each example has Lane A integration tests + replay tests.
+  - [ ] Each example has Terraform + Pulumi-language IaC with
+        validate_iac_isolation passing.
+  - [ ] Each example has structured-log shape declared.
+  - [ ] Catalog + registry + support matrix updated.
+  - [ ] No `acb` / `.acb/` references.
+  - [ ] `tmp/PROMPT_18_checklist.md` is fully checked.
+  - [ ] `memory/concepts/aws-lambda-canonical-arc.md` exists with one
+        paragraph noting the 3 seed examples and that PROMPT_19 mirrors
+        this seed pass for GCP Cloud Functions.
+  - [ ] `memory/INDEX.md` lists `aws-lambda-canonical-arc.md`.
+
+End of PROMPT_18.

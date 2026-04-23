@@ -1,0 +1,211 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is PROMPT_21 of 33. PROMPT_18–20 completed the function-tier seed
+examples. This prompt authors the managed-container seed examples for
+Cloud Run (`examples/canonical-cloud-run/`) and App Runner
+(`examples/canonical-app-runner/`).
+
+Use **`accb`** / **`.accb/`** in everything; never `acb` / `.acb/`.
+
+      [CLOUD ARC: Prompt 21 of 33 — Canonical Cloud Run + App Runner Examples]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+One prompt per session. Maintain `tmp/PROMPT_21_checklist.md`.
+
+Initial-build rule: in this first real build pass, author only the seed sets
+in Parts 2 and 3. Record the remaining planned variants as deferred
+follow-ups in `tmp/PROMPT_21_checklist.md`; do not add catalog/registry
+entries for deferred items yet.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+`accb` is a context-first foundation for cloud-native backend repos.
+Managed-container examples have a SHIFTED layout vs function examples:
+they include a `Dockerfile`, a `src/` service tree, health/readiness
+probe endpoints, and the IaC provisions a service (or multi-service)
+plus ingress + identity + secrets.
+
+Integration testing for managed containers is primarily Lane B (ephemeral
+real); there is no credible local emulator for Cloud Run or App Runner.
+Lane A for these examples is HANDLER-LEVEL unit testing against a locally
+run container (`docker run` + curl).
+
+Sequence:
+  PROMPT_01–20  All foundations + function-tier examples                (done)
+  PROMPT_21     Cloud Run + App Runner examples                         (this prompt)
+  PROMPT_22     Container Apps examples
+  PROMPT_23     EKS + GKE + AKS multi-role platforms
+  PROMPT_24     IaC + observability + secrets + eventing + prompts
+  PROMPT_25–31  Expansion prompts for deferred required examples
+  PROMPT_32     Integration testing harness + arc docs
+  PROMPT_33     Final wiring
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read:
+
+  1. `README.md`, `AGENT.md`
+  2. `python3 scripts/work.py resume`
+  3. `memory/INDEX.md` and concepts
+  4. `examples/canonical-aws-lambda/s3-trigger-image-moderation/python/`
+     and `examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/python/`
+     (layout reference)
+  5. `context/doctrine/container-image-discipline.md`
+  6. `context/doctrine/vpc-and-private-networking.md`
+  7. `context/stacks/cloudrun-{python-fastapi,typescript-hono,go-echo}.md`,
+     `context/stacks/cloudrun-job.md`,
+     `context/stacks/cloudrun-multi-container-sidecar.md`
+  8. `context/stacks/apprunner-{python-fastapi,typescript-hono,go-echo}.md`,
+     `context/stacks/apprunner-vpc-connector.md`
+  9. `context/stacks/iac-pulumi-{python,typescript,go}.md`,
+     `context/stacks/iac-terraform-{aws,gcp}.md`
+ 10. `templates/container/cloudrun/`, `templates/container/apprunner/`,
+     `templates/iac/{terraform,pulumi/*}/{aws,gcp}/`
+
+================================================================================
+PART 1 — EXAMPLE LAYOUT CONTRACT (CONTAINER VARIANT)
+================================================================================
+
+```
+examples/canonical-<cloudrun|app-runner>/<example-name>/
+├── README.md
+├── src/                                # service code (FastAPI/Hono/Echo/…)
+│   ├── main.py | src/index.ts | cmd/server/main.go
+│   └── <modules>
+├── Dockerfile                          # digest-pinned base, multi-stage,
+│                                       non-root, SBOM-ready
+├── iac/
+│   ├── terraform/{dev,test}/
+│   └── pulumi/<language>/
+├── tests/
+│   ├── smoke/                          # `docker run` + curl health+route
+│   ├── integration/
+│   │   ├── lane-a-local-container/     # docker-compose with service + fake
+│   │   │                               #  managed-service sidecars where
+│   │   │                               #  possible
+│   │   └── lane-b-ephemeral-real/      # pulumi/tf up → curl → down
+│   └── replay/                         # only applicable for worker/job flavors
+├── observability/
+└── catalog-entry.json
+```
+
+================================================================================
+PART 2 — CLOUD RUN SEED EXAMPLES (2 examples)
+================================================================================
+
+Author in `examples/canonical-cloud-run/`:
+
+  2.1  public-api-private-worker-job/python-fastapi/      Python (Pulumi-Python)
+       — Public Cloud Run service (FastAPI) receiving submissions;
+         private Cloud Run service (FastAPI) performing callbacks via
+         IAM-gated invocation; Cloud Run Job scheduled nightly for
+         cleanup. Firestore for workflow state, GCS for attachments,
+         Pub/Sub for review fan-out, Secret Manager for reviewer
+         credentials.
+
+  2.2  multi-container-sidecar/python-fastapi/            Python (Pulumi-Python)
+       — Cloud Run service with TWO containers in one revision:
+         primary FastAPI app + OTel Collector sidecar exporting to
+         Cloud Trace/Logs. Demonstrates the sidecar startup contract,
+         shared localhost port, and resource request split.
+
+Remaining required Cloud Run expansion set (authored in PROMPT_28; do NOT
+author in this prompt):
+  public-api-private-worker-job/go-echo/
+  public-api-private-worker-job/typescript-hono/
+  cloudrun-job-nightly-report/python-fastapi/
+
+================================================================================
+PART 3 — APP RUNNER SEED EXAMPLES (1 example)
+================================================================================
+
+Author in `examples/canonical-app-runner/`:
+
+  3.1  public-api-with-vpc-connector/python-fastapi/      Python (Pulumi-Python)
+       — App Runner service (FastAPI) reaching a private Aurora
+         Postgres via VPC Connector; Secrets Manager for DB creds;
+         auto-deployment from ECR on tag push.
+
+Remaining required App Runner expansion set (authored in PROMPT_28; do NOT
+author in this prompt):
+  public-api-with-vpc-connector/go-echo/
+  supplier-onboarding/python-fastapi/
+
+================================================================================
+PART 4 — INTEGRATION TEST LANES
+================================================================================
+
+Lane A (local container) for each example:
+  - `tests/integration/lane-a-local-container/docker-compose.yml`
+    running the service container plus LocalStack/GCP emulator sidecars
+    where applicable
+  - `test_service.sh` that curls `/healthz`, `/readyz`, and one
+    representative route end to end
+  - `teardown.sh`
+
+Lane B (ephemeral real) for each example:
+  - `up.sh` runs `pulumi up --stack test --yes`
+  - `test_service.sh` curls the deployed service URL
+  - `down.sh` runs `pulumi destroy --stack test --yes`
+  - max-runtime guard; cost band documented in README
+
+================================================================================
+PART 5 — REGISTRY + CATALOG + SUPPORT MATRIX
+================================================================================
+
+Append entries per the PROMPT_18 Part 6 shape with `family:
+canonical-cloud-run` and `family: canonical-app-runner`, runtime_tier
+`managed_container`. Update `examples/catalog.json` and
+`verification/stack_support_matrix.yaml` to mark the seed-set surfaces as
+supported now: Cloud Run × {python-fastapi, multi-container-sidecar} and
+App Runner × {python-fastapi}. Mark the deferred variants (`go-echo`,
+`typescript-hono`, `cloudrun-job`, supplier-onboarding) as DEFERRED.
+
+================================================================================
+VERIFICATION (this prompt)
+================================================================================
+
+  1. `find examples/canonical-cloud-run -mindepth 2 -maxdepth 2 -type d | wc -l`
+     shows 2.
+  2. `find examples/canonical-app-runner -mindepth 2 -maxdepth 2 -type d | wc -l`
+     shows 1.
+  3. Every example has the Part 1 layout + a runnable Dockerfile that
+     builds locally (verify with `docker build -t <name> .` in each
+     example's root).
+  4. `python3 scripts/validate_iac_isolation.py` clean for every example.
+  5. `python3 scripts/verify_examples.py --family canonical-cloud-run`
+     and `--family canonical-app-runner` run without crashing.
+  6. Catalog + registry + support matrix updated.
+  7. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' examples/canonical-cloud-run/ examples/canonical-app-runner/`
+     returns nothing.
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run.
+
+  - [ ] All 2 Cloud Run seed examples (Part 2) exist with the Part 1 layout.
+  - [ ] The 1 App Runner seed example (Part 3) exists with the Part 1 layout.
+  - [ ] Each example has Lane A local-container + Lane B ephemeral-real
+        integration tests.
+  - [ ] Each example has Terraform + Pulumi-language IaC with
+        validate_iac_isolation passing.
+  - [ ] Catalog + registry + support matrix updated.
+  - [ ] No `acb` / `.acb/` references.
+  - [ ] `tmp/PROMPT_21_checklist.md` is fully checked.
+  - [ ] `memory/concepts/managed-container-canonical-arc-aws-gcp.md`
+        exists noting the 3 seed examples and that PROMPT_22 expands the
+        managed-container seed arc with Container Apps.
+  - [ ] `memory/INDEX.md` lists the new concept.
+
+End of PROMPT_21.

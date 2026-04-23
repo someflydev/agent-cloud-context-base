@@ -1,0 +1,242 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is PROMPT_12 of 33. PROMPT_01–11 built foundations through k8s stacks.
+This prompt closes the stack surface with IaC stacks (Terraform + Pulumi-
+{ts,py,go,dotnet}) and CROSS-CUTTING provider stacks (secrets, eventing,
+storage, identity, observability).
+
+Use **`accb`** / **`.accb/`** in everything; never `acb` / `.acb/`.
+
+           [CLOUD ARC: Prompt 12 of 33 — Stacks: IaC + Cross-cutting]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+One prompt per session. Maintain `tmp/PROMPT_12_checklist.md`.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+`accb` is a context-first foundation for cloud-native backend repos:
+functions, managed containers, kubernetes platforms across AWS / GCP /
+Azure with Terraform and Pulumi IaC. Modeled on `agent-context-base`
+(`acb`) but never copies its text.
+
+Sequence:
+  PROMPT_01–11  Through k8s stacks                                      (done)
+  PROMPT_12     Stacks: IaC + cross-cutting                             (this prompt)
+  PROMPT_13     Workflows
+  PROMPT_14     Manifests
+  PROMPT_15     Templates
+  PROMPT_16–17  Generation pipeline + validation scripts
+  PROMPT_18–31  Canonical examples + expansion prompts
+  PROMPT_32     Integration testing harness
+  PROMPT_33     Final wiring
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read:
+
+  1. `README.md`, `AGENT.md`
+  2. `python3 scripts/work.py resume`
+  3. `memory/INDEX.md` and concepts
+  4. `context/router/iac-router.md`
+  5. `context/router/stack-router.md` (Cross-cutting Stacks section)
+  6. `context/doctrine/iac-dev-test-isolation.md`
+  7. `context/doctrine/pulumi-stack-discipline.md`
+  8. `context/doctrine/terraform-workspace-discipline.md`
+  9. `context/doctrine/cloud-secret-handling.md`
+ 10. `context/doctrine/eventing-and-dlq-discipline.md`
+ 11. `context/doctrine/identity-and-least-privilege.md`
+ 12. `context/doctrine/observability-cloud-native.md`
+
+================================================================================
+PART 1 — STACK FILE FORMAT REMINDER
+================================================================================
+
+Continue the format from PROMPT_09–11 Part 1. For IaC files, replace
+"Handler Skeleton" with "Module / Resource Skeleton" and "Local
+Invocation" with "CLI Surface" (`terraform init/plan/apply` or
+`pulumi preview/up/destroy`). For cross-cutting files, lead with the
+abstract capability and then the provider-native binding patterns.
+
+================================================================================
+PART 2 — IaC STACKS (8 files)
+================================================================================
+
+Author in `context/stacks/`:
+
+  2.1  `iac-terraform-conventions.md`
+       — universal Terraform conventions for `accb`-derived repos:
+         per-env state backends with disjoint keys; `var.environment`
+         everywhere; module structure (modules/<x>/{main,variables,
+         outputs}.tf); pinned provider versions; pre-commit `terraform
+         fmt` and `terraform validate`; `tfvars` files per env
+
+  2.2  `iac-terraform-aws.md`
+       — AWS-specific Terraform: provider config + region + assume_role;
+         S3 + DynamoDB state backend; default tags; common modules
+         (vpc, eks, s3-bucket, lambda, iam-role); least-privilege IAM
+         module pattern
+
+  2.3  `iac-terraform-gcp.md`
+       — GCP-specific Terraform: google + google-beta providers; GCS
+         state backend with versioning; project + folder hierarchy;
+         common modules (network, gke, cloudfunctions2, cloudrun,
+         service-account)
+
+  2.4  `iac-terraform-azure.md`
+       — Azure-specific Terraform: azurerm provider; AzureRM blob state
+         backend with state lock via blob lease; subscription + resource
+         group hierarchy; common modules (vnet, aks, function-app,
+         container-app, key-vault, role-assignment)
+
+  2.5  `iac-pulumi-typescript.md`
+       — Pulumi TypeScript: project structure (Pulumi.yaml + index.ts +
+         per-env Pulumi.<stack>.yaml); component resources for reuse;
+         secrets via `pulumi config set --secret`; Automation API for
+         test harness invocation
+
+  2.6  `iac-pulumi-python.md`
+       — Pulumi Python: project structure (Pulumi.yaml + __main__.py);
+         ComponentResource subclasses; pulumi-aws / pulumi-gcp /
+         pulumi-azure-native packages; Automation API in Python
+
+  2.7  `iac-pulumi-go.md`
+       — Pulumi Go: project structure (Pulumi.yaml + main.go); custom
+         component types; package layout (cmd/, pkg/components); Auto-
+         mation API in Go
+
+  2.8  `iac-pulumi-dotnet.md`
+       — Pulumi .NET (C# + F#): project structure (Pulumi.yaml +
+         Program.cs / *.csproj); ComponentResource classes; .NET 8
+         runtime; Automation API in .NET
+
+================================================================================
+PART 3 — CROSS-CUTTING STACKS (13 files)
+================================================================================
+
+Author in `context/stacks/`:
+
+  3.1  `secrets-aws-secrets-manager.md`
+       — AWS Secrets Manager + Parameter Store; Lambda env vs runtime
+         fetch; rotation; KMS keys; cross-account access patterns
+
+  3.2  `secrets-gcp-secret-manager.md`
+       — Secret Manager; service-account binding; Workload Identity for
+         GKE; rotation; Cloud Run env-from-secret pattern
+
+  3.3  `secrets-azure-key-vault.md`
+       — Key Vault; managed identity binding; access policies vs RBAC;
+         secret reference in Function/ACA/Container Apps; Key Vault
+         references in app config
+
+  3.4  `eventing-aws-eventbridge-sqs-sns.md`
+       — EventBridge (default + custom buses + scheduler); SQS (standard
+         + FIFO); SNS (standard + FIFO topics); DLQ patterns; replay via
+         archive/replay; cross-account routing
+
+  3.5  `eventing-gcp-pubsub.md`
+       — Pub/Sub (push + pull subscriptions); ordering keys; dead-letter
+         topic; retry policy; Eventarc as routing layer; Cloud Tasks for
+         delayed work
+
+  3.6  `eventing-azure-servicebus-eventgrid.md`
+       — Service Bus (queues + topics + sessions); Event Grid (system
+         topics + custom topics + partner topics); Event Hubs (high-
+         throughput streaming); DLQ patterns
+
+  3.7  `storage-aws-s3-dynamodb-rds.md`
+       — S3 (lifecycle, encryption, event notifications); DynamoDB
+         (on-demand vs provisioned, GSI, streams, TTL); RDS (Aurora vs
+         RDS for Postgres/MySQL; proxy for connection pooling)
+
+  3.8  `storage-gcp-gcs-firestore-cloudsql.md`
+       — GCS (lifecycle, encryption, Object Versioning); Firestore
+         (Native vs Datastore, indexes, security rules); Cloud SQL
+         (Postgres/MySQL; Auth Proxy; private IP)
+
+  3.9  `storage-azure-blob-cosmos-azuresql.md`
+       — Blob Storage (lifecycle, soft delete, immutability); Cosmos DB
+         (consistency levels, partition keys, change feed); Azure SQL
+         (DTU vs vCore, private endpoint)
+
+  3.10 `identity-aws-iam.md`
+       — IAM roles + policies; Lambda execution role; ECS task role;
+         IRSA for EKS; Pod Identity Agent (newer); least-privilege
+         patterns; permission boundaries; service control policies (SCPs)
+
+  3.11 `identity-gcp-iam-sa.md`
+       — Service accounts; IAM bindings (project/folder/org); Workload
+         Identity for GKE; Workload Identity Federation for cross-cloud;
+         least-privilege patterns
+
+  3.12 `identity-azure-entra-mi.md`
+       — Entra ID; system-assigned vs user-assigned managed identities;
+         RBAC role assignments; Workload Identity for AKS via federated
+         credentials; conditional access where applicable
+
+  3.13 `observability-otel-cloud.md`
+       — OpenTelemetry instrumentation per language; OTel Collector
+         deployment patterns (sidecar, daemonset, gateway); exporter
+         targets per provider (CloudWatch + X-Ray, Cloud Operations,
+         Azure Monitor); correlation ID propagation; structured log
+         field set (timestamp, level, msg, trace_id, span_id, tenant_id,
+         request_id)
+
+================================================================================
+PART 4 — STACK CROSS-REFERENCES TO RESOLVE
+================================================================================
+
+After this prompt completes, the forward references from PROMPT_09–11
+should resolve. Verify:
+
+  - Every function-stack file's "Identity Binding", "Secrets",
+    "Observability" forward references now point to a file that exists.
+  - Every container-stack file's same references resolve.
+  - Every k8s-stack file's same references resolve.
+  - `iac-router.md` enumerated stack files (8 IaC stacks) all exist.
+
+If any forward reference is broken, fix the referencing file (treat this
+as an integration-validation gate for PROMPT_09–12).
+
+================================================================================
+VERIFICATION
+================================================================================
+
+  1. `ls context/stacks/iac-*.md | wc -l` shows 8.
+  2. `ls context/stacks/secrets-*.md context/stacks/eventing-*.md context/stacks/storage-*.md context/stacks/identity-*.md context/stacks/observability-*.md | wc -l`
+     shows 13 (3 secrets + 3 eventing + 3 storage + 3 identity + 1 obs).
+  3. `wc -l context/stacks/iac-*.md context/stacks/secrets-*.md context/stacks/eventing-*.md context/stacks/storage-*.md context/stacks/identity-*.md context/stacks/observability-*.md`
+     — each file 60–150 lines.
+  4. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' context/stacks/iac-*.md context/stacks/secrets-*.md context/stacks/eventing-*.md context/stacks/storage-*.md context/stacks/identity-*.md context/stacks/observability-*.md`
+     returns nothing.
+  5. `ls context/stacks/ | wc -l` total: 9 (functions, P09) + 15
+     (containers, P10) + 12 (k8s, P11) + 21 (this prompt) = 57 files.
+  6. Forward-reference smoke check (Part 4) passes for at least one file
+     from each tier.
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run.
+
+  - [ ] All 8 IaC stack files exist.
+  - [ ] All 13 cross-cutting stack files exist.
+  - [ ] No `acb` / `.acb/` references.
+  - [ ] Stack names match `stack-router.md` and `iac-router.md`.
+  - [ ] Forward references from PROMPT_09–11 resolve.
+  - [ ] `tmp/PROMPT_12_checklist.md` is fully checked.
+  - [ ] `memory/concepts/full-stack-surface-complete.md` exists with one
+        paragraph noting that the 57-file stack surface is complete and
+        that PROMPT_13 authors workflows.
+  - [ ] `memory/INDEX.md` lists `full-stack-surface-complete.md`.
+
+End of PROMPT_12.

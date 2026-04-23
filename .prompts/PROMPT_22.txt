@@ -1,0 +1,175 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is PROMPT_22 of 33. PROMPT_21 authored the Cloud Run + App Runner seed
+examples. This prompt extends the managed-container seed arc with Azure
+Container Apps under `examples/canonical-container-apps/`.
+
+Use **`accb`** / **`.accb/`** in everything; never `acb` / `.acb/`.
+
+         [CLOUD ARC: Prompt 22 of 33 — Canonical Container Apps Examples]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+One prompt per session. Maintain `tmp/PROMPT_22_checklist.md`.
+
+Initial-build rule: in this first real build pass, author only the seed set
+in Part 2. Record the remaining planned variants as deferred follow-ups in
+`tmp/PROMPT_22_checklist.md`; do not add catalog/registry entries for
+deferred items yet.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+`accb` is a context-first foundation for cloud-native backend repos.
+Container-tier examples follow PROMPT_21 Part 1's layout contract.
+
+Sequence:
+  PROMPT_01–21  All foundations + functions + Cloud Run + App Runner   (done)
+  PROMPT_22     Canonical Container Apps examples                       (this prompt)
+  PROMPT_23     EKS + GKE + AKS multi-role platforms
+  PROMPT_24     IaC + observability + secrets + eventing + prompts
+  PROMPT_25–31  Expansion prompts for deferred required examples
+  PROMPT_32     Integration testing harness + arc docs
+  PROMPT_33     Final wiring
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read:
+
+  1. `README.md`, `AGENT.md`
+  2. `python3 scripts/work.py resume`
+  3. `memory/INDEX.md` and concepts (especially the managed-container-arc
+     concept)
+  4. `examples/canonical-cloud-run/public-api-private-worker-job/python-fastapi/`
+     (LAYOUT REFERENCE)
+  5. `context/stacks/aca-{python-fastapi,typescript-hono,go-echo,
+     dotnet-aspnet}.md`,
+     `context/stacks/aca-jobs.md`,
+     `context/stacks/aca-dapr.md`
+  6. `context/stacks/iac-pulumi-{dotnet,typescript,python}.md`,
+     `context/stacks/iac-terraform-azure.md`
+  7. `context/stacks/eventing-azure-servicebus-eventgrid.md`,
+     `context/stacks/secrets-azure-key-vault.md`,
+     `context/stacks/identity-azure-entra-mi.md`
+  8. `templates/container/aca/`,
+     `templates/iac/{terraform,pulumi/*}/azure/`
+
+================================================================================
+PART 1 — REUSE LAYOUT FROM PROMPT_21
+================================================================================
+
+The container-variant example layout, integration test lanes, and
+registry/catalog conventions are identical to PROMPT_21 Part 1, Part 4,
+Part 5. Provider substitutions:
+
+  - Image registry → ACR
+  - Identity → user-assigned managed identity bound at the Container
+    Apps environment level
+  - Secrets → Key Vault references in app secrets
+  - Lane A "local container" still applies: `docker build` + `docker run`
+    + curl. Add Azurite when blob/queue/table is involved.
+  - Lane B → `pulumi up --stack test` (or `terraform apply`) against
+    Azure subscription.
+
+================================================================================
+PART 2 — CONTAINER APPS SEED EXAMPLES (2 examples)
+================================================================================
+
+Author in `examples/canonical-container-apps/`:
+
+  2.1  public-api-private-worker-jobs/python-fastapi/     Python (Pulumi-Python)
+       — Public ACA service (FastAPI) for inbound submissions; private ACA
+         service for processing (internal ingress only); ACA Job triggered
+         by Service Bus messages for batch retry. Cosmos DB state, Blob
+         Storage attachments, Service Bus eventing, Key Vault secrets.
+         Demonstrates KEDA scaling on queue depth.
+
+  2.2  dapr-pubsub-binding/dotnet-aspnet/                 .NET 8 (Pulumi-DotNet)
+       — Two ACA services using Dapr building blocks: pub/sub binding
+         (Service Bus topic), state binding (Cosmos), secret binding
+         (Key Vault). Demonstrates when Dapr earns its weight (cross-
+         language eventing) and when it is overkill (single-component
+         apps).
+
+Remaining required expansion set (authored in PROMPT_29; do NOT author in
+this prompt):
+  public-api-private-worker-jobs/dotnet-aspnet/
+  public-api-private-worker-jobs/typescript-hono/
+
+================================================================================
+PART 3 — INTEGRATION TEST LANE A (LOCAL + AZURITE WHERE APPLICABLE)
+================================================================================
+
+Lane A `tests/integration/lane-a-local-container/`:
+
+  - `docker-compose.yml` running:
+      - the service container(s)
+      - Azurite for blob/queue/table when applicable
+      - in-memory ServiceBus fake (https://github.com/Azure/azure-service-
+        bus-emulator-installer Linux variant) when applicable; otherwise
+        skip Service Bus in Lane A and rely on Lane B for that boundary
+      - Cosmos DB Emulator linux container when the example writes to
+        Cosmos (mark macOS as "Lane B only")
+  - `bootstrap.sh` to create containers, queues, topics, Cosmos
+    collections.
+  - `test_service.sh` curling `/healthz`, `/readyz`, and one
+    representative route end to end.
+  - `teardown.sh`.
+
+Lane B identical to PROMPT_21 Part 4 with `pulumi up --stack test`
+against Azure.
+
+================================================================================
+PART 4 — REGISTRY + CATALOG + SUPPORT MATRIX
+================================================================================
+
+Append entries with `family: canonical-container-apps`,
+`provider: azure`, `runtime_tier: managed_container`. Update
+`examples/catalog.json` and mark Container Apps × {python-fastapi,
+dotnet-aspnet, dapr} supported in the seed pass. Keep
+`typescript-hono` marked DEFERRED in `verification/stack_support_matrix.yaml`.
+
+================================================================================
+VERIFICATION (this prompt)
+================================================================================
+
+  1. `find examples/canonical-container-apps -mindepth 2 -maxdepth 2 -type d | wc -l`
+     shows 2.
+  2. Every example has the layout from PROMPT_21 Part 1.
+  3. Every example's Dockerfile builds locally.
+  4. `python3 scripts/validate_iac_isolation.py` clean for every example.
+  5. `python3 scripts/verify_examples.py --family canonical-container-apps`
+     runs without crashing.
+  6. Catalog + registry + support matrix updated.
+  7. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' examples/canonical-container-apps/`
+     returns nothing.
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run.
+
+  - [ ] All 2 Container Apps seed examples (Part 2) exist with the layout from
+        PROMPT_21 Part 1.
+  - [ ] Each example has Lane A + Lane B integration tests.
+  - [ ] Each example has Terraform + Pulumi-language IaC with
+        validate_iac_isolation passing.
+  - [ ] Catalog + registry + support matrix updated.
+  - [ ] Dapr example (2.2) explicitly documents when Dapr is the right
+        choice and when it is overkill.
+  - [ ] No `acb` / `.acb/` references.
+  - [ ] `tmp/PROMPT_22_checklist.md` is fully checked.
+  - [ ] `memory/concepts/container-apps-canonical-arc.md` exists with one
+        paragraph noting the 2 seed examples and the completion of the
+        managed-container seed arc; PROMPT_23 begins the k8s seed arc.
+  - [ ] `memory/INDEX.md` lists `container-apps-canonical-arc.md`.
+
+End of PROMPT_22.

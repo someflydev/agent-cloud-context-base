@@ -1,0 +1,242 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is PROMPT_08 of 33. PROMPT_01–07 built skeleton, doctrine, anchors,
+specs, validation, profile-rules, work.py, memory, routers, archetypes, and
+the scenario catalog. This prompt authors all skills in `context/skills/`.
+
+Use **`accb`** / **`.accb/`** in everything; never `acb` / `.acb/`.
+
+                       [CLOUD ARC: Prompt 8 of 33 — Skills]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+One prompt per session. Maintain `tmp/PROMPT_08_checklist.md`.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+`accb` is a context-first foundation for cloud-native backend repos:
+functions (Lambda, Cloud Functions, Azure Functions), managed containers
+(Cloud Run, App Runner, Container Apps), kubernetes (EKS, GKE, AKS).
+Modeled on `agent-context-base` (`acb`) but never copies its text.
+
+Sequence:
+  PROMPT_01–07  Skeleton + doctrine + specs + accb + work.py + routers +
+                archetypes + scenario catalog                           (done)
+  PROMPT_08     Skills                                                  (this prompt)
+  PROMPT_09–12  Stacks
+  PROMPT_13     Workflows
+  PROMPT_14     Manifests
+  PROMPT_15     Templates
+  PROMPT_16–17  Generation pipeline + validation scripts
+  PROMPT_18–31  Canonical examples + expansion prompts
+  PROMPT_32     Integration testing harness
+  PROMPT_33     Final wiring
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read:
+
+  1. `README.md`, `AGENT.md`
+  2. `python3 scripts/work.py resume`
+  3. `memory/INDEX.md` and concepts
+  4. `context/router/*.md` (all seven routers — skills reference them)
+  5. `context/doctrine/function-vs-container-vs-k8s.md`
+  6. `context/doctrine/managed-service-selection.md`
+  7. `context/doctrine/eventing-and-dlq-discipline.md`
+  8. `context/doctrine/iac-dev-test-isolation.md`
+  9. `context/archetypes/cloud-event-pipeline.md`
+
+If a sibling `agent-context-base/` exists, you MAY glance at (SHAPE only):
+  agent-context-base/context/skills/manifest-selection.md
+  agent-context-base/context/skills/canonical-example-selection.md
+  agent-context-base/context/skills/context-bundle-assembly.md
+  agent-context-base/context/skills/memory-continuity-discipline.md
+
+Skills describe COGNITIVE PROCEDURES (steps an assistant follows under
+ambiguity), not implementation patterns. They are loaded when the user
+asks "how do I pick…?" or when routing hits a tie.
+
+================================================================================
+PART 1 — SKILL FILE FORMAT
+================================================================================
+
+Each skill in `context/skills/*.md`:
+
+  # <Skill Name>
+
+  Use this skill to <one-paragraph statement of what cognitive procedure
+  the skill captures and what tie/ambiguity it resolves>.
+
+  ## Procedure
+
+  1. <step>
+  2. <step>
+  3. <step>
+
+  ## Good Triggers
+
+  - "<phrase>"
+  - "<phrase>"
+
+  ## Avoid
+
+  - <anti-pattern>
+  - <anti-pattern>
+
+Each file 30–80 lines. No frontmatter.
+
+================================================================================
+PART 2 — SKILL FILES TO AUTHOR
+================================================================================
+
+Author the following 18 skill files in `context/skills/`:
+
+2.1  `cloud-runtime-tier-selection.md`
+     Picks function vs managed-container vs k8s using the rules in
+     `context/doctrine/function-vs-container-vs-k8s.md`. Procedure:
+     identify boundedness, runtime needs, topology, scaling axes; choose
+     the lowest tier that fits; document the escalation trigger.
+
+2.2  `provider-selection.md`
+     Picks AWS vs GCP vs Azure when the prompt is provider-agnostic.
+     Procedure: check repo signals first; check organizational defaults
+     (operator declares); check the closest managed-service set to the
+     workload; if still tied, ask.
+
+2.3  `language-runtime-selection.md`
+     Picks the language for a function or container given provider
+     constraints. Procedure: confirm provider runtime support; weigh
+     cold-start budget; check existing repo language affinity; pick the
+     smallest cognitively coherent runtime.
+
+  2.4  `iac-tool-selection.md`
+     Picks Terraform vs Pulumi-{ts,py,go,dotnet}. Procedure: respect
+     explicit user request; respect existing repo signals; otherwise apply
+     language affinity (Pulumi-language matches the application language
+     when possible); treat Pulumi-.NET as an Azure-skewed choice rather
+     than a default cross-cloud pick; fall back to Terraform only when no
+     Pulumi-language fit exists.
+
+2.5  `trigger-boundary-design.md`
+     Keeps function handlers thin. Procedure: enumerate the trigger
+     payload's required fields; enumerate the side-effect set; identify
+     anything that requires >5s, >256MB, or stateful processing; move
+     those out of the function into containers, jobs, or workflows.
+
+2.6  `managed-service-substitution.md`
+     Maps a request from one provider's vocabulary to another. Procedure:
+     identify the abstract capability (object storage, document store,
+     queue, secret store, identity, etc.); look up the provider-native
+     equivalent in the relevant stack; flag any semantic gaps explicitly
+     (e.g. "Cosmos has change feed; DynamoDB has streams; not identical").
+
+2.7  `secret-binding-strategy.md`
+     Picks the secret binding pattern for a workload. Procedure: identify
+     the secret family (3rd-party API key, internal cert, KMS-wrapped
+     blob); pick provider-native store; bind via identity (IAM/SA/MI);
+     declare rotation cadence in the manifest.
+
+2.8  `eventing-seam-selection.md`
+     Picks queue vs topic vs bus vs stream for an event-driven seam.
+     Procedure: identify ordering needs (FIFO?), fan-out (one-to-many?),
+     replay window, batching, DLQ behavior; map to the provider-native
+     primitive that matches.
+
+2.9  `k8s-workload-role-decomposition.md`
+     Splits a proposed k8s workload into API/worker/job/cron/control-plane
+     pieces. Procedure: enumerate runtime classes per piece (latency,
+     scaling, lifecycle); separate Deployments per class; document
+     cross-piece communication.
+
+2.10 `iac-environment-promotion.md`
+     Decides what changes between dev and test stacks/workspaces.
+     Procedure: list the per-env axes (state backend, secret path, env
+     prefix, resource names, region); confirm dev-only vs shared inputs;
+     produce the disjoint config.
+
+2.11 `cloud-integration-test-design.md`
+     Picks Lane A (emulator), Lane B (ephemeral real), Lane C (record/
+     replay). Procedure: assess managed-service emulator quality; assess
+     cost of ephemeral real; assess flakiness of recorded fixtures;
+     prefer Lane B for medium+ profiles; combine A+C for cheap scenarios.
+
+2.12 `observability-bundle-assembly.md`
+     Picks the smallest useful three-pillar observability bundle.
+     Procedure: declare the trace context source; declare the structured-
+     log shape; declare the custom metrics for business events; pick the
+     OTel exporter target per provider.
+
+2.13 `manifest-selection.md`
+     Picks between near-match manifests. Procedure: list candidates;
+     score signal strength (lockfile/IaC files/repo signals = strong;
+     one-off comments = weak); prefer the narrower scope when scores tie;
+     stop and name ambiguity when no manifest dominates.
+
+2.14 `canonical-cloud-example-selection.md`
+     Picks the canonical example for a (provider, runtime, language)
+     cell. Procedure: filter `examples/catalog.json` by provider, runtime
+     tier, language, IaC tool; prefer the most-recently-verified entry;
+     reject examples that contradict newer doctrine.
+
+2.15 `scenario-to-profile-selection.md`
+     Converts excellent-catalog-style workload prompts into a concrete
+     `accb` profile. Procedure: identify the scenario pattern from
+     `context/scenarios/scenario-profile-map.yaml`; preserve explicit
+     provider/runtime/IaC choices; otherwise select likely manifest,
+     archetype, support services, canonical examples, and validation gates
+     from the pattern; stop if the scenario implies a different runtime tier
+     than the user requested.
+
+2.16 `context-bundle-assembly.md`
+     Assembles the first-pass bundle from router output + manifest.
+     Procedure: run seven routers; intersect with the chosen manifest's
+     required+optional context; apply the complexity-budget cap; emit
+     the approved bundle in load order.
+
+2.17 `memory-continuity-discipline.md`
+     Decides what goes into MEMORY.md, what goes into a concept artifact,
+     and what stays in TASK/SESSION/PLAN. Procedure: durable architectural
+     truths → MEMORY.md or concepts/; per-prompt resume/completion →
+     summaries/; per-session checklist → tmp/.
+
+2.18 `task-inference.md`
+     Translates user free-text into a routed task. Procedure: extract
+     verbs (add/build/refactor/fix/deploy); extract nouns (function/
+     container/k8s role/secret/event/etc.); pass through alias-catalog;
+     route via task-router; if multiple workflows tie, name them and
+     ask.
+
+================================================================================
+VERIFICATION
+================================================================================
+
+  1. `ls context/skills/ | wc -l` shows 18.
+  2. `wc -l context/skills/*.md` — each 30–80 lines.
+  3. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' context/skills/`
+     returns nothing.
+  4. Each skill file has Procedure, Good Triggers, and Avoid sections.
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run.
+
+  - [ ] All 18 skill files exist with the required sections.
+  - [ ] `.gitkeep` removed from `context/skills/`.
+  - [ ] No `acb` / `.acb/` references.
+  - [ ] `tmp/PROMPT_08_checklist.md` is fully checked.
+  - [ ] `memory/concepts/skill-system.md` exists with one paragraph noting
+        the 18 skills and that PROMPT_09 starts authoring stacks for cloud
+        functions.
+  - [ ] `memory/INDEX.md` lists `skill-system.md`.
+
+End of PROMPT_08.

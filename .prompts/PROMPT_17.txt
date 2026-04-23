@@ -1,0 +1,339 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is PROMPT_17 of 33. PROMPT_01–16 built the full system through the
+generation pipeline. This prompt implements the VALIDATION SCRIPT layer:
+
+  - `scripts/validate_context.py`        — context integrity (links, frontmatter)
+  - `scripts/validate_manifests.py`      — manifest schema + cross-refs
+  - `scripts/validate_iac_isolation.py`  — dev/test isolation gate (cloud-specific)
+  - `scripts/verify_examples.py`         — per-family example runnability contract
+  - `scripts/run_verification.py`        — orchestrator (--tier fast/medium/full)
+  - `scripts/preview_context_bundle.py`  — bundle preview + budget report
+  - `scripts/pattern_diff.py`            — compare candidate vs canonical example
+
+Use **`accb`** / **`.accb/`** in everything; never `acb` / `.acb/`.
+
+                 [CLOUD ARC: Prompt 17 of 33 — Validation Scripts]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+One prompt per session. Maintain `tmp/PROMPT_17_checklist.md`.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+`accb` is a context-first foundation for cloud-native backend repos. The
+validation script layer is the AUTONOMY RAIL — it makes "did the system
+actually work?" answerable by running commands, not by reading text.
+
+Sequence:
+  PROMPT_01–16  Through generation pipeline                             (done)
+  PROMPT_17     Validation scripts                                      (this prompt)
+  PROMPT_18–31  Canonical examples + expansion prompts
+  PROMPT_32     Integration testing harness
+  PROMPT_33     Final wiring
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read:
+
+  1. `README.md`, `AGENT.md`
+  2. `python3 scripts/work.py resume`
+  3. `memory/INDEX.md` and concepts (especially `generation-pipeline.md`)
+  4. `context/accb/profile-rules.json`
+  5. `context/doctrine/iac-dev-test-isolation.md`
+  6. `context/doctrine/cloud-secret-handling.md`
+  7. `context/doctrine/identity-and-least-privilege.md`
+  8. `context/doctrine/context-complexity-budget-cloud.md`
+  9. `verification/README.md`
+ 10. `verification/example_registry.yaml`
+ 11. `verification/stack_support_matrix.yaml`
+ 12. `scripts/work.py` (the resume/checkpoint contract)
+ 13. `scripts/accb_payload.py` (you call into it from preview_context_bundle.py)
+
+If a sibling `agent-context-base/` exists, you MAY glance at (SHAPE only):
+  agent-context-base/scripts/validate_context.py
+  agent-context-base/scripts/validate_manifests.py
+  agent-context-base/scripts/run_verification.py
+  agent-context-base/scripts/preview_context_bundle.py
+  agent-context-base/scripts/pattern_diff.py
+
+The cloud-specific addition is `validate_iac_isolation.py` — that script
+has no `acb` analog and must be designed from scratch.
+
+================================================================================
+PART 1 — scripts/validate_context.py
+================================================================================
+
+CLI: `python3 scripts/validate_context.py [--strict]`
+
+Checks:
+
+  1.1  Frontmatter presence + schema for every file under `context/specs/`
+       and `context/validation/`. Required fields: `accb_origin`,
+       `accb_source_path`, `accb_role`, `accb_version`.
+
+  1.2  No file under `context/` contains the literal `acb` (word boundary)
+       or `.acb/` apart from `accb_*` field names. The grep regex is the
+       same one used in PROMPT_01–16: `\bacb\b|\.acb/`.
+
+  1.3  Every doctrine name in `context/accb/profile-rules.json`
+       (`default_doctrines`, `doctrine_module_map`) resolves to a file
+       in `context/doctrine/`.
+
+  1.4  Every router name in `default_routers` resolves to a file in
+       `context/router/`.
+
+  1.5  Every anchor name in `default_anchors` resolves to a file in
+       `context/anchors/`.
+
+  1.6  Every archetype name in `archetype_capabilities` resolves to a
+       file in `context/archetypes/`.
+
+  1.7  Every workflow filename referenced from any router/archetype/
+       skill/manifest resolves to a file in `context/workflows/`.
+
+  1.8  Every stack filename referenced from any router/archetype/
+       manifest resolves to a file in `context/stacks/`.
+
+  1.9  Prompt numbering in `.prompts/` and `examples/canonical-prompts/`
+       is strictly monotonic with no gaps and no duplicates.
+
+  1.10 `context/scenarios/scenario-profile-map.yaml` parses and every
+       pattern references existing archetypes, manifests, support services,
+       and preferred example paths (warning-only for examples scheduled in
+       later prompts until PROMPT_24 completion).
+
+  --strict turns warnings into errors.
+
+Exit codes: 0 clean, 1 violation.
+
+================================================================================
+PART 2 — scripts/validate_manifests.py
+================================================================================
+
+CLI: `python3 scripts/validate_manifests.py [<manifest_name>]`
+
+Checks every manifest in `manifests/*.yaml` (or just the named one):
+
+  - YAML parses; `schema_version: 2`.
+  - `archetype` resolves to an existing archetype.
+  - `generated_repo_target` is present and boolean.
+  - If `generated_repo_target: true`, `primary_stack` resolves to an
+    existing stack. If `generated_repo_target: false`, `primary_stack`
+    MAY be `none` only for the comparative multi-provider manifest;
+    otherwise it still resolves to an existing stack.
+  - `provider` ∈ {aws, gcp, azure, multi}. `multi` is only valid when
+    `generated_repo_target: false`.
+  - `runtime_tier` ∈ {function, managed_container, k8s, null}.
+  - `iac_tool` is a valid value.
+  - Every `secondary_stacks`, `required_context`, `optional_context`,
+    `preferred_examples`, `recommended_templates`, and `task_hints`
+    entry resolves to a file or directory that exists (or is planned
+    by a later prompt — in that case, accept and warn rather than fail
+    until PROMPT_24 completion).
+  - `iac_layout.dev_path` ≠ `iac_layout.test_path`.
+  - `env_isolation.env_var_prefix_dev` ≠ `env_var_prefix_test`.
+  - `env_isolation.secret_path_dev` ≠ `secret_path_test`.
+  - Every `scenario_patterns` entry resolves to a pattern in
+    `context/scenarios/scenario-profile-map.yaml`, and the pattern's
+    runtime_tier is compatible with the manifest runtime_tier (or the
+    manifest is an IaC-only / multi-provider manifest that intentionally
+    sets runtime_tier to null).
+  - If `generated_repo_target: true`, reject any manifest that still has
+    `runtime_tier: null`, `provider: multi`, or `primary_stack: none`.
+    If `generated_repo_target: false`, accept those reference-only values
+    and print a note that the manifest is catalog-only in v1, not a
+    `new_cloud_repo.py` target.
+  - `cloud_integration_test_strategy` ∈ {localstack, emulator, azurite,
+    ephemeral_real, record_replay}.
+  - The manifest name appears in `context/accb/profile-rules.json`
+    `manifest_capabilities`.
+
+Exit 0 clean, 1 violation.
+
+================================================================================
+PART 3 — scripts/validate_iac_isolation.py (CLOUD-SPECIFIC GATE)
+================================================================================
+
+CLI: `python3 scripts/validate_iac_isolation.py <iac-root-dir>`
+
+This is the gate that turns `iac-dev-test-isolation.md` doctrine into a
+machine-checkable rule. Operates on either a Terraform tree (`iac/terraform/
+{dev,test}/`) or a Pulumi tree using the canonical flat stack-file layout
+(`iac/pulumi/<lang>/Pulumi.{dev,test}.yaml`). For imported repos, the
+validator MAY tolerate legacy explicit env subdirs, but generated repos in
+this arc use the flat Pulumi layout.
+
+Checks:
+
+  3.1  Terraform: both `dev/` and `test/` subtrees exist. Missing test
+       tree fails; missing dev tree warns. Pulumi: either both flat stack
+       files (`Pulumi.dev.yaml` and `Pulumi.test.yaml`) exist at the Pulumi
+       root, or the repo is flagged as a legacy-imported layout.
+
+  3.2  Terraform: `dev/backend.tf` and `test/backend.tf` exist with
+       backend blocks; their `key` (S3) / `prefix` (GCS) / `key`
+       (azurerm) values are different. Bucket / container / table
+       names may match (shared backend infrastructure is fine), but
+       the per-state key MUST differ.
+
+  3.3  Pulumi: `Pulumi.dev.yaml` / `Pulumi.test.yaml` exist at the Pulumi
+       root; `backend` config (when present) uses distinct paths; stack
+       names are `dev` and `test` (or operator-declared equivalents in a
+       comment); never the same name.
+
+  3.4  Resource-name suffix discipline: scan `*.tf` / `*.ts` / `*.py` /
+       `*.go` / `*.cs` for resource declarations. Each resource that
+       includes `var.environment` / `pulumi.getStack()` /
+       `Pulumi.Deployment.Instance.StackName` etc. is presumed
+       env-suffixed. Resources without this signal are flagged as
+       potential cross-env collisions.
+
+  3.5  Secret-path disjointness: scan for `data.aws_secretsmanager_secret`
+       / `aws_ssm_parameter` / `google_secret_manager_secret_version` /
+       `azurerm_key_vault_secret` references. Names referenced from dev
+       MUST NOT appear in test, and vice versa.
+
+  3.6  No literal secret values: scan for `password = "..."`,
+       `secret_key = "..."`, AKIA-prefixed strings, GitHub tokens
+       (`ghp_*`, `github_pat_*`), `BEGIN PRIVATE KEY`, etc. Any hit
+       fails.
+
+  3.7  No `terraform.tfvars` or `pulumi.config.encrypted.yaml` checked
+       in. Warn if present in the tree being scanned.
+
+Output: a per-rule pass/fail table. Exit 0 clean, 1 violation, 2
+environmental.
+
+`--allow <rule-id>` lets an operator suppress a rule with a documented
+reason (recorded in `.accb/validation/COVERAGE.json` deviations on next
+`accb_payload` run).
+
+================================================================================
+PART 4 — scripts/verify_examples.py
+================================================================================
+
+CLI: `python3 scripts/verify_examples.py [--family <name>]`
+
+Reads `examples/catalog.json` and `verification/example_registry.yaml`.
+For each example:
+
+  - confirm files declared in the registry exist
+  - if a `verify_command` is declared, run it (timeout 5 minutes);
+    success = exit 0
+  - record `last_verified_at` and `last_verified_status` in the
+    registry (only when `--update-registry` is passed; otherwise just
+    print)
+
+Concurrency: serial by default; `--parallel N` allows fan-out (only safe
+for examples without shared external state).
+
+Exit 0 clean, 1 any failure.
+
+================================================================================
+PART 5 — scripts/run_verification.py
+================================================================================
+
+CLI: `python3 scripts/run_verification.py --tier {fast|medium|full}`
+
+  fast    validate_context + validate_manifests + spot-check 3 random
+          examples per family + accb_payload golden snapshot
+  medium  fast + verify_examples (every example) + validate_iac_isolation
+          for every iac/* tree under examples/
+  full    medium + run Lane B ephemeral-real integration tests for at
+          least one example per family (operator-driven; requires cloud
+          creds; warns and skips when creds absent)
+
+Output: a per-suite pass/fail summary + a final overall verdict. Exit 0
+clean, 1 any failure.
+
+================================================================================
+PART 6 — scripts/preview_context_bundle.py
+================================================================================
+
+CLI:
+
+  python3 scripts/preview_context_bundle.py <manifest-name>
+    [--profile tiny|small|medium|large|cross-cloud]
+    [--show-weights] [--show-anchors] [--explain]
+
+Reads the manifest, resolves required + optional context, and prints the
+budget-approved first-pass bundle (per `context-complexity-budget-cloud`).
+Honors the `startup_features.budget_report_enabled` flag (off → prints a
+"feature gated off" notice and exits 0).
+
+================================================================================
+PART 7 — scripts/pattern_diff.py
+================================================================================
+
+CLI: `python3 scripts/pattern_diff.py <candidate-path> <canonical-path>`
+
+Compares directory or file structure of a candidate implementation against
+the canonical example. Reports drift in: file presence, IaC resource
+declarations, handler signature, manifest field set. Output is a per-
+category diff suitable for human review.
+
+================================================================================
+PART 8 — TESTS + POLICIES
+================================================================================
+
+8.1  Add `verification/scripts/test_*.py` unit tests for each
+     script using `unittest`. Each script gets a "clean" fixture and a
+     "violation" fixture under `verification/scripts/fixtures/`.
+
+8.2  Add `verification/policies/*.md` short policy notes (one per rule
+     in `validate_iac_isolation.py`):
+       no-default-creds.md
+       dev-test-disjoint.md
+       secret-not-in-source.md
+       resource-name-env-suffixed.md
+       no-checked-in-tfvars-or-pulumi-secrets.md
+     Each is a 10–25 line note explaining the rule, the failure mode,
+     and the typical remediation.
+
+8.3  Wire the gates into `scripts/work.py verify`: the `verify`
+     subcommand from PROMPT_05 now dispatches to `validate_context` +
+     `validate_manifests` (`fast` tier).
+
+================================================================================
+VERIFICATION
+================================================================================
+
+  1. Each script supports `--help`.
+  2. `python3 scripts/validate_context.py` exits 0 on the current repo.
+  3. `python3 scripts/validate_manifests.py` exits 0.
+  4. `python3 scripts/run_verification.py --tier fast` exits 0.
+  5. `python3 -m unittest discover -s verification/scripts -p "test_*.py"`
+     all pass.
+  6. `python3 scripts/work.py verify` runs the new dispatcher cleanly.
+  7. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' scripts/validate_*.py scripts/verify_examples.py scripts/run_verification.py scripts/preview_context_bundle.py scripts/pattern_diff.py verification/policies/`
+     returns nothing.
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run.
+
+  - [ ] All seven scripts (Parts 1–7) exist with the specified CLIs.
+  - [ ] `validate_iac_isolation.py` enforces every rule in Part 3.
+  - [ ] Unit tests + fixtures (Part 8.1) exist and pass.
+  - [ ] Policy notes (Part 8.2) exist for every rule.
+  - [ ] `scripts/work.py verify` dispatcher works (Part 8.3).
+  - [ ] `run_verification.py --tier fast` clean.
+  - [ ] No `acb` / `.acb/` references in any new file.
+  - [ ] `tmp/PROMPT_17_checklist.md` is fully checked.
+  - [ ] `memory/concepts/validation-script-layer.md` exists with one
+        paragraph noting the seven scripts and that PROMPT_18 begins
+        authoring canonical examples (AWS Lambda).
+  - [ ] `memory/INDEX.md` lists `validation-script-layer.md`.
+
+End of PROMPT_17.

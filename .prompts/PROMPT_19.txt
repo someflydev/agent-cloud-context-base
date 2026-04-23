@@ -1,0 +1,191 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is PROMPT_19 of 33. PROMPT_18 authored 3 canonical AWS Lambda seed
+examples for the initial build pass. This prompt mirrors that seed arc for
+GCP Cloud Functions (Gen2) under
+`examples/canonical-gcp-functions/`.
+
+Use **`accb`** / **`.accb/`** in everything; never `acb` / `.acb/`.
+
+       [CLOUD ARC: Prompt 19 of 33 — Canonical GCP Cloud Functions Examples]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+One prompt per session. Maintain `tmp/PROMPT_19_checklist.md`.
+
+Initial-build rule: in this first real build pass, author only the seed set
+in Part 2. Record the remaining planned variants as deferred follow-ups in
+`tmp/PROMPT_19_checklist.md`; do not add catalog/registry entries for
+deferred items yet.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+`accb` is a context-first foundation for cloud-native backend repos.
+Canonical examples per provider live under `examples/canonical-<provider>-
+<runtime>/`, each with paired Terraform AND Pulumi-language IaC, dev/test
+isolation, smoke + integration tests, and registry entries.
+
+Sequence:
+  PROMPT_01–18  All foundations + AWS Lambda examples                   (done)
+  PROMPT_19     Canonical GCP Cloud Functions examples                  (this prompt)
+  PROMPT_20     Canonical Azure Functions examples
+  PROMPT_21–23  Container + k8s seed examples
+  PROMPT_24     IaC + observability + secrets + eventing + prompts
+  PROMPT_25–31  Expansion prompts for deferred required examples
+  PROMPT_32     Integration testing harness + arc docs
+  PROMPT_33     Final wiring
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read:
+
+  1. `README.md`, `AGENT.md`
+  2. `python3 scripts/work.py resume`
+  3. `memory/INDEX.md` and concepts (especially `aws-lambda-canonical-arc.md`)
+  4. `examples/canonical-aws-lambda/s3-trigger-image-moderation/python/`
+     — read this end to end as the LAYOUT TEMPLATE you mirror
+  5. `context/doctrine/canonical-examples.md`,
+     `context/doctrine/iac-dev-test-isolation.md`,
+     `context/doctrine/idempotency-and-replay.md`,
+     `context/doctrine/cloud-secret-handling.md`
+  6. `context/stacks/gcp-cloudfn-{python,typescript-node,go}.md`
+  7. `context/stacks/iac-pulumi-python.md`,
+     `context/stacks/iac-pulumi-typescript.md`,
+     `context/stacks/iac-pulumi-go.md`,
+     `context/stacks/iac-terraform-gcp.md`
+  8. `context/stacks/eventing-gcp-pubsub.md`,
+     `context/stacks/storage-gcp-gcs-firestore-cloudsql.md`,
+     `context/stacks/identity-gcp-iam-sa.md`,
+     `context/stacks/secrets-gcp-secret-manager.md`,
+     `context/stacks/observability-otel-cloud.md`
+  9. `templates/function/gcp-cloudfn/`,
+     `templates/iac/{terraform,pulumi/*}/gcp/`
+
+================================================================================
+PART 1 — REUSE THE LAYOUT CONTRACT FROM PROMPT_18
+================================================================================
+
+The example directory layout, registry/catalog entry shape, integration
+test lanes (A/B/C), replay test contract, and observability declaration
+are identical to PROMPT_18 Parts 1, 3, 4, 5. Re-read those parts in
+PROMPT_18.txt before starting; they apply verbatim with provider-native
+substitutions:
+
+  - Lane A "LocalStack" → Lane A "Functions Framework + GCP emulators"
+    (Firestore emulator, Pub/Sub emulator, GCS via fake-gcs-server).
+  - Lane B "Terraform/Pulumi apply against test workspace" → same with
+    GCP credentials + `--stack test`.
+  - Identity binding stack → `identity-gcp-iam-sa.md` (Service Account +
+    IAM bindings; Workload Identity not relevant for Cloud Functions).
+  - Secrets stack → `secrets-gcp-secret-manager.md`.
+
+================================================================================
+PART 2 — REQUIRED SEED EXAMPLES (3 examples)
+================================================================================
+
+Author the following 3 seed examples in `examples/canonical-gcp-functions/`:
+
+  2.1  gcs-trigger-ocr-to-firestore/python/        Python (Pulumi-Python)
+       — Cloud Storage object create → Vision API OCR → Firestore document
+         + metadata write → Pub/Sub publish for downstream. Idempotency by
+         object generation. Observability per Part 5 of PROMPT_18.
+
+  2.2  http-stripe-webhook/typescript/             TypeScript (Pulumi-TS)
+       — HTTP-triggered Cloud Function → Stripe signature verify (Secret
+         Manager) → Firestore raw event store + dedupe → Workflows or
+         Cloud Tasks fulfillment hand-off → 202 Accepted. Replay test
+         per PROMPT_18 Part 4.
+
+  2.3  eventarc-monitoring-router/go/              Go (Pulumi-Go)
+       — Eventarc trigger from Cloud Monitoring incident → enrich with
+         Firestore service-ownership → BigQuery audit row → Slack
+         webhook (secret-managed). Duplicate-alert suppression.
+
+Remaining required expansion set (authored in PROMPT_26; do NOT author in
+this prompt):
+  gcs-trigger-ocr-to-firestore/typescript/
+  gcs-trigger-ocr-to-firestore/go/
+  pubsub-translation-stream/python/
+  firebase-onboarding/python/
+
+================================================================================
+PART 3 — INTEGRATION TEST LANE A (GCP EMULATORS)
+================================================================================
+
+Lane A `tests/integration/lane-a-emulators/`:
+
+  - `docker-compose.yml` running:
+      - `gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators` for
+        Firestore emulator (`firestore start --host-port=0.0.0.0:8080`)
+      - `messagebird/gcloud-pubsub-emulator` for Pub/Sub emulator
+      - `fsouza/fake-gcs-server` for GCS
+      - `googleapis/functions-framework-python` (or the language-matching
+        functions-framework image) running the handler
+  - environment vars: `FIRESTORE_EMULATOR_HOST`, `PUBSUB_EMULATOR_HOST`,
+    `STORAGE_EMULATOR_HOST` set to the emulator endpoints
+  - `bootstrap.sh` to create the bucket, topic, subscription, and any
+    Firestore indices the example needs
+  - `test_handler.py|.ts|.go` invoking the handler via the Functions
+    Framework HTTP endpoint with a simulated CloudEvent payload
+  - `teardown.sh` bringing the stack down
+
+Lane B mirrors PROMPT_18 Part 3 with `pulumi up --stack test` against
+real GCP, then teardown.
+
+================================================================================
+PART 4 — REGISTRY + CATALOG + SUPPORT MATRIX
+================================================================================
+
+Append entries to `verification/example_registry.yaml` per PROMPT_18 Part
+6.1 with `family: canonical-gcp-functions` and `provider: gcp`.
+
+Update `examples/catalog.json` with one entry per example (PROMPT_18 Part
+6.2 shape).
+
+Update `verification/stack_support_matrix.yaml`: GCP Cloud Functions ×
+{python, typescript, go} marked supported with first-class seed examples;
+java marked DEFERRED for rare JVM-oriented cases; dotnet, ruby, and php
+marked NOT PLANNED in this arc.
+
+================================================================================
+VERIFICATION (this prompt)
+================================================================================
+
+  1. `find examples/canonical-gcp-functions -mindepth 2 -maxdepth 2 -type d | wc -l`
+     shows 3 example directories.
+  2. Every example has the PROMPT_18 Part 1 layout.
+  3. `python3 scripts/validate_iac_isolation.py` clean for every example.
+  4. `python3 scripts/verify_examples.py --family canonical-gcp-functions`
+     runs without crashing.
+  5. Catalog + registry + support matrix updated.
+  6. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' examples/canonical-gcp-functions/`
+     returns nothing.
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run.
+
+  - [ ] All 3 seed examples (Part 2) exist with the layout from PROMPT_18 Part 1.
+  - [ ] Lane A emulator integration tests + replay tests for each.
+  - [ ] Terraform + Pulumi-language IaC for each, validate_iac_isolation
+        clean.
+  - [ ] Structured-log shape declared per example.
+  - [ ] Catalog + registry + support matrix updated.
+  - [ ] No `acb` / `.acb/` references.
+  - [ ] `tmp/PROMPT_19_checklist.md` is fully checked.
+  - [ ] `memory/concepts/gcp-functions-canonical-arc.md` exists with one
+        paragraph noting the 3 seed examples and that PROMPT_20 mirrors
+        this seed pass for Azure Functions.
+  - [ ] `memory/INDEX.md` lists `gcp-functions-canonical-arc.md`.
+
+End of PROMPT_19.

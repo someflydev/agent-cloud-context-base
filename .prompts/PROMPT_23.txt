@@ -1,0 +1,257 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is PROMPT_23 of 33. PROMPT_18–22 authored function-tier and managed-
+container seed examples. This prompt authors the k8s-tier seed examples:
+multi-role platforms on EKS, GKE, and AKS under
+`examples/canonical-eks/`, `examples/canonical-gke/`,
+`examples/canonical-aks/`.
+
+Use **`accb`** / **`.accb/`** in everything; never `acb` / `.acb/`.
+
+  [CLOUD ARC: Prompt 23 of 33 — Canonical EKS + GKE + AKS Multi-Role Platforms]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+One prompt per session. Maintain `tmp/PROMPT_23_checklist.md`. This is
+the largest remaining seed-example prompt; expect a long session.
+
+Initial-build rule: in this first real build pass, author one seed platform
+per provider. Record the remaining language variants as deferred follow-ups
+in `tmp/PROMPT_23_checklist.md`; do not add catalog/registry entries for
+deferred items yet.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+`accb` is a context-first foundation for cloud-native backend repos.
+K8s examples have a SHIFTED layout vs container examples: each example is
+a multi-role platform with API + worker + job + cronjob + control-plane,
+laid out as Kustomize base + overlays/dev + overlays/test (and a parallel
+Helm chart for the same platform). IaC provisions the cluster + workload
+identity + supporting managed services.
+
+Sequence:
+  PROMPT_01–22  All foundations + functions + managed containers       (done)
+  PROMPT_23     EKS + GKE + AKS multi-role platforms                   (this prompt)
+  PROMPT_24     IaC + observability + secrets + eventing + prompts
+  PROMPT_25–31  Expansion prompts for deferred required examples
+  PROMPT_32     Integration testing harness + arc docs
+  PROMPT_33     Final wiring
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read:
+
+  1. `README.md`, `AGENT.md`
+  2. `python3 scripts/work.py resume`
+  3. `memory/INDEX.md` and concepts (especially the prior canonical-arc
+     concepts)
+  4. `examples/canonical-cloud-run/public-api-private-worker-job/python-fastapi/`
+     (LAYOUT REFERENCE for the per-language service code)
+  5. `context/doctrine/k8s-workload-role-separation.md`
+  6. `context/doctrine/k8s-multi-tenancy-and-namespacing.md`
+  7. `context/doctrine/container-image-discipline.md`
+  8. `context/stacks/{eks,gke,aks}-base.md`
+  9. `context/stacks/k8s-{api,worker,job,cronjob,control-plane}-workload.md`
+ 10. `context/stacks/k8s-{helm-conventions,kustomize-conventions,
+     otel-collector,keda-autoscaling}.md`
+ 11. `context/stacks/iac-pulumi-{python,go,dotnet,typescript}.md`,
+     `context/stacks/iac-terraform-{aws,gcp,azure}.md`
+ 12. `context/stacks/eventing-{aws-eventbridge-sqs-sns,gcp-pubsub,
+     azure-servicebus-eventgrid}.md`
+ 13. `context/stacks/identity-{aws-iam,gcp-iam-sa,azure-entra-mi}.md`
+ 14. `context/stacks/secrets-{aws-secrets-manager,gcp-secret-manager,
+     azure-key-vault}.md`
+ 15. `templates/k8s/{eks,gke,aks}/`,
+     `templates/iac/{terraform,pulumi/*}/{aws,gcp,azure}/`
+
+================================================================================
+PART 1 — EXAMPLE LAYOUT CONTRACT (K8S VARIANT)
+================================================================================
+
+```
+examples/canonical-<eks|gke|aks>/<example-name>/<language>/
+├── README.md
+├── src/                                # service code
+│   ├── api/                            # API role
+│   ├── worker/                         # worker role
+│   ├── job/                            # one-shot job role
+│   └── cronjob/                        # scheduled cron role
+├── containers/                         # one Dockerfile per role
+│   ├── api.Dockerfile
+│   ├── worker.Dockerfile
+│   ├── job.Dockerfile
+│   └── cronjob.Dockerfile
+├── k8s/
+│   ├── kustomize/
+│   │   ├── base/                       # role manifests
+│   │   ├── overlays/dev/
+│   │   └── overlays/test/
+│   └── helm/
+│       ├── Chart.yaml
+│       ├── values.dev.yaml
+│       ├── values.test.yaml
+│       └── templates/
+├── iac/
+│   ├── terraform/{dev,test}/           # cluster + workload identity + managed services
+│   └── pulumi/<language>/
+├── tests/
+│   ├── smoke/                          # kind-based pod readiness
+│   ├── integration/
+│   │   ├── lane-a-kind/                # local kind cluster + minimal overlays
+│   │   └── lane-b-ephemeral-real/      # real EKS/GKE/AKS test cluster
+│   └── replay/                         # worker idempotency proof
+├── observability/
+└── catalog-entry.json
+```
+
+Two parallel manifest layouts (Kustomize and Helm) is intentional: the
+arc demonstrates both. PROMPT_15's `templates/k8s/` covered both shapes.
+
+================================================================================
+PART 2 — EKS SEED EXAMPLE (1 example)
+================================================================================
+
+Author in `examples/canonical-eks/`:
+
+  2.1  multi-role-platform/python/                  Python (Pulumi-Python)
+       — Stream-enrichment-style platform: ingest API (FastAPI), Kafka-
+         consumer worker (KEDA scaled on Kafka lag), GPU-optional
+         enrichment worker, replay job for lag recovery, scheduled
+         export cron to S3. AWS-managed Kafka (MSK), S3, DynamoDB.
+         Workload identity via IRSA.
+
+Remaining required EKS expansion set (authored in PROMPT_30; do NOT author in
+this prompt):
+  multi-role-platform/go/
+
+================================================================================
+PART 3 — GKE SEED EXAMPLE (1 example)
+================================================================================
+
+Author in `examples/canonical-gke/`:
+
+  3.1  multi-role-platform/python/                  Python (Pulumi-Python)
+       — RAG-asset-pipeline-style platform: upload API (FastAPI),
+         preprocessing worker (KEDA on Pub/Sub), embedding worker,
+         vector-index rebuild job, scheduled freshness scan cron.
+         GCS, AlloyDB, Vertex Vector Search. Workload Identity for GKE
+         (Autopilot).
+
+Remaining required GKE expansion set (authored in PROMPT_30; do NOT author in
+this prompt):
+  multi-role-platform/go/                           (including the
+                                                    `keda-autoscaled-workers/`
+                                                    sub-example)
+
+================================================================================
+PART 4 — AKS SEED EXAMPLE (1 example)
+================================================================================
+
+Author in `examples/canonical-aks/`:
+
+  4.1  multi-role-platform/dotnet/                  .NET 8 (Pulumi-DotNet)
+       — Subscription-event-hydrator-style platform: billing API
+         (ASP.NET minimal), entitlement worker (KEDA on Service Bus),
+         invoice-rebuild job, month-close cron. Cosmos + Azure SQL +
+         Service Bus. Workload Identity for AKS.
+
+Remaining required AKS expansion set (authored in PROMPT_30; do NOT author in
+this prompt):
+  multi-role-platform/typescript/
+
+================================================================================
+PART 5 — INTEGRATION TEST LANES
+================================================================================
+
+Lane A (kind):
+  - `tests/integration/lane-a-kind/` with:
+      - `kind-config.yaml` declaring a 3-node cluster
+      - `bootstrap.sh` that creates the cluster, installs cert-manager,
+        installs KEDA, applies the `overlays/dev` (renamed for kind:
+        `overlays/kind`), installs External Secrets Operator with a
+        fake-secret backend
+      - `test_platform.sh` that runs `kubectl wait` for pod readiness,
+        sends a representative payload through the API, asserts the
+        worker processes it, asserts the cronjob fires once
+      - `teardown.sh` (`kind delete cluster`)
+  - Lane A skips the managed-service IaC entirely; in-cluster fakes
+    replace S3/Kafka/Cosmos/etc. Document this divergence in the README.
+
+Lane B (ephemeral real):
+  - `tests/integration/lane-b-ephemeral-real/` with `up.sh`,
+    `test_platform.sh`, `down.sh`. Cluster lifetime is bounded by the
+    suite; teardown is mandatory.
+  - Cost band: significantly higher than function/container examples.
+    Document the per-run cost band in each README ($5–$50 typical).
+  - This lane requires real cloud credentials; CI default-skips.
+
+================================================================================
+PART 6 — REPLAY (IDEMPOTENCY)
+================================================================================
+
+Each platform's `tests/replay/` exercises the worker role: send the same
+event message ID twice; assert exactly-once persistence + downstream
+emission. Crons and jobs additionally have an `at-most-once` test:
+trigger the cron twice rapidly; assert `concurrencyPolicy: Forbid`
+prevents overlapping runs.
+
+================================================================================
+PART 7 — REGISTRY + CATALOG + SUPPORT MATRIX
+================================================================================
+
+Append entries with `family: canonical-{eks,gke,aks}`,
+`provider: {aws,gcp,azure}`, `runtime_tier: k8s`. Update
+`examples/catalog.json`. Update `verification/stack_support_matrix.yaml`
+to mark the seed-set surfaces as supported now: EKS × {python}, GKE ×
+{python}, AKS × {dotnet}. Mark EKS × {go}, GKE × {go}, and AKS ×
+{typescript} as DEFERRED.
+
+================================================================================
+VERIFICATION (this prompt)
+================================================================================
+
+  1. `find examples/canonical-eks examples/canonical-gke examples/canonical-aks -mindepth 3 -maxdepth 3 -type d | wc -l`
+     shows 3 example directories (one seed platform per provider).
+  2. Every example has the Part 1 layout (Kustomize AND Helm).
+  3. Every example's containers all build locally.
+  4. `python3 scripts/validate_iac_isolation.py` clean for every example.
+  5. `python3 scripts/verify_examples.py --family canonical-eks` (and
+     `gke`, `aks`) run without crashing.
+  6. `kubectl --context kind-... apply -k <example>/k8s/kustomize/overlays/kind`
+     succeeds on a manually-bootstrapped kind cluster (operator-driven;
+     not part of the automated gate).
+  7. Catalog + registry + support matrix updated.
+  8. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' examples/canonical-eks/ examples/canonical-gke/ examples/canonical-aks/`
+     returns nothing.
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run.
+
+  - [ ] All 3 seed multi-role platforms exist with the Part 1 layout.
+  - [ ] Each platform has parallel Kustomize + Helm manifests.
+  - [ ] Each platform has Lane A (kind) + Lane B (ephemeral real)
+        integration tests with bounded teardown.
+  - [ ] Each platform has Terraform + Pulumi-language IaC with
+        validate_iac_isolation passing.
+  - [ ] Worker idempotency + cron concurrency tests present.
+  - [ ] Catalog + registry + support matrix updated.
+  - [ ] No `acb` / `.acb/` references.
+  - [ ] `tmp/PROMPT_23_checklist.md` is fully checked.
+  - [ ] `memory/concepts/k8s-canonical-arc-complete.md` exists noting the
+        3 seed multi-role platforms and that PROMPT_24 authors the cross-
+        cutting canonical seed references (IaC, observability, secrets,
+        eventing, prompts).
+  - [ ] `memory/INDEX.md` lists `k8s-canonical-arc-complete.md`.
+
+End of PROMPT_23.

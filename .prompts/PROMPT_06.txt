@@ -1,0 +1,506 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is PROMPT_06 of 33. PROMPT_01–05 built the skeleton, doctrine, anchors,
+specs, validation, `context/accb/profile-rules.json`, `scripts/work.py`, and
+the memory layer. This prompt authors all routers in `context/router/` plus
+the alias catalog and repo-signal hints.
+
+Use **`accb`** / **`.accb/`** in everything; never `acb` / `.acb/`.
+
+                       [CLOUD ARC: Prompt 6 of 33 — Routers]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+One prompt per session. Maintain `tmp/PROMPT_06_checklist.md`.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+`accb` is a context-first foundation for cloud-native backend repos:
+functions (Lambda, Cloud Functions, Azure Functions), managed containers
+(Cloud Run, App Runner, Container Apps), kubernetes (EKS, GKE, AKS).
+Modeled on `agent-context-base` (`acb`) but never copies its text.
+
+Core debts: layer separation; router-first inference; manifest-driven
+bundles; canonical examples > improvisation; validation gates as autonomy
+rails; .accb/ payload contract; runtime continuity (work.py); prompt-first
+discipline; context complexity budget; documentation timing; dogfooding.
+
+Sequence:
+  PROMPT_01–05  Skeleton + doctrine + anchors + specs + accb + work.py     (done)
+  PROMPT_06     Routers                                                     (this prompt)
+  PROMPT_07     Archetypes + scenario catalog
+  PROMPT_08     Skills
+  PROMPT_09–12  Stacks
+  PROMPT_13     Workflows
+  PROMPT_14     Manifests
+  PROMPT_15     Templates
+  PROMPT_16–17  Generation pipeline + validation scripts
+  PROMPT_18–31  Canonical examples + expansion prompts
+  PROMPT_32     Integration testing harness + arc docs
+  PROMPT_33     Final wiring
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read:
+
+  1. `README.md`, `AGENT.md`
+  2. `python3 scripts/work.py resume`
+  3. `memory/INDEX.md` and the relevant concepts
+  4. `context/doctrine/context-loading-rules.md`
+  5. `context/doctrine/function-vs-container-vs-k8s.md`
+  6. `context/doctrine/managed-service-selection.md`
+  7. `context/doctrine/stop-conditions.md`
+  8. `context/anchors/cloud-identity.md`, `context/anchors/iac-isolation.md`
+  9. `context/accb/profile-rules.json` (default_routers list)
+
+If a sibling `agent-context-base/` exists, you MAY glance at (SHAPE only):
+  agent-context-base/context/router/task-router.md
+  agent-context-base/context/router/stack-router.md
+  agent-context-base/context/router/archetype-router.md
+  agent-context-base/context/router/alias-catalog.yaml
+  agent-context-base/context/router/repo-signal-hints.json
+
+Router files in `accb` are seven total: six decision routers plus
+`repo-signal-hints.json`. Provider, runtime tier, and IaC tool are split
+out of the stack-router so each decision axis is inferred independently.
+
+================================================================================
+PART 1 — ROUTER FORMAT
+================================================================================
+
+Every router file in `context/router/*.md` follows this shape:
+
+  # <Router Name>
+
+  <One-paragraph statement of what this router decides and what it does NOT
+  decide.>
+
+  ## Core Rule
+
+  <The single binding rule for this router.>
+
+  ## Mappings / Signals
+
+  - "<user-language phrase>"
+    - load `<file>`
+    - load `<file>`
+    - notes (optional)
+
+  ## Stop Conditions
+
+  - <when this router refuses to choose>
+
+  ## Routing Examples
+
+  - "<phrase>" → <decision>
+  - "<phrase>" → <decision>
+
+Each router stays focused on its axis. Cross-router decisions are made by
+the bundle assembler (`scripts/preview_context_bundle.py` in PROMPT_17).
+
+================================================================================
+PART 2 — context/router/task-router.md
+================================================================================
+
+Decides which workflow to load. Mappings include (re-author and expand):
+
+  "add a function", "new lambda", "new cloud function", "new azure function"
+    → load `context/workflows/add-cloud-function.md`
+  "add an s3-triggered lambda", "s3 put event"
+    → load `context/workflows/add-aws-lambda-trigger.md`
+  "add a cloud function for gcs object", "pub/sub-triggered cloud function"
+    → load `context/workflows/add-gcp-cloud-function-trigger.md`
+  "add a blob-triggered azure function", "service bus trigger"
+    → load `context/workflows/add-azure-function-trigger.md`
+  "deploy on cloud run", "containerize as cloud run service"
+    → load `context/workflows/add-managed-container-service.md`
+  "deploy on app runner", "container apps service"
+    → load `context/workflows/add-managed-container-service.md`
+  "add an api workload", "add a worker", "add a job", "add a cronjob"
+    → load `context/workflows/add-k8s-workload-role.md`
+  "set up terraform for dev and test", "pulumi stack"
+    → load `context/workflows/add-iac-stack.md` and
+      `context/workflows/add-iac-isolation-pair.md`
+  "bind a secret", "use secrets manager", "key vault binding"
+    → load `context/workflows/add-secret-binding.md`
+  "add a queue", "add an event bus seam", "dlq"
+    → load `context/workflows/add-eventing-seam.md`
+  "wire s3 / dynamodb / cosmos / firestore / cloud sql"
+    → load `context/workflows/add-cloud-storage-integration.md` or
+      `context/workflows/add-cloud-database-integration.md`
+  "private vpc", "vpc connector", "private endpoint"
+    → load `context/workflows/add-vpc-private-network-path.md`
+  "iam role", "service account", "managed identity binding"
+    → load `context/workflows/add-identity-binding.md`
+  "structured logs", "otel", "tracing"
+    → load `context/workflows/add-observability-bundle.md`
+  "smoke test for my function/container/pod"
+    → load `context/workflows/add-cloud-smoke-tests.md`
+  "integration test", "ephemeral test stack", "localstack/emulator/azurite"
+    → load `context/workflows/add-cloud-integration-tests.md`
+  "replay", "dlq handling", "exactly-once"
+    → load `context/workflows/add-replay-and-dlq-handling.md`
+  "container image", "dockerfile", "registry"
+    → load `context/workflows/add-cloud-runtime-image.md`
+  "helm chart", "kustomize overlay"
+    → load `context/workflows/add-helm-or-kustomize-overlay.md`
+  "promote dev to test"
+    → load `context/workflows/promote-dev-to-test.md`
+  "bootstrap a cloud repo", "new repo from accb"
+    → load `context/workflows/bootstrap-cloud-repo.md`
+    → prefer `scripts/new_cloud_repo.py` (PROMPT_16) over manual scaffolding
+  "generate from scenario", "turn this cloud prompt into a repo",
+  "claims intake prompt", "excellent cloud prompt"
+    → load `context/workflows/plan-scenario-derived-repo.md`
+    → load `context/router/scenario-router.md`
+  "make a prompt sequence"
+    → load `context/workflows/generate-prompt-sequence.md`
+  "post-flight cleanup before commit"
+    → load `context/workflows/post-flight-refinement.md`
+  "refresh mermaid diagrams"
+    → load `context/workflows/refresh-mermaid-diagrams.md`
+  "refactor", "fix bug"
+    → load `context/workflows/refactor.md` or `context/workflows/fix-bug.md`
+
+Add a Compound Requests section showing 4–6 concrete cloud examples that
+chain workflows (e.g. "add an s3-triggered lambda with secret binding and
+ephemeral integration tests" → trigger workflow + secret workflow + iac
+isolation pair + integration tests).
+
+================================================================================
+PART 3 — context/router/provider-router.md
+================================================================================
+
+Decides AWS / GCP / Azure from prompt language and repo signals.
+
+Signal mappings include:
+  "lambda", "s3", "dynamodb", "eventbridge", "sqs", "sns", "iam role",
+  "rds", "cloudwatch", "ses", "sagemaker", "cognito", "step functions",
+  "amazon X"
+    → AWS
+  "cloud function", "gcs", "firestore", "pub/sub", "cloud run", "bigquery",
+  "vertex ai", "cloud sql", "cloud scheduler", "eventarc", "service account"
+    → GCP
+  "azure function", "blob", "cosmos", "service bus", "event grid",
+  "event hubs", "key vault", "azure sql", "azure openai", "managed identity",
+  "azure ai search"
+    → Azure
+
+Repo signals (paths/files):
+  `terraform/aws/`, `pulumi-aws-*`, `lambda_function.py` shape, `provider "aws"`
+    → AWS
+  `terraform/gcp/`, `pulumi-gcp-*`, Functions Framework decorators
+    → GCP
+  `terraform/azurerm/`, `pulumi-azure-*`, `host.json`, `function.json`
+    → Azure
+
+Stop conditions: more than one provider plausible AND task is not a
+declared comparative experiment → stop and ask.
+
+================================================================================
+PART 4 — context/router/runtime-router.md
+================================================================================
+
+Decides function | managed-container | k8s.
+
+Function signals: thin trigger; one transformation step; provider time/
+memory limits acceptable; cold-start budget tolerated; no custom binaries.
+
+Managed-container signals: needs custom binaries (ffmpeg, GDAL, Chrome);
+1–N services with a small set of bounded companions; steady traffic where
+cold starts hurt; jobs and cron sit alongside an API; sidecars (otel,
+envoy) are useful.
+
+K8s signals: API + worker fleet + jobs + crons + control plane; multi-
+tenant namespacing; KEDA-style scaling on queue depth; mesh policies;
+heavy compute classes (CPU + GPU + memory tiers); rolling-rollout +
+rollback contracts that the platform doesn't natively give you.
+
+Reference `context/doctrine/function-vs-container-vs-k8s.md` for
+escalation rules. Stop conditions: more than one tier plausible → stop
+and ask.
+
+================================================================================
+PART 5 — context/router/stack-router.md
+================================================================================
+
+Decides the (provider, runtime, language) stack file to load. Stacks live
+in `context/stacks/` (PROMPT_09–12 author them).
+
+Function stacks (sample mappings):
+  AWS+function+python      → `context/stacks/aws-lambda-python.md`
+  AWS+function+typescript  → `context/stacks/aws-lambda-typescript-node.md`
+  AWS+function+go          → `context/stacks/aws-lambda-go.md`
+  GCP+function+python      → `context/stacks/gcp-cloudfn-python.md`
+  GCP+function+typescript  → `context/stacks/gcp-cloudfn-typescript-node.md`
+  GCP+function+go          → `context/stacks/gcp-cloudfn-go.md`
+  Azure+function+python    → `context/stacks/azure-fn-python.md`
+  Azure+function+ts        → `context/stacks/azure-fn-typescript-node.md`
+  Azure+function+dotnet    → `context/stacks/azure-fn-dotnet-isolated.md`
+
+Managed-container stacks (sample):
+  GCP+container+python+fastapi → `context/stacks/cloudrun-python-fastapi.md`
+  AWS+container+go+echo        → `context/stacks/apprunner-go-echo.md`
+  Azure+container+dotnet       → `context/stacks/aca-dotnet-aspnet.md`
+
+K8s stacks (sample):
+  AWS+k8s   → `context/stacks/eks-base.md` + role packs
+  GCP+k8s   → `context/stacks/gke-base.md` + role packs
+  Azure+k8s → `context/stacks/aks-base.md` + role packs
+  Role packs:
+    `context/stacks/k8s-api-workload.md`
+    `context/stacks/k8s-worker-workload.md`
+    `context/stacks/k8s-job-workload.md`
+    `context/stacks/k8s-cronjob-workload.md`
+    `context/stacks/k8s-control-plane-workload.md`
+
+Cross-cutting stacks (loaded when capability is active):
+  secrets: `context/stacks/secrets-aws-secrets-manager.md`,
+           `context/stacks/secrets-gcp-secret-manager.md`,
+           `context/stacks/secrets-azure-key-vault.md`
+  eventing: `context/stacks/eventing-aws-eventbridge-sqs-sns.md`,
+            `context/stacks/eventing-gcp-pubsub.md`,
+            `context/stacks/eventing-azure-servicebus-eventgrid.md`
+  storage:  `context/stacks/storage-aws-s3-dynamodb-rds.md`,
+            `context/stacks/storage-gcp-gcs-firestore-cloudsql.md`,
+            `context/stacks/storage-azure-blob-cosmos-azuresql.md`
+  identity: `context/stacks/identity-aws-iam.md`,
+            `context/stacks/identity-gcp-iam-sa.md`,
+            `context/stacks/identity-azure-entra-mi.md`
+  observability: `context/stacks/observability-otel-cloud.md`
+
+================================================================================
+PART 6 — context/router/archetype-router.md
+================================================================================
+
+Decides repo shape (loaded from `context/archetypes/` in PROMPT_07).
+
+Mappings:
+  "single function with iac"            → `cloud-function-repo.md`
+  "platform with multiple functions"    → `multi-function-platform.md`
+  "single managed-container service"    → `managed-container-service.md`
+  "primary api + private worker + jobs" → `managed-container-multi-service.md`
+  "k8s api + workers + jobs + crons"    → `k8s-platform-repo.md`
+  "k8s tenant per namespace"            → `k8s-multi-tenant-platform.md`
+  "trigger → enrich → persist → fan-out" → `cloud-event-pipeline.md`
+  "cloud-side data acquisition"         → `cloud-data-acquisition.md`
+  "rag pipeline with embeddings + vector" → `cloud-rag-pipeline.md`
+  "thin orchestrator over heavy compute" → `cloud-control-plane.md`
+  "iac catalog only repo"               → `cloud-iac-only-repo.md`
+  "compare aws vs gcp vs azure for X"   → `cloud-multi-provider-experiment.md`
+
+================================================================================
+PART 7 — context/router/scenario-router.md
+================================================================================
+
+Decides which excellent-catalog-derived workload pattern is active, then
+loads the scenario catalog material that helps choose archetype, manifest,
+support services, and canonical examples. This router does NOT override an
+explicit provider/runtime/IaC choice; it turns business-shaped prompts into
+cloud-shaped profiles.
+
+Core rule: match the workload's topology and managed-service seams before
+matching provider names. If the user says "claims intake with uploads,
+review events, and a nightly escalation job", the scenario is managed-
+container `public-api-private-worker-job` even if no provider was named.
+
+Mappings include:
+
+  "image moderation", "receipt ocr", "object upload enrichment",
+  "blob/gcs/s3 intake", "document arrives in storage"
+    → load `context/scenarios/function-scenarios.md`
+    → scenario pattern `function.object-intake-enrichment`
+
+  "stripe webhook", "signed webhook", "return 202", "dedupe webhook"
+    → load `context/scenarios/function-scenarios.md`
+    → scenario pattern `function.signed-webhook-orchestrator`
+
+  "queue worker", "document translation", "classification queue",
+  "support queue"
+    → load `context/scenarios/function-scenarios.md`
+    → scenario pattern `function.queue-backed-worker`
+
+  "cdc relay", "change feed", "stream to search", "pub/sub fan-out"
+    → load `context/scenarios/function-scenarios.md`
+    → scenario pattern `function.change-event-relay`
+
+  "public api and private worker", "nightly job", "claims intake",
+  "permit workflow", "partner gateway"
+    → load `context/scenarios/container-scenarios.md`
+    → scenario pattern `container.public-api-private-worker-job`
+
+  "custom binary", "headless chrome", "ffmpeg", "gdal", "libreoffice",
+  "large document rendering"
+    → load `context/scenarios/container-scenarios.md`
+    → scenario pattern `container.heavy-runtime-service`
+
+  "sidecar", "otel collector sidecar", "envoy sidecar"
+    → load `context/scenarios/container-scenarios.md`
+    → scenario pattern `container.multi-container-sidecar`
+
+  "api plus workers plus jobs plus crons", "replay jobs", "multi-role",
+  "separate scaling and recovery"
+    → load `context/scenarios/kubernetes-scenarios.md`
+    → scenario pattern `k8s.multi-role-platform`
+
+  "rag knowledge mesh", "embedding workers", "vector rebuild job",
+  "freshness scan"
+    → load `context/scenarios/kubernetes-scenarios.md`
+    → scenario pattern `k8s.rag-knowledge-mesh`
+
+Stop conditions: if the prompt names only a provider service with no workload
+topology ("use S3" / "use Cosmos") then do not choose a scenario; let
+provider/runtime/stack routers proceed. If two scenario patterns tie and
+would imply different runtime tiers, ask whether the repo should be
+function, managed-container, or k8s.
+
+Routing examples:
+  - "build a moderated upload flow" → function.object-intake-enrichment
+  - "claims intake API with private review worker and nightly escalation" → container.public-api-private-worker-job
+  - "clickstream platform with APIs, Kafka workers, replay jobs, and export crons" → k8s.multi-role-platform
+
+================================================================================
+PART 8 — context/router/iac-router.md
+================================================================================
+
+Decides Terraform vs Pulumi-{ts,py,go,dotnet}.
+
+Signals:
+  Explicit user request: "terraform" / "pulumi <lang>" → that tool
+  Repo signals: `*.tf`, `terraform/` → Terraform
+  Repo signals: `Pulumi.yaml`, `Pulumi.dev.yaml`, `__main__.py` with
+                pulumi imports, `index.ts` with pulumi imports, `main.go`
+                with pulumi imports, `Program.cs` with Pulumi → Pulumi-<lang>
+  Default by primary language affinity (only when tool is unspecified):
+    function/container language python → Pulumi-Python
+    function/container language typescript / node → Pulumi-TypeScript
+    function/container language go → Pulumi-Go
+    function/container language dotnet → Pulumi-DotNet
+    function/container language java/kotlin → Terraform
+  Multi-language Pulumi parity is a follow-on arc; v1 ships one Pulumi
+  language per example.
+
+Stop conditions: Terraform AND Pulumi both signaled with no comparative
+intent → stop and ask.
+
+Stack files referenced:
+  `context/stacks/iac-terraform-conventions.md`
+  `context/stacks/iac-terraform-aws.md`
+  `context/stacks/iac-terraform-gcp.md`
+  `context/stacks/iac-terraform-azure.md`
+  `context/stacks/iac-pulumi-typescript.md`
+  `context/stacks/iac-pulumi-python.md`
+  `context/stacks/iac-pulumi-go.md`
+  `context/stacks/iac-pulumi-dotnet.md`
+
+================================================================================
+PART 9 — context/router/alias-catalog.yaml
+================================================================================
+
+```yaml
+schema_version: 1
+aliases:
+  providers:
+    aws:    [amazon, "AWS", lambda-shop, ec2-shop]
+    gcp:    [google-cloud, "GCP", "google cloud platform"]
+    azure:  [microsoft-azure, "Azure"]
+  runtime_tiers:
+    function:           [serverless, faas, lambda, cloud-fn, azure-fn]
+    managed_container:  [cloud-run, app-runner, container-apps, aca, gke-cloudrun]
+    k8s:                [kubernetes, eks, gke, aks, k3s, openshift]
+  iac_tools:
+    terraform:          [tf, hcl]
+    pulumi-typescript:  [pulumi-ts, pulumi-node]
+    pulumi-python:      [pulumi-py]
+    pulumi-go:          [pulumi-golang]
+    pulumi-dotnet:      [pulumi-csharp, pulumi-cs, pulumi-net]
+  languages:
+    typescript:         [ts, node, nodejs, javascript, js]
+    python:             [py, py3]
+    go:                 [golang]
+    dotnet:             [csharp, cs, c#, ".net"]
+    java:               [jvm]
+```
+
+================================================================================
+PART 10 — context/router/repo-signal-hints.json
+================================================================================
+
+Machine-readable signal hints for `provider-router`, `runtime-router`,
+`stack-router`, and `iac-router`. Shape:
+
+```json
+{
+  "schema_version": 1,
+  "providers": {
+    "aws":   {"path_globs": ["terraform/aws/**", "pulumi/aws*/**"], "file_patterns": ["lambda_function.py", "serverless.yml"], "code_imports": ["boto3", "@aws-sdk/", "aws-sdk-go", "Amazon."]},
+    "gcp":   {"path_globs": ["terraform/gcp/**", "pulumi/gcp*/**"],  "file_patterns": ["functions-framework"],                   "code_imports": ["google.cloud", "@google-cloud/", "cloud.google.com/go"]},
+    "azure": {"path_globs": ["terraform/azurerm/**", "pulumi/azure*/**"], "file_patterns": ["host.json", "function.json", "local.settings.json"], "code_imports": ["azure.functions", "@azure/", "Microsoft.Azure."]}
+  },
+  "runtime_tiers": {
+    "function":          {"file_patterns": ["lambda_function.py", "function.json", "host.json", "main.py with functions_framework"], "iac_resources": ["aws_lambda_function", "google_cloudfunctions2_function", "azurerm_function_app"]},
+    "managed_container": {"file_patterns": ["Dockerfile", "service.yaml", "apprunner.yaml"], "iac_resources": ["google_cloud_run_v2_service", "aws_apprunner_service", "azurerm_container_app"]},
+    "k8s":               {"file_patterns": ["Chart.yaml", "kustomization.yaml", "deployment.yaml"], "iac_resources": ["aws_eks_cluster", "google_container_cluster", "azurerm_kubernetes_cluster"]}
+  },
+  "iac_tools": {
+    "terraform":         {"file_patterns": ["*.tf", "terraform/**", ".terraform/"], "negative_patterns": ["Pulumi.yaml"]},
+    "pulumi-typescript": {"file_patterns": ["Pulumi.yaml", "package.json with @pulumi"]},
+    "pulumi-python":     {"file_patterns": ["Pulumi.yaml", "requirements.txt with pulumi"]},
+    "pulumi-go":         {"file_patterns": ["Pulumi.yaml", "go.mod with github.com/pulumi/pulumi"]},
+    "pulumi-dotnet":     {"file_patterns": ["Pulumi.yaml", "*.csproj with Pulumi"]}
+  }
+}
+```
+
+================================================================================
+VERIFICATION
+================================================================================
+
+  1. `ls context/router/` shows: `task-router.md`, `provider-router.md`,
+     `runtime-router.md`, `stack-router.md`, `archetype-router.md`,
+     `scenario-router.md`, `iac-router.md`, `alias-catalog.yaml`,
+     `repo-signal-hints.json`. No
+     `.gitkeep`.
+  2. `python3 -c "import yaml; yaml.safe_load(open('context/router/alias-catalog.yaml'))"`
+     succeeds.
+  3. `python3 -c "import json; json.load(open('context/router/repo-signal-hints.json'))"`
+     succeeds.
+  4. `python3 scripts/work.py route-check "add an s3-triggered lambda"`
+     prints "feature gated off in profile-rules.json" (expected — gate
+     stays off until PROMPT_17 wires the route-check engine).
+  5. Manual read: each router has Core Rule, Mappings/Signals, Stop
+     Conditions, and Routing Examples sections.
+  6. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' context/router/`
+     returns nothing.
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run.
+
+  - [ ] All 7 routers (Parts 2–8) exist with the required structure.
+  - [ ] `alias-catalog.yaml` and `repo-signal-hints.json` exist and parse.
+  - [ ] `.gitkeep` removed from `context/router/`.
+  - [ ] No `acb` / `.acb/` references in any router file.
+  - [ ] Every workflow filename referenced in `task-router.md` is consistent
+        with the names planned for PROMPT_13.
+  - [ ] Every stack filename referenced in `stack-router.md` is consistent
+        with the names planned for PROMPT_09–12.
+  - [ ] Every archetype filename referenced in `archetype-router.md` is
+        consistent with the names planned for PROMPT_07.
+  - [ ] `tmp/PROMPT_06_checklist.md` is fully checked.
+  - [ ] `memory/concepts/router-system.md` exists with one paragraph
+        describing the six-axis routing model and noting that the route-
+        check feature gate stays off until PROMPT_17.
+  - [ ] `memory/INDEX.md` lists `router-system.md`.
+
+End of PROMPT_06.

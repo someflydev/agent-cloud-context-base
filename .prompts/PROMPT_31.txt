@@ -1,0 +1,121 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is PROMPT_31 of 33. PROMPT_24 authored the cross-cutting seed references:
+all Terraform starters, 4 Pulumi starter trees, and the observability,
+secrets, eventing, and prompt reference families. This prompt completes the
+remaining Pulumi starter cross-product under `examples/canonical-iac-pulumi/`.
+
+Use **`accb`** / **`.accb/`** in everything; never `acb` / `.acb/`.
+
+  [CLOUD ARC: Prompt 31 of 33 — Canonical Pulumi Starter Expansion]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+One prompt per session. Maintain `tmp/PROMPT_31_checklist.md`.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+Reuse PROMPT_24 Part 2 exactly. This prompt does not touch the Terraform,
+observability, secrets, eventing, or prompt reference families except where
+catalog/registry updates are needed.
+
+Sequence:
+  PROMPT_01–30  Through k8s expansion                                    (done)
+  PROMPT_31     Canonical Pulumi starter expansion                       (this prompt)
+  PROMPT_32     Integration testing harness + arc docs
+  PROMPT_33     Final wiring
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read:
+
+  1. `README.md`, `AGENT.md`
+  2. `python3 scripts/work.py resume`
+  3. `.prompts/PROMPT_24.txt` (FULL READ — especially Part 2)
+  4. `examples/canonical-iac-pulumi/` (all seed trees)
+  5. `examples/canonical-iac-terraform/`
+  6. `verification/example_registry.yaml`
+  7. `examples/catalog.json`
+  8. `verification/stack_support_matrix.yaml`
+  9. `context/stacks/iac-pulumi-*.md`
+ 10. `templates/iac/pulumi/`
+
+================================================================================
+PART 1 — REUSE PROMPT_24 PART 2 VERBATIM
+================================================================================
+
+Reuse the Pulumi starter tree contract from PROMPT_24 Part 2 exactly:
+
+  - same tree shape
+  - same `Pulumi.yaml` / `Pulumi.dev.yaml` / `Pulumi.test.yaml` contract
+  - same component layout
+  - same README expectations
+  - same `validate_iac_isolation.py` cleanliness requirement
+
+================================================================================
+PART 2 — REQUIRED PULUMI EXPANSION TREES (6 trees)
+================================================================================
+
+Author the remaining 6 trees:
+
+  2.1  examples/canonical-iac-pulumi/typescript/gcp/
+  2.2  examples/canonical-iac-pulumi/typescript/azure/
+  2.3  examples/canonical-iac-pulumi/python/aws/
+  2.4  examples/canonical-iac-pulumi/python/azure/
+  2.5  examples/canonical-iac-pulumi/go/gcp/
+  2.6  examples/canonical-iac-pulumi/go/azure/
+
+This prompt only restores the deferred required Pulumi starter surface.
+
+================================================================================
+PART 3 — REGISTRY + CATALOG + SUPPORT MATRIX
+================================================================================
+
+Append the 6 new entries to `verification/example_registry.yaml` and
+`examples/catalog.json` using PROMPT_24's shapes.
+
+Update `verification/stack_support_matrix.yaml` so the Pulumi starter matrix
+is complete for the supported languages/providers represented in
+`examples/canonical-iac-pulumi/`.
+
+================================================================================
+VERIFICATION (this prompt)
+================================================================================
+
+  1. `find examples/canonical-iac-pulumi -mindepth 2 -maxdepth 2 -type d | wc -l`
+     shows 10.
+  2. Every Pulumi starter tree has the PROMPT_24 Part 2 layout.
+  3. `python3 scripts/validate_iac_isolation.py` is clean for all 10 Pulumi
+     starter trees.
+  4. `python3 scripts/verify_examples.py --family canonical-iac-pulumi`
+     runs without crashing.
+  5. Catalog + registry + support matrix reflect the full 10-tree surface.
+  6. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' examples/canonical-iac-pulumi/`
+     returns nothing.
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run.
+
+  - [ ] All 10 Pulumi starter trees now exist with the PROMPT_24 Part 2 layout.
+  - [ ] The 6 deferred required trees from PROMPT_24 are now authored.
+  - [ ] `validate_iac_isolation.py` is clean across the full Pulumi starter set.
+  - [ ] Catalog + registry + support matrix reflect the full Pulumi starter surface.
+  - [ ] No `acb` / `.acb/` references.
+  - [ ] `tmp/PROMPT_31_checklist.md` is fully checked.
+  - [ ] `memory/concepts/cross-cutting-canonical-arc.md` is updated to note
+        the full 10-tree Pulumi surface and that PROMPT_32 builds the parity
+        harness over the now-complete canonical example set.
+  - [ ] `memory/INDEX.md` lists the updated concept.
+
+End of PROMPT_31.

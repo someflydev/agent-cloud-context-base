@@ -1,0 +1,346 @@
+You are working inside the `agent-cloud-context-base` repository (short name:
+**accb**).
+
+This is PROMPT_24 of 33. PROMPT_18–23 authored function, container, and
+k8s canonical seed examples. This prompt authors the CROSS-CUTTING canonical
+example families:
+
+  examples/canonical-iac-terraform/        per-provider Terraform starters
+  examples/canonical-iac-pulumi/<lang>/    per-provider Pulumi starters
+                                          for each Pulumi language
+  examples/canonical-observability/        OTel + structured-log fixtures
+  examples/canonical-secrets/              identity-bound secret bindings
+  examples/canonical-eventing/             DLQ + replay + ordering patterns
+  examples/canonical-prompts/              starter monotonic prompt files
+
+Use **`accb`** / **`.accb/`** in everything; never `acb` / `.acb/`.
+
+   [CLOUD ARC: Prompt 24 of 33 — Canonical IaC + Observability + Secrets + Eventing + Prompts]
+
+================================================================================
+SESSION EXECUTION DISCIPLINE
+================================================================================
+
+One prompt per session. Maintain `tmp/PROMPT_24_checklist.md`.
+
+Initial-build rule: for the first real build pass, author all Part 1
+Terraform starters, the Part 2 Pulumi seed set, and the lighter-weight
+reference artifacts in Parts 3–6. Defer the remaining Pulumi provider ×
+language cross-product trees.
+
+================================================================================
+SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
+================================================================================
+
+`accb` is a context-first foundation for cloud-native backend repos. Earlier
+canonical seed examples (PROMPT_18–23) embed IaC + observability + secrets +
+eventing patterns inside each provider/runtime example. This prompt
+EXTRACTS those patterns into standalone reference examples so derived
+repos can pull them in directly without copying from a deeper example. For
+the initial build pass, land the full Terraform trio, one Pulumi starter
+per language, and all lightweight doc/reference families.
+
+Sequence:
+  PROMPT_01–23  All foundations + per-provider examples                 (done)
+  PROMPT_24     Cross-cutting canonical examples                        (this prompt)
+  PROMPT_25–31  Expansion prompts for deferred required examples
+  PROMPT_32     Cloud integration testing harness + arc docs
+  PROMPT_33     Final wiring
+
+================================================================================
+BOOT SEQUENCE
+================================================================================
+
+Read:
+
+  1. `README.md`, `AGENT.md`
+  2. `python3 scripts/work.py resume`
+  3. `memory/INDEX.md` and concepts (especially the prior canonical-arc
+     concepts)
+  4. `examples/canonical-aws-lambda/s3-trigger-image-moderation/python/iac/`
+     (extract IaC patterns from here)
+  5. `examples/canonical-cloud-run/multi-container-sidecar/python-fastapi/observability/`
+     (extract OTel patterns)
+  6. `context/doctrine/iac-dev-test-isolation.md`,
+     `context/doctrine/cloud-secret-handling.md`,
+     `context/doctrine/eventing-and-dlq-discipline.md`,
+     `context/doctrine/observability-cloud-native.md`,
+     `context/doctrine/prompt-first-conventions.md`
+  7. `context/stacks/iac-{terraform,pulumi}-*.md`
+  8. `context/stacks/secrets-*.md`,
+     `context/stacks/eventing-*.md`,
+     `context/stacks/observability-otel-cloud.md`
+  9. `templates/iac/`, `templates/observability/`,
+     `templates/prompt-first/`
+
+================================================================================
+PART 1 — examples/canonical-iac-terraform/
+================================================================================
+
+Per-provider Terraform starters with dev + test isolation, no application
+code, just the platform shape:
+
+  examples/canonical-iac-terraform/aws/
+    ├── README.md
+    ├── dev/{main.tf, variables.tf, outputs.tf, backend.tf, dev.tfvars}
+    ├── test/{main.tf, variables.tf, outputs.tf, backend.tf, test.tfvars}
+    ├── providers.tf
+    └── modules/                           # reusable modules
+        ├── lambda-function/
+        ├── s3-bucket/
+        ├── dynamodb-table/
+        ├── sqs-queue-with-dlq/
+        ├── secrets-manager-secret/
+        └── iam-role-least-privilege/
+
+  examples/canonical-iac-terraform/gcp/
+    ├── README.md
+    ├── dev/{main.tf, variables.tf, outputs.tf, backend.tf, dev.tfvars}
+    ├── test/{main.tf, variables.tf, outputs.tf, backend.tf, test.tfvars}
+    ├── providers.tf
+    └── modules/
+        ├── cloudfunction2/
+        ├── gcs-bucket/
+        ├── firestore-database/
+        ├── pubsub-topic-with-dlq/
+        ├── secret-manager-secret/
+        └── service-account-least-privilege/
+
+  examples/canonical-iac-terraform/azure/
+    ├── README.md
+    ├── dev/...
+    ├── test/...
+    ├── providers.tf
+    └── modules/
+        ├── function-app/
+        ├── blob-container/
+        ├── cosmos-database/
+        ├── servicebus-queue-with-dlq/
+        ├── key-vault-secret/
+        └── managed-identity-least-privilege/
+
+Every backend.tf uses a different state key for dev vs test. Every
+module accepts `var.environment` and propagates it to resource names.
+`validate_iac_isolation.py` must pass on each tree.
+
+================================================================================
+PART 2 — examples/canonical-iac-pulumi/<lang>/<provider>/ (4 seed trees)
+================================================================================
+
+Pulumi starters for the initial build pass. Author these 4 seed trees:
+
+  examples/canonical-iac-pulumi/typescript/aws/
+  examples/canonical-iac-pulumi/python/gcp/
+  examples/canonical-iac-pulumi/go/aws/
+  examples/canonical-iac-pulumi/dotnet/azure/
+
+Each tree has:
+
+  README.md
+  Pulumi.yaml
+  Pulumi.dev.yaml
+  Pulumi.test.yaml
+  <entrypoint>                                  # __main__.py / index.ts / main.go / Program.cs
+  components/                                   # ComponentResource subclasses
+    function-component
+    storage-component
+    eventing-component
+    secret-component
+    identity-component
+
+Stack names are `dev` and `test`. Stack secrets are set via
+`pulumi config set --secret` (document the command in README, do not
+commit any secret value).
+
+Remaining required Pulumi expansion set (authored in PROMPT_31; do NOT author
+in this prompt):
+  typescript/{gcp,azure}
+  python/{aws,azure}
+  go/{gcp,azure}
+
+Total seed trees: 4. `validate_iac_isolation.py` must pass on each.
+
+================================================================================
+PART 3 — examples/canonical-observability/
+================================================================================
+
+Standalone OTel + structured-log reference fixtures:
+
+  otel-collector-cloudrun/
+    config.yaml                      # collector config exporting to Cloud
+                                     # Trace + Cloud Logging
+    Dockerfile                       # sidecar image
+    README.md
+
+  otel-collector-eks-daemonset/
+    deployment.yaml                  # daemonset across nodes
+    configmap.yaml                   # OTel config exporting to CloudWatch
+                                     # + X-Ray + ADOT collector compatible
+    README.md
+
+  otel-collector-aks-deployment/
+    deployment.yaml
+    configmap.yaml                   # config exporting to Azure Monitor
+    README.md
+
+  otel-lambda-extension/
+    extension.json
+    layer-arns.md                    # ARNs per region for the AWS-managed
+                                     # ADOT layer
+
+  structured-log-shape-python.md
+  structured-log-shape-typescript.md
+  structured-log-shape-go.md
+  structured-log-shape-dotnet.md
+                                     # Each defines the JSON field set
+                                     # (timestamp, level, msg, trace_id,
+                                     # span_id, request_id, correlation_id,
+                                     # tenant_id, dedupe_key, latency_ms)
+
+================================================================================
+PART 4 — examples/canonical-secrets/
+================================================================================
+
+Identity-bound secret-binding references per provider:
+
+  aws-secrets-manager-binding-python.md
+    Lambda execution role IAM policy + boto3 retrieval pattern + caching
+  aws-secrets-manager-binding-go.md
+  aws-ssm-parameter-binding-python.md
+    Parameter Store with KMS + decryption-on-read
+
+  gcp-secret-manager-binding-python.md
+    Service account binding + python google-cloud-secret-manager retrieval
+  gcp-secret-manager-binding-typescript.md
+
+  azure-key-vault-managed-identity-dotnet.md
+    Managed identity + KV reference in Function app settings; SDK
+    retrieval at runtime
+  azure-key-vault-managed-identity-python.md
+
+Plus a Kubernetes-secrets-via-ESO example:
+  external-secrets-operator-aws.md
+  external-secrets-operator-gcp.md
+  external-secrets-operator-azure.md
+    ExternalSecret CRDs that pull from the matching provider secret
+    store into k8s Secret resources.
+
+================================================================================
+PART 5 — examples/canonical-eventing/
+================================================================================
+
+DLQ + replay + ordering patterns per provider:
+
+  sqs-dlq-pattern.md
+    Standard SQS + DLQ with maxReceiveCount; FIFO SQS for ordering;
+    replay tool pattern (drain DLQ → re-enqueue main).
+
+  sns-fifo-fanout-pattern.md
+
+  eventbridge-archive-replay.md
+    Archive policy + replay command; replay scope (event pattern + time
+    window); cost guardrails.
+
+  pubsub-deadletter.md
+    Pub/Sub dead-letter topic + retry policy; subscription ack handling.
+
+  pubsub-ordering-keys.md
+
+  servicebus-dlq-pattern.md
+    Service Bus queue + DLQ; auto-forwarding; DeadLetterReason inspection
+    on receive.
+
+  eventgrid-deadletter.md
+    Event Grid subscription with dead-letter destination (Storage); replay
+    via Storage queue trigger to re-publish.
+
+  eventhubs-checkpoint-recovery.md
+    Event Hubs checkpoint store + retry from last good offset.
+
+Each file 80–150 lines, code snippets for both producer + consumer side,
+explicit replay procedure documented with the operator-side command.
+
+================================================================================
+PART 6 — examples/canonical-prompts/
+================================================================================
+
+Starter monotonic prompt files derived repos can copy + edit:
+
+  PROMPT_01.txt
+    Prompt that walks the operator through running `new_cloud_repo.py`,
+    declaring archetype/provider/runtime-tier/language/iac-tool, and
+    committing the initial scaffold.
+
+  PROMPT_02.txt
+    Prompt that adds the first dev/test IaC isolation pair to the repo
+    and runs `validate_iac_isolation.py`.
+
+  PROMPT_03.txt
+    The graft prompt installed by `work.py graft TARGET` (PROMPT_05).
+    Walks an existing cloud repo and produces a starter prompt sequence
+    tailored to that repo. References doctrine, archetypes, and routers
+    in `accb` itself (so the graft target can boot from the prompt
+    alone if the operator paths it correctly).
+
+================================================================================
+PART 7 — REGISTRY + CATALOG + DOGFOODING AUDIT
+================================================================================
+
+  7.1  Append entries to `verification/example_registry.yaml` for every
+       new family with `verify_command` set where applicable.
+
+  7.2  Update `examples/catalog.json` with new entries.
+
+  7.3  AUDIT: walk the PROMPT_18–23 seed examples and confirm the IaC patterns
+       they embed match the standalone canonical-iac-* references from
+       this prompt. Where they diverge, the divergence must be
+       intentional (e.g. provider-specific specialization). File a
+       follow-up note in `tmp/dogfooding-audit.md` if any divergence
+       looks accidental. PROMPT_32 will revisit those notes.
+
+================================================================================
+VERIFICATION (this prompt)
+================================================================================
+
+  1. `find examples/canonical-iac-terraform -maxdepth 1 -mindepth 1 -type d | wc -l`
+     shows 3 (aws, gcp, azure).
+  2. `find examples/canonical-iac-pulumi -mindepth 2 -maxdepth 2 -type d | wc -l`
+     shows 4.
+  3. `python3 scripts/validate_iac_isolation.py` clean for every IaC tree.
+  4. `examples/canonical-observability/`, `canonical-secrets/`,
+     `canonical-eventing/`, `canonical-prompts/` all populated per
+     Parts 3–6.
+  5. `python3 scripts/verify_examples.py --family canonical-iac-terraform`,
+     `--family canonical-iac-pulumi`, etc. run without crashing.
+  6. Catalog + registry updated.
+  7. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' examples/canonical-iac-terraform/ examples/canonical-iac-pulumi/ examples/canonical-observability/ examples/canonical-secrets/ examples/canonical-eventing/ examples/canonical-prompts/`
+     returns nothing.
+
+================================================================================
+COMPLETION GATES
+================================================================================
+
+You may edit this file in place to tick the boxes off after the prompt has
+been run.
+
+  - [ ] All Part 1 (canonical-iac-terraform) trees exist with disjoint
+        dev/test backends.
+  - [ ] All Part 2 (canonical-iac-pulumi) seed trees exist; 4 trees total.
+  - [ ] All Part 3 (canonical-observability) artifacts exist.
+  - [ ] All Part 4 (canonical-secrets) artifacts exist.
+  - [ ] All Part 5 (canonical-eventing) artifacts exist.
+  - [ ] All Part 6 (canonical-prompts) artifacts exist, including
+        `PROMPT_03.txt`.
+  - [ ] `validate_iac_isolation.py` clean for every IaC tree.
+  - [ ] Dogfooding audit notes captured in `tmp/dogfooding-audit.md`
+        (gitignored).
+  - [ ] Catalog + registry updated.
+  - [ ] No `acb` / `.acb/` references.
+  - [ ] `tmp/PROMPT_24_checklist.md` is fully checked.
+  - [ ] `memory/concepts/cross-cutting-canonical-arc.md` exists noting
+        the initial cross-cutting seed surface is complete and that
+        PROMPT_32 builds the cross-provider integration testing harness +
+        arc docs.
+  - [ ] `memory/INDEX.md` lists `cross-cutting-canonical-arc.md`.
+
+End of PROMPT_24.
