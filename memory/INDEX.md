@@ -13,6 +13,7 @@ Tracked artifacts only. Do not add entries for `memory/sessions/` or
 - [router-system.md](concepts/router-system.md) — PROMPT_06 router system
 - [archetype-system.md](concepts/archetype-system.md) — PROMPT_07 archetype catalog
 - [scenario-catalog-system.md](concepts/scenario-catalog-system.md) — PROMPT_07 scenario catalog
+- [skill-system.md](concepts/skill-system.md) — PROMPT_08 skill system
 
 ## Tiers
 

@@ -1,0 +1,3 @@
+# Skill System
+
+PROMPT_08 establishes the `accb` skill system with 18 cognitive procedure documents in `context/skills/`, covering runtime tier, provider, language, IaC, trigger boundaries, managed-service substitution, secrets, eventing, k8s role decomposition, environment promotion, integration tests, observability, manifest selection, canonical examples, scenario-to-profile mapping, bundle assembly, memory continuity, and task inference. These skills are loaded to resolve ambiguity or routing ties rather than to define implementation patterns; PROMPT_09 starts authoring stacks for cloud functions.

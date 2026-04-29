@@ -230,13 +230,13 @@ COMPLETION GATES
 You may edit this file in place to tick the boxes off after the prompt has
 been run.
 
-  - [ ] All 18 skill files exist with the required sections.
-  - [ ] `.gitkeep` removed from `context/skills/`.
-  - [ ] No `acb` / `.acb/` references.
-  - [ ] `tmp/PROMPT_08_checklist.md` is fully checked.
-  - [ ] `memory/concepts/skill-system.md` exists with one paragraph noting
+  - [x] All 18 skill files exist with the required sections.
+  - [x] `.gitkeep` removed from `context/skills/`.
+  - [x] No `acb` / `.acb/` references.
+  - [x] `tmp/PROMPT_08_checklist.md` is fully checked.
+  - [x] `memory/concepts/skill-system.md` exists with one paragraph noting
         the 18 skills and that PROMPT_09 starts authoring stacks for cloud
         functions.
-  - [ ] `memory/INDEX.md` lists `skill-system.md`.
+  - [x] `memory/INDEX.md` lists `skill-system.md`.
 
 End of PROMPT_08.
