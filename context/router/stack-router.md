@@ -38,18 +38,30 @@ Load one primary runtime stack for the selected provider, runtime tier, and lang
   - load `context/stacks/cloudrun-typescript-hono.md`
 - GCP + managed-container + go + echo
   - load `context/stacks/cloudrun-go-echo.md`
+- GCP + managed-container + job
+  - load `context/stacks/cloudrun-job.md`
+- GCP + managed-container + sidecar
+  - load `context/stacks/cloudrun-multi-container-sidecar.md`
 - AWS + managed-container + python + fastapi
   - load `context/stacks/apprunner-python-fastapi.md`
 - AWS + managed-container + typescript + hono
   - load `context/stacks/apprunner-typescript-hono.md`
 - AWS + managed-container + go + echo
   - load `context/stacks/apprunner-go-echo.md`
+- AWS + managed-container + vpc-connector
+  - load `context/stacks/apprunner-vpc-connector.md`
 - Azure + managed-container + python + fastapi
   - load `context/stacks/aca-python-fastapi.md`
+- Azure + managed-container + typescript + hono
+  - load `context/stacks/aca-typescript-hono.md`
+- Azure + managed-container + go + echo
+  - load `context/stacks/aca-go-echo.md`
 - Azure + managed-container + dotnet
   - load `context/stacks/aca-dotnet-aspnet.md`
 - Azure + managed-container + jobs
   - load `context/stacks/aca-jobs.md`
+- Azure + managed-container + dapr
+  - load `context/stacks/aca-dapr.md`
 - AWS + k8s
   - load `context/stacks/eks-base.md`
   - add role packs for active workload roles
@@ -109,4 +121,3 @@ Load one primary runtime stack for the selected provider, runtime tier, and lang
 - "Cloud Run FastAPI service" -> `context/stacks/cloudrun-python-fastapi.md`
 - "App Runner Go Echo service with SQS" -> `context/stacks/apprunner-go-echo.md` + `context/stacks/eventing-aws-eventbridge-sqs-sns.md`
 - "AKS API plus workers and crons" -> `context/stacks/aks-base.md` + role packs
-
