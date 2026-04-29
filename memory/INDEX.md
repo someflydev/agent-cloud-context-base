@@ -6,3 +6,4 @@ Tracked artifacts only. Do not add entries for `memory/sessions/` or
 ## concepts/
 
 - `cloud-arc-bootstrap-genesis.md`
+- `cloud-doctrine-foundations.md`

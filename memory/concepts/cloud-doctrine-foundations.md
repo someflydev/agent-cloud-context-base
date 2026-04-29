@@ -1,0 +1,3 @@
+# Cloud Doctrine Foundations
+
+PROMPT_02 authored the foundational doctrine layer: `core-principles.md`, `testing-philosophy-cloud.md`, `iac-dev-test-isolation.md`, `trigger-boundary-discipline.md`, `idempotency-and-replay.md`, `function-vs-container-vs-k8s.md`, `identity-and-least-privilege.md`, `cloud-secret-handling.md`, `observability-cloud-native.md`, `prompt-first-conventions.md`, `canonical-examples.md`, and `documentation-timing-discipline.md`. These files establish the initial cloud-native rules for runtime selection, IaC isolation, identity, secrets, observability, examples, prompt discipline, testing, replay safety, and documentation timing; PROMPT_03 will add advanced doctrine and anchors.

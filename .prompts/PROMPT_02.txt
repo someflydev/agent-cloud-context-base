@@ -349,17 +349,17 @@ COMPLETION GATES
 You may edit this file in place to tick the boxes off after the prompt has
 been run — that is allowed for this promptset.
 
-  - [ ] All 12 doctrine files from Part 2 exist with the prescribed scope.
-  - [ ] No file exceeds 120 lines or falls below 30.
-  - [ ] No `acb` / `.acb/` references anywhere in `context/doctrine/`.
-  - [ ] No `acb`-stack-specific examples (Dokku, Hanami, Phoenix, Hono+
+  - [x] All 12 doctrine files from Part 2 exist with the prescribed scope.
+  - [x] No file exceeds 120 lines or falls below 30.
+  - [x] No `acb` / `.acb/` references anywhere in `context/doctrine/`.
+  - [x] No `acb`-stack-specific examples (Dokku, Hanami, Phoenix, Hono+
         Drizzle, etc.) appear in any doctrine.
-  - [ ] `context/doctrine/.gitkeep` removed (the directory now has real files).
-  - [ ] `tmp/PROMPT_02_checklist.md` is fully checked.
-  - [ ] `memory/concepts/cloud-doctrine-foundations.md` exists with one
+  - [x] `context/doctrine/.gitkeep` removed (the directory now has real files).
+  - [x] `tmp/PROMPT_02_checklist.md` is fully checked.
+  - [x] `memory/concepts/cloud-doctrine-foundations.md` exists with one
         paragraph naming the 12 doctrines authored and noting that PROMPT_03
         will add advanced doctrine + anchors.
-  - [ ] `memory/INDEX.md` lists `cloud-doctrine-foundations.md` under
+  - [x] `memory/INDEX.md` lists `cloud-doctrine-foundations.md` under
         `## concepts/`.
 
 End of PROMPT_02.
