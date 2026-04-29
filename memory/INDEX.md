@@ -11,6 +11,8 @@ Tracked artifacts only. Do not add entries for `memory/sessions/` or
 - [spec-validation-and-accb-rules.md](concepts/spec-validation-and-accb-rules.md) — PROMPT_04 specs, validation, profile-rules.json
 - [runtime-continuity-and-memory.md](concepts/runtime-continuity-and-memory.md) — PROMPT_05 work.py + memory layer
 - [router-system.md](concepts/router-system.md) — PROMPT_06 router system
+- [archetype-system.md](concepts/archetype-system.md) — PROMPT_07 archetype catalog
+- [scenario-catalog-system.md](concepts/scenario-catalog-system.md) — PROMPT_07 scenario catalog
 
 ## Tiers
 

@@ -1,0 +1,3 @@
+# Archetype System
+
+PROMPT_07 established the `accb` archetype layer in `context/archetypes/`: `cloud-function-repo`, `multi-function-platform`, `managed-container-service`, `managed-container-multi-service`, `k8s-platform-repo`, `k8s-multi-tenant-platform`, `cloud-event-pipeline`, `cloud-data-acquisition`, `cloud-rag-pipeline`, `cloud-control-plane`, `cloud-iac-only-repo`, and `cloud-multi-provider-experiment`. These files translate durable repo shape into required context, workflows, manifests, examples, anti-patterns, and validation gate summaries; PROMPT_08 authors the skills layer that will operate on top of these archetypes.
