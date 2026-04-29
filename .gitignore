@@ -1,1 +1,60 @@
+# Local runtime state
+tmp/
+work/
+PLAN.md
+context/TASK.md
+context/SESSION.md
+context/MEMORY.md
+memory/sessions/*
+!memory/sessions/.gitkeep
+memory/summaries/*
+!memory/summaries/.gitkeep
+
+# Reference-only sibling repositories, not part of this base
+agent-context-base/
+excellent-cloud-prompts/
+
+# Python
+__pycache__/
+*.pyc
+.venv-tools/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Node
+node_modules/
+dist/
+build/
+.turbo/
+
+# Go
+*.exe
+*.test
+*.out
+
+# Rust
+target/
+
+# .NET
+bin/
+obj/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+terraform.tfvars
+*.auto.tfvars
+crash.log
+crash.*.log
+
+# Pulumi
+.pulumi/
+Pulumi.*.encrypted.yaml
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
 *.swp
