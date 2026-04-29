@@ -8,3 +8,4 @@ Tracked artifacts only. Do not add entries for `memory/sessions/` or
 - `cloud-arc-bootstrap-genesis.md`
 - `cloud-doctrine-foundations.md`
 - `cloud-doctrine-and-anchors-complete.md`
+- `spec-validation-and-accb-rules.md`
