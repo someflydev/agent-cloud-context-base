@@ -16,6 +16,7 @@ Tracked artifacts only. Do not add entries for `memory/sessions/` or
 - [skill-system.md](concepts/skill-system.md) — PROMPT_08 skill system
 - [function-stack-surface.md](concepts/function-stack-surface.md) — PROMPT_09 function stack surface
 - [managed-container-stack-surface.md](concepts/managed-container-stack-surface.md) — PROMPT_10 managed-container stack surface
+- [k8s-stack-surface.md](concepts/k8s-stack-surface.md) — PROMPT_11 Kubernetes stack surface
 
 ## Tiers
 
