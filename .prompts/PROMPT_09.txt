@@ -156,6 +156,9 @@ DynamoDB Streams, SQS, SNS, EventBridge (rule + scheduler), API Gateway
 (REST + HTTP), API Gateway WebSocket, Cognito triggers, Kinesis, IoT,
 CloudWatch Logs subscriptions, CodePipeline events.
 
+Remove `context/stacks/.gitkeep` once the stack files exist so the placeholder
+does not remain beside authored stack documents.
+
 ================================================================================
 PART 3 — GCP CLOUD FUNCTIONS (Gen2) STACKS (3 files)
 ================================================================================
@@ -235,6 +238,7 @@ You may edit this file in place to tick the boxes off after the prompt has
 been run.
 
   - [ ] All 9 function stack files exist.
+  - [ ] `.gitkeep` removed from `context/stacks/`.
   - [ ] Each file follows the Part 1 format.
   - [ ] No `acb` / `.acb/` references.
   - [ ] Stack names match `stack-router.md`.
