@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "providers": {
+    "aws": {
+      "path_globs": ["terraform/aws/**", "pulumi/aws*/**"],
+      "file_patterns": ["lambda_function.py", "serverless.yml"],
+      "code_imports": ["boto3", "@aws-sdk/", "aws-sdk-go", "Amazon."]
+    },
+    "gcp": {
+      "path_globs": ["terraform/gcp/**", "pulumi/gcp*/**"],
+      "file_patterns": ["functions-framework"],
+      "code_imports": ["google.cloud", "@google-cloud/", "cloud.google.com/go"]
+    },
+    "azure": {
+      "path_globs": ["terraform/azurerm/**", "pulumi/azure*/**"],
+      "file_patterns": ["host.json", "function.json", "local.settings.json"],
+      "code_imports": ["azure.functions", "@azure/", "Microsoft.Azure."]
+    }
+  },
+  "runtime_tiers": {
+    "function": {
+      "file_patterns": ["lambda_function.py", "function.json", "host.json", "main.py with functions_framework"],
+      "iac_resources": ["aws_lambda_function", "google_cloudfunctions2_function", "azurerm_function_app"]
+    },
+    "managed_container": {
+      "file_patterns": ["Dockerfile", "service.yaml", "apprunner.yaml"],
+      "iac_resources": ["google_cloud_run_v2_service", "aws_apprunner_service", "azurerm_container_app"]
+    },
+    "k8s": {
+      "file_patterns": ["Chart.yaml", "kustomization.yaml", "deployment.yaml"],
+      "iac_resources": ["aws_eks_cluster", "google_container_cluster", "azurerm_kubernetes_cluster"]
+    }
+  },
+  "iac_tools": {
+    "terraform": {
+      "file_patterns": ["*.tf", "terraform/**", ".terraform/"],
+      "negative_patterns": ["Pulumi.yaml"]
+    },
+    "pulumi-typescript": {
+      "file_patterns": ["Pulumi.yaml", "package.json with @pulumi"]
+    },
+    "pulumi-python": {
+      "file_patterns": ["Pulumi.yaml", "requirements.txt with pulumi"]
+    },
+    "pulumi-go": {
+      "file_patterns": ["Pulumi.yaml", "go.mod with github.com/pulumi/pulumi"]
+    },
+    "pulumi-dotnet": {
+      "file_patterns": ["Pulumi.yaml", "*.csproj with Pulumi"]
+    }
+  }
+}
+

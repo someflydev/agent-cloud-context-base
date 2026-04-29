@@ -1,0 +1,23 @@
+schema_version: 1
+aliases:
+  providers:
+    aws: [amazon, "AWS", lambda-shop, ec2-shop]
+    gcp: [google-cloud, "GCP", "google cloud platform"]
+    azure: [microsoft-azure, "Azure"]
+  runtime_tiers:
+    function: [serverless, faas, lambda, cloud-fn, azure-fn]
+    managed_container: [cloud-run, app-runner, container-apps, aca, gke-cloudrun]
+    k8s: [kubernetes, eks, gke, aks, k3s, openshift]
+  iac_tools:
+    terraform: [tf, hcl]
+    pulumi-typescript: [pulumi-ts, pulumi-node]
+    pulumi-python: [pulumi-py]
+    pulumi-go: [pulumi-golang]
+    pulumi-dotnet: [pulumi-csharp, pulumi-cs, pulumi-net]
+  languages:
+    typescript: [ts, node, nodejs, javascript, js]
+    python: [py, py3]
+    go: [golang]
+    dotnet: [csharp, cs, "c#", ".net"]
+    java: [jvm]
+
