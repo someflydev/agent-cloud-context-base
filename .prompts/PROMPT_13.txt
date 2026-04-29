@@ -105,7 +105,7 @@ Each workflow 40–120 lines. No frontmatter.
 PART 2 — WORKFLOW FILES TO AUTHOR
 ================================================================================
 
-Author the following 28 files in `context/workflows/`:
+Author the following 31 files in `context/workflows/`:
 
 2.1   `bootstrap-cloud-repo.md`
       Generate a new derived repo from `accb` via `scripts/new_cloud_repo.py`
@@ -269,19 +269,39 @@ Author the following 28 files in `context/workflows/`:
       bootstrap command; stop if the scenario implies a different runtime
       tier than the user requested.
 
-2.25  `refactor.md`, `fix-bug.md`, `post-flight-refinement.md`,
+2.25  `add-k8s-tenant-namespace.md`
+      Add a tenant namespace to a Kubernetes multi-tenant platform repo.
+      Sequence: declare tenant namespace name; add ResourceQuota,
+      LimitRange, NetworkPolicy, service-account boundaries, and secret
+      source paths; wire Helm or Kustomize overlay; validate namespace
+      isolation and workload access.
+
+2.26  `add-vector-store-integration.md`
+      Add a vector store integration for cloud RAG workloads. Sequence:
+      choose provider-native or managed vector storage; declare identity
+      and secret binding; add ingestion and query paths; add roundtrip
+      integration test for index/write/query behavior; document teardown.
+
+2.27  `add-cloud-job-or-task-submitter.md`
+      Add a job or task submission boundary for cloud control-plane repos.
+      Sequence: choose provider job primitive or queue-backed task handoff;
+      declare request schema, identity, eventing or job resources, DLQ or
+      terminal failure handling, and integration tests for accepted and
+      rejected submissions.
+
+2.28  `refactor.md`, `fix-bug.md`, `post-flight-refinement.md`,
       `refresh-mermaid-diagrams.md` (FOUR small workflows in one batch
       for housekeeping; each 30–60 lines; no cloud-specific procedure
       beyond doctrine references).
 
-  Naming: 2.25 actually expands to 4 separate files. Total workflow file
-  count: 28 (the 24 numbered above + 4 housekeeping).
+  Naming: 2.28 actually expands to 4 separate files. Total workflow file
+  count: 31 (the 27 numbered above + 4 housekeeping).
 
 ================================================================================
 VERIFICATION
 ================================================================================
 
-  1. `ls context/workflows/ | wc -l` shows 28.
+  1. `ls context/workflows/ | wc -l` shows 31.
   2. `wc -l context/workflows/*.md` — each 30–120 lines.
   3. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' context/workflows/`
      returns nothing.
@@ -297,13 +317,13 @@ COMPLETION GATES
 You may edit this file in place to tick the boxes off after the prompt has
 been run.
 
-  - [ ] All 28 workflow files exist with the Part 1 format.
+  - [ ] All 31 workflow files exist with the Part 1 format.
   - [ ] `.gitkeep` removed from `context/workflows/`.
   - [ ] No `acb` / `.acb/` references.
   - [ ] Workflow names match `task-router.md` and archetype references.
   - [ ] `tmp/PROMPT_13_checklist.md` is fully checked.
   - [ ] `memory/concepts/workflow-system.md` exists with one paragraph
-        listing the 28 workflows and noting that PROMPT_14 authors
+        listing the 31 workflows and noting that PROMPT_14 authors
         manifests.
   - [ ] `memory/INDEX.md` lists `workflow-system.md`.
 

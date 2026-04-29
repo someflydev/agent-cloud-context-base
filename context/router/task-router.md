@@ -49,6 +49,12 @@ Route by the cloud work the user is trying to complete, then load the smallest w
   - load `context/workflows/add-cloud-runtime-image.md`
 - "helm chart", "kustomize overlay"
   - load `context/workflows/add-helm-or-kustomize-overlay.md`
+- "add tenant namespace", "k8s tenant namespace", "tenant isolation"
+  - load `context/workflows/add-k8s-tenant-namespace.md`
+- "vector store", "rag index", "embedding index"
+  - load `context/workflows/add-vector-store-integration.md`
+- "submit cloud job", "task submitter", "job submission"
+  - load `context/workflows/add-cloud-job-or-task-submitter.md`
 - "promote dev to test"
   - load `context/workflows/promote-dev-to-test.md`
 - "bootstrap a cloud repo", "new repo from accb"
@@ -89,6 +95,15 @@ Route by the cloud work the user is trying to complete, then load the smallest w
   - load `context/workflows/add-k8s-workload-role.md`
   - load `context/workflows/add-helm-or-kustomize-overlay.md`
   - load `context/workflows/add-cloud-smoke-tests.md`
+- "add a tenant namespace with quotas and network isolation"
+  - load `context/workflows/add-k8s-tenant-namespace.md`
+  - load `context/workflows/add-helm-or-kustomize-overlay.md`
+- "add a RAG vector index with ingestion tests"
+  - load `context/workflows/add-vector-store-integration.md`
+  - load `context/workflows/add-cloud-integration-tests.md`
+- "add a control-plane job submitter with terminal failure handling"
+  - load `context/workflows/add-cloud-job-or-task-submitter.md`
+  - load `context/workflows/add-eventing-seam.md`
 - "set up Pulumi dev/test stacks for App Runner with an SQS queue"
   - load `context/workflows/add-iac-stack.md`
   - load `context/workflows/add-iac-isolation-pair.md`
@@ -112,4 +127,4 @@ Route by the cloud work the user is trying to complete, then load the smallest w
 - "deploy this on Cloud Run with a secret" -> `context/workflows/add-managed-container-service.md` + `context/workflows/add-secret-binding.md`
 - "bootstrap a cloud repo from accb" -> `context/workflows/bootstrap-cloud-repo.md`
 - "refresh mermaid diagrams" -> `context/workflows/refresh-mermaid-diagrams.md`
-
+- "add a tenant namespace" -> `context/workflows/add-k8s-tenant-namespace.md`
