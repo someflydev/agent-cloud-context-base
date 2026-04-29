@@ -1,0 +1,259 @@
+schema_version: 1
+source_catalogs:
+  functions: excellent-cloud-prompts/01--funcs--100-excellent-prompts.md
+  containers: excellent-cloud-prompts/03--containers--100-excellent-prompts.md
+  kubernetes: excellent-cloud-prompts/05--k8s--100-excellent-prompts.md
+patterns:
+  function.object-intake-enrichment:
+    runtime_tier: function
+    archetype: cloud-event-pipeline
+    likely_manifests:
+      aws: func-aws-lambda-python
+      gcp: func-gcp-cloudfn-python
+      azure: func-azure-fn-python
+    support_services:
+      aws: [aws-s3, aws-dynamodb, aws-eventbridge, aws-secrets-manager]
+      gcp: [gcp-gcs, gcp-firestore, gcp-pubsub, gcp-secret-manager]
+      azure: [azure-blob, azure-cosmos, azure-eventgrid, azure-key-vault]
+    preferred_examples:
+      - examples/canonical-aws-lambda/s3-trigger-image-moderation/
+      - examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/
+      - examples/canonical-azure-functions/blob-trigger-receipt-ocr/
+  function.signed-webhook-orchestrator:
+    runtime_tier: function
+    archetype: cloud-function-repo
+    likely_manifests:
+      aws: func-aws-lambda-typescript
+      gcp: func-gcp-cloudfn-typescript
+      azure: func-azure-fn-dotnet-isolated
+    support_services:
+      aws: [aws-dynamodb, aws-sqs, aws-secrets-manager]
+      gcp: [gcp-firestore, gcp-pubsub, gcp-secret-manager]
+      azure: [azure-cosmos, azure-servicebus, azure-key-vault]
+    preferred_examples:
+      - examples/canonical-aws-lambda/signed-webhook-orchestrator/
+      - examples/canonical-gcp-functions/signed-webhook-orchestrator/
+      - examples/canonical-azure-functions/signed-webhook-orchestrator/
+  function.queue-backed-worker:
+    runtime_tier: function
+    archetype: multi-function-platform
+    likely_manifests:
+      aws: func-aws-lambda-python
+      gcp: func-gcp-cloudfn-go
+      azure: func-azure-fn-typescript
+    support_services:
+      aws: [aws-sqs, aws-dynamodb, aws-secrets-manager]
+      gcp: [gcp-pubsub, gcp-firestore, gcp-secret-manager]
+      azure: [azure-servicebus, azure-cosmos, azure-key-vault]
+    preferred_examples:
+      - examples/canonical-aws-lambda/queue-backed-document-classifier/
+      - examples/canonical-gcp-functions/pubsub-worker/
+      - examples/canonical-azure-functions/servicebus-worker/
+  function.change-event-relay:
+    runtime_tier: function
+    archetype: cloud-event-pipeline
+    likely_manifests:
+      aws: func-aws-lambda-go
+      gcp: func-gcp-cloudfn-python
+      azure: func-azure-fn-dotnet-isolated
+    support_services:
+      aws: [aws-dynamodb, aws-eventbridge, aws-sqs]
+      gcp: [gcp-firestore, gcp-eventarc, gcp-pubsub]
+      azure: [azure-cosmos, azure-eventhubs, azure-eventgrid]
+    preferred_examples:
+      - examples/canonical-aws-lambda/change-event-relay/
+      - examples/canonical-gcp-functions/pubsub-change-relay/
+      - examples/canonical-azure-functions/cosmos-change-feed-relay/
+  function.identity-or-alert-trigger:
+    runtime_tier: function
+    archetype: cloud-function-repo
+    likely_manifests:
+      aws: func-aws-lambda-typescript
+      gcp: func-gcp-cloudfn-typescript
+      azure: func-azure-fn-dotnet-isolated
+    support_services:
+      aws: [aws-cognito, aws-dynamodb, aws-sns, aws-secrets-manager]
+      gcp: [gcp-identity-platform, gcp-firestore, gcp-pubsub, gcp-secret-manager]
+      azure: [azure-entra-id, azure-cosmos, azure-servicebus, azure-key-vault]
+    preferred_examples:
+      - examples/canonical-aws-lambda/identity-alert-trigger/
+      - examples/canonical-gcp-functions/identity-alert-trigger/
+      - examples/canonical-azure-functions/identity-alert-trigger/
+  function.scheduled-report-or-maintenance:
+    runtime_tier: function
+    archetype: cloud-function-repo
+    likely_manifests:
+      aws: func-aws-lambda-python
+      gcp: func-gcp-cloudfn-python
+      azure: func-azure-fn-python
+    support_services:
+      aws: [aws-s3, aws-dynamodb, aws-eventbridge, aws-secrets-manager]
+      gcp: [gcp-gcs, gcp-firestore, gcp-pubsub, gcp-secret-manager]
+      azure: [azure-blob, azure-cosmos, azure-servicebus, azure-key-vault]
+    preferred_examples:
+      - examples/canonical-aws-lambda/scheduled-report-maintenance/
+      - examples/canonical-gcp-functions/scheduled-report-maintenance/
+      - examples/canonical-azure-functions/scheduled-report-maintenance/
+  container.public-api-private-worker-job:
+    runtime_tier: managed_container
+    archetype: managed-container-multi-service
+    likely_manifests:
+      gcp: container-cloudrun-fastapi
+      aws: container-apprunner-fastapi
+      azure: container-aca-dotnet
+    support_services:
+      aws: [aws-rds-postgres, aws-s3, aws-sqs, aws-secrets-manager]
+      gcp: [gcp-cloudsql, gcp-gcs, gcp-pubsub, gcp-secret-manager]
+      azure: [azure-sql, azure-blob, azure-servicebus, azure-key-vault]
+    preferred_examples:
+      - examples/canonical-cloudrun/public-api-private-worker-job/
+      - examples/canonical-apprunner/public-api-private-worker-job/
+      - examples/canonical-aca/public-api-private-worker-job/
+  container.heavy-runtime-service:
+    runtime_tier: managed_container
+    archetype: managed-container-service
+    likely_manifests:
+      gcp: container-cloudrun-fastapi
+      aws: container-apprunner-fastapi
+      azure: container-aca-fastapi
+    support_services:
+      aws: [aws-s3, aws-dynamodb, aws-secrets-manager]
+      gcp: [gcp-gcs, gcp-firestore, gcp-secret-manager]
+      azure: [azure-blob, azure-cosmos, azure-key-vault]
+    preferred_examples:
+      - examples/canonical-cloudrun/heavy-runtime-service/
+      - examples/canonical-apprunner/heavy-runtime-service/
+      - examples/canonical-aca/heavy-runtime-service/
+  container.partner-adapter-gateway:
+    runtime_tier: managed_container
+    archetype: managed-container-multi-service
+    likely_manifests:
+      gcp: container-cloudrun-go-echo
+      aws: container-apprunner-go-echo
+      azure: container-aca-dotnet
+    support_services:
+      aws: [aws-rds-postgres, aws-sqs, aws-s3, aws-secrets-manager]
+      gcp: [gcp-cloudsql, gcp-pubsub, gcp-gcs, gcp-secret-manager]
+      azure: [azure-sql, azure-servicebus, azure-blob, azure-key-vault]
+    preferred_examples:
+      - examples/canonical-cloudrun/partner-adapter-gateway/
+      - examples/canonical-apprunner/partner-adapter-gateway/
+      - examples/canonical-aca/partner-adapter-gateway/
+  container.multi-container-sidecar:
+    runtime_tier: managed_container
+    archetype: managed-container-service
+    likely_manifests:
+      gcp: container-cloudrun-fastapi
+      aws: container-apprunner-fastapi
+      azure: container-aca-fastapi
+    support_services:
+      aws: [aws-secrets-manager, aws-s3]
+      gcp: [gcp-secret-manager, gcp-gcs]
+      azure: [azure-key-vault, azure-blob]
+    preferred_examples:
+      - examples/canonical-cloudrun/multi-container-sidecar/
+      - examples/canonical-aca/multi-container-sidecar/
+  container.job-first-container:
+    runtime_tier: managed_container
+    archetype: managed-container-service
+    likely_manifests:
+      gcp: container-cloudrun-fastapi
+      aws: container-apprunner-fastapi
+      azure: container-aca-jobs
+    support_services:
+      aws: [aws-s3, aws-dynamodb, aws-eventbridge, aws-secrets-manager]
+      gcp: [gcp-gcs, gcp-firestore, gcp-pubsub, gcp-secret-manager]
+      azure: [azure-blob, azure-cosmos, azure-servicebus, azure-key-vault]
+    preferred_examples:
+      - examples/canonical-cloudrun/job-first-container/
+      - examples/canonical-aca/job-first-container/
+  k8s.multi-role-platform:
+    runtime_tier: k8s
+    archetype: k8s-platform-repo
+    likely_manifests:
+      aws: k8s-eks-multi-role-python
+      gcp: k8s-gke-multi-role-python
+      azure: k8s-aks-multi-role-dotnet
+    support_services:
+      aws: [aws-sqs, aws-rds-postgres, aws-s3, aws-secrets-manager]
+      gcp: [gcp-pubsub, gcp-cloudsql, gcp-gcs, gcp-secret-manager]
+      azure: [azure-servicebus, azure-sql, azure-blob, azure-key-vault]
+    preferred_examples:
+      - examples/canonical-eks/multi-role-platform/
+      - examples/canonical-gke/multi-role-platform/
+      - examples/canonical-aks/multi-role-platform/
+  k8s.stream-replay-platform:
+    runtime_tier: k8s
+    archetype: k8s-platform-repo
+    likely_manifests:
+      aws: k8s-eks-multi-role-go
+      gcp: k8s-gke-multi-role-go
+      azure: k8s-aks-multi-role-typescript
+    support_services:
+      aws: [aws-sqs, aws-eventbridge, aws-s3, aws-secrets-manager]
+      gcp: [gcp-pubsub, gcp-eventarc, gcp-gcs, gcp-secret-manager]
+      azure: [azure-eventhubs, azure-servicebus, azure-blob, azure-key-vault]
+    preferred_examples:
+      - examples/canonical-eks/stream-replay-platform/
+      - examples/canonical-gke/stream-replay-platform/
+      - examples/canonical-aks/stream-replay-platform/
+  k8s.rag-knowledge-mesh:
+    runtime_tier: k8s
+    archetype: k8s-platform-repo
+    likely_manifests:
+      aws: k8s-eks-multi-role-python
+      gcp: k8s-gke-multi-role-python
+      azure: k8s-aks-multi-role-typescript
+    support_services:
+      aws: [aws-s3, aws-rds-postgres, aws-opensearch, aws-secrets-manager]
+      gcp: [gcp-gcs, gcp-cloudsql, gcp-vertex-vector-search, gcp-secret-manager]
+      azure: [azure-blob, azure-sql, azure-ai-search, azure-key-vault]
+    preferred_examples:
+      - examples/canonical-eks/rag-knowledge-mesh/
+      - examples/canonical-gke/rag-knowledge-mesh/
+      - examples/canonical-aks/rag-knowledge-mesh/
+  k8s.regulated-document-platform:
+    runtime_tier: k8s
+    archetype: k8s-multi-tenant-platform
+    likely_manifests:
+      aws: k8s-eks-multi-role-python
+      gcp: k8s-gke-multi-role-python
+      azure: k8s-aks-multi-role-dotnet
+    support_services:
+      aws: [aws-s3, aws-rds-postgres, aws-sqs, aws-secrets-manager]
+      gcp: [gcp-gcs, gcp-cloudsql, gcp-pubsub, gcp-secret-manager]
+      azure: [azure-blob, azure-sql, azure-servicebus, azure-key-vault]
+    preferred_examples:
+      - examples/canonical-eks/regulated-document-platform/
+      - examples/canonical-gke/regulated-document-platform/
+      - examples/canonical-aks/regulated-document-platform/
+  k8s.workflow-control-plane:
+    runtime_tier: k8s
+    archetype: k8s-platform-repo
+    likely_manifests:
+      aws: k8s-eks-multi-role-go
+      gcp: k8s-gke-multi-role-go
+      azure: k8s-aks-multi-role-typescript
+    support_services:
+      aws: [aws-dynamodb, aws-sqs, aws-s3, aws-secrets-manager]
+      gcp: [gcp-firestore, gcp-pubsub, gcp-gcs, gcp-secret-manager]
+      azure: [azure-cosmos, azure-servicebus, azure-blob, azure-key-vault]
+    preferred_examples:
+      - examples/canonical-eks/workflow-control-plane/
+      - examples/canonical-gke/workflow-control-plane/
+      - examples/canonical-aks/workflow-control-plane/
+  k8s.heterogeneous-compute-platform:
+    runtime_tier: k8s
+    archetype: k8s-platform-repo
+    likely_manifests:
+      aws: k8s-eks-multi-role-python
+      gcp: k8s-gke-multi-role-python
+      azure: k8s-aks-multi-role-dotnet
+    support_services:
+      aws: [aws-sqs, aws-s3, aws-rds-postgres, aws-secrets-manager]
+      gcp: [gcp-pubsub, gcp-gcs, gcp-cloudsql, gcp-secret-manager]
+      azure: [azure-servicebus, azure-blob, azure-sql, azure-key-vault]
+    preferred_examples:
+      - examples/canonical-eks/heterogeneous-compute-platform/
+      - examples/canonical-gke/heterogeneous-compute-platform/
+      - examples/canonical-aks/heterogeneous-compute-platform/
