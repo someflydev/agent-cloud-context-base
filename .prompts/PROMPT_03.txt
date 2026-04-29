@@ -380,17 +380,17 @@ COMPLETION GATES
 You may edit this file in place to tick the boxes off after the prompt has
 been run.
 
-  - [ ] All 17 advanced doctrine files from Part 1 exist.
-  - [ ] All 7 anchor files from Part 2 exist.
-  - [ ] `.gitkeep` removed from `context/doctrine/` (already removed in
+  - [x] All 17 advanced doctrine files from Part 1 exist.
+  - [x] All 7 anchor files from Part 2 exist.
+  - [x] `.gitkeep` removed from `context/doctrine/` (already removed in
         PROMPT_02) and `context/anchors/`.
-  - [ ] No `acb` / `.acb/` references in either directory.
-  - [ ] No `acb`-stack examples appear in any file.
-  - [ ] `tmp/PROMPT_03_checklist.md` is fully checked.
-  - [ ] `memory/concepts/cloud-doctrine-and-anchors-complete.md` exists
+  - [x] No `acb` / `.acb/` references in either directory.
+  - [x] No `acb`-stack examples appear in any file.
+  - [x] `tmp/PROMPT_03_checklist.md` is fully checked.
+  - [x] `memory/concepts/cloud-doctrine-and-anchors-complete.md` exists
         with one paragraph summarizing the doctrine + anchor surface and
         noting that PROMPT_04 authors specs, validation modules, and
         `context/accb/profile-rules.json`.
-  - [ ] `memory/INDEX.md` lists `cloud-doctrine-and-anchors-complete.md`.
+  - [x] `memory/INDEX.md` lists `cloud-doctrine-and-anchors-complete.md`.
 
 End of PROMPT_03.

@@ -1,0 +1,3 @@
+# Cloud Doctrine And Anchors Complete
+
+PROMPT_03 completed the advanced doctrine and boot anchor surface for `accb`: managed service selection, private networking, eventing and DLQs, cost and quota controls, promotion, cold starts, serverless state, container images, Kubernetes role and tenant boundaries, Terraform and Pulumi environment discipline, context loading and complexity budgets, stop conditions, naming clarity, and dogfooding rules now sit beside the foundational doctrine from PROMPT_02. The new anchors provide compact boot reminders for repo identity, session start, context loading, integrity checks, anti-patterns, cloud identity decisions, and IaC isolation; PROMPT_04 authors specs, validation modules, and `context/accb/profile-rules.json`.
