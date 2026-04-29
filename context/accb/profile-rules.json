@@ -1,0 +1,308 @@
+{
+  "schema_version": 1,
+  "default_doctrines": [
+    "core-principles",
+    "testing-philosophy-cloud",
+    "iac-dev-test-isolation",
+    "trigger-boundary-discipline",
+    "idempotency-and-replay",
+    "function-vs-container-vs-k8s",
+    "identity-and-least-privilege",
+    "cloud-secret-handling",
+    "observability-cloud-native",
+    "context-loading-rules",
+    "context-complexity-budget-cloud",
+    "stop-conditions"
+  ],
+  "default_routers": [
+    "task-router",
+    "provider-router",
+    "runtime-router",
+    "stack-router",
+    "archetype-router",
+    "scenario-router",
+    "iac-router",
+    "repo-signal-hints"
+  ],
+  "default_anchors": [
+    "repo-identity",
+    "session-start",
+    "context-loading-principles",
+    "context-integrity",
+    "anti-patterns",
+    "cloud-identity",
+    "iac-isolation"
+  ],
+  "startup_features": {
+    "budget_report_enabled": false,
+    "startup_trace_enabled": false,
+    "route_check_enabled": false
+  },
+  "doctrine_module_map": {
+    "core-principles": "validation-first-autonomy",
+    "testing-philosophy-cloud": "testing-philosophy",
+    "iac-dev-test-isolation": "iac-isolation",
+    "trigger-boundary-discipline": "trigger-boundary",
+    "idempotency-and-replay": "idempotency",
+    "function-vs-container-vs-k8s": "tier-selection",
+    "identity-and-least-privilege": "identity-discipline",
+    "cloud-secret-handling": "secret-discipline",
+    "observability-cloud-native": "observability",
+    "context-loading-rules": "startup-rehydration",
+    "context-complexity-budget-cloud": "context-budget-discipline",
+    "stop-conditions": "stop-conditions",
+    "managed-service-selection": "managed-service-discipline",
+    "vpc-and-private-networking": "network-seam",
+    "eventing-and-dlq-discipline": "eventing-discipline",
+    "cost-and-quota-awareness": "cost-discipline",
+    "multi-environment-promotion": "promotion",
+    "cold-start-and-runtime-selection": "runtime-discipline",
+    "serverless-state-discipline": "state-discipline",
+    "container-image-discipline": "image-discipline",
+    "k8s-workload-role-separation": "k8s-roles",
+    "k8s-multi-tenancy-and-namespacing": "k8s-tenancy",
+    "pulumi-stack-discipline": "pulumi-discipline",
+    "terraform-workspace-discipline": "terraform-discipline",
+    "naming-and-clarity": "naming",
+    "dogfooding-cloud-arc": "dogfooding"
+  },
+  "archetype_capabilities": {
+    "cloud-function-repo": ["function", "iac"],
+    "multi-function-platform": ["function", "eventing", "iac", "secrets"],
+    "managed-container-service": ["container", "iac"],
+    "managed-container-multi-service": ["container", "eventing", "iac", "secrets"],
+    "k8s-platform-repo": ["k8s-api", "k8s-worker", "k8s-job", "k8s-cron", "iac"],
+    "k8s-multi-tenant-platform": ["k8s-api", "k8s-worker", "k8s-tenancy", "iac", "secrets"],
+    "cloud-event-pipeline": ["function", "eventing", "iac", "secrets"],
+    "cloud-data-acquisition": ["function", "container", "storage", "eventing", "iac"],
+    "cloud-rag-pipeline": ["function", "container", "vector-store", "iac", "secrets"],
+    "cloud-control-plane": ["function", "container", "iac", "secrets"],
+    "cloud-iac-only-repo": ["iac"],
+    "cloud-multi-provider-experiment": ["function", "container", "iac", "comparative"]
+  },
+  "manifest_capabilities": {
+    "func-aws-lambda-python": ["function", "secrets", "iac"],
+    "func-aws-lambda-typescript": ["function", "secrets", "iac"],
+    "func-aws-lambda-go": ["function", "secrets", "iac"],
+    "func-gcp-cloudfn-python": ["function", "secrets", "iac"],
+    "func-gcp-cloudfn-typescript": ["function", "secrets", "iac"],
+    "func-gcp-cloudfn-go": ["function", "secrets", "iac"],
+    "func-azure-fn-python": ["function", "secrets", "iac"],
+    "func-azure-fn-typescript": ["function", "secrets", "iac"],
+    "func-azure-fn-dotnet-isolated": ["function", "secrets", "iac"],
+    "container-cloudrun-fastapi": ["container", "secrets", "iac"],
+    "container-cloudrun-hono": ["container", "secrets", "iac"],
+    "container-cloudrun-go-echo": ["container", "secrets", "iac"],
+    "container-apprunner-fastapi": ["container", "secrets", "iac"],
+    "container-apprunner-hono": ["container", "secrets", "iac"],
+    "container-apprunner-go-echo": ["container", "secrets", "iac"],
+    "container-aca-fastapi": ["container", "secrets", "iac"],
+    "container-aca-dotnet": ["container", "secrets", "iac"],
+    "container-aca-jobs": ["container", "eventing", "secrets", "iac"],
+    "k8s-eks-multi-role-python": ["k8s-api", "k8s-worker", "k8s-job", "k8s-cron", "iac", "secrets"],
+    "k8s-eks-multi-role-go": ["k8s-api", "k8s-worker", "k8s-job", "k8s-cron", "iac", "secrets"],
+    "k8s-gke-multi-role-python": ["k8s-api", "k8s-worker", "k8s-job", "k8s-cron", "iac", "secrets", "vector-store"],
+    "k8s-gke-multi-role-go": ["k8s-api", "k8s-worker", "k8s-job", "k8s-cron", "iac", "secrets", "vector-store"],
+    "k8s-aks-multi-role-dotnet": ["k8s-api", "k8s-worker", "k8s-job", "k8s-cron", "iac", "secrets"],
+    "k8s-aks-multi-role-typescript": ["k8s-api", "k8s-worker", "k8s-job", "k8s-cron", "iac", "secrets"],
+    "iac-terraform-aws": ["iac"],
+    "iac-terraform-gcp": ["iac"],
+    "iac-terraform-azure": ["iac"],
+    "iac-pulumi-typescript": ["iac"],
+    "iac-pulumi-python": ["iac"],
+    "iac-pulumi-go": ["iac"],
+    "iac-pulumi-dotnet": ["iac"],
+    "multi-provider-event-pipeline": ["function", "eventing", "iac", "comparative"]
+  },
+  "support_service_capabilities": {
+    "aws-s3": ["storage"],
+    "aws-dynamodb": ["storage"],
+    "aws-rds-postgres": ["storage"],
+    "aws-sqs": ["eventing"],
+    "aws-sns": ["eventing"],
+    "aws-eventbridge": ["eventing"],
+    "aws-secrets-manager": ["secrets"],
+    "aws-ssm-parameter": ["secrets"],
+    "aws-cognito": ["identity"],
+    "aws-opensearch": ["search"],
+    "aws-elasticache": ["storage"],
+    "gcp-gcs": ["storage"],
+    "gcp-firestore": ["storage"],
+    "gcp-cloudsql": ["storage"],
+    "gcp-pubsub": ["eventing"],
+    "gcp-eventarc": ["eventing"],
+    "gcp-secret-manager": ["secrets"],
+    "gcp-identity-platform": ["identity"],
+    "gcp-vertex-vector-search": ["vector-store"],
+    "gcp-memorystore": ["storage"],
+    "azure-blob": ["storage"],
+    "azure-cosmos": ["storage"],
+    "azure-sql": ["storage"],
+    "azure-servicebus": ["eventing"],
+    "azure-eventgrid": ["eventing"],
+    "azure-eventhubs": ["eventing"],
+    "azure-key-vault": ["secrets"],
+    "azure-entra-id": ["identity"],
+    "azure-ai-search": ["search"],
+    "azure-cache-redis": ["storage"]
+  },
+  "default_validation_gates": [
+    {
+      "id": "changed-boundary-proof",
+      "category": "completion",
+      "summary": "Do not claim completion until the changed cloud boundary was exercised by a real check.",
+      "command_hint": "Run at least one direct proof command for the touched boundary (Lane A emulator or Lane B ephemeral real)."
+    },
+    {
+      "id": "iac-dev-test-disjoint",
+      "category": "iac",
+      "summary": "Dev and test must never share state backend keys, secret paths, or resource names.",
+      "command": "python3 scripts/validate_iac_isolation.py <iac dir>",
+      "command_hint": "python3 scripts/validate_iac_isolation.py <iac dir>"
+    },
+    {
+      "id": "secret-not-in-source",
+      "category": "secrets",
+      "summary": "No secret values appear in source, IaC tfvars, Pulumi config without --secret, container images, or logs.",
+      "command_hint": "Grep + the validate_iac_isolation policy."
+    },
+    {
+      "id": "identity-least-privilege-declared",
+      "category": "identity",
+      "summary": "Every workload-to-resource access has an explicit identity binding scoped to the smallest action set.",
+      "command_hint": "IaC review + the identity-least-privilege policy."
+    },
+    {
+      "id": "startup-rehydration",
+      "category": "operations",
+      "summary": "Refresh repo-local operating context when work changes startup order, constraints, or verification commands.",
+      "command_hint": "Refresh `.accb/profile/selection.json` and `.accb/SESSION_BOOT.md` when truth changed."
+    }
+  ],
+  "archetype_validation_gates": {
+    "cloud-function-repo": [
+      {"id": "function-trigger-contract", "category": "trigger", "summary": "Exercise the function with a real trigger event fixture."},
+      {"id": "function-idempotency-proof", "category": "replay", "summary": "Replay the same trigger with the same dedupe key and assert exactly-once effect."}
+    ],
+    "multi-function-platform": [
+      {"id": "function-trigger-contract", "category": "trigger", "summary": "Exercise each function with a real trigger event fixture."},
+      {"id": "function-idempotency-proof", "category": "replay", "summary": "Replay each trigger and assert exactly-once effect."},
+      {"id": "eventing-dlq-path", "category": "eventing", "summary": "Verify DLQ destination, alarm, and replay path."}
+    ],
+    "managed-container-service": [
+      {"id": "container-image-buildable", "category": "build", "summary": "Container image builds with a clean SBOM and non-root user."},
+      {"id": "container-health-and-readiness", "category": "smoke", "summary": "Service responds to health and readiness probes after deploy."}
+    ],
+    "managed-container-multi-service": [
+      {"id": "container-image-buildable", "category": "build", "summary": "All images build clean."},
+      {"id": "container-health-and-readiness", "category": "smoke", "summary": "Public + private services respond to probes."},
+      {"id": "container-private-network-when-required", "category": "network", "summary": "Private worker is unreachable from the public internet."}
+    ],
+    "k8s-platform-repo": [
+      {"id": "k8s-role-separation-evident", "category": "topology", "summary": "API, worker, job, cron live in distinct workloads."},
+      {"id": "k8s-rolling-rollout-and-rollback-paths", "category": "rollout", "summary": "Rolling update and rollback both succeed in test."},
+      {"id": "eventing-dlq-path", "category": "eventing", "summary": "Worker DLQ path is exercised."}
+    ],
+    "k8s-multi-tenant-platform": [
+      {"id": "k8s-role-separation-evident", "category": "topology", "summary": "Roles are separated."},
+      {"id": "k8s-tenant-isolation-evident", "category": "tenancy", "summary": "ResourceQuota, LimitRange, NetworkPolicy per tenant namespace."}
+    ],
+    "cloud-event-pipeline": [
+      {"id": "function-trigger-contract", "category": "trigger", "summary": "Each pipeline stage exercised with a real trigger."},
+      {"id": "eventing-dlq-path", "category": "eventing", "summary": "DLQ + replay path verified."},
+      {"id": "function-idempotency-proof", "category": "replay", "summary": "End-to-end replay assertion."}
+    ],
+    "cloud-data-acquisition": [
+      {"id": "storage-real-roundtrip-in-test-stack", "category": "data", "summary": "Source ingestion writes and reads through the real managed storage boundary in test."},
+      {"id": "function-idempotency-proof", "category": "replay", "summary": "Replay the same source item and assert exactly-once persistence."}
+    ],
+    "cloud-rag-pipeline": [
+      {"id": "rag-retrieval-sanity", "category": "retrieval", "summary": "One indexing and one retrieval query succeed against a deterministic corpus in test."},
+      {"id": "secret-binding-via-identity", "category": "secrets", "summary": "Embedding, model, or search credentials are read via provider identity and secret binding."}
+    ],
+    "cloud-control-plane": [
+      {"id": "identity-least-privilege-declared", "category": "identity", "summary": "Control-plane actions use explicit least-privilege workload identity."},
+      {"id": "function-idempotency-proof", "category": "replay", "summary": "Replay one mutating request and assert exactly-once managed-state effect."}
+    ],
+    "cloud-iac-only-repo": [
+      {"id": "iac-plan-clean", "category": "iac", "summary": "terraform plan / pulumi preview clean for both dev and test."}
+    ],
+    "cloud-multi-provider-experiment": [
+      {"id": "comparative-parity-evident", "category": "comparative", "summary": "Each provider implementation passes its own provider-specific gates."}
+    ]
+  },
+  "stack_validation_gates": {
+    "aws-lambda-python": [
+      {"id": "lambda-handler-contract", "category": "trigger", "summary": "Handler invoked with a real event JSON; status, response shape, and side effects asserted."}
+    ],
+    "aws-lambda-typescript-node": [
+      {"id": "lambda-handler-contract", "category": "trigger", "summary": "Handler invoked with a real event JSON; status, response shape, and side effects asserted."}
+    ],
+    "gcp-cloudfn-python": [
+      {"id": "cloudfn-trigger-contract", "category": "trigger", "summary": "Function invoked with a real CloudEvent or HTTP request; idempotency asserted."}
+    ],
+    "azure-fn-dotnet-isolated": [
+      {"id": "azure-fn-trigger-contract", "category": "trigger", "summary": "Function invoked with the real binding payload; isolated-process startup asserted."}
+    ],
+    "cloudrun-python-fastapi": [
+      {"id": "cloudrun-revision-readiness", "category": "smoke", "summary": "Cloud Run revision passes readiness; one representative route exercised."}
+    ],
+    "eks-base": [
+      {"id": "eks-cluster-reachable", "category": "smoke", "summary": "kubectl get nodes succeeds; sample workload Ready."}
+    ],
+    "iac-terraform-conventions": [
+      {"id": "terraform-plan-clean", "category": "iac", "summary": "terraform plan returns no unintended drift in dev and test."}
+    ],
+    "iac-pulumi-python": [
+      {"id": "pulumi-preview-clean", "category": "iac", "summary": "pulumi preview returns no unintended drift in dev and test."}
+    ]
+  },
+  "capability_validation_gates": {
+    "function": [
+      {"id": "function-trigger-contract", "category": "trigger", "summary": "At least one representative trigger fixture exercises the handler end to end."}
+    ],
+    "container": [
+      {"id": "container-health-and-readiness", "category": "smoke", "summary": "Health and readiness probes pass after deploy."}
+    ],
+    "k8s-api": [
+      {"id": "k8s-role-separation-evident", "category": "topology", "summary": "API role is its own Deployment."}
+    ],
+    "k8s-worker": [
+      {"id": "k8s-worker-bounded-work-item", "category": "workers", "summary": "Worker claims and processes a bounded test work item end to end."}
+    ],
+    "k8s-job": [
+      {"id": "k8s-job-completion", "category": "jobs", "summary": "Job runs to completion in test with parallelism explicit."}
+    ],
+    "k8s-cron": [
+      {"id": "k8s-cron-execution", "category": "cron", "summary": "CronJob fires on schedule in test; concurrencyPolicy honored."}
+    ],
+    "k8s-tenancy": [
+      {"id": "k8s-tenant-isolation-evident", "category": "tenancy", "summary": "ResourceQuota + NetworkPolicy enforce tenant isolation in test."}
+    ],
+    "iac": [
+      {"id": "iac-plan-clean", "category": "iac", "summary": "terraform plan / pulumi preview clean for dev and test."},
+      {"id": "iac-dev-test-disjoint", "category": "iac", "summary": "validate_iac_isolation passes."}
+    ],
+    "secrets": [
+      {"id": "secret-binding-via-identity", "category": "secrets", "summary": "Workload reads secrets via identity binding, not env-var copy/paste."}
+    ],
+    "identity": [
+      {"id": "identity-least-privilege-declared", "category": "identity", "summary": "All identity bindings are scoped to least privilege."}
+    ],
+    "eventing": [
+      {"id": "eventing-dlq-path", "category": "eventing", "summary": "DLQ destination + alarm + replay path verified."}
+    ],
+    "storage": [
+      {"id": "storage-real-roundtrip-in-test-stack", "category": "data", "summary": "Workload writes and reads through the real managed-service boundary in test."}
+    ],
+    "vector-store": [
+      {"id": "rag-retrieval-sanity", "category": "retrieval", "summary": "One indexing + one retrieval query succeed against a deterministic corpus in test."}
+    ],
+    "search": [
+      {"id": "search-index-and-query", "category": "retrieval", "summary": "Index + query succeed in test."}
+    ],
+    "comparative": [
+      {"id": "comparative-parity-evident", "category": "comparative", "summary": "Every provider implementation passes its own gates."}
+    ]
+  }
+}
