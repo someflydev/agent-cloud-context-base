@@ -53,7 +53,7 @@ Load this stack when Kubernetes workloads need an in-cluster OpenTelemetry Colle
 ## Secrets
 
 - Use External Secrets Operator for exporter tokens, endpoints, and credentials.
-- Reference the provider secret store stack added by PROMPT_12.
+- Reference `context/stacks/secrets-aws-secrets-manager.md`, `context/stacks/secrets-gcp-secret-manager.md`, or `context/stacks/secrets-azure-key-vault.md` for the selected provider.
 - Prefer provider workload identity over static telemetry keys.
 - Do not put exporter tokens in Helm values, Kustomize generators, or checked-in manifests.
 - Keep secret source paths environment-specific.

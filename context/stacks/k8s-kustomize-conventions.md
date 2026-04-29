@@ -49,7 +49,7 @@ Load this stack when a generated Kubernetes repo uses Kustomize as the first-cla
 ## Secrets
 
 - Use External Secrets Operator for secret injection.
-- Reference the provider secret store stack added by PROMPT_12.
+- Reference `context/stacks/secrets-aws-secrets-manager.md`, `context/stacks/secrets-gcp-secret-manager.md`, or `context/stacks/secrets-azure-key-vault.md` for the selected provider.
 - Use ExternalSecret manifests or patches with environment-specific remote refs.
 - Use `configMapGenerator` for non-secret config only.
 - Avoid `secretGenerator` for real secrets; it is acceptable only for local non-sensitive fixtures.

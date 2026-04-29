@@ -53,7 +53,7 @@ Load this stack when Kubernetes workloads use KEDA for event-driven autoscaling.
 ## Secrets
 
 - Use External Secrets Operator for scaler credentials that cannot use provider identity.
-- Reference the provider secret store stack added by PROMPT_12.
+- Reference `context/stacks/secrets-aws-secrets-manager.md`, `context/stacks/secrets-gcp-secret-manager.md`, or `context/stacks/secrets-azure-key-vault.md` for the selected provider.
 - Keep broker passwords, SAS keys, and connection strings out of Helm values and Kustomize generators.
 - Store secret source paths under environment-specific prefixes.
 - Rotate scaler credentials without changing application images.

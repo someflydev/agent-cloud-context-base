@@ -52,7 +52,7 @@ Load this role pack for request-serving Kubernetes APIs. It describes the provid
 ## Secrets
 
 - Use External Secrets Operator for runtime secret projection.
-- Reference the provider secret store stack added by PROMPT_12.
+- Reference `context/stacks/secrets-aws-secrets-manager.md`, `context/stacks/secrets-gcp-secret-manager.md`, or `context/stacks/secrets-azure-key-vault.md` for the selected provider.
 - Mount secrets as files when rotation without restart matters; use env only for simple non-rotating clients.
 - Do not place secret values in Helm values, Kustomize generators, or checked-in manifests.
 - Keep secret names stable but source paths environment-specific.

@@ -51,7 +51,7 @@ Load this role pack for scheduled Kubernetes work. It describes the provider-agn
 ## Secrets
 
 - Use External Secrets Operator for runtime secret projection.
-- Reference the provider secret store stack added by PROMPT_12.
+- Reference `context/stacks/secrets-aws-secrets-manager.md`, `context/stacks/secrets-gcp-secret-manager.md`, or `context/stacks/secrets-azure-key-vault.md` for the selected provider.
 - Prefer provider identity over static credentials.
 - Do not place secret values in Helm values, Kustomize generators, or checked-in manifests.
 - Keep secret source paths environment-specific.

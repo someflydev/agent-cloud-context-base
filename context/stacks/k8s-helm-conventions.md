@@ -49,7 +49,7 @@ Load this stack when a generated Kubernetes repo uses Helm as the first-class ma
 ## Secrets
 
 - Use External Secrets Operator for secret injection.
-- Reference the provider secret store stack added by PROMPT_12.
+- Reference `context/stacks/secrets-aws-secrets-manager.md`, `context/stacks/secrets-gcp-secret-manager.md`, or `context/stacks/secrets-azure-key-vault.md` for the selected provider.
 - Template ExternalSecret resources with environment-specific remote refs.
 - Do not put secret values in any values file.
 - Use `helm diff` or rendered manifest review to confirm no secret literals are emitted.
