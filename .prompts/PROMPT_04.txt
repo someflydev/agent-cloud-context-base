@@ -388,7 +388,7 @@ guidance; `command` is only for gates that can actually be executed by tools.
       "id": "changed-boundary-proof",
       "category": "completion",
       "summary": "Do not claim completion until the changed cloud boundary was exercised by a real check.",
-      "command_hint": "Run at least one direct proof command for the touched boundary (Lane A emulator or Lane B ephemeral real)."
+      "command_hint": "Run at least one direct proof command for the touched boundary (Lane A local provider or Lane B ephemeral real cloud)."
     },
     {
       "id": "iac-dev-test-disjoint",

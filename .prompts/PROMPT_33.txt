@@ -304,7 +304,7 @@ Run a real generation against a temp directory and verify the result:
         --manifest func-aws-lambda-python \
         --support-service aws-s3 --support-service aws-dynamodb \
         --support-service aws-secrets-manager \
-        --include-localstack-or-emulator \
+        --include-local-provider \
         --include-secret-binding-example \
         --include-observability-bundle \
         --target-dir /tmp/accb-smoke-fn

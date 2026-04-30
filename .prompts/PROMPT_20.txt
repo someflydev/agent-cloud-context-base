@@ -52,7 +52,7 @@ Read:
   4. `examples/canonical-aws-lambda/s3-trigger-image-moderation/python/`
      (LAYOUT TEMPLATE)
   5. `examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/python/`
-     (Lane A emulator pattern reference)
+     (Lane A minisky pattern reference)
   6. `context/stacks/azure-fn-{python,typescript-node,dotnet-isolated}.md`
   7. `context/stacks/iac-pulumi-{python,typescript,dotnet}.md`,
      `context/stacks/iac-terraform-azure.md`
@@ -61,7 +61,8 @@ Read:
      `context/stacks/identity-azure-entra-mi.md`,
      `context/stacks/secrets-azure-key-vault.md`,
      `context/stacks/observability-otel-cloud.md`
-  9. `templates/function/azure-fn/`,
+  9. `context/doctrine/local-cloud-test-providers.md`
+ 10. `templates/function/azure-fn/`,
      `templates/iac/{terraform,pulumi/*}/azure/`
 
 ================================================================================
@@ -72,11 +73,12 @@ Same example directory layout, registry/catalog shape, integration test
 lanes, replay contract, and observability declaration as PROMPT_18 Parts
 1, 3, 4, 5. Provider-native substitutions:
 
-  - Lane A "LocalStack" → Lane A "Azurite + Azure Functions Core Tools"
-    (Azurite for blob/queue/table; Cosmos DB Emulator optional but
-    flaky on macOS — declare as "linux-only" in the README).
+  - Lane A "ministack/minisky" → Lane A `miniblue` local provider
+    integration (Azure Functions host plus Blob / Queue / Table storage,
+    Cosmos-compatible local coverage where available, Key Vault-shaped
+    secret references, and logs).
   - Lane B → `pulumi up --stack test` or `terraform apply` against
-    real Azure subscription.
+    a real isolated Azure test subscription, then immediate teardown.
   - Identity binding → `identity-azure-entra-mi.md` (system-assigned
     or user-assigned managed identity).
   - Secrets → `secrets-azure-key-vault.md` (Key Vault references in
@@ -110,27 +112,25 @@ this prompt):
   eventgrid-alert-router/python/
 
 ================================================================================
-PART 3 — INTEGRATION TEST LANE A (AZURITE)
+PART 3 — INTEGRATION TEST LANE A (MINIBLUE)
 ================================================================================
 
-Lane A `tests/integration/lane-a-azurite/`:
+Lane A `tests/integration/lane-a-miniblue/`:
 
   - `docker-compose.yml` running:
-      - `mcr.microsoft.com/azure-storage/azurite` for blob/queue/table
-      - The Functions Core Tools container OR a host-side `func start`
-        invocation (document both)
-      - Optional: `mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator`
-        for Cosmos (linux-only; mark macOS as "use Lane B").
-  - Service Bus and Event Grid have NO local emulators. Examples that
-    require them MUST use Lane B for the full path; Lane A only proves
-    the handler logic with an in-memory fake (use the `mock_sb_client`
-    fixture in `tests/_helpers/`).
+      - the `miniblue` service bundle for the example
+      - Azure Functions host / Core Tools-compatible runner
+      - Blob / Queue / Table storage and Cosmos-compatible local coverage
+        where available
+  - Service Bus and Event Grid local coverage is miniblue-scoped. If a
+    service is not covered locally, Lane A proves handler logic with a
+    provider-shaped fake and the README marks the full path as Lane B.
   - `bootstrap.sh` to create containers / topics / cosmos collections.
   - `test_handler.py|.ts|.cs` that invokes the Functions host.
   - `teardown.sh`.
 
-Lane B is the SAME shape as PROMPT_18 Part 3 with Azure credentials
-and `--stack test`.
+Lane B is the SAME shape as PROMPT_18 Part 3 with Azure credentials,
+an isolated test subscription, `--stack test`, and immediate teardown.
 
 ================================================================================
 PART 4 — REGISTRY + CATALOG + SUPPORT MATRIX
@@ -164,7 +164,7 @@ You may edit this file in place to tick the boxes off after the prompt has
 been run.
 
   - [ ] All 3 seed examples (Part 2) exist with the layout from PROMPT_18 Part 1.
-  - [ ] Lane A azurite integration tests + replay tests for each.
+  - [ ] Lane A miniblue integration tests + replay tests for each.
   - [ ] Terraform + Pulumi-language IaC for each, validate_iac_isolation
         clean.
   - [ ] Structured-log shape declared per example.

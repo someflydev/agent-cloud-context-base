@@ -299,7 +299,8 @@ CLI flags (long form first; short forms optional):
                                      the chosen manifest's scenario_patterns)
   --support-service <name>           (zero or more; repeatable)
   --include-dev-test-pair            (default true)
-  --include-localstack-or-emulator   (Lane A integration test scaffold)
+  --include-local-provider           (Lane A local provider scaffold:
+                                      ministack/minisky/miniblue)
   --include-ephemeral-real-test      (Lane B integration test scaffold)
   --include-secret-binding-example   (default true)
   --include-observability-bundle     (default true)

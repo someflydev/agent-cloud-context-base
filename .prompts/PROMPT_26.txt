@@ -20,8 +20,8 @@ One prompt per session. Maintain `tmp/PROMPT_26_checklist.md`.
 SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
 ================================================================================
 
-Reuse the PROMPT_19 contract exactly. The layout, Lane A emulator pattern,
-Lane B ephemeral-real pattern, replay contract, observability contract, and
+Reuse the PROMPT_19 contract exactly. The layout, Lane A minisky pattern,
+Lane B ephemeral-real cloud pattern, replay contract, observability contract, and
 registry/catalog shape are already defined.
 
 Sequence:
@@ -58,8 +58,8 @@ PART 1 — REUSE PROMPT_19 VERBATIM
 Reuse PROMPT_19's contract verbatim:
 
   - same directory layout
-  - same Lane A emulator structure
-  - same Lane B ephemeral-real structure
+  - same Lane A minisky structure
+  - same Lane B ephemeral-real cloud structure
   - same replay and observability rules inherited from PROMPT_18
   - same registry/catalog entry shape
 

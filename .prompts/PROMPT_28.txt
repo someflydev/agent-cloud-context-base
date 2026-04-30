@@ -21,8 +21,9 @@ SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
 ================================================================================
 
 Reuse PROMPT_21 exactly. The container layout, Dockerfile expectations, Lane A
-local-container rules, Lane B ephemeral-real rules, replay rules, and
-registry/catalog shapes already exist.
+local-container rules with `minisky` / `ministack` provider sidecars, Lane B
+ephemeral-real cloud rules, replay rules, and registry/catalog shapes already
+exist.
 
 Sequence:
   PROMPT_01–27  Through Azure Functions expansion                        (done)
@@ -59,7 +60,8 @@ Reuse PROMPT_21 Part 1, Part 4, and Part 5 exactly:
 
   - same container layout
   - same Dockerfile constraints
-  - same Lane A and Lane B definitions
+  - same Lane A and Lane B definitions, including `minisky` for Cloud Run
+    provider sidecars and `ministack` for App Runner provider sidecars
   - same registry/catalog entry shape
 
 ================================================================================

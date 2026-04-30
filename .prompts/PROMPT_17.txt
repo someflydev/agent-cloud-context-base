@@ -157,8 +157,8 @@ Checks every manifest in `manifests/*.yaml` (or just the named one):
     If `generated_repo_target: false`, accept those reference-only values
     and print a note that the manifest is catalog-only in v1, not a
     `new_cloud_repo.py` target.
-  - `cloud_integration_test_strategy` ∈ {localstack, emulator, azurite,
-    ephemeral_real, record_replay}.
+  - `cloud_integration_test_strategy` ∈ {ministack, minisky, miniblue,
+    local_provider, ephemeral_real, record_replay}.
   - The manifest name appears in `context/accb/profile-rules.json`
     `manifest_capabilities`.
 

@@ -32,9 +32,10 @@ probe endpoints, and the IaC provisions a service (or multi-service)
 plus ingress + identity + secrets.
 
 Integration testing for managed containers is primarily Lane B (ephemeral
-real); there is no credible local emulator for Cloud Run or App Runner.
-Lane A for these examples is HANDLER-LEVEL unit testing against a locally
-run container (`docker run` + curl).
+real cloud); there is no credible local platform replacement for Cloud Run
+or App Runner. Lane A for these examples runs the container locally
+(`docker run` + curl) and uses `minisky` / `ministack` only for backing
+provider services where applicable.
 
 Sequence:
   PROMPT_01–20  All foundations + function-tier examples                (done)
@@ -145,8 +146,9 @@ PART 4 — INTEGRATION TEST LANES
 
 Lane A (local container) for each example:
   - `tests/integration/lane-a-local-container/docker-compose.yml`
-    running the service container plus LocalStack/GCP emulator sidecars
-    where applicable
+    running the service container plus the provider local test service
+    where applicable: `minisky` for Cloud Run examples and `ministack`
+    for App Runner examples
   - `test_service.sh` that curls `/healthz`, `/readyz`, and one
     representative route end to end
   - `teardown.sh`
@@ -155,7 +157,8 @@ Lane B (ephemeral real) for each example:
   - `up.sh` runs `pulumi up --stack test --yes`
   - `test_service.sh` curls the deployed service URL
   - `down.sh` runs `pulumi destroy --stack test --yes`
-  - max-runtime guard; cost band documented in README
+  - max-runtime guard; isolated test project/account; cost band documented
+    in README; immediate teardown is mandatory
 
 ================================================================================
 PART 5 — REGISTRY + CATALOG + SUPPORT MATRIX

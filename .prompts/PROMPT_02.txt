@@ -183,7 +183,7 @@ exact. Each must be re-authored from scratch with cloud framing.
     - smoke tests that exercise the entry point (function handler, container
       health, k8s pod readiness) with mocked managed-service clients
     - integration tests in one of three lanes (declared per manifest):
-        Lane A: local emulator/mock (LocalStack, GCP emulators, Azurite)
+        Lane A: local provider/mock (ministack, minisky, miniblue)
         Lane B: ephemeral real (IaC apply against `test` workspace/stack,
                 run tests, then destroy) — PREFERRED for medium+ profiles
         Lane C: record/replay for costly third-party calls

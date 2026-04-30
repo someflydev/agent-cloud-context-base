@@ -53,7 +53,8 @@ PART 1 — REUSE PROMPT_23 VERBATIM
 ================================================================================
 
 Reuse PROMPT_23's layout, test-lane, replay, and registry/catalog contract
-exactly.
+exactly, including kind plus `ministack` / `minisky` / `miniblue` provider
+local services or fakes for Lane A where applicable.
 
 ================================================================================
 PART 2 — REQUIRED K8S EXPANSION EXAMPLES (3 examples)

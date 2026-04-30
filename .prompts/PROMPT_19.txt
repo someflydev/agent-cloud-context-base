@@ -54,7 +54,8 @@ Read:
   5. `context/doctrine/canonical-examples.md`,
      `context/doctrine/iac-dev-test-isolation.md`,
      `context/doctrine/idempotency-and-replay.md`,
-     `context/doctrine/cloud-secret-handling.md`
+     `context/doctrine/cloud-secret-handling.md`,
+     `context/doctrine/local-cloud-test-providers.md`
   6. `context/stacks/gcp-cloudfn-{python,typescript-node,go}.md`
   7. `context/stacks/iac-pulumi-python.md`,
      `context/stacks/iac-pulumi-typescript.md`,
@@ -78,10 +79,13 @@ are identical to PROMPT_18 Parts 1, 3, 4, 5. Re-read those parts in
 PROMPT_18.txt before starting; they apply verbatim with provider-native
 substitutions:
 
-  - Lane A "LocalStack" → Lane A "Functions Framework + GCP emulators"
-    (Firestore emulator, Pub/Sub emulator, GCS via fake-gcs-server).
+  - Lane A "ministack" → Lane A `minisky` local provider integration
+    (Functions Framework plus Firestore, Pub/Sub, GCS, Secret Manager,
+    Workflows / Tasks, BigQuery, Eventarc, and logs where local coverage
+    exists).
   - Lane B "Terraform/Pulumi apply against test workspace" → same with
-    GCP credentials + `--stack test`.
+    GCP credentials + `--stack test`, targeting an isolated test project
+    and tearing down immediately after verification.
   - Identity binding stack → `identity-gcp-iam-sa.md` (Service Account +
     IAM bindings; Workload Identity not relevant for Cloud Functions).
   - Secrets stack → `secrets-gcp-secret-manager.md`.
@@ -116,20 +120,18 @@ this prompt):
   firebase-onboarding/python/
 
 ================================================================================
-PART 3 — INTEGRATION TEST LANE A (GCP EMULATORS)
+PART 3 — INTEGRATION TEST LANE A (MINISKY)
 ================================================================================
 
-Lane A `tests/integration/lane-a-emulators/`:
+Lane A `tests/integration/lane-a-minisky/`:
 
-  - `docker-compose.yml` running:
-      - `gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators` for
-        Firestore emulator (`firestore start --host-port=0.0.0.0:8080`)
-      - `messagebird/gcloud-pubsub-emulator` for Pub/Sub emulator
-      - `fsouza/fake-gcs-server` for GCS
-      - `googleapis/functions-framework-python` (or the language-matching
-        functions-framework image) running the handler
+  - `docker-compose.yml` running the `minisky` service bundle for the
+    example, including Functions Framework plus Firestore, Pub/Sub, GCS,
+    Secret Manager, Workflows / Tasks, BigQuery, Eventarc, and logs where
+    local coverage exists.
   - environment vars: `FIRESTORE_EMULATOR_HOST`, `PUBSUB_EMULATOR_HOST`,
-    `STORAGE_EMULATOR_HOST` set to the emulator endpoints
+    `STORAGE_EMULATOR_HOST`, and any minisky endpoint vars set to the
+    local provider endpoints
   - `bootstrap.sh` to create the bucket, topic, subscription, and any
     Firestore indices the example needs
   - `test_handler.py|.ts|.go` invoking the handler via the Functions
@@ -137,7 +139,7 @@ Lane A `tests/integration/lane-a-emulators/`:
   - `teardown.sh` bringing the stack down
 
 Lane B mirrors PROMPT_18 Part 3 with `pulumi up --stack test` against
-real GCP, then teardown.
+real GCP in an isolated test project, then immediate teardown.
 
 ================================================================================
 PART 4 — REGISTRY + CATALOG + SUPPORT MATRIX
@@ -176,7 +178,7 @@ You may edit this file in place to tick the boxes off after the prompt has
 been run.
 
   - [ ] All 3 seed examples (Part 2) exist with the layout from PROMPT_18 Part 1.
-  - [ ] Lane A emulator integration tests + replay tests for each.
+  - [ ] Lane A minisky integration tests + replay tests for each.
   - [ ] Terraform + Pulumi-language IaC for each, validate_iac_isolation
         clean.
   - [ ] Structured-log shape declared per example.

@@ -277,9 +277,9 @@ PART 8 — TEST + OBSERVABILITY + MANIFEST + PROMPT TEMPLATES
          k8s-pod-readiness-smoke.sh.template
 
   8.2  `templates/integration-tests/`
-         localstack-compose.yaml.template
-         gcp-emulators-compose.yaml.template
-         azurite-compose.yaml.template
+         ministack-compose.yaml.template
+         minisky-compose.yaml.template
+         miniblue-compose.yaml.template
          pulumi-up-down.py.template          (uses Pulumi Automation API)
          terraform-apply-destroy.sh.template
 

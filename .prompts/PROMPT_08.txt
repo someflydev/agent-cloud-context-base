@@ -162,8 +162,8 @@ Author the following 18 skill files in `context/skills/`:
      produce the disjoint config.
 
 2.11 `cloud-integration-test-design.md`
-     Picks Lane A (emulator), Lane B (ephemeral real), Lane C (record/
-     replay). Procedure: assess managed-service emulator quality; assess
+     Picks Lane A (local provider), Lane B (ephemeral real cloud), Lane C
+     (record/replay). Procedure: assess local-provider fidelity; assess
      cost of ephemeral real; assess flakiness of recorded fixtures;
      prefer Lane B for medium+ profiles; combine A+C for cheap scenarios.
 

@@ -69,19 +69,20 @@ Five reference harnesses derived repos can copy and adapt. Each is a
 small, self-contained directory with its own README, fixtures, and
 runner script.
 
-  1.1  aws-localstack-lambda-test/
-       Python pytest harness using the LocalStack container; aws-cli
-       bootstrap of S3/DynamoDB/SQS resources; lambda invoke via
-       endpoint-url; teardown.
+  1.1  aws-ministack-lambda-test/
+       Python pytest harness using the ministack local provider bundle;
+       aws-cli bootstrap of S3/DynamoDB/SQS resources; lambda invoke via
+       ministack endpoint-url; teardown.
 
-  1.2  gcp-emulator-firestore-pubsub-test/
-       Python pytest harness using Firestore + Pub/Sub emulators
-       (cloudsdktool image); functions-framework run of the handler
-       container; teardown.
+  1.2  gcp-minisky-firestore-pubsub-test/
+       Python pytest harness using the minisky local provider bundle
+       (Functions Framework plus Firestore, Pub/Sub, GCS, Secret Manager,
+       Workflows / Tasks, BigQuery, Eventarc, and logs where covered);
+       functions-framework run of the handler container; teardown.
 
-  1.3  azure-azurite-fn-test/
-       .NET test using Azurite; Functions Core Tools for the host;
-       teardown.
+  1.3  azure-miniblue-fn-test/
+       .NET test using the miniblue local provider bundle; Azure
+       Functions host / Core Tools-compatible runner; teardown.
 
   1.4  ephemeral-real-pulumi-up-down/
        Python harness using the Pulumi Automation API to apply a
@@ -97,7 +98,7 @@ runner script.
 Each harness must declare:
   - prerequisite environment variables
   - approximate runtime
-  - approximate cost (Lane B harnesses)
+  - approximate cost (Lane B and full/release harnesses)
   - skip behavior when prerequisites are missing
 
 ================================================================================
@@ -210,7 +211,11 @@ PART 7 — WIRING + DOGFOODING AUDIT FOLLOW-UP
          - `--tier fast`   adds `iac/run_parity_check.py` and
                            `scenarios/run_scenario_check.py`
          - `--tier medium` adds all five parity runners
-         - `--tier full`   adds Lane B ephemeral-real harnesses
+         - `--tier local-provider` adds Lane A local provider harnesses
+                            (`ministack`, `minisky`, `miniblue`)
+         - `--tier real-cloud` adds Lane B ephemeral-real cloud harnesses
+                            (skipped if creds absent; warned)
+         - `--tier full`   adds broader release-gate real-cloud coverage
                           (skipped if creds absent; warned)
 
   7.2  Update `scripts/work.py verify` to dispatch to

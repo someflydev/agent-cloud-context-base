@@ -57,7 +57,8 @@ Read:
   7. `context/stacks/eventing-azure-servicebus-eventgrid.md`,
      `context/stacks/secrets-azure-key-vault.md`,
      `context/stacks/identity-azure-entra-mi.md`
-  8. `templates/container/aca/`,
+  8. `context/doctrine/local-cloud-test-providers.md`
+  9. `templates/container/aca/`,
      `templates/iac/{terraform,pulumi/*}/azure/`
 
 ================================================================================
@@ -73,9 +74,9 @@ Part 5. Provider substitutions:
     Apps environment level
   - Secrets → Key Vault references in app secrets
   - Lane A "local container" still applies: `docker build` + `docker run`
-    + curl. Add Azurite when blob/queue/table is involved.
+    + curl. Add `miniblue` when Azure provider services are involved.
   - Lane B → `pulumi up --stack test` (or `terraform apply`) against
-    Azure subscription.
+    an isolated Azure test subscription, then immediate teardown.
 
 ================================================================================
 PART 2 — CONTAINER APPS SEED EXAMPLES (2 examples)
@@ -103,19 +104,18 @@ this prompt):
   public-api-private-worker-jobs/typescript-hono/
 
 ================================================================================
-PART 3 — INTEGRATION TEST LANE A (LOCAL + AZURITE WHERE APPLICABLE)
+PART 3 — INTEGRATION TEST LANE A (LOCAL + MINIBLUE WHERE APPLICABLE)
 ================================================================================
 
 Lane A `tests/integration/lane-a-local-container/`:
 
   - `docker-compose.yml` running:
       - the service container(s)
-      - Azurite for blob/queue/table when applicable
-      - in-memory ServiceBus fake (https://github.com/Azure/azure-service-
-        bus-emulator-installer Linux variant) when applicable; otherwise
-        skip Service Bus in Lane A and rely on Lane B for that boundary
-      - Cosmos DB Emulator linux container when the example writes to
-        Cosmos (mark macOS as "Lane B only")
+      - `miniblue` for blob/queue/table, Service Bus-shaped local
+        coverage, Cosmos-compatible local coverage, Key Vault-shaped
+        secret references, and logs where applicable
+      - provider-shaped fakes for any Azure boundary not covered by
+        miniblue; mark that full path as Lane B in the README
   - `bootstrap.sh` to create containers, queues, topics, Cosmos
     collections.
   - `test_service.sh` curling `/healthz`, `/readyz`, and one
@@ -123,7 +123,7 @@ Lane A `tests/integration/lane-a-local-container/`:
   - `teardown.sh`.
 
 Lane B identical to PROMPT_21 Part 4 with `pulumi up --stack test`
-against Azure.
+against an isolated Azure test subscription and immediate teardown.
 
 ================================================================================
 PART 4 — REGISTRY + CATALOG + SUPPORT MATRIX

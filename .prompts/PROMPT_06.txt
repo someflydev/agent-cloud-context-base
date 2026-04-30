@@ -143,7 +143,7 @@ Decides which workflow to load. Mappings include (re-author and expand):
     → load `context/workflows/add-observability-bundle.md`
   "smoke test for my function/container/pod"
     → load `context/workflows/add-cloud-smoke-tests.md`
-  "integration test", "ephemeral test stack", "localstack/emulator/azurite"
+  "integration test", "ephemeral test stack", "ministack/minisky/miniblue"
     → load `context/workflows/add-cloud-integration-tests.md`
   "replay", "dlq handling", "exactly-once"
     → load `context/workflows/add-replay-and-dlq-handling.md`

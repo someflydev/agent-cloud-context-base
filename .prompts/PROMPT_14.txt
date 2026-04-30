@@ -117,7 +117,7 @@ env_isolation:
   env_var_prefix_test: <PREFIX_TEST_>
   secret_path_dev: <provider-specific path>
   secret_path_test: <provider-specific path>
-cloud_integration_test_strategy: <localstack | emulator | azurite | ephemeral_real | record_replay>
+cloud_integration_test_strategy: <ministack | minisky | miniblue | local_provider | ephemeral_real | record_replay>
 cost_band_per_test_run: <currency_amount_or_range>
 smoke_test_expectations:
   - <expectation>
@@ -159,12 +159,12 @@ Each manifest:
   - primary_stack: matches the function stack from PROMPT_09
   - secondary_stacks: secrets + storage + identity + observability for the
     provider, plus the chosen IaC stack
-  - cloud_integration_test_strategy: `localstack` for AWS Python/TS/Go;
-    `emulator` for GCP; `azurite` for Azure
+  - cloud_integration_test_strategy: `ministack` for AWS Python/TS/Go;
+    `minisky` for GCP; `miniblue` for Azure
   - iac_tool: language-affinity Pulumi for Python/TS/Go and Azure .NET
   - scenario_patterns: include one or more matching `function.*` pattern
     IDs from `context/scenarios/scenario-profile-map.yaml`
-  - cost_band_per_test_run: e.g. "$0–$5/run; LocalStack covers most"
+  - cost_band_per_test_run: e.g. "$0–$5/run; local provider covers most"
 
 ================================================================================
 PART 3 — CONTAINER MANIFESTS (9 files)

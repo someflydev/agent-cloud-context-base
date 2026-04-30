@@ -104,7 +104,7 @@ examples/canonical-<eks|gke|aks>/<example-name>/<language>/
 ├── tests/
 │   ├── smoke/                          # kind-based pod readiness
 │   ├── integration/
-│   │   ├── lane-a-kind/                # local kind cluster + minimal overlays
+│   │   ├── lane-a-kind/                # kind + provider local services/fakes
 │   │   └── lane-b-ephemeral-real/      # real EKS/GKE/AKS test cluster
 │   └── replay/                         # worker idempotency proof
 ├── observability/
@@ -181,8 +181,11 @@ Lane A (kind):
         sends a representative payload through the API, asserts the
         worker processes it, asserts the cronjob fires once
       - `teardown.sh` (`kind delete cluster`)
-  - Lane A skips the managed-service IaC entirely; in-cluster fakes
-    replace S3/Kafka/Cosmos/etc. Document this divergence in the README.
+  - Lane A skips the managed-service IaC entirely; provider local test
+    services and in-cluster fakes replace managed services. Use
+    `ministack` for EKS-adjacent AWS services, `minisky` for GKE-adjacent
+    GCP services, and `miniblue` for AKS-adjacent Azure services where
+    applicable. Document any divergence in the README.
 
 Lane B (ephemeral real):
   - `tests/integration/lane-b-ephemeral-real/` with `up.sh`,
@@ -190,7 +193,8 @@ Lane B (ephemeral real):
     suite; teardown is mandatory.
   - Cost band: significantly higher than function/container examples.
     Document the per-run cost band in each README ($5–$50 typical).
-  - This lane requires real cloud credentials; CI default-skips.
+  - This lane requires real cloud credentials in isolated test
+    accounts/projects/subscriptions; CI default-skips.
 
 ================================================================================
 PART 6 — REPLAY (IDEMPOTENCY)

@@ -21,8 +21,8 @@ SHARED CONTEXT BRIEFING — agent-cloud-context-base (accb)
 ================================================================================
 
 Reuse PROMPT_22 exactly. The container layout, Lane A local-container
-contract, Lane B ephemeral-real contract, and registry/catalog shape already
-exist.
+contract with `miniblue` provider sidecars, Lane B ephemeral-real cloud
+contract, and registry/catalog shape already exist.
 
 Sequence:
   PROMPT_01–28  Through Cloud Run + App Runner expansion                 (done)

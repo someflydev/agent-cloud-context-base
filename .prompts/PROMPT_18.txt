@@ -65,21 +65,22 @@ Read:
   5. `context/doctrine/iac-dev-test-isolation.md`
   6. `context/doctrine/idempotency-and-replay.md`
   7. `context/doctrine/cloud-secret-handling.md`
-  8. `context/stacks/aws-lambda-python.md`,
+  8. `context/doctrine/local-cloud-test-providers.md`
+  9. `context/stacks/aws-lambda-python.md`,
      `context/stacks/aws-lambda-typescript-node.md`,
      `context/stacks/aws-lambda-go.md`
-  9. `context/stacks/iac-pulumi-python.md`,
+ 10. `context/stacks/iac-pulumi-python.md`,
      `context/stacks/iac-pulumi-typescript.md`,
      `context/stacks/iac-pulumi-go.md`,
      `context/stacks/iac-terraform-aws.md`
- 10. `context/stacks/eventing-aws-eventbridge-sqs-sns.md`,
+ 11. `context/stacks/eventing-aws-eventbridge-sqs-sns.md`,
      `context/stacks/storage-aws-s3-dynamodb-rds.md`,
      `context/stacks/identity-aws-iam.md`,
      `context/stacks/secrets-aws-secrets-manager.md`,
      `context/stacks/observability-otel-cloud.md`
- 11. `templates/function/aws-lambda/`, `templates/iac/{terraform,pulumi/*}/aws/`
- 12. `verification/example_registry.yaml` (current shape)
- 13. `examples/catalog.json` (current shape)
+ 12. `templates/function/aws-lambda/`, `templates/iac/{terraform,pulumi/*}/aws/`
+ 13. `verification/example_registry.yaml` (current shape)
+ 14. `examples/catalog.json` (current shape)
 
 If a sibling `agent-context-base/` exists, you MAY glance at (SHAPE only):
   agent-context-base/examples/canonical-api/fastapi-endpoint-example.py
@@ -105,10 +106,10 @@ examples/canonical-aws-lambda/<example-name>/
 │       ├── Pulumi.test.yaml
 │       └── <entrypoint>               # __main__.py / index.ts / main.go
 ├── tests/
-│   ├── smoke/                         # handler invocation + mocked SDK
+│   ├── smoke/                         # level 1: handler invocation + mocked SDK
 │   ├── integration/
-│   │   ├── lane-a-localstack/         # docker-compose.yml + pytest/jest
-│   │   └── lane-b-ephemeral-real/     # pulumi/terraform up + tests + down
+│   │   ├── lane-a-ministack/          # level 2: AWS local provider
+│   │   └── lane-b-ephemeral-real/     # level 3: real AWS stack + teardown
 │   └── replay/                        # idempotency proof: same dedupe key twice
 ├── observability/
 │   └── structured-log-shape.md        # JSON fields the handler emits
@@ -128,9 +129,16 @@ Per-example registry entry (appended to
   iac_tool_pulumi: pulumi-<language>
   dev_test_disjoint: true
   verify_command: "bash examples/canonical-aws-lambda/<example-name>/tests/verify.sh"
+  verify_command_local_provider: "bash examples/canonical-aws-lambda/<example-name>/tests/integration/lane-a-ministack/run.sh"  # optional until PROMPT_32
+  verify_command_real_cloud: "bash examples/canonical-aws-lambda/<example-name>/tests/integration/lane-b-ephemeral-real/run.sh"  # optional, real cost
   last_verified_at: null
   last_verified_status: pending
 ```
+
+`verify_command` is the default `scripts/verify_examples.py --tier smoke`
+command and must stay limited to unit / smoke tests plus IaC isolation.
+Local-provider and real-cloud commands are opt-in tier hooks; include them
+only when the corresponding harness exists.
 
 ================================================================================
 PART 2 — REQUIRED SEED EXAMPLES (3 examples)
@@ -168,20 +176,27 @@ this prompt):
   cognito-post-confirmation/python/
 
 ================================================================================
-PART 3 — INTEGRATION TEST LANES (per example)
+PART 3 — TEST LEVELS + INTEGRATION LANES (per example)
 ================================================================================
 
-Lane A (LocalStack): a `tests/integration/lane-a-localstack/` directory
+Use the testing provider interface from
+`context/doctrine/local-cloud-test-providers.md`:
+
+  1. Unit / smoke tests with mocked SDK clients.
+  2. Lane A local provider integration. AWS uses `ministack`.
+  3. Lane B ephemeral real cloud using isolated real AWS resources.
+  4. Optional full / release gate, wired later in PROMPT_32.
+
+Lane A (`ministack`): a `tests/integration/lane-a-ministack/` directory
 with:
-  - `docker-compose.yml` running LocalStack with the services this
-    example needs (`SERVICES=s3,dynamodb,sqs,sns,events,...`)
+  - `docker-compose.yml` running the ministack service bundle this
+    example needs (`s3,dynamodb,sqs,sns,events,states,secretsmanager,...`)
   - `bootstrap.sh` that creates required resources via aws CLI against
-    `--endpoint-url http://localhost:4566`
-  - `test_handler.py|.ts|.go` that invokes the handler against the
-    LocalStack endpoints
+    the ministack endpoint
+  - `test_handler.py|.ts|.go` that invokes the handler against ministack
   - `teardown.sh` that brings the stack down
 
-Lane B (ephemeral real): a `tests/integration/lane-b-ephemeral-real/`
+Lane B (ephemeral real cloud): a `tests/integration/lane-b-ephemeral-real/`
 directory with:
   - `up.sh` that runs `pulumi up --stack test --yes` (or
     `terraform apply -auto-approve` against test workspace)
@@ -189,8 +204,10 @@ directory with:
     the AWS API
   - `down.sh` that runs `pulumi destroy --stack test --yes`
   - a max-runtime guard (`timeout 1800` wrapping the suite)
-  - explicit guidance: this lane requires AWS credentials and incurs
-    real cost; the cost band is declared in the example README
+  - explicit guidance: this lane requires AWS credentials, should target
+    an isolated test account eligible for free-tier / ephemeral resources
+    where possible, incurs real cost, and must tear down immediately after
+    verification; the cost band is declared in the example README
 
 Lane C (record/replay) is unused for AWS Lambda examples — no third-
 party calls are mocked here. Bedrock-using examples would use Lane C
@@ -222,7 +239,7 @@ JSON fields emitted on every handler invocation. Required fields:
 
 Use AWS Lambda Powertools (Python/TS) or the equivalent structured-log
 helper in Go. Observability emission must be visible in both Lane A
-(LocalStack-captured logs) and Lane B (CloudWatch).
+(ministack-captured logs) and Lane B (CloudWatch).
 
 ================================================================================
 PART 6 — REGISTRY + CATALOG UPDATES
@@ -262,7 +279,7 @@ For each example, before declaring done:
   - `python3 scripts/validate_iac_isolation.py examples/canonical-aws-lambda/<example>/iac/pulumi/<lang>`
     exits 0
   - smoke tests pass against mocked SDK clients
-  - Lane A integration tests pass (LocalStack must be running locally —
+  - Lane A integration tests pass (ministack must be running locally —
     document in the example README; CI will skip Lane A by default)
   - Replay tests pass against Lane A
   - Lane B is documented but does NOT run in this prompt's verification
@@ -278,8 +295,8 @@ VERIFICATION (this prompt)
   2. Every example has the layout from Part 1.
   3. `python3 scripts/validate_iac_isolation.py` clean for every example.
   4. `python3 scripts/verify_examples.py --family canonical-aws-lambda`
-     runs without crashing (passes are nice-to-have for this prompt; the
-     gate is "no script error").
+     runs the default smoke + IaC isolation tier without crashing (passes
+     are nice-to-have for this prompt; the gate is "no script error").
   5. `examples/catalog.json` parses and contains the 3 new entries.
   6. `verification/example_registry.yaml` parses and contains the 3 new
      entries.
@@ -296,7 +313,7 @@ You may edit this file in place to tick the boxes off after the prompt has
 been run.
 
   - [ ] All 3 seed examples (Part 2) exist with the Part 1 layout.
-  - [ ] Each example has Lane A integration tests + replay tests.
+  - [ ] Each example has Lane A ministack integration tests + replay tests.
   - [ ] Each example has Terraform + Pulumi-language IaC with
         validate_iac_isolation passing.
   - [ ] Each example has structured-log shape declared.

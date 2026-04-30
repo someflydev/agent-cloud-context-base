@@ -61,7 +61,7 @@ Reuse PROMPT_18 Part 1, Part 3, Part 4, Part 5, and Part 6 exactly:
 
   - same directory layout
   - same Terraform + Pulumi-language IaC requirement
-  - same Lane A LocalStack + Lane B ephemeral-real structure
+  - same Lane A ministack + Lane B ephemeral-real cloud structure
   - same replay and observability rules
   - same registry/catalog entry shape
 

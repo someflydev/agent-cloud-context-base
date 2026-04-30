@@ -133,7 +133,7 @@ Author the following 31 files in `context/workflows/`:
       identify trigger payload shape; author handler; declare IaC
       resources (function + execution role + trigger + DLQ); declare
       idempotency contract; add unit + smoke + integration tests
-      (Lane A LocalStack or Lane B ephemeral real).
+      (Lane A local provider or Lane B ephemeral real cloud).
 
 2.5   `add-gcp-cloud-function-trigger.md`
       Same shape for Cloud Functions Gen2: identify trigger
@@ -227,10 +227,10 @@ Author the following 31 files in `context/workflows/`:
       runnable in seconds.
 
 2.19  `add-cloud-integration-tests.md`
-      Add Lane A (emulator) or Lane B (ephemeral real) integration
+      Add Lane A (local provider) or Lane B (ephemeral real cloud) integration
       tests. Sequence: pick lane per manifest declaration; author the
-      test harness (LocalStack docker-compose / GCP emulators /
-      Azurite / Pulumi Automation API up-down / `terraform apply` +
+      test harness (ministack / minisky / miniblue /
+      Pulumi Automation API up-down / `terraform apply` +
       `destroy`); assert the changed boundary end to end; declare
       teardown.
 
