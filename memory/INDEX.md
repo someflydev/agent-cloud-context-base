@@ -17,6 +17,7 @@ Tracked artifacts only. Do not add entries for `memory/sessions/` or
 - [function-stack-surface.md](concepts/function-stack-surface.md) — PROMPT_09 function stack surface
 - [managed-container-stack-surface.md](concepts/managed-container-stack-surface.md) — PROMPT_10 managed-container stack surface
 - [k8s-stack-surface.md](concepts/k8s-stack-surface.md) — PROMPT_11 Kubernetes stack surface
+- [manifest-system.md](concepts/manifest-system.md) — PROMPT_14 manifest catalog
 - [full-stack-surface-complete.md](concepts/full-stack-surface-complete.md) — PROMPT_12 complete stack surface
 - [workflow-system.md](concepts/workflow-system.md) — PROMPT_13 workflow catalog
 
