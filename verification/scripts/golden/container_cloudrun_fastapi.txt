@@ -1,0 +1,27 @@
+accb new repo plan: <TARGET>
+profile: managed-container-service | gcp | managed_container | cloudrun-python-fastapi | pulumi-python
+write set:
+- .gitignore
+- .prompts/PROMPT_01.txt
+- .prompts/PROMPT_02.txt
+- .prompts/PROMPT_03.txt
+- AGENT.md
+- CLAUDE.md
+- Dockerfile
+- PLAN.md
+- README.md
+- app/main.py
+- iac/pulumi/python/Pulumi.dev.yaml
+- iac/pulumi/python/Pulumi.test.yaml
+- iac/pulumi/python/Pulumi.yaml
+- iac/pulumi/python/README.md
+- iac/pulumi/python/__main__.py
+- iac/pulumi/python/requirements.txt
+- manifests/profile-summary.yaml
+- observability/otel-collector-cloudrun.yaml
+- observability/otel-collector-eks-daemonset.yaml
+- observability/otel-lambda-extension.json
+- observability/structured-log-shape.md
+- scripts/work.py
+- tests/smoke/container-health-smoke.sh
+- .accb/

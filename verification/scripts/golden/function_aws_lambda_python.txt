@@ -1,0 +1,26 @@
+accb new repo plan: <TARGET>
+profile: cloud-function-repo | aws | function | aws-lambda-python | pulumi-python
+write set:
+- .gitignore
+- .prompts/PROMPT_01.txt
+- .prompts/PROMPT_02.txt
+- .prompts/PROMPT_03.txt
+- AGENT.md
+- CLAUDE.md
+- PLAN.md
+- README.md
+- iac/pulumi/python/Pulumi.dev.yaml
+- iac/pulumi/python/Pulumi.test.yaml
+- iac/pulumi/python/Pulumi.yaml
+- iac/pulumi/python/README.md
+- iac/pulumi/python/__main__.py
+- iac/pulumi/python/requirements.txt
+- manifests/profile-summary.yaml
+- observability/otel-collector-cloudrun.yaml
+- observability/otel-collector-eks-daemonset.yaml
+- observability/otel-lambda-extension.json
+- observability/structured-log-shape.md
+- scripts/work.py
+- src/handler.py
+- tests/smoke/function-smoke.py
+- .accb/
