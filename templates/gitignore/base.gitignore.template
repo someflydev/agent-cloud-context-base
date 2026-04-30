@@ -1,0 +1,17 @@
+tmp/
+work/
+PLAN.md
+context/TASK.md
+context/SESSION.md
+context/MEMORY.md
+memory/sessions/
+memory/summaries/
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+.env
+.env.*
+!.env.example

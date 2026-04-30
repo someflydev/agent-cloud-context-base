@@ -1,0 +1,3 @@
+Graft accb into an existing cloud repo.
+
+Walk the repo, identify provider, runtime tier, primary language, IaC tool, state locations, secret paths, and image registry. Write a starter prompt sequence that preserves existing behavior and introduces `.accb/` validation gradually.

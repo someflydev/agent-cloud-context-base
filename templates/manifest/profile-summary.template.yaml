@@ -1,0 +1,21 @@
+repo_name: {{repo_name}}
+repo_slug: {{repo_slug}}
+archetype: {{archetype}}
+primary_stack:
+  provider: {{provider}}
+  runtime_tier: {{runtime_tier}}
+  language: {{primary_language}}
+secondary_stacks: []
+iac_tool: {{iac_tool}}
+env_isolation:
+  dev:
+    state_backend: {{state_backend_dev}}
+    env_var_prefix: {{env_var_prefix_dev}}
+    secret_path: {{secret_path_dev}}
+    region: {{primary_region_dev}}
+  test:
+    state_backend: {{state_backend_test}}
+    env_var_prefix: {{env_var_prefix_test}}
+    secret_path: {{secret_path_test}}
+    region: {{primary_region_test}}
+cost_band_per_test_run: low

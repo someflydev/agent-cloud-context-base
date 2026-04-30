@@ -1,0 +1,3 @@
+Bootstrap `{{repo_name}}` from accb.
+
+Read `AGENT.md`, `.accb/profile/selection.json`, and `python3 scripts/work.py resume`. Confirm provider `{{provider}}`, runtime tier `{{runtime_tier}}`, language `{{primary_language}}`, and IaC tool `{{iac_tool}}`. Keep `.accb/` as the operating boundary.

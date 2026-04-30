@@ -1,0 +1,4 @@
+.pulumi/
+Pulumi.*.yaml
+!Pulumi.dev.yaml.template
+!Pulumi.test.yaml.template
