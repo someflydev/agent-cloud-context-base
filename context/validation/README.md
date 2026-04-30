@@ -1,3 +1,10 @@
+---
+accb_origin: canonical
+accb_source_path: context/validation/README.md
+accb_role: validation
+accb_version: 1
+---
+
 # Validation
 
 Validation modules describe how truth is checked, not how success is narrated.

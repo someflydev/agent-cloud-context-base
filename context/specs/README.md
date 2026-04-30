@@ -1,3 +1,10 @@
+---
+accb_origin: canonical
+accb_source_path: context/specs/README.md
+accb_role: specs
+accb_version: 1
+---
+
 # Specs
 
 Spec modules are canonical narrative layers that become `.accb/specs/*.md` in
