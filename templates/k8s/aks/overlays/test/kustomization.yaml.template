@@ -1,0 +1,21 @@
+resources:
+  - ../../base
+namePrefix: test-
+namespace: {{namespace_test}}
+images:
+  - name: {{image_registry}}/{{image_repository}}
+    newTag: {{image_tag}}
+replicas:
+  - name: api
+    count: 2
+patches:
+  - target: { kind: Deployment, name: api }
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/env/0/value
+        value: test
+  - target: { kind: ServiceAccount, name: api }
+    patch: |-
+      - op: replace
+        path: /metadata/annotations/azure.workload.identity~1client-id
+        value: {{repo_slug}}-test-api

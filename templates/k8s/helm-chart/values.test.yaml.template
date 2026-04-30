@@ -1,0 +1,7 @@
+env: test
+namespace: {{namespace_test}}
+replicaCount: 2
+image:
+  repository: {{image_registry}}/{{image_repository}}
+  tag: {{image_tag}}
+secretPath: {{secret_path_test}}

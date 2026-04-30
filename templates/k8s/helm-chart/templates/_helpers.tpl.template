@@ -1,0 +1,3 @@
+# accb chart helper placeholder file.
+# PROMPT_16 renders only snake_case placeholders, so this starter avoids
+# Helm template delimiters until the derived repo chooses a chart convention.

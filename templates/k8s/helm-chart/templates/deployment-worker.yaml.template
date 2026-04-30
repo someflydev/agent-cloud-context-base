@@ -1,0 +1,13 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: {{repo_slug}}-worker }
+spec:
+  selector: { matchLabels: { role: worker } }
+  template:
+    metadata: { labels: { role: worker } }
+    spec:
+      serviceAccountName: worker
+      containers:
+        - name: worker
+          image: "{{image_registry}}/{{image_repository}}:{{image_tag}}"
+          command: ["/app/worker"]

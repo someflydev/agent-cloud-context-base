@@ -1,0 +1,11 @@
+apiVersion: batch/v1
+kind: Job
+metadata: { name: {{repo_slug}}-oneoff }
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      serviceAccountName: job
+      containers:
+        - name: job
+          image: "{{image_registry}}/{{image_repository}}:{{image_tag}}"

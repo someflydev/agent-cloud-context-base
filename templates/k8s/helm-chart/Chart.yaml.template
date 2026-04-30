@@ -1,0 +1,6 @@
+apiVersion: v2
+name: {{repo_slug}}
+description: accb workload chart
+type: application
+version: 0.1.0
+appVersion: "{{image_tag}}"

@@ -1,0 +1,11 @@
+resources:
+  - namespace.yaml
+  - serviceaccount.yaml
+  - deployment-api.yaml
+  - deployment-worker.yaml
+  - job.yaml
+  - cronjob.yaml
+  - service-api.yaml
+  - hpa-api.yaml
+  - pdb-api.yaml
+  - networkpolicy-default-deny.yaml

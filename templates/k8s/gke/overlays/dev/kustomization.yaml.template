@@ -1,0 +1,16 @@
+resources:
+  - ../../base
+namePrefix: dev-
+namespace: {{namespace_dev}}
+images:
+  - name: {{image_registry}}/{{image_repository}}
+    newTag: {{image_tag}}
+replicas:
+  - name: api
+    count: 1
+patches:
+  - target: { kind: Deployment, name: api }
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/env/0/value
+        value: dev
