@@ -1,0 +1,3 @@
+# Structured Log Shape
+
+Every workload should emit JSON logs with `service`, `env`, `runtime_tier`, `request_id`, `trace_id`, `dedupe_key`, and `outcome` when those fields are available.

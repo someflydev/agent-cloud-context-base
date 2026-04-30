@@ -1,0 +1,8 @@
+receivers:
+  otlp:
+    protocols: { grpc: {}, http: {} }
+exporters:
+  googlecloud: {}
+service:
+  pipelines:
+    traces: { receivers: [otlp], exporters: [googlecloud] }

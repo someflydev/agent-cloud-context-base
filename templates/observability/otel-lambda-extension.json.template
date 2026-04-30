@@ -1,0 +1,1 @@
+{"service":"{{repo_slug}}","env_var_prefix_dev":"{{env_var_prefix_dev}}","env_var_prefix_test":"{{env_var_prefix_test}}","otlp_endpoint_env":"OTEL_EXPORTER_OTLP_ENDPOINT"}

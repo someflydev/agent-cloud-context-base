@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+namespace="${1:-{{namespace_test}}}"
+kubectl wait --for=condition=Ready pod -l app={{repo_slug}} -n "$namespace" --timeout=120s

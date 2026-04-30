@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "${1:-infra/terraform/{{provider}}/test}"
+terraform init -backend-config=backend.tf
+terraform apply -auto-approve -var-file=test.tfvars
+terraform destroy -auto-approve -var-file=test.tfvars

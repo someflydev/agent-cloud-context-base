@@ -1,0 +1,6 @@
+import pulumi.automation as auto
+
+stack = auto.create_or_select_stack(stack_name="test", work_dir="infra/pulumi")
+stack.set_config("accb:environment", auto.ConfigValue("test"))
+stack.up(on_output=print)
+stack.destroy(on_output=print)

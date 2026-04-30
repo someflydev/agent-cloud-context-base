@@ -1,0 +1,5 @@
+from importlib import import_module
+
+handler = import_module("handler").handler
+result = handler({"id": "smoke-1"}, object())
+assert result["statusCode"] == 200

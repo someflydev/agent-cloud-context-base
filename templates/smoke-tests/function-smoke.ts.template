@@ -1,0 +1,4 @@
+import { handler } from "../handler";
+
+const result = await handler({ id: "smoke-1" }, { awsRequestId: "smoke" });
+if (result.statusCode !== 200) throw new Error("smoke failed");

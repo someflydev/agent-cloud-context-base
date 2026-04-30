@@ -1,0 +1,7 @@
+package main
+
+import "testing"
+
+func TestSmoke(t *testing.T) {
+  if "{{repo_slug}}" == "" { t.Fatal("missing repo") }
+}
