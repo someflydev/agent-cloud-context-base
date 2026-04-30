@@ -21,6 +21,7 @@ Tracked artifacts only. Do not add entries for `memory/sessions/` or
 - [full-stack-surface-complete.md](concepts/full-stack-surface-complete.md) — PROMPT_12 complete stack surface
 - [workflow-system.md](concepts/workflow-system.md) — PROMPT_13 workflow catalog
 - [template-system.md](concepts/template-system.md) — PROMPT_15 template scaffold system
+- [generation-pipeline.md](concepts/generation-pipeline.md) — PROMPT_16 generated repo pipeline scripts
 
 ## Tiers
 

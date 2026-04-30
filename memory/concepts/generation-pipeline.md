@@ -1,0 +1,3 @@
+# Generation Pipeline
+
+PROMPT_16 adds the accb generation pipeline: `scripts/accb_payload.py` composes the derived repo `.accb/` profile, specs, validation matrix, coverage, session boot file, vendored scripts, and index; `scripts/accb_inspect.py` prints the captured profile for humans or tooling; `scripts/accb_verify.py` checks payload hashes, doctrine and scenario references, executable validation commands, and repo signals; and `scripts/new_cloud_repo.py` renders the selected scaffold templates before installing the payload. PROMPT_17 implements the broader validation gates that close the autonomy loop around generated repos.
