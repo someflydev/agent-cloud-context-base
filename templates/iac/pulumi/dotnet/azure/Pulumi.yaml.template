@@ -1,0 +1,3 @@
+name: {{repo_slug}}-azure
+runtime: dotnet
+description: accb Azure Pulumi .NET starter

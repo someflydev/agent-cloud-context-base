@@ -1,0 +1,3 @@
+output "environment" { value = "test" }
+output "resource_prefix" { value = "{{repo_slug}}-test" }
+output "secret_path" { value = var.secret_path, sensitive = true }

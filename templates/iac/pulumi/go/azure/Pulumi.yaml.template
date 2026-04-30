@@ -1,0 +1,3 @@
+name: {{repo_slug}}-azure
+runtime: go
+description: accb azure Pulumi starter for {{repo_name}}

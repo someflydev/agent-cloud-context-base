@@ -1,0 +1,1 @@
+{"name":"{{repo_slug}}-gcp","private":true,"dependencies":{"@pulumi/pulumi":"^3.100.0","@pulumi/gcp":"^1.0.0"},"devDependencies":{"typescript":"^5.0.0"}}

@@ -1,0 +1,3 @@
+name: {{repo_slug}}-aws
+runtime: nodejs
+description: accb aws Pulumi starter for {{repo_name}}

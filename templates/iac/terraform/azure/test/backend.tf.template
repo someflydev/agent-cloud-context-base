@@ -1,0 +1,5 @@
+# Configure this file as backend-test.hcl. It must not share keys with dev.
+resource_group_name  = "{{state_backend_test}}-rg"
+storage_account_name = "{{state_backend_test}}"
+container_name       = "tfstate"
+key                  = "state/test/{{repo_slug}}.tfstate"

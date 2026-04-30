@@ -1,0 +1,9 @@
+import pulumi
+
+cfg = pulumi.Config("accb")
+env = cfg.require("environment")
+name = f"{{repo_slug}}-{env}-workload"
+secret_path = cfg.require_secret("secretPath")
+
+pulumi.export("resource_name", name)
+pulumi.export("secret_path", secret_path)

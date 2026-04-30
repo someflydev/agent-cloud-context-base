@@ -1,0 +1,11 @@
+module "workload" {
+  source = "../modules/workload"
+
+  environment      = "dev"
+  name_prefix      = "{{repo_slug}}-dev"
+  primary_region   = var.primary_region
+  env_var_prefix   = var.env_var_prefix
+  secret_path      = var.secret_path
+  image_repository = var.image_repository
+  image_tag        = var.image_tag
+}

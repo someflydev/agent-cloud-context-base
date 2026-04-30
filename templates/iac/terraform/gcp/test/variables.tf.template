@@ -1,0 +1,5 @@
+variable "primary_region" { type = string, default = "{{primary_region_test}}" }
+variable "env_var_prefix" { type = string, default = "{{env_var_prefix_test}}" }
+variable "secret_path" { type = string, default = "{{secret_path_test}}" }
+variable "image_repository" { type = string, default = "{{image_repository}}" }
+variable "image_tag" { type = string, default = "{{image_tag}}" }

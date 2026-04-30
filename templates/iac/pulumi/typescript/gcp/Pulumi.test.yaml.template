@@ -1,0 +1,7 @@
+config:
+  accb:environment: test
+  accb:region: {{primary_region_test}}
+  accb:envVarPrefix: {{env_var_prefix_test}}
+  accb:secretPath: {{secret_path_test}}
+  accb:imageRepository: {{image_repository}}
+  accb:imageTag: {{image_tag}}

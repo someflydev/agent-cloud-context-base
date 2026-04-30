@@ -1,0 +1,19 @@
+terraform {
+  required_version = ">= 1.6.0, < 2.0.0"
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.0"
+    }
+  }
+}
+
+locals {
+  common_tags = { repo = "{{repo_slug}}", tool = "accb" }
+  common_labels = { repo = "{{repo_slug}}", tool = "accb" }
+}
+
+provider "azurerm" {
+  features {}
+  
+}

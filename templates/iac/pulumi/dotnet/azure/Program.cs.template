@@ -1,0 +1,10 @@
+using Pulumi;
+
+return await Deployment.RunAsync(() =>
+{
+    var cfg = new Config("accb");
+    var env = cfg.Require("environment");
+    var name = $"{{repo_slug}}-{env}-workload";
+    var secretPath = cfg.RequireSecret("secretPath");
+    return new Dictionary<string, object?> { ["resourceName"] = name, ["secretPath"] = secretPath };
+});

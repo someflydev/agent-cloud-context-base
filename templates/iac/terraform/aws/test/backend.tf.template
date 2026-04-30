@@ -1,0 +1,4 @@
+# Configure this file as backend-test.hcl. It must not share keys with dev.
+bucket = "{{state_backend_test}}"
+key    = "state/test/{{repo_slug}}.tfstate"
+region = "{{primary_region_test}}"

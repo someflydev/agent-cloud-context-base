@@ -1,0 +1,9 @@
+import * as pulumi from "@pulumi/pulumi";
+
+const cfg = new pulumi.Config("accb");
+const env = cfg.require("environment");
+const name = `{{repo_slug}}-${env}-workload`;
+const secretPath = cfg.requireSecret("secretPath");
+
+pulumi.export("resourceName", name);
+pulumi.export("secretPath", secretPath);

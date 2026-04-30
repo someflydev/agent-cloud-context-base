@@ -1,0 +1,5 @@
+primary_region   = "{{primary_region_test}}"
+env_var_prefix   = "{{env_var_prefix_test}}"
+secret_path      = "{{secret_path_test}}"
+image_repository = "{{image_repository}}"
+image_tag        = "{{image_tag}}"

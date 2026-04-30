@@ -1,0 +1,3 @@
+# Configure this file as backend-test.hcl. It must not share keys with dev.
+bucket = "{{state_backend_test}}"
+prefix = "state/test/{{repo_slug}}"
