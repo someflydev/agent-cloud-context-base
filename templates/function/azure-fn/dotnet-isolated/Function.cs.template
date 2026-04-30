@@ -1,0 +1,20 @@
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Extensions.Logging;
+
+public class Function
+{
+    private readonly ILogger<Function> _logger;
+    public Function(ILogger<Function> logger) => _logger = logger;
+
+    [Function("handler")]
+    public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequestData req)
+    {
+        var dedupeKey = req.Headers.TryGetValues("Idempotency-Key", out var values) ? values.FirstOrDefault() : null;
+        _logger.LogInformation("function_entry service={Service} dedupe_key={DedupeKey}", "{{repo_slug}}", dedupeKey);
+        // await PersistEffect(dedupeKey, req.Body);
+        var res = req.CreateResponse(System.Net.HttpStatusCode.OK);
+        await res.WriteAsJsonAsync(new { ok = true });
+        return res;
+    }
+}

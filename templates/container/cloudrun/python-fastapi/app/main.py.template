@@ -1,0 +1,20 @@
+import logging
+from fastapi import FastAPI, Request
+
+app = FastAPI()
+logger = logging.getLogger("{{repo_slug}}")
+
+@app.get("/healthz")
+def healthz():
+    return {"ok": True}
+
+@app.get("/readyz")
+def readyz():
+    return {"ready": True}
+
+@app.post("/")
+async def handle(request: Request):
+    dedupe_key = request.headers.get("Idempotency-Key") or request.headers.get("traceparent")
+    logger.info("container_entry", extra={"service":"{{repo_slug}}","dedupe_key":dedupe_key})
+    # await persist_effect(dedupe_key, await request.body())
+    return {"ok": True}

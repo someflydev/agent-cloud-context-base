@@ -1,0 +1,25 @@
+package main
+
+import (
+  "log/slog"
+  "net/http"
+  "os"
+
+  "github.com/labstack/echo/v4"
+)
+
+func main() {
+  if len(os.Args) > 1 && os.Args[1] == "--healthcheck" { os.Exit(0) }
+  e := echo.New()
+  e.GET("/healthz", func(c echo.Context) error { return c.JSON(http.StatusOK, map[string]bool{"ok": true}) })
+  e.GET("/readyz", func(c echo.Context) error { return c.JSON(http.StatusOK, map[string]bool{"ready": true}) })
+  e.POST("/", func(c echo.Context) error {
+    dedupeKey := c.Request().Header.Get("Idempotency-Key")
+    slog.Info("container_entry", "service", "{{repo_slug}}", "dedupe_key", dedupeKey)
+    // persistEffect(c.Request().Context(), dedupeKey, c.Request().Body)
+    return c.JSON(http.StatusOK, map[string]bool{"ok": true})
+  })
+  e.Logger.Fatal(e.Start(":" + getenv("PORT", "8080")))
+}
+
+func getenv(k, fallback string) string { if v := os.Getenv(k); v != "" { return v }; return fallback }

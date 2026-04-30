@@ -1,0 +1,14 @@
+var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+
+app.MapGet("/healthz", () => Results.Ok(new { ok = true }));
+app.MapGet("/readyz", () => Results.Ok(new { ready = true }));
+app.MapPost("/", (HttpRequest request, ILoggerFactory loggerFactory) =>
+{
+    var dedupeKey = request.Headers["Idempotency-Key"].FirstOrDefault() ?? request.Headers["traceparent"].FirstOrDefault();
+    loggerFactory.CreateLogger("{{repo_slug}}").LogInformation("container_entry service={Service} dedupe_key={DedupeKey}", "{{repo_slug}}", dedupeKey);
+    // PersistEffect(dedupeKey, request.Body);
+    return Results.Ok(new { ok = true });
+});
+
+app.Run();

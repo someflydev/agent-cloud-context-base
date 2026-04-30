@@ -1,0 +1,8 @@
+import type { Request, Response } from "express";
+
+export const handler = async (req: Request, res: Response) => {
+  const dedupeKey = req.header("Idempotency-Key") ?? req.header("X-Cloud-Trace-Context");
+  console.log(JSON.stringify({ message: "function_entry", service: "{{repo_slug}}", dedupe_key: dedupeKey }));
+  // await persistEffect(dedupeKey, req.body);
+  res.status(200).json({ ok: true });
+};

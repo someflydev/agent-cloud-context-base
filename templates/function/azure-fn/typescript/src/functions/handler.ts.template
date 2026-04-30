@@ -1,0 +1,10 @@
+import { app, HttpRequest, HttpResponseInit, InvocationContext } from "@azure/functions";
+
+export async function handler(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
+  const dedupeKey = request.headers.get("Idempotency-Key") ?? request.headers.get("traceparent");
+  context.log(JSON.stringify({ message: "function_entry", service: "{{repo_slug}}", dedupe_key: dedupeKey }));
+  // await persistEffect(dedupeKey, await request.text());
+  return { status: 200, jsonBody: { ok: true } };
+}
+
+app.http("handler", { methods: ["GET", "POST"], authLevel: "function", handler });

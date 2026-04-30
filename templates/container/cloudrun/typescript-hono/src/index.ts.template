@@ -1,0 +1,14 @@
+import { Hono } from "hono";
+import { serve } from "@hono/node-server";
+
+const app = new Hono();
+app.get("/healthz", c => c.json({ ok: true }));
+app.get("/readyz", c => c.json({ ready: true }));
+app.post("/", async c => {
+  const dedupeKey = c.req.header("Idempotency-Key") ?? c.req.header("traceparent");
+  console.log(JSON.stringify({ message: "container_entry", service: "{{repo_slug}}", dedupe_key: dedupeKey }));
+  // await persistEffect(dedupeKey, await c.req.text());
+  return c.json({ ok: true });
+});
+
+serve({ fetch: app.fetch, port: Number(process.env.PORT ?? 8080) });

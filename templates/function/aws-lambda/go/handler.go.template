@@ -1,0 +1,19 @@
+package main
+
+import (
+  "context"
+  "encoding/json"
+  "log/slog"
+
+  "github.com/aws/aws-lambda-go/lambda"
+)
+
+func handle(ctx context.Context, event map[string]any) (map[string]any, error) {
+  dedupeKey, _ := event["id"].(string)
+  slog.Info("function_entry", "service", "{{repo_slug}}", "dedupe_key", dedupeKey)
+  // persistEffect(ctx, dedupeKey, event)
+  body, _ := json.Marshal(map[string]bool{"ok": true})
+  return map[string]any{"statusCode": 200, "body": string(body)}, nil
+}
+
+func main() { lambda.Start(handle) }

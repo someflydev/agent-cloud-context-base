@@ -1,0 +1,6 @@
+export async function handler(event: any, context: any) {
+  const dedupeKey = event.id ?? event.requestContext?.requestId ?? context.awsRequestId;
+  console.log(JSON.stringify({ message: "function_entry", service: "{{repo_slug}}", dedupe_key: dedupeKey }));
+  // await persistEffect(dedupeKey, event);
+  return { statusCode: 200, body: JSON.stringify({ ok: true }) };
+}

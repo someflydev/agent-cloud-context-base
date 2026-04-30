@@ -1,0 +1,11 @@
+import json
+import logging
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+def handler(event, context):
+    dedupe_key = event.get("id") or event.get("requestContext", {}).get("requestId")
+    logger.info("function_entry", extra={"service":"{{repo_slug}}","dedupe_key":dedupe_key})
+    # persist_effect(dedupe_key, event)
+    return {"statusCode": 200, "body": json.dumps({"ok": True})}

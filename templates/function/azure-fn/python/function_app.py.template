@@ -1,0 +1,12 @@
+import json
+import logging
+import azure.functions as func
+
+app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)
+
+@app.route(route="handler")
+def handler(req: func.HttpRequest) -> func.HttpResponse:
+    dedupe_key = req.headers.get("Idempotency-Key") or req.headers.get("traceparent")
+    logging.info("function_entry", extra={"service":"{{repo_slug}}","dedupe_key":dedupe_key})
+    # persist_effect(dedupe_key, req.get_json())
+    return func.HttpResponse(json.dumps({"ok": True}), status_code=200, mimetype="application/json")
