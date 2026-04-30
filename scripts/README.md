@@ -23,6 +23,10 @@
 - `startup-trace` — write a startup trace when the feature gate is enabled.
 - `graft` — install a minimal `.accb/` runtime continuity layer into a target repo.
 
+## Implemented In PROMPT_14
+
+- `check_manifests.py` — reusable manifest integrity check for the profile catalog. It verifies that manifest names are registered in `context/accb/profile-rules.json`, scenario patterns resolve, stacks and archetypes exist, workflow hints point to real workflows, and dev/test IaC and secret isolation fields remain disjoint. Keep this script available until the fuller PROMPT_17 validation suite absorbs or supersedes it.
+
 ## Planned For PROMPT_16
 
 - `new_cloud_repo.py` — generate a new cloud repo from selected profile inputs.
