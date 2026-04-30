@@ -1,0 +1,3 @@
+# Template System
+
+PROMPT_15 establishes the starter template families consumed by generated accb repos: assistant boot docs, minimal README and gitignore fragments, Terraform and Pulumi IaC starters with disjoint dev/test isolation, function handlers, managed-container services, Kubernetes Kustomize and Helm scaffolds, smoke and integration tests, observability fixtures, manifest summaries, and prompt-first bootstrap/graft prompts. These templates are intentionally short starter scaffolds rather than canonical examples; PROMPT_16 implements the generation pipeline that consumes them through `new_cloud_repo.py`, `accb_payload.py`, `accb_inspect.py`, and `accb_verify.py`.

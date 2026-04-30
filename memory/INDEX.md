@@ -20,6 +20,7 @@ Tracked artifacts only. Do not add entries for `memory/sessions/` or
 - [manifest-system.md](concepts/manifest-system.md) — PROMPT_14 manifest catalog
 - [full-stack-surface-complete.md](concepts/full-stack-surface-complete.md) — PROMPT_12 complete stack surface
 - [workflow-system.md](concepts/workflow-system.md) — PROMPT_13 workflow catalog
+- [template-system.md](concepts/template-system.md) — PROMPT_15 template scaffold system
 
 ## Tiers
 
