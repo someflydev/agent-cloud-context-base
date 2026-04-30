@@ -120,6 +120,12 @@ PART 2 — scripts/validate_manifests.py
 
 CLI: `python3 scripts/validate_manifests.py [<manifest_name>]`
 
+PROMPT_14 temporarily introduced `scripts/check_manifests.py` as a reusable
+manifest integrity checker. This part supersedes it. After
+`validate_manifests.py` covers the manifest schema and cross-reference checks
+below, remove `scripts/check_manifests.py` and update `scripts/README.md` so
+there is no duplicate manifest validator.
+
 Checks every manifest in `manifests/*.yaml` (or just the named one):
 
   - YAML parses; `schema_version: 2`.
@@ -324,6 +330,8 @@ You may edit this file in place to tick the boxes off after the prompt has
 been run.
 
   - [ ] All seven scripts (Parts 1–7) exist with the specified CLIs.
+  - [ ] `scripts/check_manifests.py` removed after its PROMPT_14 checks are
+        absorbed by `scripts/validate_manifests.py`.
   - [ ] `validate_iac_isolation.py` enforces every rule in Part 3.
   - [ ] Unit tests + fixtures (Part 8.1) exist and pass.
   - [ ] Policy notes (Part 8.2) exist for every rule.
