@@ -22,6 +22,7 @@ Tracked artifacts only. Do not add entries for `memory/sessions/` or
 - [workflow-system.md](concepts/workflow-system.md) — PROMPT_13 workflow catalog
 - [template-system.md](concepts/template-system.md) — PROMPT_15 template scaffold system
 - [generation-pipeline.md](concepts/generation-pipeline.md) — PROMPT_16 generated repo pipeline scripts
+- [validation-script-layer.md](concepts/validation-script-layer.md) — PROMPT_17 validation scripts and verification tiers
 
 ## Tiers
 
