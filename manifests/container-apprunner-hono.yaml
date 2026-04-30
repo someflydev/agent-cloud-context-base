@@ -1,0 +1,28 @@
+schema_version: 2
+name: container-apprunner-hono
+description: AWS App Runner Hono service profile for a TypeScript managed container API with Pulumi TypeScript IaC and isolated AWS managed-service bindings.
+archetype: managed-container-service
+primary_stack: apprunner-typescript-hono
+secondary_stacks: [secrets-aws-secrets-manager, storage-aws-s3-dynamodb-rds, identity-aws-iam, observability-otel-cloud, iac-pulumi-typescript]
+provider: aws
+runtime_tier: managed_container
+primary_language: typescript
+generated_repo_target: true
+iac_tool: pulumi-typescript
+triggers: [AWS App Runner Hono service, TypeScript App Runner API]
+aliases: [apprunner-hono, aws-hono-service]
+scenario_patterns: [container.heavy-runtime-service, container.public-api-private-worker-job]
+required_context: [context/doctrine/function-vs-container-vs-k8s.md, context/doctrine/container-image-discipline.md, context/doctrine/iac-dev-test-isolation.md, context/doctrine/cloud-secret-handling.md, context/stacks/apprunner-typescript-hono.md, context/stacks/iac-pulumi-typescript.md, context/archetypes/managed-container-service.md, context/scenarios/scenario-profile-map.yaml]
+optional_context: [context/workflows/add-managed-container-service.md, context/workflows/add-vpc-private-network-path.md]
+preferred_examples: [examples/canonical-apprunner/heavy-runtime-service/]
+recommended_templates: [templates/agent-md/AGENT.template.md, templates/claude-md/CLAUDE.template.md, templates/container/apprunner/typescript-hono/, templates/iac/pulumi/typescript/aws/]
+repo_signals: [src/index.ts, package.json, Dockerfile, apprunner.yaml]
+task_hints: [add-managed-container-service, add-cloud-runtime-image, add-iac-isolation-pair, add-cloud-smoke-tests, add-cloud-integration-tests]
+warnings: [Use separate ECR repositories or tags for dev and test image promotion.]
+bootstrap_defaults: [include_iac_dev_test_pair, include_smoke_tests, include_integration_tests, include_secret_binding_example, include_observability_bundle]
+iac_layout: {root_dir: iac/pulumi/typescript, dev_path: iac/pulumi/typescript/Pulumi.dev.yaml, test_path: iac/pulumi/typescript/Pulumi.test.yaml, state_backend: pulumi-cloud}
+env_isolation: {env_var_prefix_dev: ACCB_APPRUNNER_HONO_DEV_, env_var_prefix_test: ACCB_APPRUNNER_HONO_TEST_, secret_path_dev: /accb/dev/aws/apprunner-hono/, secret_path_test: /accb/test/aws/apprunner-hono/}
+cloud_integration_test_strategy: ephemeral_real
+cost_band_per_test_run: "$1-$15/run depending on dwell time"
+smoke_test_expectations: [Build the Hono service image, Exercise App Runner readiness and one API route.]
+prompt_first_support: supported

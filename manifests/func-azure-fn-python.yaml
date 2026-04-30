@@ -1,0 +1,80 @@
+schema_version: 2
+name: func-azure-fn-python
+description: Azure Functions Python repository profile for one HTTP, Blob, Service Bus, Event Grid, or timer trigger with Pulumi Python and explicit dev/test isolation.
+archetype: cloud-function-repo
+primary_stack: azure-fn-python
+secondary_stacks:
+  - secrets-azure-key-vault
+  - storage-azure-blob-cosmos-azuresql
+  - identity-azure-entra-mi
+  - observability-otel-cloud
+  - iac-pulumi-python
+provider: azure
+runtime_tier: function
+primary_language: python
+generated_repo_target: true
+iac_tool: pulumi-python
+triggers:
+  - Azure Functions Python handler
+  - Blob-triggered Python function
+  - timer-triggered Azure Function
+aliases:
+  - azure-function-python
+  - az-fn-python
+scenario_patterns:
+  - function.object-intake-enrichment
+  - function.scheduled-report-or-maintenance
+required_context:
+  - context/doctrine/function-vs-container-vs-k8s.md
+  - context/doctrine/iac-dev-test-isolation.md
+  - context/doctrine/trigger-boundary-discipline.md
+  - context/doctrine/idempotency-and-replay.md
+  - context/doctrine/cloud-secret-handling.md
+  - context/stacks/azure-fn-python.md
+  - context/stacks/iac-pulumi-python.md
+  - context/archetypes/cloud-function-repo.md
+  - context/scenarios/scenario-profile-map.yaml
+optional_context:
+  - context/doctrine/serverless-state-discipline.md
+  - context/workflows/add-azure-function-trigger.md
+preferred_examples:
+  - examples/canonical-azure-functions/blob-trigger-receipt-ocr/
+recommended_templates:
+  - templates/agent-md/AGENT.template.md
+  - templates/claude-md/CLAUDE.template.md
+  - templates/function/azure-fn/python/
+  - templates/iac/pulumi/python/azure/
+repo_signals:
+  - function_app.py
+  - requirements.txt
+  - iac/pulumi/python/Pulumi.yaml
+task_hints:
+  - add-cloud-function
+  - add-azure-function-trigger
+  - add-iac-isolation-pair
+  - add-secret-binding
+  - add-cloud-integration-tests
+warnings:
+  - Keep Key Vaults, storage accounts, and managed identities separate for dev and test.
+bootstrap_defaults:
+  - include_iac_dev_test_pair
+  - include_smoke_tests
+  - include_integration_tests
+  - include_secret_binding_example
+  - include_observability_bundle
+iac_layout:
+  root_dir: iac/pulumi/python
+  dev_path: iac/pulumi/python/Pulumi.dev.yaml
+  test_path: iac/pulumi/python/Pulumi.test.yaml
+  state_backend: pulumi-cloud
+env_isolation:
+  env_var_prefix_dev: ACCB_AZURE_FN_PY_DEV_
+  env_var_prefix_test: ACCB_AZURE_FN_PY_TEST_
+  secret_path_dev: https://accb-dev-fn-py.vault.azure.net/secrets/
+  secret_path_test: https://accb-test-fn-py.vault.azure.net/secrets/
+cloud_integration_test_strategy: azurite
+cost_band_per_test_run: "$0-$5/run; Azurite covers most"
+smoke_test_expectations:
+  - Invoke the function with Azure Functions Core Tools or Azurite-backed fixture.
+  - Assert bindings point at the selected environment storage account.
+prompt_first_support: supported

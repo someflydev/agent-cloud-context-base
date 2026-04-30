@@ -1,0 +1,81 @@
+schema_version: 2
+name: func-azure-fn-dotnet-isolated
+description: Azure Functions .NET isolated-process repository profile for one durable production-grade handler with Pulumi .NET IaC and isolated dev/test Azure resources.
+archetype: cloud-function-repo
+primary_stack: azure-fn-dotnet-isolated
+secondary_stacks:
+  - secrets-azure-key-vault
+  - storage-azure-blob-cosmos-azuresql
+  - identity-azure-entra-mi
+  - observability-otel-cloud
+  - iac-pulumi-dotnet
+provider: azure
+runtime_tier: function
+primary_language: dotnet
+generated_repo_target: true
+iac_tool: pulumi-dotnet
+triggers:
+  - Azure Functions .NET isolated handler
+  - Event Grid .NET function
+  - signed webhook isolated function
+aliases:
+  - azure-function-dotnet
+  - az-fn-dotnet-isolated
+scenario_patterns:
+  - function.signed-webhook-orchestrator
+  - function.change-event-relay
+  - function.identity-or-alert-trigger
+required_context:
+  - context/doctrine/function-vs-container-vs-k8s.md
+  - context/doctrine/iac-dev-test-isolation.md
+  - context/doctrine/trigger-boundary-discipline.md
+  - context/doctrine/idempotency-and-replay.md
+  - context/doctrine/cloud-secret-handling.md
+  - context/stacks/azure-fn-dotnet-isolated.md
+  - context/stacks/iac-pulumi-dotnet.md
+  - context/archetypes/cloud-function-repo.md
+  - context/scenarios/scenario-profile-map.yaml
+optional_context:
+  - context/doctrine/serverless-state-discipline.md
+  - context/workflows/add-azure-function-trigger.md
+preferred_examples:
+  - examples/canonical-azure-functions/signed-webhook-orchestrator/
+recommended_templates:
+  - templates/agent-md/AGENT.template.md
+  - templates/claude-md/CLAUDE.template.md
+  - templates/function/azure-fn/dotnet-isolated/
+  - templates/iac/pulumi/dotnet/azure/
+repo_signals:
+  - Program.cs
+  - "*.csproj"
+  - iac/pulumi/dotnet/Pulumi.yaml
+task_hints:
+  - add-cloud-function
+  - add-azure-function-trigger
+  - add-iac-isolation-pair
+  - add-secret-binding
+  - add-cloud-integration-tests
+warnings:
+  - Isolated-process startup and binding configuration must be exercised before completion.
+bootstrap_defaults:
+  - include_iac_dev_test_pair
+  - include_smoke_tests
+  - include_integration_tests
+  - include_secret_binding_example
+  - include_observability_bundle
+iac_layout:
+  root_dir: iac/pulumi/dotnet
+  dev_path: iac/pulumi/dotnet/Pulumi.dev.yaml
+  test_path: iac/pulumi/dotnet/Pulumi.test.yaml
+  state_backend: pulumi-cloud
+env_isolation:
+  env_var_prefix_dev: ACCB_AZURE_FN_DOTNET_DEV_
+  env_var_prefix_test: ACCB_AZURE_FN_DOTNET_TEST_
+  secret_path_dev: https://accb-dev-fn-dotnet.vault.azure.net/secrets/
+  secret_path_test: https://accb-test-fn-dotnet.vault.azure.net/secrets/
+cloud_integration_test_strategy: azurite
+cost_band_per_test_run: "$0-$5/run; Azurite covers most"
+smoke_test_expectations:
+  - Start the isolated worker and invoke a representative binding payload.
+  - Assert managed identity and Key Vault references are environment-specific.
+prompt_first_support: supported

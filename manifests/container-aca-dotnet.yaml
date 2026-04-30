@@ -1,0 +1,28 @@
+schema_version: 2
+name: container-aca-dotnet
+description: Azure Container Apps .NET ASP.NET service profile with Pulumi .NET IaC, managed identity, Key Vault binding, and isolated dev/test Azure resources.
+archetype: managed-container-service
+primary_stack: aca-dotnet-aspnet
+secondary_stacks: [secrets-azure-key-vault, storage-azure-blob-cosmos-azuresql, identity-azure-entra-mi, observability-otel-cloud, iac-pulumi-dotnet]
+provider: azure
+runtime_tier: managed_container
+primary_language: dotnet
+generated_repo_target: true
+iac_tool: pulumi-dotnet
+triggers: [Azure Container Apps .NET service, ASP.NET managed container API]
+aliases: [aca-dotnet, azure-dotnet-service]
+scenario_patterns: [container.public-api-private-worker-job, container.partner-adapter-gateway, container.heavy-runtime-service]
+required_context: [context/doctrine/function-vs-container-vs-k8s.md, context/doctrine/container-image-discipline.md, context/doctrine/iac-dev-test-isolation.md, context/doctrine/cloud-secret-handling.md, context/stacks/aca-dotnet-aspnet.md, context/stacks/iac-pulumi-dotnet.md, context/archetypes/managed-container-service.md, context/scenarios/scenario-profile-map.yaml]
+optional_context: [context/workflows/add-managed-container-service.md, context/workflows/add-vpc-private-network-path.md]
+preferred_examples: [examples/canonical-aca/public-api-private-worker-job/]
+recommended_templates: [templates/agent-md/AGENT.template.md, templates/claude-md/CLAUDE.template.md, templates/container/aca/dotnet-aspnet/, templates/iac/pulumi/dotnet/azure/]
+repo_signals: [Program.cs, "*.csproj", Dockerfile, iac/pulumi/dotnet/Pulumi.yaml]
+task_hints: [add-managed-container-service, add-cloud-runtime-image, add-iac-isolation-pair, add-secret-binding, add-cloud-integration-tests]
+warnings: [Use separate managed identities and Key Vault scopes for dev and test container apps.]
+bootstrap_defaults: [include_iac_dev_test_pair, include_smoke_tests, include_integration_tests, include_secret_binding_example, include_observability_bundle]
+iac_layout: {root_dir: iac/pulumi/dotnet, dev_path: iac/pulumi/dotnet/Pulumi.dev.yaml, test_path: iac/pulumi/dotnet/Pulumi.test.yaml, state_backend: pulumi-cloud}
+env_isolation: {env_var_prefix_dev: ACCB_ACA_DOTNET_DEV_, env_var_prefix_test: ACCB_ACA_DOTNET_TEST_, secret_path_dev: https://accb-dev-aca-dotnet.vault.azure.net/secrets/, secret_path_test: https://accb-test-aca-dotnet.vault.azure.net/secrets/}
+cloud_integration_test_strategy: ephemeral_real
+cost_band_per_test_run: "$1-$15/run depending on dwell time"
+smoke_test_expectations: [Build and deploy the ASP.NET container app, Exercise readiness and one representative route.]
+prompt_first_support: supported

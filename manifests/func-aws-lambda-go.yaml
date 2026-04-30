@@ -1,0 +1,80 @@
+schema_version: 2
+name: func-aws-lambda-go
+description: AWS Lambda Go repository profile for a compact compiled handler with Pulumi Go IaC, AWS eventing or storage bindings, and isolated dev/test infrastructure.
+archetype: cloud-function-repo
+primary_stack: aws-lambda-go
+secondary_stacks:
+  - secrets-aws-secrets-manager
+  - storage-aws-s3-dynamodb-rds
+  - identity-aws-iam
+  - observability-otel-cloud
+  - iac-pulumi-go
+provider: aws
+runtime_tier: function
+primary_language: go
+generated_repo_target: true
+iac_tool: pulumi-go
+triggers:
+  - AWS Lambda Go function
+  - compiled Lambda relay
+  - DynamoDB stream Lambda
+aliases:
+  - lambda-go
+  - aws-go-function
+scenario_patterns:
+  - function.change-event-relay
+  - function.queue-backed-worker
+required_context:
+  - context/doctrine/function-vs-container-vs-k8s.md
+  - context/doctrine/iac-dev-test-isolation.md
+  - context/doctrine/trigger-boundary-discipline.md
+  - context/doctrine/idempotency-and-replay.md
+  - context/doctrine/cloud-secret-handling.md
+  - context/stacks/aws-lambda-go.md
+  - context/stacks/iac-pulumi-go.md
+  - context/archetypes/cloud-function-repo.md
+  - context/scenarios/scenario-profile-map.yaml
+optional_context:
+  - context/doctrine/serverless-state-discipline.md
+  - context/workflows/add-eventing-seam.md
+preferred_examples:
+  - examples/canonical-aws-lambda/change-event-relay/
+recommended_templates:
+  - templates/agent-md/AGENT.template.md
+  - templates/claude-md/CLAUDE.template.md
+  - templates/function/aws-lambda/go/
+  - templates/iac/pulumi/go/aws/
+repo_signals:
+  - cmd/handler/main.go
+  - go.mod
+  - iac/pulumi/go/Pulumi.yaml
+task_hints:
+  - add-cloud-function
+  - add-aws-lambda-trigger
+  - add-eventing-seam
+  - add-iac-isolation-pair
+  - add-cloud-integration-tests
+warnings:
+  - Keep stream checkpoints and replay fixtures scoped to a single environment.
+bootstrap_defaults:
+  - include_iac_dev_test_pair
+  - include_smoke_tests
+  - include_integration_tests
+  - include_secret_binding_example
+  - include_observability_bundle
+iac_layout:
+  root_dir: iac/pulumi/go
+  dev_path: iac/pulumi/go/Pulumi.dev.yaml
+  test_path: iac/pulumi/go/Pulumi.test.yaml
+  state_backend: pulumi-cloud
+env_isolation:
+  env_var_prefix_dev: ACCB_AWS_LAMBDA_GO_DEV_
+  env_var_prefix_test: ACCB_AWS_LAMBDA_GO_TEST_
+  secret_path_dev: /accb/dev/aws/lambda-go/
+  secret_path_test: /accb/test/aws/lambda-go/
+cloud_integration_test_strategy: localstack
+cost_band_per_test_run: "$0-$5/run; LocalStack covers most"
+smoke_test_expectations:
+  - Invoke the compiled handler with a representative AWS event JSON.
+  - Confirm replay behavior is deterministic for the same event key.
+prompt_first_support: supported

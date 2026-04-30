@@ -1,0 +1,28 @@
+schema_version: 2
+name: multi-provider-event-pipeline
+description: Reference-only comparative event-pipeline manifest spanning AWS, GCP, and Azure function, eventing, storage, identity, secret, and observability choices; it guides comparison work and does not drive v1 repo scaffolding.
+archetype: cloud-multi-provider-experiment
+primary_stack: none
+secondary_stacks: [aws-lambda-python, gcp-cloudfn-python, azure-fn-python, eventing-aws-eventbridge-sqs-sns, eventing-gcp-pubsub, eventing-azure-servicebus-eventgrid, storage-aws-s3-dynamodb-rds, storage-gcp-gcs-firestore-cloudsql, storage-azure-blob-cosmos-azuresql, secrets-aws-secrets-manager, secrets-gcp-secret-manager, secrets-azure-key-vault, observability-otel-cloud]
+provider: multi
+runtime_tier: null
+primary_language: null
+generated_repo_target: false
+iac_tool: terraform
+triggers: [compare event pipelines across clouds, multi-provider function pipeline]
+aliases: [multi-provider-event-pipeline, comparative-cloud-pipeline]
+scenario_patterns: [function.object-intake-enrichment, function.change-event-relay, function.queue-backed-worker]
+required_context: [context/doctrine/managed-service-selection.md, context/doctrine/iac-dev-test-isolation.md, context/doctrine/eventing-and-dlq-discipline.md, context/skills/managed-service-substitution.md, context/stacks/eventing-aws-eventbridge-sqs-sns.md, context/stacks/eventing-gcp-pubsub.md, context/stacks/eventing-azure-servicebus-eventgrid.md, context/archetypes/cloud-multi-provider-experiment.md, context/scenarios/scenario-profile-map.yaml]
+optional_context: [context/workflows/plan-scenario-derived-repo.md, context/workflows/add-eventing-seam.md, context/workflows/add-cloud-integration-tests.md]
+preferred_examples: [examples/canonical-aws-lambda/change-event-relay/, examples/canonical-gcp-functions/pubsub-change-relay/, examples/canonical-azure-functions/cosmos-change-feed-relay/]
+recommended_templates: [templates/agent-md/AGENT.template.md, templates/claude-md/CLAUDE.template.md, templates/reference/multi-provider-event-pipeline/]
+repo_signals: [docs/comparisons/, manifests/multi-provider-event-pipeline.yaml]
+task_hints: [plan-scenario-derived-repo, add-eventing-seam, add-cloud-integration-tests]
+warnings: [This is the only cataloged comparative multi-provider manifest; all generated repo manifests remain single-provider., Reference-only v1 manifest; new_cloud_repo.py does not scaffold it as a standalone repo.]
+bootstrap_defaults: [include_iac_dev_test_pair, include_smoke_tests, include_integration_tests, include_secret_binding_example, include_observability_bundle]
+iac_layout: {root_dir: iac/terraform, dev_path: iac/terraform/dev, test_path: iac/terraform/test, state_backend: s3}
+env_isolation: {env_var_prefix_dev: ACCB_MULTI_PIPELINE_DEV_, env_var_prefix_test: ACCB_MULTI_PIPELINE_TEST_, secret_path_dev: /accb/dev/multi/event-pipeline/, secret_path_test: /accb/test/multi/event-pipeline/}
+cloud_integration_test_strategy: ephemeral_real
+cost_band_per_test_run: "$1-$25/run depending on provider breadth"
+smoke_test_expectations: [Run each provider pipeline with equivalent event fixtures, Compare DLQ replay and storage side effects across providers.]
+prompt_first_support: supported

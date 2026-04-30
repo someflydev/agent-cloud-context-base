@@ -1,0 +1,28 @@
+schema_version: 2
+name: iac-pulumi-typescript
+description: Reference-only Pulumi TypeScript catalog profile for cloud IaC projects with separate dev and test stacks, config, secrets, and resource naming.
+archetype: cloud-iac-only-repo
+primary_stack: iac-pulumi-typescript
+secondary_stacks: [observability-otel-cloud]
+provider: multi
+runtime_tier: null
+primary_language: typescript
+generated_repo_target: false
+iac_tool: pulumi-typescript
+triggers: [Pulumi TypeScript, Pulumi Node.js IaC]
+aliases: [pulumi-ts, pulumi-typescript]
+scenario_patterns: []
+required_context: [context/doctrine/iac-dev-test-isolation.md, context/doctrine/pulumi-stack-discipline.md, context/stacks/iac-pulumi-typescript.md, context/archetypes/cloud-iac-only-repo.md, context/scenarios/scenario-profile-map.yaml]
+optional_context: [context/workflows/add-iac-stack.md, context/workflows/promote-dev-to-test.md]
+preferred_examples: [examples/canonical-iac/pulumi-typescript/]
+recommended_templates: [templates/agent-md/AGENT.template.md, templates/claude-md/CLAUDE.template.md, templates/iac/pulumi/typescript/aws/, templates/iac/pulumi/typescript/gcp/, templates/iac/pulumi/typescript/azure/]
+repo_signals: [Pulumi.yaml, Pulumi.dev.yaml, index.ts, package.json]
+task_hints: [add-iac-stack, add-iac-isolation-pair, promote-dev-to-test]
+warnings: [Reference-only v1 manifest; choose a concrete provider manifest before generating runnable resources.]
+bootstrap_defaults: [include_iac_dev_test_pair, include_smoke_tests, include_integration_tests, include_secret_binding_example, include_observability_bundle]
+iac_layout: {root_dir: iac/pulumi/typescript, dev_path: iac/pulumi/typescript/Pulumi.dev.yaml, test_path: iac/pulumi/typescript/Pulumi.test.yaml, state_backend: pulumi-cloud}
+env_isolation: {env_var_prefix_dev: ACCB_PULUMI_TS_DEV_, env_var_prefix_test: ACCB_PULUMI_TS_TEST_, secret_path_dev: /accb/dev/pulumi/typescript/, secret_path_test: /accb/test/pulumi/typescript/}
+cloud_integration_test_strategy: ephemeral_real
+cost_band_per_test_run: "$0-$5/run"
+smoke_test_expectations: [pulumi preview succeeds for dev, pulumi preview succeeds for test.]
+prompt_first_support: supported

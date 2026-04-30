@@ -1,0 +1,80 @@
+schema_version: 2
+name: func-gcp-cloudfn-go
+description: GCP Cloud Functions Go repository profile for a small compiled handler with Pulumi Go IaC, Pub/Sub or Eventarc binding, and isolated dev/test resources.
+archetype: cloud-function-repo
+primary_stack: gcp-cloudfn-go
+secondary_stacks:
+  - secrets-gcp-secret-manager
+  - storage-gcp-gcs-firestore-cloudsql
+  - identity-gcp-iam-sa
+  - observability-otel-cloud
+  - iac-pulumi-go
+provider: gcp
+runtime_tier: function
+primary_language: go
+generated_repo_target: true
+iac_tool: pulumi-go
+triggers:
+  - GCP Cloud Functions Go handler
+  - Pub/Sub Go worker
+  - Go CloudEvent relay
+aliases:
+  - cloudfn-go
+  - gcp-go-function
+scenario_patterns:
+  - function.queue-backed-worker
+  - function.change-event-relay
+required_context:
+  - context/doctrine/function-vs-container-vs-k8s.md
+  - context/doctrine/iac-dev-test-isolation.md
+  - context/doctrine/trigger-boundary-discipline.md
+  - context/doctrine/idempotency-and-replay.md
+  - context/doctrine/cloud-secret-handling.md
+  - context/stacks/gcp-cloudfn-go.md
+  - context/stacks/iac-pulumi-go.md
+  - context/archetypes/cloud-function-repo.md
+  - context/scenarios/scenario-profile-map.yaml
+optional_context:
+  - context/doctrine/serverless-state-discipline.md
+  - context/workflows/add-eventing-seam.md
+preferred_examples:
+  - examples/canonical-gcp-functions/pubsub-worker/
+recommended_templates:
+  - templates/agent-md/AGENT.template.md
+  - templates/claude-md/CLAUDE.template.md
+  - templates/function/gcp-cloudfn/go/
+  - templates/iac/pulumi/go/gcp/
+repo_signals:
+  - function.go
+  - go.mod
+  - iac/pulumi/go/Pulumi.yaml
+task_hints:
+  - add-cloud-function
+  - add-gcp-cloud-function-trigger
+  - add-eventing-seam
+  - add-iac-isolation-pair
+  - add-cloud-integration-tests
+warnings:
+  - Keep Pub/Sub subscriptions, dead-letter topics, and replay storage environment-scoped.
+bootstrap_defaults:
+  - include_iac_dev_test_pair
+  - include_smoke_tests
+  - include_integration_tests
+  - include_secret_binding_example
+  - include_observability_bundle
+iac_layout:
+  root_dir: iac/pulumi/go
+  dev_path: iac/pulumi/go/Pulumi.dev.yaml
+  test_path: iac/pulumi/go/Pulumi.test.yaml
+  state_backend: pulumi-cloud
+env_isolation:
+  env_var_prefix_dev: ACCB_GCP_CLOUDFN_GO_DEV_
+  env_var_prefix_test: ACCB_GCP_CLOUDFN_GO_TEST_
+  secret_path_dev: projects/PROJECT_ID/secrets/accb-dev-cloudfn-go
+  secret_path_test: projects/PROJECT_ID/secrets/accb-test-cloudfn-go
+cloud_integration_test_strategy: emulator
+cost_band_per_test_run: "$0-$5/run; emulator covers most"
+smoke_test_expectations:
+  - Invoke the Go handler with a Pub/Sub CloudEvent fixture.
+  - Replay the same event and assert exactly-once persistence behavior.
+prompt_first_support: supported

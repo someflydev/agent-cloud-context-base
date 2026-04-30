@@ -1,0 +1,28 @@
+schema_version: 2
+name: iac-pulumi-dotnet
+description: Reference-only Pulumi .NET catalog profile for cloud IaC projects with separate dev and test stacks, secret config, and deterministic resource naming.
+archetype: cloud-iac-only-repo
+primary_stack: iac-pulumi-dotnet
+secondary_stacks: [observability-otel-cloud]
+provider: multi
+runtime_tier: null
+primary_language: dotnet
+generated_repo_target: false
+iac_tool: pulumi-dotnet
+triggers: [Pulumi .NET, Pulumi C# IaC]
+aliases: [pulumi-dotnet, pulumi-csharp]
+scenario_patterns: []
+required_context: [context/doctrine/iac-dev-test-isolation.md, context/doctrine/pulumi-stack-discipline.md, context/stacks/iac-pulumi-dotnet.md, context/archetypes/cloud-iac-only-repo.md, context/scenarios/scenario-profile-map.yaml]
+optional_context: [context/workflows/add-iac-stack.md, context/workflows/promote-dev-to-test.md]
+preferred_examples: [examples/canonical-iac/pulumi-dotnet/]
+recommended_templates: [templates/agent-md/AGENT.template.md, templates/claude-md/CLAUDE.template.md, templates/iac/pulumi/dotnet/azure/]
+repo_signals: [Pulumi.yaml, Pulumi.dev.yaml, Program.cs, "*.csproj"]
+task_hints: [add-iac-stack, add-iac-isolation-pair, promote-dev-to-test]
+warnings: [Reference-only v1 manifest; choose a concrete provider manifest before generating runnable resources.]
+bootstrap_defaults: [include_iac_dev_test_pair, include_smoke_tests, include_integration_tests, include_secret_binding_example, include_observability_bundle]
+iac_layout: {root_dir: iac/pulumi/dotnet, dev_path: iac/pulumi/dotnet/Pulumi.dev.yaml, test_path: iac/pulumi/dotnet/Pulumi.test.yaml, state_backend: pulumi-cloud}
+env_isolation: {env_var_prefix_dev: ACCB_PULUMI_DOTNET_DEV_, env_var_prefix_test: ACCB_PULUMI_DOTNET_TEST_, secret_path_dev: /accb/dev/pulumi/dotnet/, secret_path_test: /accb/test/pulumi/dotnet/}
+cloud_integration_test_strategy: ephemeral_real
+cost_band_per_test_run: "$0-$5/run"
+smoke_test_expectations: [pulumi preview succeeds for dev, pulumi preview succeeds for test.]
+prompt_first_support: supported

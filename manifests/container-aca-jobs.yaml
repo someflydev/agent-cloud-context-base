@@ -1,0 +1,28 @@
+schema_version: 2
+name: container-aca-jobs
+description: Azure Container Apps Jobs profile for a job-oriented multi-service container repo with Pulumi TypeScript IaC, Service Bus or storage bindings, and explicit dev/test isolation.
+archetype: managed-container-multi-service
+primary_stack: aca-jobs
+secondary_stacks: [secrets-azure-key-vault, storage-azure-blob-cosmos-azuresql, eventing-azure-servicebus-eventgrid, identity-azure-entra-mi, observability-otel-cloud, iac-pulumi-typescript]
+provider: azure
+runtime_tier: managed_container
+primary_language: typescript
+generated_repo_target: true
+iac_tool: pulumi-typescript
+triggers: [Azure Container Apps Jobs, scheduled ACA job, event-driven ACA worker]
+aliases: [aca-jobs, azure-container-jobs]
+scenario_patterns: [container.job-first-container, container.public-api-private-worker-job]
+required_context: [context/doctrine/function-vs-container-vs-k8s.md, context/doctrine/container-image-discipline.md, context/doctrine/eventing-and-dlq-discipline.md, context/doctrine/iac-dev-test-isolation.md, context/stacks/aca-jobs.md, context/stacks/iac-pulumi-typescript.md, context/archetypes/managed-container-multi-service.md, context/scenarios/scenario-profile-map.yaml]
+optional_context: [context/workflows/add-cloud-job-or-task-submitter.md, context/workflows/add-replay-and-dlq-handling.md]
+preferred_examples: [examples/canonical-aca/job-first-container/]
+recommended_templates: [templates/agent-md/AGENT.template.md, templates/claude-md/CLAUDE.template.md, templates/container/aca/typescript-hono/, templates/iac/pulumi/typescript/azure/]
+repo_signals: [src/jobs/*.ts, package.json, Dockerfile, iac/pulumi/typescript/Pulumi.yaml]
+task_hints: [add-cloud-job-or-task-submitter, add-cloud-runtime-image, add-eventing-seam, add-replay-and-dlq-handling, add-iac-isolation-pair, add-cloud-integration-tests]
+warnings: [Every scheduled or event-driven job must carry an idempotent run key and environment-scoped DLQ.]
+bootstrap_defaults: [include_iac_dev_test_pair, include_smoke_tests, include_integration_tests, include_secret_binding_example, include_observability_bundle]
+iac_layout: {root_dir: iac/pulumi/typescript, dev_path: iac/pulumi/typescript/Pulumi.dev.yaml, test_path: iac/pulumi/typescript/Pulumi.test.yaml, state_backend: pulumi-cloud}
+env_isolation: {env_var_prefix_dev: ACCB_ACA_JOBS_DEV_, env_var_prefix_test: ACCB_ACA_JOBS_TEST_, secret_path_dev: https://accb-dev-aca-jobs.vault.azure.net/secrets/, secret_path_test: https://accb-test-aca-jobs.vault.azure.net/secrets/}
+cloud_integration_test_strategy: ephemeral_real
+cost_band_per_test_run: "$1-$15/run depending on dwell time"
+smoke_test_expectations: [Run one ACA job execution in the selected environment, Assert completion status and environment-scoped side effects.]
+prompt_first_support: supported

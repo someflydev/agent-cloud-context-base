@@ -1,0 +1,28 @@
+schema_version: 2
+name: k8s-eks-multi-role-go
+description: AWS EKS Go multi-role platform profile for stream, replay, API, worker, job, cron, and control-plane workloads with Terraform IaC.
+archetype: k8s-platform-repo
+primary_stack: eks-base
+secondary_stacks: [k8s-api-workload, k8s-worker-workload, k8s-job-workload, k8s-cronjob-workload, k8s-control-plane-workload, k8s-kustomize-conventions, k8s-keda-autoscaling, k8s-otel-collector, identity-aws-iam, secrets-aws-secrets-manager, eventing-aws-eventbridge-sqs-sns, storage-aws-s3-dynamodb-rds, iac-terraform-aws, iac-terraform-conventions]
+provider: aws
+runtime_tier: k8s
+primary_language: go
+generated_repo_target: true
+iac_tool: terraform
+triggers: [EKS Go platform, AWS Kubernetes stream processing backend]
+aliases: [eks-go-platform, aws-k8s-go]
+scenario_patterns: [k8s.stream-replay-platform, k8s.workflow-control-plane]
+required_context: [context/doctrine/function-vs-container-vs-k8s.md, context/doctrine/k8s-workload-role-separation.md, context/doctrine/eventing-and-dlq-discipline.md, context/doctrine/identity-and-least-privilege.md, context/doctrine/iac-dev-test-isolation.md, context/stacks/eks-base.md, context/stacks/iac-terraform-aws.md, context/archetypes/k8s-platform-repo.md, context/scenarios/scenario-profile-map.yaml]
+optional_context: [context/workflows/add-k8s-workload-role.md, context/workflows/add-replay-and-dlq-handling.md, context/workflows/add-observability-bundle.md]
+preferred_examples: [examples/canonical-eks/stream-replay-platform/]
+recommended_templates: [templates/agent-md/AGENT.template.md, templates/claude-md/CLAUDE.template.md, templates/k8s/eks-go/, templates/iac/terraform/aws/]
+repo_signals: [cmd/api/main.go, cmd/worker/main.go, k8s/overlays/test, iac/terraform/test/main.tf]
+task_hints: [add-k8s-workload-role, add-helm-or-kustomize-overlay, add-replay-and-dlq-handling, add-iac-isolation-pair, add-cloud-integration-tests]
+warnings: [SQS queues, IAM roles, and replay stores must be disjoint for dev and test.]
+bootstrap_defaults: [include_iac_dev_test_pair, include_smoke_tests, include_integration_tests, include_secret_binding_example, include_observability_bundle]
+iac_layout: {root_dir: iac/terraform, dev_path: iac/terraform/dev, test_path: iac/terraform/test, state_backend: s3}
+env_isolation: {env_var_prefix_dev: ACCB_EKS_GO_DEV_, env_var_prefix_test: ACCB_EKS_GO_TEST_, secret_path_dev: /accb/dev/aws/eks-go/, secret_path_test: /accb/test/aws/eks-go/}
+cloud_integration_test_strategy: ephemeral_real
+cost_band_per_test_run: "$5-$50/run depending on cluster lifetime"
+smoke_test_expectations: [kubectl get nodes succeeds, Worker DLQ and replay paths are exercised in the test workspace.]
+prompt_first_support: supported

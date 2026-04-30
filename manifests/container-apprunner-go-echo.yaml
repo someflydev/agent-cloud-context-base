@@ -1,0 +1,28 @@
+schema_version: 2
+name: container-apprunner-go-echo
+description: AWS App Runner Go Echo service profile for a compiled managed container API with Pulumi Go IaC, AWS eventing options, and dev/test isolation.
+archetype: managed-container-service
+primary_stack: apprunner-go-echo
+secondary_stacks: [secrets-aws-secrets-manager, storage-aws-s3-dynamodb-rds, identity-aws-iam, observability-otel-cloud, iac-pulumi-go]
+provider: aws
+runtime_tier: managed_container
+primary_language: go
+generated_repo_target: true
+iac_tool: pulumi-go
+triggers: [AWS App Runner Go Echo service, Go managed container API]
+aliases: [apprunner-go-echo, aws-go-service]
+scenario_patterns: [container.partner-adapter-gateway, container.heavy-runtime-service]
+required_context: [context/doctrine/function-vs-container-vs-k8s.md, context/doctrine/container-image-discipline.md, context/doctrine/iac-dev-test-isolation.md, context/doctrine/cloud-secret-handling.md, context/stacks/apprunner-go-echo.md, context/stacks/iac-pulumi-go.md, context/archetypes/managed-container-service.md, context/scenarios/scenario-profile-map.yaml]
+optional_context: [context/workflows/add-managed-container-service.md, context/workflows/add-eventing-seam.md]
+preferred_examples: [examples/canonical-apprunner/partner-adapter-gateway/]
+recommended_templates: [templates/agent-md/AGENT.template.md, templates/claude-md/CLAUDE.template.md, templates/container/apprunner/go-echo/, templates/iac/pulumi/go/aws/]
+repo_signals: [cmd/server/main.go, go.mod, Dockerfile, apprunner.yaml]
+task_hints: [add-managed-container-service, add-cloud-runtime-image, add-eventing-seam, add-iac-isolation-pair, add-cloud-integration-tests]
+warnings: [Keep VPC connector, queue, and partner credential resources environment-scoped.]
+bootstrap_defaults: [include_iac_dev_test_pair, include_smoke_tests, include_integration_tests, include_secret_binding_example, include_observability_bundle]
+iac_layout: {root_dir: iac/pulumi/go, dev_path: iac/pulumi/go/Pulumi.dev.yaml, test_path: iac/pulumi/go/Pulumi.test.yaml, state_backend: pulumi-cloud}
+env_isolation: {env_var_prefix_dev: ACCB_APPRUNNER_ECHO_DEV_, env_var_prefix_test: ACCB_APPRUNNER_ECHO_TEST_, secret_path_dev: /accb/dev/aws/apprunner-echo/, secret_path_test: /accb/test/aws/apprunner-echo/}
+cloud_integration_test_strategy: ephemeral_real
+cost_band_per_test_run: "$1-$15/run depending on dwell time"
+smoke_test_expectations: [Build the Go service image, Exercise health and one integration-facing endpoint.]
+prompt_first_support: supported

@@ -1,0 +1,81 @@
+schema_version: 2
+name: func-aws-lambda-typescript
+description: AWS Lambda TypeScript repository profile for one Node.js handler with Pulumi TypeScript IaC, provider-native bindings, and isolated dev/test stacks.
+archetype: cloud-function-repo
+primary_stack: aws-lambda-typescript-node
+secondary_stacks:
+  - secrets-aws-secrets-manager
+  - storage-aws-s3-dynamodb-rds
+  - identity-aws-iam
+  - observability-otel-cloud
+  - iac-pulumi-typescript
+provider: aws
+runtime_tier: function
+primary_language: typescript
+generated_repo_target: true
+iac_tool: pulumi-typescript
+triggers:
+  - AWS Lambda TypeScript function
+  - Node.js Lambda webhook
+  - EventBridge or queue-backed Lambda
+aliases:
+  - lambda-typescript
+  - aws-node-function
+scenario_patterns:
+  - function.signed-webhook-orchestrator
+  - function.identity-or-alert-trigger
+required_context:
+  - context/doctrine/function-vs-container-vs-k8s.md
+  - context/doctrine/iac-dev-test-isolation.md
+  - context/doctrine/trigger-boundary-discipline.md
+  - context/doctrine/idempotency-and-replay.md
+  - context/doctrine/cloud-secret-handling.md
+  - context/stacks/aws-lambda-typescript-node.md
+  - context/stacks/iac-pulumi-typescript.md
+  - context/archetypes/cloud-function-repo.md
+  - context/scenarios/scenario-profile-map.yaml
+optional_context:
+  - context/doctrine/serverless-state-discipline.md
+  - context/workflows/add-aws-lambda-trigger.md
+preferred_examples:
+  - examples/canonical-aws-lambda/signed-webhook-orchestrator/
+recommended_templates:
+  - templates/agent-md/AGENT.template.md
+  - templates/claude-md/CLAUDE.template.md
+  - templates/function/aws-lambda/typescript/
+  - templates/iac/pulumi/typescript/aws/
+repo_signals:
+  - src/handler.ts
+  - package.json
+  - iac/pulumi/typescript/Pulumi.yaml
+task_hints:
+  - add-cloud-function
+  - add-aws-lambda-trigger
+  - add-iac-isolation-pair
+  - add-secret-binding
+  - add-cloud-smoke-tests
+  - add-cloud-integration-tests
+warnings:
+  - Keep webhook secrets, queue names, and Lambda aliases environment-scoped.
+bootstrap_defaults:
+  - include_iac_dev_test_pair
+  - include_smoke_tests
+  - include_integration_tests
+  - include_secret_binding_example
+  - include_observability_bundle
+iac_layout:
+  root_dir: iac/pulumi/typescript
+  dev_path: iac/pulumi/typescript/Pulumi.dev.yaml
+  test_path: iac/pulumi/typescript/Pulumi.test.yaml
+  state_backend: pulumi-cloud
+env_isolation:
+  env_var_prefix_dev: ACCB_AWS_LAMBDA_TS_DEV_
+  env_var_prefix_test: ACCB_AWS_LAMBDA_TS_TEST_
+  secret_path_dev: /accb/dev/aws/lambda-typescript/
+  secret_path_test: /accb/test/aws/lambda-typescript/
+cloud_integration_test_strategy: localstack
+cost_band_per_test_run: "$0-$5/run; LocalStack covers most"
+smoke_test_expectations:
+  - Invoke the Node.js handler with a signed request or event fixture.
+  - Assert idempotency keys are recorded in environment-specific storage.
+prompt_first_support: supported

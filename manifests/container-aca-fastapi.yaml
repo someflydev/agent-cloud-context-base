@@ -1,0 +1,28 @@
+schema_version: 2
+name: container-aca-fastapi
+description: Azure Container Apps FastAPI service profile for a Python managed container API with Pulumi Python IaC and isolated Azure managed-service bindings.
+archetype: managed-container-service
+primary_stack: aca-python-fastapi
+secondary_stacks: [secrets-azure-key-vault, storage-azure-blob-cosmos-azuresql, identity-azure-entra-mi, observability-otel-cloud, iac-pulumi-python]
+provider: azure
+runtime_tier: managed_container
+primary_language: python
+generated_repo_target: true
+iac_tool: pulumi-python
+triggers: [Azure Container Apps FastAPI service, ACA Python API]
+aliases: [aca-fastapi, azure-fastapi-service]
+scenario_patterns: [container.heavy-runtime-service, container.public-api-private-worker-job, container.multi-container-sidecar]
+required_context: [context/doctrine/function-vs-container-vs-k8s.md, context/doctrine/container-image-discipline.md, context/doctrine/iac-dev-test-isolation.md, context/doctrine/cloud-secret-handling.md, context/stacks/aca-python-fastapi.md, context/stacks/iac-pulumi-python.md, context/archetypes/managed-container-service.md, context/scenarios/scenario-profile-map.yaml]
+optional_context: [context/workflows/add-managed-container-service.md, context/workflows/add-vpc-private-network-path.md]
+preferred_examples: [examples/canonical-aca/heavy-runtime-service/]
+recommended_templates: [templates/agent-md/AGENT.template.md, templates/claude-md/CLAUDE.template.md, templates/container/aca/python-fastapi/, templates/iac/pulumi/python/azure/]
+repo_signals: [app/main.py, Dockerfile, iac/pulumi/python/Pulumi.yaml]
+task_hints: [add-managed-container-service, add-cloud-runtime-image, add-iac-isolation-pair, add-secret-binding, add-cloud-integration-tests]
+warnings: [Azure Container Apps integration checks require short-lived real environments.]
+bootstrap_defaults: [include_iac_dev_test_pair, include_smoke_tests, include_integration_tests, include_secret_binding_example, include_observability_bundle]
+iac_layout: {root_dir: iac/pulumi/python, dev_path: iac/pulumi/python/Pulumi.dev.yaml, test_path: iac/pulumi/python/Pulumi.test.yaml, state_backend: pulumi-cloud}
+env_isolation: {env_var_prefix_dev: ACCB_ACA_FASTAPI_DEV_, env_var_prefix_test: ACCB_ACA_FASTAPI_TEST_, secret_path_dev: https://accb-dev-aca-fastapi.vault.azure.net/secrets/, secret_path_test: https://accb-test-aca-fastapi.vault.azure.net/secrets/}
+cloud_integration_test_strategy: ephemeral_real
+cost_band_per_test_run: "$1-$15/run depending on dwell time"
+smoke_test_expectations: [Build and deploy the FastAPI container app, Exercise health and one API route through ACA ingress.]
+prompt_first_support: supported

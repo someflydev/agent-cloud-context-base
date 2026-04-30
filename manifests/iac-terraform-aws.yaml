@@ -1,0 +1,28 @@
+schema_version: 2
+name: iac-terraform-aws
+description: Reference-only AWS Terraform catalog profile for dev/test isolated state, naming, identity, and secret paths; it informs routing and validation but is not scaffolded as a standalone v1 repo.
+archetype: cloud-iac-only-repo
+primary_stack: iac-terraform-aws
+secondary_stacks: [iac-terraform-conventions, identity-aws-iam, secrets-aws-secrets-manager, observability-otel-cloud]
+provider: aws
+runtime_tier: null
+primary_language: hcl
+generated_repo_target: false
+iac_tool: terraform
+triggers: [AWS Terraform, Terraform AWS dev test isolation]
+aliases: [terraform-aws, aws-iac]
+scenario_patterns: []
+required_context: [context/doctrine/iac-dev-test-isolation.md, context/doctrine/terraform-workspace-discipline.md, context/stacks/iac-terraform-aws.md, context/stacks/iac-terraform-conventions.md, context/archetypes/cloud-iac-only-repo.md, context/scenarios/scenario-profile-map.yaml]
+optional_context: [context/workflows/add-iac-stack.md, context/workflows/promote-dev-to-test.md]
+preferred_examples: [examples/canonical-iac/terraform-aws/]
+recommended_templates: [templates/agent-md/AGENT.template.md, templates/claude-md/CLAUDE.template.md, templates/iac/terraform/aws/]
+repo_signals: [iac/terraform/dev/main.tf, iac/terraform/test/main.tf, "*.tf"]
+task_hints: [add-iac-stack, add-iac-isolation-pair, promote-dev-to-test]
+warnings: [Reference-only v1 manifest; new_cloud_repo.py does not scaffold it as a standalone repo in this arc.]
+bootstrap_defaults: [include_iac_dev_test_pair, include_smoke_tests, include_integration_tests, include_secret_binding_example, include_observability_bundle]
+iac_layout: {root_dir: iac/terraform, dev_path: iac/terraform/dev, test_path: iac/terraform/test, state_backend: s3}
+env_isolation: {env_var_prefix_dev: ACCB_TF_AWS_DEV_, env_var_prefix_test: ACCB_TF_AWS_TEST_, secret_path_dev: /accb/dev/aws/terraform/, secret_path_test: /accb/test/aws/terraform/}
+cloud_integration_test_strategy: ephemeral_real
+cost_band_per_test_run: "$0-$5/run"
+smoke_test_expectations: [terraform plan succeeds for dev, terraform plan succeeds for test.]
+prompt_first_support: supported

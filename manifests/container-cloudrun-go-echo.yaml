@@ -1,0 +1,28 @@
+schema_version: 2
+name: container-cloudrun-go-echo
+description: GCP Cloud Run Go Echo service profile for a compiled managed container API with Pulumi Go IaC, Secret Manager binding, and isolated dev/test resources.
+archetype: managed-container-service
+primary_stack: cloudrun-go-echo
+secondary_stacks: [secrets-gcp-secret-manager, storage-gcp-gcs-firestore-cloudsql, identity-gcp-iam-sa, observability-otel-cloud, iac-pulumi-go]
+provider: gcp
+runtime_tier: managed_container
+primary_language: go
+generated_repo_target: true
+iac_tool: pulumi-go
+triggers: [Cloud Run Go Echo service, GCP Go managed container]
+aliases: [cloudrun-go-echo, gcp-go-service]
+scenario_patterns: [container.partner-adapter-gateway, container.heavy-runtime-service]
+required_context: [context/doctrine/function-vs-container-vs-k8s.md, context/doctrine/container-image-discipline.md, context/doctrine/iac-dev-test-isolation.md, context/doctrine/cloud-secret-handling.md, context/stacks/cloudrun-go-echo.md, context/stacks/iac-pulumi-go.md, context/archetypes/managed-container-service.md, context/scenarios/scenario-profile-map.yaml]
+optional_context: [context/workflows/add-managed-container-service.md, context/workflows/add-eventing-seam.md]
+preferred_examples: [examples/canonical-cloudrun/partner-adapter-gateway/]
+recommended_templates: [templates/agent-md/AGENT.template.md, templates/claude-md/CLAUDE.template.md, templates/container/cloudrun/go-echo/, templates/iac/pulumi/go/gcp/]
+repo_signals: [cmd/server/main.go, go.mod, Dockerfile, iac/pulumi/go/Pulumi.yaml]
+task_hints: [add-managed-container-service, add-cloud-runtime-image, add-eventing-seam, add-iac-isolation-pair, add-cloud-integration-tests]
+warnings: [Keep partner-adapter credentials and Pub/Sub topics scoped to dev or test.]
+bootstrap_defaults: [include_iac_dev_test_pair, include_smoke_tests, include_integration_tests, include_secret_binding_example, include_observability_bundle]
+iac_layout: {root_dir: iac/pulumi/go, dev_path: iac/pulumi/go/Pulumi.dev.yaml, test_path: iac/pulumi/go/Pulumi.test.yaml, state_backend: pulumi-cloud}
+env_isolation: {env_var_prefix_dev: ACCB_CLOUDRUN_ECHO_DEV_, env_var_prefix_test: ACCB_CLOUDRUN_ECHO_TEST_, secret_path_dev: projects/PROJECT_ID/secrets/accb-dev-cloudrun-echo, secret_path_test: projects/PROJECT_ID/secrets/accb-test-cloudrun-echo}
+cloud_integration_test_strategy: ephemeral_real
+cost_band_per_test_run: "$1-$15/run depending on dwell time"
+smoke_test_expectations: [Build the Go container image, Exercise health and a partner-adapter route on a real Cloud Run revision.]
+prompt_first_support: supported

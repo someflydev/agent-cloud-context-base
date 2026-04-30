@@ -1,0 +1,80 @@
+schema_version: 2
+name: func-azure-fn-typescript
+description: Azure Functions TypeScript repository profile for one Node.js function with Pulumi TypeScript IaC, Key Vault binding, and isolated dev/test settings.
+archetype: cloud-function-repo
+primary_stack: azure-fn-typescript-node
+secondary_stacks:
+  - secrets-azure-key-vault
+  - storage-azure-blob-cosmos-azuresql
+  - identity-azure-entra-mi
+  - observability-otel-cloud
+  - iac-pulumi-typescript
+provider: azure
+runtime_tier: function
+primary_language: typescript
+generated_repo_target: true
+iac_tool: pulumi-typescript
+triggers:
+  - Azure Functions TypeScript handler
+  - Service Bus TypeScript function
+  - Node.js queue worker function
+aliases:
+  - azure-function-typescript
+  - az-fn-typescript
+scenario_patterns:
+  - function.queue-backed-worker
+  - function.signed-webhook-orchestrator
+required_context:
+  - context/doctrine/function-vs-container-vs-k8s.md
+  - context/doctrine/iac-dev-test-isolation.md
+  - context/doctrine/trigger-boundary-discipline.md
+  - context/doctrine/idempotency-and-replay.md
+  - context/doctrine/cloud-secret-handling.md
+  - context/stacks/azure-fn-typescript-node.md
+  - context/stacks/iac-pulumi-typescript.md
+  - context/archetypes/cloud-function-repo.md
+  - context/scenarios/scenario-profile-map.yaml
+optional_context:
+  - context/doctrine/serverless-state-discipline.md
+  - context/workflows/add-azure-function-trigger.md
+preferred_examples:
+  - examples/canonical-azure-functions/servicebus-worker/
+recommended_templates:
+  - templates/agent-md/AGENT.template.md
+  - templates/claude-md/CLAUDE.template.md
+  - templates/function/azure-fn/typescript/
+  - templates/iac/pulumi/typescript/azure/
+repo_signals:
+  - src/functions/*.ts
+  - package.json
+  - iac/pulumi/typescript/Pulumi.yaml
+task_hints:
+  - add-cloud-function
+  - add-azure-function-trigger
+  - add-eventing-seam
+  - add-iac-isolation-pair
+  - add-cloud-integration-tests
+warnings:
+  - Keep Service Bus queues and Key Vault references environment-specific.
+bootstrap_defaults:
+  - include_iac_dev_test_pair
+  - include_smoke_tests
+  - include_integration_tests
+  - include_secret_binding_example
+  - include_observability_bundle
+iac_layout:
+  root_dir: iac/pulumi/typescript
+  dev_path: iac/pulumi/typescript/Pulumi.dev.yaml
+  test_path: iac/pulumi/typescript/Pulumi.test.yaml
+  state_backend: pulumi-cloud
+env_isolation:
+  env_var_prefix_dev: ACCB_AZURE_FN_TS_DEV_
+  env_var_prefix_test: ACCB_AZURE_FN_TS_TEST_
+  secret_path_dev: https://accb-dev-fn-ts.vault.azure.net/secrets/
+  secret_path_test: https://accb-test-fn-ts.vault.azure.net/secrets/
+cloud_integration_test_strategy: azurite
+cost_band_per_test_run: "$0-$5/run; Azurite covers most"
+smoke_test_expectations:
+  - Invoke the TypeScript function with a Service Bus or HTTP fixture.
+  - Confirm retry and replay behavior writes only to test-scoped resources.
+prompt_first_support: supported

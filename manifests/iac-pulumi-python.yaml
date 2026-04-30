@@ -1,0 +1,28 @@
+schema_version: 2
+name: iac-pulumi-python
+description: Reference-only Pulumi Python catalog profile for cloud IaC projects with separate dev and test stacks, secret config, and resource naming.
+archetype: cloud-iac-only-repo
+primary_stack: iac-pulumi-python
+secondary_stacks: [observability-otel-cloud]
+provider: multi
+runtime_tier: null
+primary_language: python
+generated_repo_target: false
+iac_tool: pulumi-python
+triggers: [Pulumi Python, Python cloud IaC]
+aliases: [pulumi-py, pulumi-python]
+scenario_patterns: []
+required_context: [context/doctrine/iac-dev-test-isolation.md, context/doctrine/pulumi-stack-discipline.md, context/stacks/iac-pulumi-python.md, context/archetypes/cloud-iac-only-repo.md, context/scenarios/scenario-profile-map.yaml]
+optional_context: [context/workflows/add-iac-stack.md, context/workflows/promote-dev-to-test.md]
+preferred_examples: [examples/canonical-iac/pulumi-python/]
+recommended_templates: [templates/agent-md/AGENT.template.md, templates/claude-md/CLAUDE.template.md, templates/iac/pulumi/python/aws/, templates/iac/pulumi/python/gcp/, templates/iac/pulumi/python/azure/]
+repo_signals: [Pulumi.yaml, Pulumi.dev.yaml, __main__.py, requirements.txt]
+task_hints: [add-iac-stack, add-iac-isolation-pair, promote-dev-to-test]
+warnings: [Reference-only v1 manifest; choose a concrete provider manifest before generating runnable resources.]
+bootstrap_defaults: [include_iac_dev_test_pair, include_smoke_tests, include_integration_tests, include_secret_binding_example, include_observability_bundle]
+iac_layout: {root_dir: iac/pulumi/python, dev_path: iac/pulumi/python/Pulumi.dev.yaml, test_path: iac/pulumi/python/Pulumi.test.yaml, state_backend: pulumi-cloud}
+env_isolation: {env_var_prefix_dev: ACCB_PULUMI_PY_DEV_, env_var_prefix_test: ACCB_PULUMI_PY_TEST_, secret_path_dev: /accb/dev/pulumi/python/, secret_path_test: /accb/test/pulumi/python/}
+cloud_integration_test_strategy: ephemeral_real
+cost_band_per_test_run: "$0-$5/run"
+smoke_test_expectations: [pulumi preview succeeds for dev, pulumi preview succeeds for test.]
+prompt_first_support: supported

@@ -1,0 +1,81 @@
+schema_version: 2
+name: func-aws-lambda-python
+description: AWS Lambda Python repository profile for one event, HTTP, storage, queue, or scheduled handler with Pulumi Python IaC, AWS managed bindings, and explicit dev/test isolation.
+archetype: cloud-function-repo
+primary_stack: aws-lambda-python
+secondary_stacks:
+  - secrets-aws-secrets-manager
+  - storage-aws-s3-dynamodb-rds
+  - identity-aws-iam
+  - observability-otel-cloud
+  - iac-pulumi-python
+provider: aws
+runtime_tier: function
+primary_language: python
+generated_repo_target: true
+iac_tool: pulumi-python
+triggers:
+  - AWS Lambda Python function
+  - serverless Python on AWS
+  - S3 or EventBridge Lambda handler
+aliases:
+  - lambda-python
+  - aws-python-function
+scenario_patterns:
+  - function.object-intake-enrichment
+  - function.scheduled-report-or-maintenance
+required_context:
+  - context/doctrine/function-vs-container-vs-k8s.md
+  - context/doctrine/iac-dev-test-isolation.md
+  - context/doctrine/trigger-boundary-discipline.md
+  - context/doctrine/idempotency-and-replay.md
+  - context/doctrine/cloud-secret-handling.md
+  - context/stacks/aws-lambda-python.md
+  - context/stacks/iac-pulumi-python.md
+  - context/archetypes/cloud-function-repo.md
+  - context/scenarios/scenario-profile-map.yaml
+optional_context:
+  - context/doctrine/serverless-state-discipline.md
+  - context/workflows/add-aws-lambda-trigger.md
+preferred_examples:
+  - examples/canonical-aws-lambda/s3-trigger-image-moderation/
+recommended_templates:
+  - templates/agent-md/AGENT.template.md
+  - templates/claude-md/CLAUDE.template.md
+  - templates/function/aws-lambda/python/
+  - templates/iac/pulumi/python/aws/
+repo_signals:
+  - src/handler.py
+  - requirements.txt
+  - iac/pulumi/python/Pulumi.yaml
+task_hints:
+  - add-cloud-function
+  - add-aws-lambda-trigger
+  - add-iac-isolation-pair
+  - add-secret-binding
+  - add-cloud-smoke-tests
+  - add-cloud-integration-tests
+warnings:
+  - Keep dev and test Lambda names, IAM roles, state stacks, and secret paths disjoint before resource generation.
+bootstrap_defaults:
+  - include_iac_dev_test_pair
+  - include_smoke_tests
+  - include_integration_tests
+  - include_secret_binding_example
+  - include_observability_bundle
+iac_layout:
+  root_dir: iac/pulumi/python
+  dev_path: iac/pulumi/python/Pulumi.dev.yaml
+  test_path: iac/pulumi/python/Pulumi.test.yaml
+  state_backend: pulumi-cloud
+env_isolation:
+  env_var_prefix_dev: ACCB_AWS_LAMBDA_PY_DEV_
+  env_var_prefix_test: ACCB_AWS_LAMBDA_PY_TEST_
+  secret_path_dev: /accb/dev/aws/lambda-python/
+  secret_path_test: /accb/test/aws/lambda-python/
+cloud_integration_test_strategy: localstack
+cost_band_per_test_run: "$0-$5/run; LocalStack covers most"
+smoke_test_expectations:
+  - Invoke the handler with an AWS event fixture and assert response shape.
+  - Verify secret lookup uses the dev or test path selected by environment.
+prompt_first_support: supported

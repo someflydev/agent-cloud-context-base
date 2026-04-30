@@ -1,0 +1,28 @@
+schema_version: 2
+name: k8s-aks-multi-role-typescript
+description: Azure AKS TypeScript multi-role platform profile for stream replay and workflow workloads with Terraform IaC and Azure managed-service bindings.
+archetype: k8s-platform-repo
+primary_stack: aks-base
+secondary_stacks: [k8s-api-workload, k8s-worker-workload, k8s-job-workload, k8s-cronjob-workload, k8s-control-plane-workload, k8s-kustomize-conventions, k8s-keda-autoscaling, k8s-otel-collector, identity-azure-entra-mi, secrets-azure-key-vault, eventing-azure-servicebus-eventgrid, storage-azure-blob-cosmos-azuresql, iac-terraform-azure, iac-terraform-conventions]
+provider: azure
+runtime_tier: k8s
+primary_language: typescript
+generated_repo_target: true
+iac_tool: terraform
+triggers: [AKS TypeScript platform, Azure Kubernetes workflow backend]
+aliases: [aks-typescript-platform, azure-k8s-typescript]
+scenario_patterns: [k8s.stream-replay-platform, k8s.workflow-control-plane, k8s.rag-knowledge-mesh]
+required_context: [context/doctrine/function-vs-container-vs-k8s.md, context/doctrine/k8s-workload-role-separation.md, context/doctrine/eventing-and-dlq-discipline.md, context/doctrine/identity-and-least-privilege.md, context/doctrine/iac-dev-test-isolation.md, context/stacks/aks-base.md, context/stacks/iac-terraform-azure.md, context/archetypes/k8s-platform-repo.md, context/scenarios/scenario-profile-map.yaml]
+optional_context: [context/workflows/add-k8s-workload-role.md, context/workflows/add-replay-and-dlq-handling.md, context/workflows/add-observability-bundle.md]
+preferred_examples: [examples/canonical-aks/workflow-control-plane/]
+recommended_templates: [templates/agent-md/AGENT.template.md, templates/claude-md/CLAUDE.template.md, templates/k8s/aks-typescript/, templates/iac/terraform/azure/]
+repo_signals: [src/api/index.ts, package.json, k8s/overlays/test, iac/terraform/test/main.tf]
+task_hints: [add-k8s-workload-role, add-helm-or-kustomize-overlay, add-replay-and-dlq-handling, add-iac-isolation-pair, add-cloud-integration-tests]
+warnings: [Service Bus subscriptions, Key Vault paths, and managed identities must be disjoint across dev and test.]
+bootstrap_defaults: [include_iac_dev_test_pair, include_smoke_tests, include_integration_tests, include_secret_binding_example, include_observability_bundle]
+iac_layout: {root_dir: iac/terraform, dev_path: iac/terraform/dev, test_path: iac/terraform/test, state_backend: azurerm}
+env_isolation: {env_var_prefix_dev: ACCB_AKS_TS_DEV_, env_var_prefix_test: ACCB_AKS_TS_TEST_, secret_path_dev: https://accb-dev-aks-ts.vault.azure.net/secrets/, secret_path_test: https://accb-test-aks-ts.vault.azure.net/secrets/}
+cloud_integration_test_strategy: ephemeral_real
+cost_band_per_test_run: "$5-$50/run depending on cluster lifetime"
+smoke_test_expectations: [kubectl rollout status succeeds for API and worker, Workflow replay and rollback paths are verified in test.]
+prompt_first_support: supported
