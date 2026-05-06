@@ -1,0 +1,11 @@
+{
+  "family": "canonical-gcp-functions",
+  "name": "gcs-trigger-ocr-to-firestore",
+  "path": "examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/python",
+  "provider": "gcp",
+  "runtime_tier": "function",
+  "language": "python",
+  "iac": { "terraform": true, "pulumi": "pulumi-python" },
+  "dev_test_disjoint": true,
+  "verified": false
+}
