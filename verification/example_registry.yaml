@@ -38,3 +38,98 @@ families:
         verify_command_local_provider: "bash examples/canonical-aws-lambda/sqs-document-translation/go/tests/integration/lane-a-ministack/run.sh"
         last_verified_at: null
         last_verified_status: pending
+  - name: canonical-gcp-functions
+    examples:
+      - family: canonical-gcp-functions
+        name: gcs-trigger-ocr-to-firestore
+        provider: gcp
+        runtime_tier: function
+        language: python
+        iac_tool_terraform: true
+        iac_tool_pulumi: pulumi-python
+        dev_test_disjoint: true
+        verify_command: "bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/python/tests/verify.sh"
+        verify_command_local_provider: "bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/python/tests/integration/lane-a-minisky/run.sh"
+        verify_command_real_cloud: "bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/python/tests/integration/lane-b-ephemeral-real/up.sh && python3 examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/python/tests/integration/lane-b-ephemeral-real/test_handler.py && bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/python/tests/integration/lane-b-ephemeral-real/down.sh"
+        verification:
+          smoke:
+            status: pending
+            verified_at: null
+            command: "bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/python/tests/verify.sh"
+          local_provider:
+            status: pending
+            verified_at: null
+            command: "bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/python/tests/integration/lane-a-minisky/run.sh"
+            lane: lane-a-minisky
+            provider: minisky
+            gate: "ACCB_RUN_LOCAL_PROVIDER=1"
+          real_cloud:
+            status: pending
+            verified_at: null
+            command: "bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/python/tests/integration/lane-b-ephemeral-real/up.sh && python3 examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/python/tests/integration/lane-b-ephemeral-real/test_handler.py && bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/python/tests/integration/lane-b-ephemeral-real/down.sh"
+            lane: lane-b-ephemeral-real
+            cost: real
+        last_verified_at: null
+        last_verified_status: pending
+      - family: canonical-gcp-functions
+        name: http-stripe-webhook
+        provider: gcp
+        runtime_tier: function
+        language: typescript
+        iac_tool_terraform: true
+        iac_tool_pulumi: pulumi-typescript
+        dev_test_disjoint: true
+        verify_command: "bash examples/canonical-gcp-functions/http-stripe-webhook/typescript/tests/verify.sh"
+        verify_command_local_provider: "bash examples/canonical-gcp-functions/http-stripe-webhook/typescript/tests/integration/lane-a-minisky/run.sh"
+        verify_command_real_cloud: "bash examples/canonical-gcp-functions/http-stripe-webhook/typescript/tests/integration/lane-b-ephemeral-real/up.sh && node examples/canonical-gcp-functions/http-stripe-webhook/typescript/tests/integration/lane-b-ephemeral-real/test_handler.js && bash examples/canonical-gcp-functions/http-stripe-webhook/typescript/tests/integration/lane-b-ephemeral-real/down.sh"
+        verification:
+          smoke:
+            status: pending
+            verified_at: null
+            command: "bash examples/canonical-gcp-functions/http-stripe-webhook/typescript/tests/verify.sh"
+          local_provider:
+            status: pending
+            verified_at: null
+            command: "bash examples/canonical-gcp-functions/http-stripe-webhook/typescript/tests/integration/lane-a-minisky/run.sh"
+            lane: lane-a-minisky
+            provider: minisky
+            gate: "ACCB_RUN_LOCAL_PROVIDER=1"
+          real_cloud:
+            status: pending
+            verified_at: null
+            command: "bash examples/canonical-gcp-functions/http-stripe-webhook/typescript/tests/integration/lane-b-ephemeral-real/up.sh && node examples/canonical-gcp-functions/http-stripe-webhook/typescript/tests/integration/lane-b-ephemeral-real/test_handler.js && bash examples/canonical-gcp-functions/http-stripe-webhook/typescript/tests/integration/lane-b-ephemeral-real/down.sh"
+            lane: lane-b-ephemeral-real
+            cost: real
+        last_verified_at: null
+        last_verified_status: pending
+      - family: canonical-gcp-functions
+        name: eventarc-monitoring-router
+        provider: gcp
+        runtime_tier: function
+        language: go
+        iac_tool_terraform: true
+        iac_tool_pulumi: pulumi-go
+        dev_test_disjoint: true
+        verify_command: "bash examples/canonical-gcp-functions/eventarc-monitoring-router/go/tests/verify.sh"
+        verify_command_local_provider: "bash examples/canonical-gcp-functions/eventarc-monitoring-router/go/tests/integration/lane-a-minisky/run.sh"
+        verify_command_real_cloud: "bash examples/canonical-gcp-functions/eventarc-monitoring-router/go/tests/integration/lane-b-ephemeral-real/up.sh && go run examples/canonical-gcp-functions/eventarc-monitoring-router/go/tests/integration/lane-b-ephemeral-real/test_handler.go && bash examples/canonical-gcp-functions/eventarc-monitoring-router/go/tests/integration/lane-b-ephemeral-real/down.sh"
+        verification:
+          smoke:
+            status: pending
+            verified_at: null
+            command: "bash examples/canonical-gcp-functions/eventarc-monitoring-router/go/tests/verify.sh"
+          local_provider:
+            status: pending
+            verified_at: null
+            command: "bash examples/canonical-gcp-functions/eventarc-monitoring-router/go/tests/integration/lane-a-minisky/run.sh"
+            lane: lane-a-minisky
+            provider: minisky
+            gate: "ACCB_RUN_LOCAL_PROVIDER=1"
+          real_cloud:
+            status: pending
+            verified_at: null
+            command: "bash examples/canonical-gcp-functions/eventarc-monitoring-router/go/tests/integration/lane-b-ephemeral-real/up.sh && go run examples/canonical-gcp-functions/eventarc-monitoring-router/go/tests/integration/lane-b-ephemeral-real/test_handler.go && bash examples/canonical-gcp-functions/eventarc-monitoring-router/go/tests/integration/lane-b-ephemeral-real/down.sh"
+            lane: lane-b-ephemeral-real
+            cost: real
+        last_verified_at: null
+        last_verified_status: pending

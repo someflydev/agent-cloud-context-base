@@ -27,3 +27,33 @@ matrix:
         ruby:
           status: not-planned
           reason: not planned for the canonical AWS Lambda arc
+  gcp:
+    function:
+      gcp-cloud-functions:
+        python:
+          status: supported
+          support_level: first-class-example
+          family: canonical-gcp-functions
+          example: gcs-trigger-ocr-to-firestore
+        typescript:
+          status: supported
+          support_level: first-class-example
+          family: canonical-gcp-functions
+          example: http-stripe-webhook
+        go:
+          status: supported
+          support_level: first-class-example
+          family: canonical-gcp-functions
+          example: eventarc-monitoring-router
+        java:
+          status: deferred
+          reason: rare JVM-oriented Cloud Functions cases are outside this arc's seed pass
+        dotnet:
+          status: not-planned
+          reason: not planned for the canonical GCP Cloud Functions arc
+        ruby:
+          status: not-planned
+          reason: not planned for the canonical GCP Cloud Functions arc
+        php:
+          status: not-planned
+          reason: not planned for the canonical GCP Cloud Functions arc
