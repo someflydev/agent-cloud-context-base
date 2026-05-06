@@ -57,3 +57,24 @@ matrix:
         php:
           status: not-planned
           reason: not planned for the canonical GCP Cloud Functions arc
+  azure:
+    function:
+      azure-functions:
+        python:
+          status: supported
+          support_level: first-class-example
+          family: canonical-azure-functions
+          example: blob-trigger-receipt-ocr
+        typescript:
+          status: supported
+          support_level: first-class-example
+          family: canonical-azure-functions
+          example: cosmos-changefeed-search-sync
+        dotnet-isolated:
+          status: supported
+          support_level: first-class-example
+          family: canonical-azure-functions
+          example: servicebus-classification
+        powershell:
+          status: deferred
+          reason: PowerShell remains reserved for ops-only Azure Functions cases
