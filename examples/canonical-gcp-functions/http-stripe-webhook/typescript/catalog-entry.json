@@ -1,0 +1,11 @@
+{
+  "family": "canonical-gcp-functions",
+  "name": "http-stripe-webhook",
+  "path": "examples/canonical-gcp-functions/http-stripe-webhook/typescript",
+  "provider": "gcp",
+  "runtime_tier": "function",
+  "language": "typescript",
+  "iac": { "terraform": true, "pulumi": "pulumi-typescript" },
+  "dev_test_disjoint": true,
+  "verified": false
+}

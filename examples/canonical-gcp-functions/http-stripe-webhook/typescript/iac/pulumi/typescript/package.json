@@ -1,0 +1,11 @@
+{
+  "name": "accb-gcp-stripe-webhook-iac",
+  "private": true,
+  "dependencies": {
+    "@pulumi/gcp": "^7.0.0",
+    "@pulumi/pulumi": "^3.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}
