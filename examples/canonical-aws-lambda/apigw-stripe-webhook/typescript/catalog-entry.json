@@ -1,0 +1,11 @@
+{
+  "family": "canonical-aws-lambda",
+  "name": "apigw-stripe-webhook",
+  "path": "examples/canonical-aws-lambda/apigw-stripe-webhook/typescript",
+  "provider": "aws",
+  "runtime_tier": "function",
+  "language": "typescript",
+  "iac": { "terraform": true, "pulumi": "pulumi-typescript" },
+  "dev_test_disjoint": true,
+  "verified": false
+}
