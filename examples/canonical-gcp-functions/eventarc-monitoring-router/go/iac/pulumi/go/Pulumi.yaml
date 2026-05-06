@@ -1,0 +1,3 @@
+name: accb-gcp-monitoring-router
+runtime: go
+description: ACCB canonical GCP Cloud Functions Eventarc monitoring router seed.
