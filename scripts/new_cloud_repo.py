@@ -190,13 +190,13 @@ def render_plan(args: argparse.Namespace, manifest: dict[str, Any]) -> list[Rend
     elif args.runtime_tier == "k8s":
         add_templates(files, root, "templates/smoke-tests/k8s-pod-readiness-smoke.sh.template", values, args)
 
-    if args.include_localstack_or_emulator:
+    if args.include_local_provider or args.include_localstack_or_emulator:
         if args.provider == "aws":
-            add_templates(files, root, "templates/integration-tests/localstack-compose.yaml.template", values, args)
+            add_templates(files, root, "templates/integration-tests/ministack-compose.yaml.template", values, args)
         elif args.provider == "gcp":
-            add_templates(files, root, "templates/integration-tests/gcp-emulators-compose.yaml.template", values, args)
+            add_templates(files, root, "templates/integration-tests/minisky-compose.yaml.template", values, args)
         elif args.provider == "azure":
-            add_templates(files, root, "templates/integration-tests/azurite-compose.yaml.template", values, args)
+            add_templates(files, root, "templates/integration-tests/miniblue-compose.yaml.template", values, args)
     if args.include_ephemeral_real_test:
         add_templates(files, root, "templates/integration-tests/terraform-apply-destroy.sh.template" if args.iac_tool == "terraform" else "templates/integration-tests/pulumi-up-down.py.template", values, args)
 
@@ -292,7 +292,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--scenario-pattern", action="append", dest="scenario_patterns")
     parser.add_argument("--support-service", action="append", default=[], dest="support_services")
     parser.add_argument("--include-dev-test-pair", action=argparse.BooleanOptionalAction, default=True)
-    parser.add_argument("--include-localstack-or-emulator", action="store_true")
+    parser.add_argument("--include-local-provider", action="store_true")
+    parser.add_argument("--include-localstack-or-emulator", action="store_true", help=argparse.SUPPRESS)
     parser.add_argument("--include-ephemeral-real-test", action="store_true")
     parser.add_argument("--include-secret-binding-example", action=argparse.BooleanOptionalAction, default=True)
     parser.add_argument("--include-observability-bundle", action=argparse.BooleanOptionalAction, default=True)

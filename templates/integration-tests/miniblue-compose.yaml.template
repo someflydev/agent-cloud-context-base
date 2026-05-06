@@ -1,0 +1,4 @@
+services:
+  miniblue:
+    image: moabukar/miniblue:latest
+    ports: ["4566:4566", "4567:4567"]

@@ -44,7 +44,17 @@ REQUIRED_FIELDS = {
 PROVIDERS = {"aws", "gcp", "azure", "multi"}
 RUNTIME_TIERS = {"function", "managed_container", "k8s", None}
 IAC_TOOLS = {"terraform", "pulumi-python", "pulumi-typescript", "pulumi-go", "pulumi-dotnet"}
-TEST_STRATEGIES = {"localstack", "emulator", "azurite", "ephemeral_real", "record_replay"}
+TEST_STRATEGIES = {
+    "ministack",
+    "minisky",
+    "miniblue",
+    "local_provider",
+    "ephemeral_real",
+    "record_replay",
+    "localstack",
+    "emulator",
+    "azurite",
+}
 
 
 def main(argv: list[str] | None = None) -> int:
