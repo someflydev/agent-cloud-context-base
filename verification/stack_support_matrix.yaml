@@ -1,2 +1,29 @@
 schema_version: 1
-matrix: {}
+matrix:
+  aws:
+    function:
+      aws-lambda:
+        python:
+          status: supported
+          support_level: first-class-example
+          family: canonical-aws-lambda
+          example: s3-trigger-image-moderation
+        typescript:
+          status: supported
+          support_level: first-class-example
+          family: canonical-aws-lambda
+          example: apigw-stripe-webhook
+        go:
+          status: supported
+          support_level: first-class-example
+          family: canonical-aws-lambda
+          example: sqs-document-translation
+        java:
+          status: deferred
+          reason: rare JVM-oriented Lambda cases are outside this arc's seed pass
+        dotnet:
+          status: not-planned
+          reason: not planned for the canonical AWS Lambda arc
+        ruby:
+          status: not-planned
+          reason: not planned for the canonical AWS Lambda arc

@@ -1,2 +1,40 @@
 schema_version: 1
-families: []
+families:
+  - name: canonical-aws-lambda
+    examples:
+      - family: canonical-aws-lambda
+        name: s3-trigger-image-moderation
+        provider: aws
+        runtime_tier: function
+        language: python
+        iac_tool_terraform: true
+        iac_tool_pulumi: pulumi-python
+        dev_test_disjoint: true
+        verify_command: "bash examples/canonical-aws-lambda/s3-trigger-image-moderation/python/tests/verify.sh"
+        verify_command_local_provider: "bash examples/canonical-aws-lambda/s3-trigger-image-moderation/python/tests/integration/lane-a-ministack/run.sh"
+        last_verified_at: null
+        last_verified_status: pending
+      - family: canonical-aws-lambda
+        name: apigw-stripe-webhook
+        provider: aws
+        runtime_tier: function
+        language: typescript
+        iac_tool_terraform: true
+        iac_tool_pulumi: pulumi-typescript
+        dev_test_disjoint: true
+        verify_command: "bash examples/canonical-aws-lambda/apigw-stripe-webhook/typescript/tests/verify.sh"
+        verify_command_local_provider: "bash examples/canonical-aws-lambda/apigw-stripe-webhook/typescript/tests/integration/lane-a-ministack/run.sh"
+        last_verified_at: null
+        last_verified_status: pending
+      - family: canonical-aws-lambda
+        name: sqs-document-translation
+        provider: aws
+        runtime_tier: function
+        language: go
+        iac_tool_terraform: true
+        iac_tool_pulumi: pulumi-go
+        dev_test_disjoint: true
+        verify_command: "bash examples/canonical-aws-lambda/sqs-document-translation/go/tests/verify.sh"
+        verify_command_local_provider: "bash examples/canonical-aws-lambda/sqs-document-translation/go/tests/integration/lane-a-ministack/run.sh"
+        last_verified_at: null
+        last_verified_status: pending

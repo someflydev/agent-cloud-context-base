@@ -23,6 +23,7 @@ Tracked artifacts only. Do not add entries for `memory/sessions/` or
 - [template-system.md](concepts/template-system.md) — PROMPT_15 template scaffold system
 - [generation-pipeline.md](concepts/generation-pipeline.md) — PROMPT_16 generated repo pipeline scripts
 - [validation-script-layer.md](concepts/validation-script-layer.md) — PROMPT_17 validation scripts and verification tiers
+- [aws-lambda-canonical-arc.md](concepts/aws-lambda-canonical-arc.md) — PROMPT_18 AWS Lambda seed examples
 
 ## Tiers
 

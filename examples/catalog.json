@@ -1,4 +1,38 @@
 {
   "schema_version": 1,
-  "examples": []
+  "examples": [
+    {
+      "family": "canonical-aws-lambda",
+      "name": "s3-trigger-image-moderation",
+      "path": "examples/canonical-aws-lambda/s3-trigger-image-moderation/python",
+      "provider": "aws",
+      "runtime_tier": "function",
+      "language": "python",
+      "iac": { "terraform": true, "pulumi": "pulumi-python" },
+      "dev_test_disjoint": true,
+      "verified": false
+    },
+    {
+      "family": "canonical-aws-lambda",
+      "name": "apigw-stripe-webhook",
+      "path": "examples/canonical-aws-lambda/apigw-stripe-webhook/typescript",
+      "provider": "aws",
+      "runtime_tier": "function",
+      "language": "typescript",
+      "iac": { "terraform": true, "pulumi": "pulumi-typescript" },
+      "dev_test_disjoint": true,
+      "verified": false
+    },
+    {
+      "family": "canonical-aws-lambda",
+      "name": "sqs-document-translation",
+      "path": "examples/canonical-aws-lambda/sqs-document-translation/go",
+      "provider": "aws",
+      "runtime_tier": "function",
+      "language": "go",
+      "iac": { "terraform": true, "pulumi": "pulumi-go" },
+      "dev_test_disjoint": true,
+      "verified": false
+    }
+  ]
 }
