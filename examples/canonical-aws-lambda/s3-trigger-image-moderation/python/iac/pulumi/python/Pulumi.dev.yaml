@@ -1,0 +1,6 @@
+stack: dev
+config:
+  aws:region: us-east-1
+  accb:environment: dev
+  accb:envVarPrefix: ACCB_DEV_
+  accb:secretPath: /accb/dev/s3-trigger-image-moderation/rekognition
