@@ -129,6 +129,15 @@ Lane A `tests/integration/lane-a-miniblue/`:
   - `test_handler.py|.ts|.cs` that invokes the Functions host.
   - `teardown.sh`.
 
+Lane A must be a coherent opt-in local-provider harness, not just a file
+placeholder. Follow the PROMPT_18/PROMPT_19 lifecycle pattern: when
+`ACCB_RUN_LOCAL_PROVIDER=1` is set, `run.sh` starts `docker compose`, installs
+a teardown trap, runs bootstrap, invokes the handler through the provider-shaped
+local surface, and tears down volumes/resources. If miniblue lacks local
+coverage for a specific Azure service, use a provider-shaped fake for that
+service in Lane A, state the limitation in the README, and leave the full
+managed-service proof to Lane B.
+
 Lane B is the SAME shape as PROMPT_18 Part 3 with Azure credentials,
 an isolated test subscription, `--stack test`, and immediate teardown.
 
