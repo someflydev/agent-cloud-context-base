@@ -1,0 +1,5 @@
+stack: test
+config:
+  accb:environment: test
+  accb:namePrefix: accb-test-cosmos-search-sync
+  accb:secretPath: /accb/test/azure-functions/cosmos-search-sync/

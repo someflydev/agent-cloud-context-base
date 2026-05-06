@@ -1,0 +1,3 @@
+name: accb-azure-functions-blob-receipt-ocr
+runtime: python
+description: accb Azure Functions blob receipt OCR seed

@@ -1,0 +1,3 @@
+name: accb-azure-functions-cosmos-search-sync
+runtime: nodejs
+description: accb Azure Functions Cosmos search sync seed

@@ -1,0 +1,5 @@
+stack: test
+config:
+  accb:environment: test
+  accb:namePrefix: accb-test-servicebus-classification
+  accb:secretPath: /accb/test/azure-functions/servicebus-classification/

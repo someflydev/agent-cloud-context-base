@@ -1,0 +1,11 @@
+{
+  "family": "canonical-azure-functions",
+  "name": "servicebus-classification",
+  "path": "examples/canonical-azure-functions/servicebus-classification/dotnet-isolated",
+  "provider": "azure",
+  "runtime_tier": "function",
+  "language": "dotnet-isolated",
+  "iac": { "terraform": true, "pulumi": "pulumi-dotnet" },
+  "dev_test_disjoint": true,
+  "verified": false
+}

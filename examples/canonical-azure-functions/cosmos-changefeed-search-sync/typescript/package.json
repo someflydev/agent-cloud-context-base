@@ -1,0 +1,9 @@
+{
+  "name": "accb-cosmos-changefeed-search-sync",
+  "version": "0.1.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "test": "node tests/smoke/test_handler.js && node tests/replay/test_replay.js"
+  }
+}

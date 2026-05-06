@@ -1,0 +1,5 @@
+stack: dev
+config:
+  accb:environment: dev
+  accb:namePrefix: accb-dev-servicebus-classification
+  accb:secretPath: /accb/dev/azure-functions/servicebus-classification/

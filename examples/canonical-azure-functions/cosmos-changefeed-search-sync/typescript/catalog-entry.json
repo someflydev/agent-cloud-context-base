@@ -1,0 +1,11 @@
+{
+  "family": "canonical-azure-functions",
+  "name": "cosmos-changefeed-search-sync",
+  "path": "examples/canonical-azure-functions/cosmos-changefeed-search-sync/typescript",
+  "provider": "azure",
+  "runtime_tier": "function",
+  "language": "typescript",
+  "iac": { "terraform": true, "pulumi": "pulumi-typescript" },
+  "dev_test_disjoint": true,
+  "verified": false
+}
