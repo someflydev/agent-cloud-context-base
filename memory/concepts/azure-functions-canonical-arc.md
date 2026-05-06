@@ -1,0 +1,3 @@
+# Azure Functions Canonical Arc
+
+PROMPT_20 added the canonical Azure Functions seed set: `blob-trigger-receipt-ocr/python` for Blob Storage to Document Intelligence, Cosmos DB, and Event Grid; `servicebus-classification/dotnet-isolated` for Service Bus to Azure OpenAI classification, Cosmos DB, and team topics with DLQ discipline; and `cosmos-changefeed-search-sync/typescript` for Cosmos Change Feed to Azure AI Search with Service Bus retry. These examples establish the Azure `miniblue` Lane A local-provider pattern, Azure isolated Lane B shape, Key Vault/managed identity declarations, and dev/test IaC isolation; PROMPT_21 starts the managed-container seed arc.

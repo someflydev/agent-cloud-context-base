@@ -25,6 +25,7 @@ Tracked artifacts only. Do not add entries for `memory/sessions/` or
 - [validation-script-layer.md](concepts/validation-script-layer.md) — PROMPT_17 validation scripts and verification tiers
 - [aws-lambda-canonical-arc.md](concepts/aws-lambda-canonical-arc.md) — PROMPT_18 AWS Lambda seed examples
 - [gcp-functions-canonical-arc.md](concepts/gcp-functions-canonical-arc.md) — PROMPT_19 GCP Cloud Functions seed examples
+- [azure-functions-canonical-arc.md](concepts/azure-functions-canonical-arc.md) — PROMPT_20 Azure Functions seed examples
 
 ## Tiers
 
