@@ -1,0 +1,6 @@
+stack: test
+config:
+  aws:region: us-east-1
+  accb:environment: test
+  accb:envVarPrefix: ACCB_TEST_
+  accb:secretPath: /accb/test/sqs-document-translation/translate

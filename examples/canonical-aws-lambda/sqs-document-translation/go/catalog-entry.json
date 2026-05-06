@@ -1,0 +1,11 @@
+{
+  "family": "canonical-aws-lambda",
+  "name": "sqs-document-translation",
+  "path": "examples/canonical-aws-lambda/sqs-document-translation/go",
+  "provider": "aws",
+  "runtime_tier": "function",
+  "language": "go",
+  "iac": { "terraform": true, "pulumi": "pulumi-go" },
+  "dev_test_disjoint": true,
+  "verified": false
+}

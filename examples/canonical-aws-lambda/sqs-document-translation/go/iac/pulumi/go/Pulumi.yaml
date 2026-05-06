@@ -1,0 +1,3 @@
+name: accb-sqs-document-translation-go
+runtime: go
+description: ACCB canonical AWS Lambda SQS document translation example.
