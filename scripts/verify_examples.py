@@ -19,6 +19,16 @@ from validation_common import read_json, read_yaml, repo_root
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Verify canonical examples declared in the registry.")
     parser.add_argument("--family", help="only verify one family")
+    parser.add_argument(
+        "--tier",
+        choices=("smoke", "local-provider", "real-cloud", "full"),
+        default="smoke",
+        help=(
+            "verification tier: smoke runs default smoke + IaC isolation; "
+            "local-provider adds Lane A commands when registered; real-cloud "
+            "adds Lane B commands when registered; full adds all registered gates"
+        ),
+    )
     parser.add_argument("--update-registry", action="store_true", help="write last verification status into registry")
     parser.add_argument("--parallel", type=int, default=1, help="number of examples to verify concurrently")
     args = parser.parse_args(argv)
@@ -32,10 +42,10 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     workers = max(1, args.parallel)
     if workers == 1:
-        results = [verify_one(root, entry) for entry in entries]
+        results = [verify_one(root, entry, args.tier) for entry in entries]
     else:
         with ThreadPoolExecutor(max_workers=workers) as pool:
-            results = list(pool.map(lambda entry: verify_one(root, entry), entries))
+            results = list(pool.map(lambda entry: verify_one(root, entry, args.tier), entries))
     failed = [result for result in results if not result["ok"]]
     for result in results:
         status = "passed" if result["ok"] else "failed"
@@ -77,17 +87,46 @@ def example_key(entry: dict[str, Any]) -> str:
     return str(entry.get("id") or entry.get("name") or entry.get("path") or "")
 
 
-def verify_one(root: Path, entry: dict[str, Any]) -> dict[str, Any]:
+def verify_one(root: Path, entry: dict[str, Any], tier: str) -> dict[str, Any]:
     example_id = entry.get("id") or entry.get("name") or entry.get("path") or "unknown"
     for file_name in entry.get("files") or []:
         if not (root / file_name).exists():
             return {"id": example_id, "ok": False, "message": f"missing file {file_name}"}
-    command = entry.get("verify_command")
-    if not command:
+    commands = tier_commands(entry, tier)
+    if not commands:
         return {"id": example_id, "ok": True, "message": "no verify_command declared"}
-    result = subprocess.run(command, cwd=root, shell=True, text=True, capture_output=True, timeout=300)
-    message = result.stdout.strip() or result.stderr.strip() or f"exit {result.returncode}"
-    return {"id": example_id, "ok": result.returncode == 0, "message": message[:200]}
+    messages: list[str] = []
+    for label, command, required in commands:
+        if not command:
+            if required:
+                return {"id": example_id, "ok": False, "message": f"missing required {label} command"}
+            messages.append(f"{label}: skipped")
+            continue
+        result = subprocess.run(command, cwd=root, shell=True, text=True, capture_output=True, timeout=300)
+        message = result.stdout.strip() or result.stderr.strip() or f"exit {result.returncode}"
+        messages.append(f"{label}: {message[:160]}")
+        if result.returncode != 0:
+            return {"id": example_id, "ok": False, "message": "; ".join(messages)[:200]}
+    return {"id": example_id, "ok": True, "message": "; ".join(messages)[:200]}
+
+
+def tier_commands(entry: dict[str, Any], tier: str) -> list[tuple[str, str | None, bool]]:
+    smoke = entry.get("verify_command")
+    local_provider = entry.get("verify_command_local_provider")
+    real_cloud = entry.get("verify_command_real_cloud")
+    full = entry.get("verify_command_full")
+    if tier == "smoke":
+        return [("smoke", smoke, False)]
+    if tier == "local-provider":
+        return [("smoke", smoke, False), ("local-provider", local_provider, False)]
+    if tier == "real-cloud":
+        return [("smoke", smoke, False), ("real-cloud", real_cloud, False)]
+    return [
+        ("smoke", smoke, False),
+        ("local-provider", local_provider, False),
+        ("real-cloud", real_cloud, False),
+        ("full", full, False),
+    ]
 
 
 def update_registry(registry: dict[str, Any], results: list[dict[str, Any]], stamp: str) -> None:
