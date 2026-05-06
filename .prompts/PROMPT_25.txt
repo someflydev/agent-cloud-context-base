@@ -86,7 +86,8 @@ PART 3 — REGISTRY + CATALOG + SUPPORT MATRIX
 ================================================================================
 
 Append the 6 new entries to `verification/example_registry.yaml` and
-`examples/catalog.json` using PROMPT_18's existing entry shape.
+`examples/catalog.json` using PROMPT_18's existing tiered verification
+entry shape.
 
 Update `verification/stack_support_matrix.yaml` so the AWS Lambda first-class
 surface is honest:
@@ -108,7 +109,7 @@ VERIFICATION (this prompt)
      runs without crashing.
   5. `examples/catalog.json` parses and contains all 9 AWS Lambda entries.
   6. `verification/example_registry.yaml` parses and contains all 9 AWS
-     Lambda entries.
+     Lambda entries with tiered verification metadata.
   7. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' examples/canonical-aws-lambda/`
      returns nothing.
 
@@ -124,7 +125,8 @@ been run.
   - [ ] Every AWS Lambda example has replay coverage and declared structured logs.
   - [ ] Terraform + Pulumi-language IaC for every AWS Lambda example is
         `validate_iac_isolation` clean.
-  - [ ] Catalog + registry + support matrix reflect the full AWS Lambda surface.
+  - [ ] Catalog + registry + support matrix reflect the full AWS Lambda surface,
+        including tiered verification metadata.
   - [ ] No `acb` / `.acb/` references.
   - [ ] `tmp/PROMPT_25_checklist.md` is fully checked.
   - [ ] `memory/concepts/aws-lambda-canonical-arc.md` is updated to note the

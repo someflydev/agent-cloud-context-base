@@ -131,14 +131,40 @@ Per-example registry entry (appended to
   verify_command: "bash examples/canonical-aws-lambda/<example-name>/tests/verify.sh"
   verify_command_local_provider: "bash examples/canonical-aws-lambda/<example-name>/tests/integration/lane-a-ministack/run.sh"  # optional until PROMPT_32
   verify_command_real_cloud: "bash examples/canonical-aws-lambda/<example-name>/tests/integration/lane-b-ephemeral-real/run.sh"  # optional, real cost
-  last_verified_at: null
-  last_verified_status: pending
+  verification:
+    smoke:
+      status: pending
+      verified_at: null
+      command: "bash examples/canonical-aws-lambda/<example-name>/tests/verify.sh"
+    local_provider:
+      status: pending
+      verified_at: null
+      command: "bash examples/canonical-aws-lambda/<example-name>/tests/integration/lane-a-ministack/run.sh"
+      lane: lane-a-ministack
+      provider: ministack
+      gate: "ACCB_RUN_LOCAL_PROVIDER=1"
+    real_cloud:
+      status: pending
+      verified_at: null
+      command: "bash examples/canonical-aws-lambda/<example-name>/tests/integration/lane-b-ephemeral-real/run.sh"
+      lane: lane-b-ephemeral-real
+      cost: real
 ```
 
 `verify_command` is the default `scripts/verify_examples.py --tier smoke`
 command and must stay limited to unit / smoke tests plus IaC isolation.
 Local-provider and real-cloud commands are opt-in tier hooks; include them
 only when the corresponding harness exists.
+
+The `verification` map is the durable source of truth for what actually
+passed. Valid statuses are `pending`, `passed`, `failed`, `skipped`,
+`blocked`, and `incomplete`. A smoke run must not overwrite local-provider
+or real-cloud results. A local-provider run records `passed` only when the
+Lane A harness actually executes with its gate enabled; if the gate is absent,
+record `skipped` with a reason rather than `passed`. A real-cloud run records
+`skipped` when credentials or explicit operator approval are absent. Any
+legacy top-level `last_verified_at` / `last_verified_status` fields are
+derived summaries only and must not be the only persisted status.
 
 ================================================================================
 PART 2 — REQUIRED SEED EXAMPLES (3 examples)
@@ -245,7 +271,9 @@ helper in Go. Observability emission must be visible in both Lane A
 PART 6 — REGISTRY + CATALOG UPDATES
 ================================================================================
 
-  6.1  Append entries to `verification/example_registry.yaml` per Part 1.
+  6.1  Append entries to `verification/example_registry.yaml` per Part 1,
+       including the tiered `verification` map for smoke, local_provider,
+       and real_cloud.
 
   6.2  Update `examples/catalog.json` with one entry per example:
 
@@ -285,6 +313,8 @@ For each example, before declaring done:
   - Lane B is documented but does NOT run in this prompt's verification
     (operator-driven, real-cost; PROMPT_32 wires it as an optional
      `--tier full` gate)
+  - if `scripts/verify_examples.py --update-registry` is used, it updates
+    only the tier(s) actually run and preserves all other tier statuses
 
 ================================================================================
 VERIFICATION (this prompt)
@@ -299,7 +329,7 @@ VERIFICATION (this prompt)
      are nice-to-have for this prompt; the gate is "no script error").
   5. `examples/catalog.json` parses and contains the 3 new entries.
   6. `verification/example_registry.yaml` parses and contains the 3 new
-     entries.
+     entries with tiered verification metadata.
   7. `verification/stack_support_matrix.yaml` reflects the AWS Lambda
      coverage state.
   8. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' examples/canonical-aws-lambda/`
@@ -317,7 +347,8 @@ been run.
   - [ ] Each example has Terraform + Pulumi-language IaC with
         validate_iac_isolation passing.
   - [ ] Each example has structured-log shape declared.
-  - [ ] Catalog + registry + support matrix updated.
+  - [ ] Catalog + registry + support matrix updated, including tiered
+        verification metadata in the registry.
   - [ ] No `acb` / `.acb/` references.
   - [ ] `tmp/PROMPT_18_checklist.md` is fully checked.
   - [ ] `memory/concepts/aws-lambda-canonical-arc.md` exists with one

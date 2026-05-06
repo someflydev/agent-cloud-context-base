@@ -287,7 +287,10 @@ PART 7 — REGISTRY + CATALOG + DOGFOODING AUDIT
 ================================================================================
 
   7.1  Append entries to `verification/example_registry.yaml` for every
-       new family with `verify_command` set where applicable.
+       new family with `verify_command` set where applicable. Use the
+       tiered verification registry shape from PROMPT_18; families without
+       local-provider or real-cloud lanes still include smoke metadata and
+       mark unsupported tiers `skipped` with a short reason.
 
   7.2  Update `examples/catalog.json` with new entries.
 
@@ -312,7 +315,8 @@ VERIFICATION (this prompt)
      Parts 3–6.
   5. `python3 scripts/verify_examples.py --family canonical-iac-terraform`,
      `--family canonical-iac-pulumi`, etc. run without crashing.
-  6. Catalog + registry updated.
+  6. Catalog + registry updated, including tiered verification metadata
+     in the registry.
   7. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' examples/canonical-iac-terraform/ examples/canonical-iac-pulumi/ examples/canonical-observability/ examples/canonical-secrets/ examples/canonical-eventing/ examples/canonical-prompts/`
      returns nothing.
 
@@ -334,7 +338,8 @@ been run.
   - [ ] `validate_iac_isolation.py` clean for every IaC tree.
   - [ ] Dogfooding audit notes captured in `tmp/dogfooding-audit.md`
         (gitignored).
-  - [ ] Catalog + registry updated.
+  - [ ] Catalog + registry updated, including tiered verification metadata
+        in the registry.
   - [ ] No `acb` / `.acb/` references.
   - [ ] `tmp/PROMPT_24_checklist.md` is fully checked.
   - [ ] `memory/concepts/cross-cutting-canonical-arc.md` exists noting

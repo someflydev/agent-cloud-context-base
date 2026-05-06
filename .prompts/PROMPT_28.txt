@@ -92,7 +92,8 @@ PART 4 — REGISTRY + CATALOG + SUPPORT MATRIX
 ================================================================================
 
 Append the 5 new entries to `verification/example_registry.yaml` and
-`examples/catalog.json` using the PROMPT_21 / PROMPT_18 entry shapes.
+`examples/catalog.json` using the PROMPT_21 / PROMPT_18 tiered
+verification entry shapes.
 
 Update `verification/stack_support_matrix.yaml` so the managed-container
 surface promised in PROMPT_21 is now real:
@@ -115,7 +116,7 @@ VERIFICATION (this prompt)
   5. `python3 scripts/verify_examples.py --family canonical-cloud-run` and
      `--family canonical-app-runner` run without crashing.
   6. Catalog + registry + support matrix reflect the full managed-container
-     AWS/GCP surface.
+     AWS/GCP surface, including tiered verification metadata.
   7. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' examples/canonical-cloud-run/ examples/canonical-app-runner/`
      returns nothing.
 
@@ -132,7 +133,7 @@ been run.
   - [ ] Terraform + Pulumi-language IaC for every Cloud Run / App Runner
         example is `validate_iac_isolation` clean.
   - [ ] Catalog + registry + support matrix reflect the full Cloud Run +
-        App Runner surface.
+        App Runner surface, including tiered verification metadata.
   - [ ] No `acb` / `.acb/` references.
   - [ ] `tmp/PROMPT_28_checklist.md` is fully checked.
   - [ ] `memory/concepts/managed-container-canonical-arc-aws-gcp.md` is

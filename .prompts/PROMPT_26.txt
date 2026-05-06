@@ -82,7 +82,8 @@ PART 3 — REGISTRY + CATALOG + SUPPORT MATRIX
 ================================================================================
 
 Append the 4 new entries to `verification/example_registry.yaml` and
-`examples/catalog.json` using the PROMPT_19 / PROMPT_18 entry shapes.
+`examples/catalog.json` using the PROMPT_19 / PROMPT_18 tiered
+verification entry shapes.
 
 Update `verification/stack_support_matrix.yaml` so GCP Cloud Functions now
 has the full first-class surface originally promised in PROMPT_19:
@@ -103,7 +104,8 @@ VERIFICATION (this prompt)
      example's Terraform and Pulumi tree.
   4. `python3 scripts/verify_examples.py --family canonical-gcp-functions`
      runs without crashing.
-  5. Catalog + registry + support matrix reflect the full 7-example surface.
+  5. Catalog + registry + support matrix reflect the full 7-example surface,
+     including tiered verification metadata.
   6. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' examples/canonical-gcp-functions/`
      returns nothing.
 
@@ -119,7 +121,8 @@ been run.
   - [ ] Every GCP example has replay coverage and declared structured logs.
   - [ ] Terraform + Pulumi-language IaC for every GCP example is
         `validate_iac_isolation` clean.
-  - [ ] Catalog + registry + support matrix reflect the full GCP surface.
+  - [ ] Catalog + registry + support matrix reflect the full GCP surface,
+        including tiered verification metadata.
   - [ ] No `acb` / `.acb/` references.
   - [ ] `tmp/PROMPT_26_checklist.md` is fully checked.
   - [ ] `memory/concepts/gcp-functions-canonical-arc.md` is updated to note

@@ -217,6 +217,10 @@ to mark the seed-set surfaces as supported now: EKS × {python}, GKE ×
 {python}, AKS × {dotnet}. Mark EKS × {go}, GKE × {go}, and AKS ×
 {typescript} as DEFERRED.
 
+Use the tiered verification registry shape from PROMPT_18. Kubernetes
+entries record smoke, local_provider (`lane-a-kind`), and real_cloud
+(`lane-b-ephemeral-real`) status independently.
+
 ================================================================================
 VERIFICATION (this prompt)
 ================================================================================
@@ -231,7 +235,8 @@ VERIFICATION (this prompt)
   6. `kubectl --context kind-... apply -k <example>/k8s/kustomize/overlays/kind`
      succeeds on a manually-bootstrapped kind cluster (operator-driven;
      not part of the automated gate).
-  7. Catalog + registry + support matrix updated.
+  7. Catalog + registry + support matrix updated, including tiered
+     verification metadata in the registry.
   8. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' examples/canonical-eks/ examples/canonical-gke/ examples/canonical-aks/`
      returns nothing.
 
@@ -249,7 +254,8 @@ been run.
   - [ ] Each platform has Terraform + Pulumi-language IaC with
         validate_iac_isolation passing.
   - [ ] Worker idempotency + cron concurrency tests present.
-  - [ ] Catalog + registry + support matrix updated.
+  - [ ] Catalog + registry + support matrix updated, including tiered
+        verification metadata in the registry.
   - [ ] No `acb` / `.acb/` references.
   - [ ] `tmp/PROMPT_23_checklist.md` is fully checked.
   - [ ] `memory/concepts/k8s-canonical-arc-complete.md` exists noting the

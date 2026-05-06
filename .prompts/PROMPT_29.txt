@@ -71,7 +71,8 @@ PART 3 — REGISTRY + CATALOG + SUPPORT MATRIX
 ================================================================================
 
 Append the 2 new entries to `verification/example_registry.yaml` and
-`examples/catalog.json` using the PROMPT_22 / PROMPT_21 entry shapes.
+`examples/catalog.json` using the PROMPT_22 / PROMPT_21 tiered
+verification entry shapes.
 
 Update `verification/stack_support_matrix.yaml` so Container Apps ×
 {dotnet-aspnet, typescript-hono, python-fastapi, dapr} is SUPPORTED with the
@@ -90,7 +91,8 @@ VERIFICATION (this prompt)
      example's Terraform and Pulumi tree.
   5. `python3 scripts/verify_examples.py --family canonical-container-apps`
      runs without crashing.
-  6. Catalog + registry + support matrix reflect the full Container Apps surface.
+  6. Catalog + registry + support matrix reflect the full Container Apps
+     surface, including tiered verification metadata.
   7. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' examples/canonical-container-apps/`
      returns nothing.
 
@@ -105,7 +107,8 @@ been run.
   - [ ] The 2 deferred required examples from PROMPT_22 are now authored.
   - [ ] Terraform + Pulumi-language IaC for every Container Apps example is
         `validate_iac_isolation` clean.
-  - [ ] Catalog + registry + support matrix reflect the full Container Apps surface.
+  - [ ] Catalog + registry + support matrix reflect the full Container Apps
+        surface, including tiered verification metadata.
   - [ ] The Dapr example remains explicitly documented as a tradeoff pattern.
   - [ ] No `acb` / `.acb/` references.
   - [ ] `tmp/PROMPT_29_checklist.md` is fully checked.

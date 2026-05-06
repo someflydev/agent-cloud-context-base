@@ -172,6 +172,11 @@ supported now: Cloud Run × {python-fastapi, multi-container-sidecar} and
 App Runner × {python-fastapi}. Mark the deferred variants (`go-echo`,
 `typescript-hono`, `cloudrun-job`, supplier-onboarding) as DEFERRED.
 
+Use the tiered verification registry shape from PROMPT_18. Container
+entries record smoke, local_provider (`lane-a-local-container`, plus
+`minisky`/`ministack` sidecars where used), and real_cloud
+(`lane-b-ephemeral-real`) status independently.
+
 ================================================================================
 VERIFICATION (this prompt)
 ================================================================================
@@ -186,7 +191,8 @@ VERIFICATION (this prompt)
   4. `python3 scripts/validate_iac_isolation.py` clean for every example.
   5. `python3 scripts/verify_examples.py --family canonical-cloud-run`
      and `--family canonical-app-runner` run without crashing.
-  6. Catalog + registry + support matrix updated.
+  6. Catalog + registry + support matrix updated, including tiered
+     verification metadata in the registry.
   7. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' examples/canonical-cloud-run/ examples/canonical-app-runner/`
      returns nothing.
 
@@ -203,7 +209,8 @@ been run.
         integration tests.
   - [ ] Each example has Terraform + Pulumi-language IaC with
         validate_iac_isolation passing.
-  - [ ] Catalog + registry + support matrix updated.
+  - [ ] Catalog + registry + support matrix updated, including tiered
+        verification metadata in the registry.
   - [ ] No `acb` / `.acb/` references.
   - [ ] `tmp/PROMPT_21_checklist.md` is fully checked.
   - [ ] `memory/concepts/managed-container-canonical-arc-aws-gcp.md`

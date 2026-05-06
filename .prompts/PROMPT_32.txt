@@ -112,6 +112,14 @@ canonical-* families and asserts:
   - every example's IaC trees pass `validate_iac_isolation.py`
   - every example's structured-log shape declares the required fields
   - every example's catalog entry matches the on-disk reality
+  - every example's registry entry has tiered verification metadata for
+    all applicable tiers (`smoke`, `local_provider`, `real_cloud`, and
+    `full` where a release gate exists), with valid status values:
+    `pending`, `passed`, `failed`, `skipped`, `blocked`, `incomplete`
+  - every tiered verification entry records the command, lane/provider
+    metadata where applicable, `verified_at` for `passed`/`failed`
+    results, and a short `reason` for `skipped`, `blocked`, or
+    `incomplete`
 
 functions/run_parity_check.py — covers canonical-aws-lambda,
 canonical-gcp-functions, canonical-azure-functions
@@ -199,6 +207,8 @@ Three narrative arc-overview docs, each 200–400 lines, structured:
     example families)
   - Validation Gates (table mapping gate ID → covering example)
   - Lane Coverage (table mapping example × Lane A / B / C presence)
+  - Verification Status (table mapping example × smoke / local-provider /
+    real-cloud / full latest status and timestamp from the registry)
   - Known Gaps + Follow-on Arcs (bullet list)
   - How To Generate A New Repo From This Arc (one-paragraph + example
     `new_cloud_repo.py` invocation)
@@ -218,11 +228,30 @@ PART 7 — WIRING + DOGFOODING AUDIT FOLLOW-UP
          - `--tier full`   adds broader release-gate real-cloud coverage
                           (skipped if creds absent; warned)
 
-  7.2  Update `scripts/work.py verify` to dispatch to
+       Add `--update-registry`. When present, the runner persists only the
+       tier(s) it actually executed into `verification/example_registry.yaml`
+       and preserves all other tier statuses. Gated local-provider lanes
+       that do not run because `ACCB_RUN_LOCAL_PROVIDER=1` is absent must be
+       recorded as `skipped`, not `passed`. Real-cloud lanes without
+       credentials or explicit operator approval must be recorded as
+       `skipped` with the missing prerequisite as `reason`.
+
+  7.2  Update `scripts/verify_examples.py --update-registry` so it writes
+       the same tiered `verification` map used by `run_verification.py`.
+       The old top-level `last_verified_at` / `last_verified_status`, if
+       retained, must be derived summary fields only. Required behavior:
+       smoke updates only `verification.smoke`; local-provider updates
+       `verification.smoke` and `verification.local_provider` only when
+       both commands were actually run; real-cloud and full update only
+       their matching tiers. A failed command records `failed` plus the
+       command and timestamp. A missing optional command records `skipped`
+       with `reason: command not declared`.
+
+  7.3  Update `scripts/work.py verify` to dispatch to
        `run_verification --tier fast` (already partially wired in
        PROMPT_17).
 
-  7.3  Resolve `tmp/dogfooding-audit.md` (PROMPT_24 follow-up):
+  7.4  Resolve `tmp/dogfooding-audit.md` (PROMPT_24 follow-up):
          For every legitimate divergence between a per-example IaC tree
          and the canonical-iac-* references, leave the divergence and
          document why in the example's README.
@@ -243,13 +272,20 @@ VERIFICATION (this prompt)
      `verification/iac/run_parity_check.py`, and
      `verification/scenarios/run_scenario_check.py`.
   3. `python3 scripts/run_verification.py --tier medium` exits 0.
-  4. `docs/iac-isolation-contract.md`, `docs/provider-parity-matrix.md`,
+  4. `python3 scripts/run_verification.py --tier local-provider --update-registry`
+     records Lane A results in `verification/example_registry.yaml`
+     without overwriting smoke or real-cloud history incorrectly. If local
+     provider gates are absent, entries are `skipped` with reasons.
+  5. `python3 scripts/verify_examples.py --family canonical-aws-lambda --tier local-provider --update-registry`
+     updates only the AWS Lambda smoke/local_provider tiers and preserves
+     unrelated tier status.
+  6. `docs/iac-isolation-contract.md`, `docs/provider-parity-matrix.md`,
      `docs/functions-arc-overview.md`, `docs/containers-arc-overview.md`,
      `docs/kubernetes-arc-overview.md` exist.
-  5. `python3 scripts/render_parity_matrix.py --check` exits 0 (the
+  7. `python3 scripts/render_parity_matrix.py --check` exits 0 (the
      rendered file matches the yaml).
-  6. `python3 scripts/work.py verify` runs cleanly.
-  7. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' examples/canonical-integration-tests/ verification/{functions,containers,kubernetes,iac,scenarios}/ verification/policies/ docs/iac-isolation-contract.md docs/provider-parity-matrix.md docs/functions-arc-overview.md docs/containers-arc-overview.md docs/kubernetes-arc-overview.md`
+  8. `python3 scripts/work.py verify` runs cleanly.
+  9. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' examples/canonical-integration-tests/ verification/{functions,containers,kubernetes,iac,scenarios}/ verification/policies/ docs/iac-isolation-contract.md docs/provider-parity-matrix.md docs/functions-arc-overview.md docs/containers-arc-overview.md docs/kubernetes-arc-overview.md`
      returns nothing.
 
 ================================================================================
@@ -267,7 +303,12 @@ been run.
         yaml; `render_parity_matrix.py --check` clean.
   - [ ] All 3 arc-overview docs (functions, containers, kubernetes) exist
         with the Part 6 sections.
-  - [ ] `run_verification.py` tiers wire in the new runners.
+  - [ ] `run_verification.py` tiers wire in the new runners and
+        `--update-registry` persists tiered results correctly.
+  - [ ] `verify_examples.py --update-registry` writes the same tiered
+        registry shape without flattening or overwriting unrelated tiers.
+  - [ ] Parity runners assert registry tier metadata is present and valid
+        for every canonical example.
   - [ ] Dogfooding audit resolved with `memory/concepts/dogfooding-audit-resolutions.md`.
   - [ ] No `acb` / `.acb/` references.
   - [ ] `tmp/PROMPT_32_checklist.md` is fully checked.

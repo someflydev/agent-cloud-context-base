@@ -79,7 +79,7 @@ PART 3 — REGISTRY + CATALOG + SUPPORT MATRIX
 ================================================================================
 
 Append the 6 new entries to `verification/example_registry.yaml` and
-`examples/catalog.json` using PROMPT_24's shapes.
+`examples/catalog.json` using PROMPT_24's tiered verification shapes.
 
 Update `verification/stack_support_matrix.yaml` so the Pulumi starter matrix
 is complete for the supported languages/providers represented in
@@ -96,7 +96,8 @@ VERIFICATION (this prompt)
      starter trees.
   4. `python3 scripts/verify_examples.py --family canonical-iac-pulumi`
      runs without crashing.
-  5. Catalog + registry + support matrix reflect the full 10-tree surface.
+  5. Catalog + registry + support matrix reflect the full 10-tree surface,
+     including tiered verification metadata.
   6. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' examples/canonical-iac-pulumi/`
      returns nothing.
 
@@ -110,7 +111,8 @@ been run.
   - [ ] All 10 Pulumi starter trees now exist with the PROMPT_24 Part 2 layout.
   - [ ] The 6 deferred required trees from PROMPT_24 are now authored.
   - [ ] `validate_iac_isolation.py` is clean across the full Pulumi starter set.
-  - [ ] Catalog + registry + support matrix reflect the full Pulumi starter surface.
+  - [ ] Catalog + registry + support matrix reflect the full Pulumi starter
+        surface, including tiered verification metadata.
   - [ ] No `acb` / `.acb/` references.
   - [ ] `tmp/PROMPT_31_checklist.md` is fully checked.
   - [ ] `memory/concepts/cross-cutting-canonical-arc.md` is updated to note

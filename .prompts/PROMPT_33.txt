@@ -143,6 +143,7 @@ Replace `README.md` with the full front door. Required sections:
   python3 scripts/validate_manifests.py
   python3 scripts/validate_iac_isolation.py <iac-dir>
   python3 scripts/run_verification.py --tier fast
+  python3 scripts/run_verification.py --tier medium --update-registry
   python3 scripts/accb_payload.py --archetype cloud-function-repo \
     --primary-stack aws-lambda-python --primary-language python \
     --provider aws --runtime-tier function --iac-tool pulumi-python \
@@ -228,6 +229,9 @@ Which artifact solves which problem. A Q→A doc:
     profile + bundle approval
   - "How do I prevent silent IaC contamination?" → validate_iac_
     isolation + manifest env_isolation declaration
+  - "How do I know which example tiers actually passed?" →
+    `verification/example_registry.yaml` tiered verification metadata +
+    `run_verification.py --tier <tier> --update-registry`
   - "How do I keep examples honest?" → catalog + registry + parity
     runners
   - "How do I turn a cloud workload prompt into a concrete repo?" →
@@ -352,7 +356,7 @@ Run a real generation against a temp directory and verify the result:
   4.  Run the full verification tier on the base repo:
 
       ```bash
-      python3 scripts/run_verification.py --tier medium
+      python3 scripts/run_verification.py --tier medium --update-registry
       ```
 
       Exit 0.
@@ -386,11 +390,15 @@ VERIFICATION (this prompt)
   4. The Part 12 end-to-end smoke ran cleanly: all three generated repos
      exist; `.accb/SESSION_BOOT.md` reads sensibly in each;
      `validate_iac_isolation.py` clean against each.
-  5. `python3 scripts/run_verification.py --tier medium` exits 0.
+  5. `python3 scripts/run_verification.py --tier medium --update-registry`
+     exits 0 and updates only the tiers it actually ran.
   6. `python3 scripts/work.py verify` exits 0.
-  7. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' README.md docs/`
+  7. `verification/example_registry.yaml` has valid tiered verification
+     metadata for every canonical example; no example relies only on
+     top-level `last_verified_*` fields.
+  8. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' README.md docs/`
      returns nothing (all references in docs use `accb` / `.accb/`).
-  8. `memory/INDEX.md` lists every concept artifact.
+  9. `memory/INDEX.md` lists every concept artifact.
 
 ================================================================================
 COMPLETION GATES
@@ -403,7 +411,10 @@ been run.
   - [ ] All docs from Parts 2–11 exist.
   - [ ] `docs/ARCHITECTURE_MAP.md` is the canonical short map.
   - [ ] All three generated repos in Part 12 exist and verify clean.
-  - [ ] `python3 scripts/run_verification.py --tier medium` clean.
+  - [ ] `python3 scripts/run_verification.py --tier medium --update-registry`
+        clean and registry tier metadata updated.
+  - [ ] Every canonical example has valid per-tier verification metadata
+        in `verification/example_registry.yaml`.
   - [ ] All `memory/concepts/` artifacts up to date.
   - [ ] `memory/concepts/cloud-arc-bootstrap-complete.md` written.
   - [ ] `memory/INDEX.md` final.

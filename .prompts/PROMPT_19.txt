@@ -146,7 +146,11 @@ PART 4 — REGISTRY + CATALOG + SUPPORT MATRIX
 ================================================================================
 
 Append entries to `verification/example_registry.yaml` per PROMPT_18 Part
-6.1 with `family: canonical-gcp-functions` and `provider: gcp`.
+6.1 with `family: canonical-gcp-functions` and `provider: gcp`. Use the
+tiered verification registry shape from PROMPT_18: each entry records
+smoke, local_provider (`lane-a-minisky`, provider `minisky`, gate
+`ACCB_RUN_LOCAL_PROVIDER=1`), and real_cloud (`lane-b-ephemeral-real`)
+status independently.
 
 Update `examples/catalog.json` with one entry per example (PROMPT_18 Part
 6.2 shape).
@@ -166,7 +170,8 @@ VERIFICATION (this prompt)
   3. `python3 scripts/validate_iac_isolation.py` clean for every example.
   4. `python3 scripts/verify_examples.py --family canonical-gcp-functions`
      runs without crashing.
-  5. Catalog + registry + support matrix updated.
+  5. Catalog + registry + support matrix updated, including tiered
+     verification metadata in the registry.
   6. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' examples/canonical-gcp-functions/`
      returns nothing.
 
@@ -182,7 +187,8 @@ been run.
   - [ ] Terraform + Pulumi-language IaC for each, validate_iac_isolation
         clean.
   - [ ] Structured-log shape declared per example.
-  - [ ] Catalog + registry + support matrix updated.
+  - [ ] Catalog + registry + support matrix updated, including tiered
+        verification metadata in the registry.
   - [ ] No `acb` / `.acb/` references.
   - [ ] `tmp/PROMPT_19_checklist.md` is fully checked.
   - [ ] `memory/concepts/gcp-functions-canonical-arc.md` exists with one

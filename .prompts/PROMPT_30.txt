@@ -76,7 +76,7 @@ PART 3 — REGISTRY + CATALOG + SUPPORT MATRIX
 ================================================================================
 
 Append the 3 new entries to `verification/example_registry.yaml` and
-`examples/catalog.json` using the PROMPT_23 shapes.
+`examples/catalog.json` using the PROMPT_23 tiered verification shapes.
 
 Update `verification/stack_support_matrix.yaml` so the full promised k8s
 surface is now real:
@@ -99,7 +99,8 @@ VERIFICATION (this prompt)
   5. `python3 scripts/verify_examples.py --family canonical-eks`,
      `--family canonical-gke`, and `--family canonical-aks` run without
      crashing.
-  6. Catalog + registry + support matrix reflect the full k8s surface.
+  6. Catalog + registry + support matrix reflect the full k8s surface,
+     including tiered verification metadata.
   7. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' examples/canonical-eks/ examples/canonical-gke/ examples/canonical-aks/`
      returns nothing.
 
@@ -117,7 +118,8 @@ been run.
         full k8s surface.
   - [ ] Terraform + Pulumi-language IaC for every platform is
         `validate_iac_isolation` clean.
-  - [ ] Catalog + registry + support matrix reflect the full k8s surface.
+  - [ ] Catalog + registry + support matrix reflect the full k8s surface,
+        including tiered verification metadata.
   - [ ] No `acb` / `.acb/` references.
   - [ ] `tmp/PROMPT_30_checklist.md` is fully checked.
   - [ ] `memory/concepts/k8s-canonical-arc-complete.md` is updated to note

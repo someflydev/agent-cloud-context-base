@@ -80,7 +80,8 @@ PART 3 — REGISTRY + CATALOG + SUPPORT MATRIX
 ================================================================================
 
 Append the 3 new entries to `verification/example_registry.yaml` and
-`examples/catalog.json` using the PROMPT_20 / PROMPT_18 entry shapes.
+`examples/catalog.json` using the PROMPT_20 / PROMPT_18 tiered
+verification entry shapes.
 
 Update `verification/stack_support_matrix.yaml` so Azure Functions now has
 the full first-class surface originally promised in PROMPT_20:
@@ -100,7 +101,8 @@ VERIFICATION (this prompt)
      example's Terraform and Pulumi tree.
   4. `python3 scripts/verify_examples.py --family canonical-azure-functions`
      runs without crashing.
-  5. Catalog + registry + support matrix reflect the full 6-example surface.
+  5. Catalog + registry + support matrix reflect the full 6-example surface,
+     including tiered verification metadata.
   6. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' examples/canonical-azure-functions/`
      returns nothing.
 
@@ -116,7 +118,8 @@ been run.
   - [ ] Every Azure example has replay coverage and declared structured logs.
   - [ ] Terraform + Pulumi-language IaC for every Azure example is
         `validate_iac_isolation` clean.
-  - [ ] Catalog + registry + support matrix reflect the full Azure surface.
+  - [ ] Catalog + registry + support matrix reflect the full Azure surface,
+        including tiered verification metadata.
   - [ ] No `acb` / `.acb/` references.
   - [ ] `tmp/PROMPT_27_checklist.md` is fully checked.
   - [ ] `memory/concepts/azure-functions-canonical-arc.md` is updated to note

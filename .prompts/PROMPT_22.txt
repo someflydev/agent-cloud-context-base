@@ -135,6 +135,11 @@ Append entries with `family: canonical-container-apps`,
 dotnet-aspnet, dapr} supported in the seed pass. Keep
 `typescript-hono` marked DEFERRED in `verification/stack_support_matrix.yaml`.
 
+Use the tiered verification registry shape from PROMPT_18. Container Apps
+entries record smoke, local_provider (`lane-a-local-container` with
+`miniblue` sidecars where applicable), and real_cloud
+(`lane-b-ephemeral-real`) status independently.
+
 ================================================================================
 VERIFICATION (this prompt)
 ================================================================================
@@ -146,7 +151,8 @@ VERIFICATION (this prompt)
   4. `python3 scripts/validate_iac_isolation.py` clean for every example.
   5. `python3 scripts/verify_examples.py --family canonical-container-apps`
      runs without crashing.
-  6. Catalog + registry + support matrix updated.
+  6. Catalog + registry + support matrix updated, including tiered
+     verification metadata in the registry.
   7. `grep -rIn --exclude-dir=.git -E '\bacb\b|\.acb/' examples/canonical-container-apps/`
      returns nothing.
 
@@ -162,7 +168,8 @@ been run.
   - [ ] Each example has Lane A + Lane B integration tests.
   - [ ] Each example has Terraform + Pulumi-language IaC with
         validate_iac_isolation passing.
-  - [ ] Catalog + registry + support matrix updated.
+  - [ ] Catalog + registry + support matrix updated, including tiered
+        verification metadata in the registry.
   - [ ] Dapr example (2.2) explicitly documents when Dapr is the right
         choice and when it is overkill.
   - [ ] No `acb` / `.acb/` references.
