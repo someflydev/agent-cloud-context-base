@@ -1,0 +1,14 @@
+{
+  "family": "canonical-aws-lambda",
+  "name": "sqs-document-translation",
+  "path": "examples/canonical-aws-lambda/sqs-document-translation/python",
+  "provider": "aws",
+  "runtime_tier": "function",
+  "language": "python",
+  "iac": {
+    "terraform": true,
+    "pulumi": "pulumi-python"
+  },
+  "dev_test_disjoint": true,
+  "verified": false
+}

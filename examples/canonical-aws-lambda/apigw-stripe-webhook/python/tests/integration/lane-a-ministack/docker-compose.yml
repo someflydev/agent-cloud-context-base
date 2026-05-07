@@ -1,0 +1,7 @@
+services:
+  ministack:
+    image: ministackorg/ministack:latest
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=apigateway,lambda,dynamodb,stepfunctions,secretsmanager,iam,logs

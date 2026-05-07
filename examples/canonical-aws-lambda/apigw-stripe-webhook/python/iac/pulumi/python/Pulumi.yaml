@@ -1,0 +1,3 @@
+name: accb-apigw-stripe-webhook-python
+runtime: python
+description: ACCB canonical AWS Lambda S3 stripe webhook example.
