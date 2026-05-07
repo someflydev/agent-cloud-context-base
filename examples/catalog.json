@@ -99,6 +99,39 @@
       "iac": { "terraform": true, "pulumi": "pulumi-typescript" },
       "dev_test_disjoint": true,
       "verified": false
+    },
+    {
+      "family": "canonical-cloud-run",
+      "name": "public-api-private-worker-job",
+      "path": "examples/canonical-cloud-run/public-api-private-worker-job/python-fastapi",
+      "provider": "gcp",
+      "runtime_tier": "managed_container",
+      "language": "python",
+      "iac": { "terraform": true, "pulumi": "pulumi-python" },
+      "dev_test_disjoint": true,
+      "verified": false
+    },
+    {
+      "family": "canonical-cloud-run",
+      "name": "multi-container-sidecar",
+      "path": "examples/canonical-cloud-run/multi-container-sidecar/python-fastapi",
+      "provider": "gcp",
+      "runtime_tier": "managed_container",
+      "language": "python",
+      "iac": { "terraform": true, "pulumi": "pulumi-python" },
+      "dev_test_disjoint": true,
+      "verified": false
+    },
+    {
+      "family": "canonical-app-runner",
+      "name": "public-api-with-vpc-connector",
+      "path": "examples/canonical-app-runner/public-api-with-vpc-connector/python-fastapi",
+      "provider": "aws",
+      "runtime_tier": "managed_container",
+      "language": "python",
+      "iac": { "terraform": true, "pulumi": "pulumi-python" },
+      "dev_test_disjoint": true,
+      "verified": false
     }
   ]
 }

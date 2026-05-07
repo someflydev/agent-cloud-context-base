@@ -1,6 +1,19 @@
 schema_version: 1
 matrix:
   aws:
+    managed_container:
+      app-runner:
+        python-fastapi:
+          status: supported
+          support_level: first-class-example
+          family: canonical-app-runner
+          example: public-api-with-vpc-connector
+        go-echo:
+          status: deferred
+          reason: App Runner Go Echo variant is deferred to PROMPT_28
+        supplier-onboarding:
+          status: deferred
+          reason: App Runner supplier onboarding workflow is deferred to PROMPT_28
     function:
       aws-lambda:
         python:
@@ -28,6 +41,27 @@ matrix:
           status: not-planned
           reason: not planned for the canonical AWS Lambda arc
   gcp:
+    managed_container:
+      cloud-run:
+        python-fastapi:
+          status: supported
+          support_level: first-class-example
+          family: canonical-cloud-run
+          example: public-api-private-worker-job
+        multi-container-sidecar:
+          status: supported
+          support_level: first-class-example
+          family: canonical-cloud-run
+          example: multi-container-sidecar
+        go-echo:
+          status: deferred
+          reason: Cloud Run Go Echo variant is deferred to PROMPT_28
+        typescript-hono:
+          status: deferred
+          reason: Cloud Run TypeScript Hono variant is deferred to PROMPT_28
+        cloudrun-job:
+          status: deferred
+          reason: standalone Cloud Run job example is deferred to PROMPT_28
     function:
       gcp-cloud-functions:
         python:

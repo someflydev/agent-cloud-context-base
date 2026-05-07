@@ -26,6 +26,7 @@ Tracked artifacts only. Do not add entries for `memory/sessions/` or
 - [aws-lambda-canonical-arc.md](concepts/aws-lambda-canonical-arc.md) — PROMPT_18 AWS Lambda seed examples
 - [gcp-functions-canonical-arc.md](concepts/gcp-functions-canonical-arc.md) — PROMPT_19 GCP Cloud Functions seed examples
 - [azure-functions-canonical-arc.md](concepts/azure-functions-canonical-arc.md) — PROMPT_20 Azure Functions seed examples
+- [managed-container-canonical-arc-aws-gcp.md](concepts/managed-container-canonical-arc-aws-gcp.md) — PROMPT_21 Cloud Run and App Runner seed examples
 
 ## Tiers
 
