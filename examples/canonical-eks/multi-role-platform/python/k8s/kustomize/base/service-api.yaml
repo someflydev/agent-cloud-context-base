@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: multi-role-platform-api
+  namespace: accb-eks-platform
+spec:
+  selector: { app: multi-role-platform, role: api }
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080

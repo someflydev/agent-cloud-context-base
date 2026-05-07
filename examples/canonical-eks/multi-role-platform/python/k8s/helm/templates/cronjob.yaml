@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "accb.name" . }}-scheduled-export
+spec:
+  schedule: "*/15 * * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          serviceAccountName: {{ include "accb.name" . }}
+          containers:
+            - name: cronjob
+              image: "{{ .Values.image.repository }}-cronjob:{{ .Values.image.tag }}"

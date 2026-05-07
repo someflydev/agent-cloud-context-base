@@ -1,0 +1,5 @@
+environment: test
+replicaCount: 1
+image:
+  repository: ghcr.io/someflydev/accb-platform
+  tag: test

@@ -1,0 +1,3 @@
+stack: dev
+config:
+  accb:secretPath: "/accb/eks/multi-role-platform/dev/workload"
