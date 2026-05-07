@@ -424,6 +424,148 @@ families:
         cost: real
     last_verified_at: null
     last_verified_status: pending
+  - family: canonical-gcp-functions
+    name: gcs-trigger-ocr-to-firestore
+    provider: gcp
+    runtime_tier: function
+    language: typescript
+    iac_tool_terraform: true
+    iac_tool_pulumi: pulumi-typescript
+    dev_test_disjoint: true
+    verify_command: bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/typescript/tests/verify.sh
+    verify_command_local_provider: bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/typescript/tests/integration/lane-a-minisky/run.sh
+    verify_command_real_cloud: bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/typescript/tests/integration/lane-b-ephemeral-real/up.sh
+      && node examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/typescript/tests/integration/lane-b-ephemeral-real/test_handler.js
+      && bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/typescript/tests/integration/lane-b-ephemeral-real/down.sh
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/typescript/tests/verify.sh
+      local_provider:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/typescript/tests/integration/lane-a-minisky/run.sh
+        lane: lane-a-minisky
+        provider: minisky
+        gate: ACCB_RUN_LOCAL_PROVIDER=1
+      real_cloud:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/typescript/tests/integration/lane-b-ephemeral-real/up.sh
+          && node examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/typescript/tests/integration/lane-b-ephemeral-real/test_handler.js
+          && bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/typescript/tests/integration/lane-b-ephemeral-real/down.sh
+        lane: lane-b-ephemeral-real
+        cost: real
+    last_verified_at: null
+    last_verified_status: pending
+  - family: canonical-gcp-functions
+    name: gcs-trigger-ocr-to-firestore
+    provider: gcp
+    runtime_tier: function
+    language: go
+    iac_tool_terraform: true
+    iac_tool_pulumi: pulumi-go
+    dev_test_disjoint: true
+    verify_command: bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/go/tests/verify.sh
+    verify_command_local_provider: bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/go/tests/integration/lane-a-minisky/run.sh
+    verify_command_real_cloud: bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/go/tests/integration/lane-b-ephemeral-real/up.sh
+      && (cd examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/go && go
+      run tests/integration/lane-b-ephemeral-real/test_handler.go)
+      && bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/go/tests/integration/lane-b-ephemeral-real/down.sh
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/go/tests/verify.sh
+      local_provider:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/go/tests/integration/lane-a-minisky/run.sh
+        lane: lane-a-minisky
+        provider: minisky
+        gate: ACCB_RUN_LOCAL_PROVIDER=1
+      real_cloud:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/go/tests/integration/lane-b-ephemeral-real/up.sh
+          && (cd examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/go
+          && go run tests/integration/lane-b-ephemeral-real/test_handler.go)
+          && bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/go/tests/integration/lane-b-ephemeral-real/down.sh
+        lane: lane-b-ephemeral-real
+        cost: real
+    last_verified_at: null
+    last_verified_status: pending
+  - family: canonical-gcp-functions
+    name: pubsub-translation-stream
+    provider: gcp
+    runtime_tier: function
+    language: python
+    iac_tool_terraform: true
+    iac_tool_pulumi: pulumi-python
+    dev_test_disjoint: true
+    verify_command: bash examples/canonical-gcp-functions/pubsub-translation-stream/python/tests/verify.sh
+    verify_command_local_provider: bash examples/canonical-gcp-functions/pubsub-translation-stream/python/tests/integration/lane-a-minisky/run.sh
+    verify_command_real_cloud: bash examples/canonical-gcp-functions/pubsub-translation-stream/python/tests/integration/lane-b-ephemeral-real/up.sh
+      && python3 examples/canonical-gcp-functions/pubsub-translation-stream/python/tests/integration/lane-b-ephemeral-real/test_handler.py
+      && bash examples/canonical-gcp-functions/pubsub-translation-stream/python/tests/integration/lane-b-ephemeral-real/down.sh
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-gcp-functions/pubsub-translation-stream/python/tests/verify.sh
+      local_provider:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-gcp-functions/pubsub-translation-stream/python/tests/integration/lane-a-minisky/run.sh
+        lane: lane-a-minisky
+        provider: minisky
+        gate: ACCB_RUN_LOCAL_PROVIDER=1
+      real_cloud:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-gcp-functions/pubsub-translation-stream/python/tests/integration/lane-b-ephemeral-real/up.sh
+          && python3 examples/canonical-gcp-functions/pubsub-translation-stream/python/tests/integration/lane-b-ephemeral-real/test_handler.py
+          && bash examples/canonical-gcp-functions/pubsub-translation-stream/python/tests/integration/lane-b-ephemeral-real/down.sh
+        lane: lane-b-ephemeral-real
+        cost: real
+    last_verified_at: null
+    last_verified_status: pending
+  - family: canonical-gcp-functions
+    name: firebase-onboarding
+    provider: gcp
+    runtime_tier: function
+    language: python
+    iac_tool_terraform: true
+    iac_tool_pulumi: pulumi-python
+    dev_test_disjoint: true
+    verify_command: bash examples/canonical-gcp-functions/firebase-onboarding/python/tests/verify.sh
+    verify_command_local_provider: bash examples/canonical-gcp-functions/firebase-onboarding/python/tests/integration/lane-a-minisky/run.sh
+    verify_command_real_cloud: bash examples/canonical-gcp-functions/firebase-onboarding/python/tests/integration/lane-b-ephemeral-real/up.sh
+      && python3 examples/canonical-gcp-functions/firebase-onboarding/python/tests/integration/lane-b-ephemeral-real/test_handler.py
+      && bash examples/canonical-gcp-functions/firebase-onboarding/python/tests/integration/lane-b-ephemeral-real/down.sh
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-gcp-functions/firebase-onboarding/python/tests/verify.sh
+      local_provider:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-gcp-functions/firebase-onboarding/python/tests/integration/lane-a-minisky/run.sh
+        lane: lane-a-minisky
+        provider: minisky
+        gate: ACCB_RUN_LOCAL_PROVIDER=1
+      real_cloud:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-gcp-functions/firebase-onboarding/python/tests/integration/lane-b-ephemeral-real/up.sh
+          && python3 examples/canonical-gcp-functions/firebase-onboarding/python/tests/integration/lane-b-ephemeral-real/test_handler.py
+          && bash examples/canonical-gcp-functions/firebase-onboarding/python/tests/integration/lane-b-ephemeral-real/down.sh
+        lane: lane-b-ephemeral-real
+        cost: real
+    last_verified_at: null
+    last_verified_status: pending
 - name: canonical-azure-functions
   examples:
   - family: canonical-azure-functions

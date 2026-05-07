@@ -457,6 +457,62 @@
       "iac": {},
       "dev_test_disjoint": false,
       "verified": false
+    },
+    {
+      "family": "canonical-gcp-functions",
+      "name": "gcs-trigger-ocr-to-firestore",
+      "path": "examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/typescript",
+      "provider": "gcp",
+      "runtime_tier": "function",
+      "language": "typescript",
+      "iac": {
+        "terraform": true,
+        "pulumi": "pulumi-typescript"
+      },
+      "dev_test_disjoint": true,
+      "verified": false
+    },
+    {
+      "family": "canonical-gcp-functions",
+      "name": "gcs-trigger-ocr-to-firestore",
+      "path": "examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/go",
+      "provider": "gcp",
+      "runtime_tier": "function",
+      "language": "go",
+      "iac": {
+        "terraform": true,
+        "pulumi": "pulumi-go"
+      },
+      "dev_test_disjoint": true,
+      "verified": false
+    },
+    {
+      "family": "canonical-gcp-functions",
+      "name": "pubsub-translation-stream",
+      "path": "examples/canonical-gcp-functions/pubsub-translation-stream/python",
+      "provider": "gcp",
+      "runtime_tier": "function",
+      "language": "python",
+      "iac": {
+        "terraform": true,
+        "pulumi": "pulumi-python"
+      },
+      "dev_test_disjoint": true,
+      "verified": false
+    },
+    {
+      "family": "canonical-gcp-functions",
+      "name": "firebase-onboarding",
+      "path": "examples/canonical-gcp-functions/firebase-onboarding/python",
+      "provider": "gcp",
+      "runtime_tier": "function",
+      "language": "python",
+      "iac": {
+        "terraform": true,
+        "pulumi": "pulumi-python"
+      },
+      "dev_test_disjoint": true,
+      "verified": false
     }
   ]
 }
