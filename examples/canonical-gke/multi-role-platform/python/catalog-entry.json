@@ -1,0 +1,14 @@
+{
+  "family": "canonical-gke",
+  "name": "multi-role-platform",
+  "path": "examples/canonical-gke/multi-role-platform/python",
+  "provider": "gcp",
+  "runtime_tier": "k8s",
+  "language": "python",
+  "iac": {
+    "terraform": true,
+    "pulumi": "pulumi-python"
+  },
+  "dev_test_disjoint": true,
+  "verified": false
+}

@@ -1,0 +1,3 @@
+stack: dev
+config:
+  accb:secretPath: "projects/accb/secrets/gke-multi-role-platform/dev/workload"
