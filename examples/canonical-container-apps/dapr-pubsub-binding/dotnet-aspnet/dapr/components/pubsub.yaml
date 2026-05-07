@@ -1,0 +1,19 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: servicebus-pubsub
+spec:
+  type: pubsub.azure.servicebus.topics
+  version: v1
+  metadata:
+    - name: namespaceName
+      value: accb-dev-aca-dapr-sb
+    - name: azureClientId
+      secretKeyRef:
+        name: managed-identity-client-id
+        key: managed-identity-client-id
+auth:
+  secretStore: keyvault-secrets
+scopes:
+  - publisher
+  - subscriber

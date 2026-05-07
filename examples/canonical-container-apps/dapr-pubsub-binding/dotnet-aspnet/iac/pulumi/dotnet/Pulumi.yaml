@@ -1,0 +1,3 @@
+name: accb-aca-dapr-pubsub-binding
+runtime: dotnet
+description: accb Azure Container Apps Dapr pubsub, state, and secret binding seed

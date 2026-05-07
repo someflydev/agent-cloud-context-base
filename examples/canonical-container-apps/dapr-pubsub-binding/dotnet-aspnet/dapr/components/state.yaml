@@ -1,0 +1,19 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: cosmos-state
+spec:
+  type: state.azure.cosmosdb
+  version: v1
+  metadata:
+    - name: url
+      value: https://accb-dev-aca-dapr-cosmos.documents.azure.com:443/
+    - name: database
+      value: workflow
+    - name: collection
+      value: orders
+auth:
+  secretStore: keyvault-secrets
+scopes:
+  - publisher
+  - subscriber

@@ -1,0 +1,18 @@
+services:
+  dapr-app:
+    build: ../../..
+    environment:
+      ASPNETCORE_URLS: http://0.0.0.0:8080
+      DAPR_PUBSUB_NAME: servicebus-pubsub
+      DAPR_TOPIC: orders
+      DAPR_STATE_STORE: cosmos-state
+      DAPR_SECRET_STORE: keyvault-secrets
+      MINIBLUE_ENDPOINT: http://miniblue:11000
+    ports:
+      - "8080:8080"
+    depends_on:
+      - miniblue
+  miniblue:
+    image: moabukar/miniblue:latest
+    ports:
+      - "11000:11000"

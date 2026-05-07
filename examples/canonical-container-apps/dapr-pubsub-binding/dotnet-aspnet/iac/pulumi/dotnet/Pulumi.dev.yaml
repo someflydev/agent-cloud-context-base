@@ -1,0 +1,6 @@
+stack: dev
+config:
+  accb:environment: dev
+  accb:location: eastus
+  accb:image: accbdevacr.azurecr.io/aca-dapr:latest
+  accb:secret_path: /accb/dev/aca/dapr/component-secret
