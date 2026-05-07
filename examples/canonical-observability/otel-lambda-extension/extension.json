@@ -1,0 +1,9 @@
+{
+  "name": "accb-adot-lambda-extension",
+  "description": "AWS-managed ADOT Lambda extension wiring for accb examples",
+  "env": {
+    "AWS_LAMBDA_EXEC_WRAPPER": "/opt/otel-instrument",
+    "OTEL_SERVICE_NAMESPACE": "accb",
+    "OTEL_TRACES_EXPORTER": "otlp"
+  }
+}

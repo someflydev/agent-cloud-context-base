@@ -1,0 +1,26 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+processors:
+  batch:
+  resource:
+    attributes:
+      - key: service.namespace
+        value: accb
+        action: upsert
+exporters:
+  googlecloud:
+    log:
+      default_log_name: accb-cloudrun
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [resource, batch]
+      exporters: [googlecloud]
+    logs:
+      receivers: [otlp]
+      processors: [resource, batch]
+      exporters: [googlecloud]

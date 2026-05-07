@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: accb-otel-collector
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: accb-otel-collector
+  template:
+    metadata:
+      labels:
+        app: accb-otel-collector
+    spec:
+      containers:
+        - name: collector
+          image: otel/opentelemetry-collector-contrib:0.99.0
+          args: ["--config=/conf/config.yaml"]
+          volumeMounts:
+            - name: config
+              mountPath: /conf
+      volumes:
+        - name: config
+          configMap:
+            name: accb-otel-collector

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: accb-otel-collector
+spec:
+  selector:
+    matchLabels:
+      app: accb-otel-collector
+  template:
+    metadata:
+      labels:
+        app: accb-otel-collector
+    spec:
+      serviceAccountName: accb-otel-collector
+      containers:
+        - name: collector
+          image: public.ecr.aws/aws-observability/aws-otel-collector:latest
+          args: ["--config=/conf/config.yaml"]
+          volumeMounts:
+            - name: config
+              mountPath: /conf
+      volumes:
+        - name: config
+          configMap:
+            name: accb-otel-collector
