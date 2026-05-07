@@ -1,0 +1,6 @@
+stack: dev
+config:
+  accb:environment: dev
+  accb:location: eastus
+  accb:image: accbdevacr.azurecr.io/aca-public-worker:latest
+  accb:secret_path: /accb/dev/aca/public-worker/api-key

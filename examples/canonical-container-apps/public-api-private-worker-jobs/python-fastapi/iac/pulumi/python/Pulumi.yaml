@@ -1,0 +1,4 @@
+name: accb-aca-public-worker-jobs
+runtime:
+  name: python
+description: accb Azure Container Apps public API, private worker, and jobs seed
