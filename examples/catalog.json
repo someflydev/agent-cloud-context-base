@@ -8,7 +8,10 @@
       "provider": "aws",
       "runtime_tier": "function",
       "language": "python",
-      "iac": { "terraform": true, "pulumi": "pulumi-python" },
+      "iac": {
+        "terraform": true,
+        "pulumi": "pulumi-python"
+      },
       "dev_test_disjoint": true,
       "verified": false
     },
@@ -19,7 +22,10 @@
       "provider": "aws",
       "runtime_tier": "function",
       "language": "typescript",
-      "iac": { "terraform": true, "pulumi": "pulumi-typescript" },
+      "iac": {
+        "terraform": true,
+        "pulumi": "pulumi-typescript"
+      },
       "dev_test_disjoint": true,
       "verified": false
     },
@@ -30,7 +36,10 @@
       "provider": "aws",
       "runtime_tier": "function",
       "language": "go",
-      "iac": { "terraform": true, "pulumi": "pulumi-go" },
+      "iac": {
+        "terraform": true,
+        "pulumi": "pulumi-go"
+      },
       "dev_test_disjoint": true,
       "verified": false
     },
@@ -41,7 +50,10 @@
       "provider": "gcp",
       "runtime_tier": "function",
       "language": "python",
-      "iac": { "terraform": true, "pulumi": "pulumi-python" },
+      "iac": {
+        "terraform": true,
+        "pulumi": "pulumi-python"
+      },
       "dev_test_disjoint": true,
       "verified": false
     },
@@ -52,7 +64,10 @@
       "provider": "gcp",
       "runtime_tier": "function",
       "language": "typescript",
-      "iac": { "terraform": true, "pulumi": "pulumi-typescript" },
+      "iac": {
+        "terraform": true,
+        "pulumi": "pulumi-typescript"
+      },
       "dev_test_disjoint": true,
       "verified": false
     },
@@ -63,7 +78,10 @@
       "provider": "gcp",
       "runtime_tier": "function",
       "language": "go",
-      "iac": { "terraform": true, "pulumi": "pulumi-go" },
+      "iac": {
+        "terraform": true,
+        "pulumi": "pulumi-go"
+      },
       "dev_test_disjoint": true,
       "verified": false
     },
@@ -74,7 +92,10 @@
       "provider": "azure",
       "runtime_tier": "function",
       "language": "python",
-      "iac": { "terraform": true, "pulumi": "pulumi-python" },
+      "iac": {
+        "terraform": true,
+        "pulumi": "pulumi-python"
+      },
       "dev_test_disjoint": true,
       "verified": false
     },
@@ -85,7 +106,10 @@
       "provider": "azure",
       "runtime_tier": "function",
       "language": "dotnet-isolated",
-      "iac": { "terraform": true, "pulumi": "pulumi-dotnet" },
+      "iac": {
+        "terraform": true,
+        "pulumi": "pulumi-dotnet"
+      },
       "dev_test_disjoint": true,
       "verified": false
     },
@@ -96,7 +120,10 @@
       "provider": "azure",
       "runtime_tier": "function",
       "language": "typescript",
-      "iac": { "terraform": true, "pulumi": "pulumi-typescript" },
+      "iac": {
+        "terraform": true,
+        "pulumi": "pulumi-typescript"
+      },
       "dev_test_disjoint": true,
       "verified": false
     },
@@ -107,7 +134,10 @@
       "provider": "gcp",
       "runtime_tier": "managed_container",
       "language": "python",
-      "iac": { "terraform": true, "pulumi": "pulumi-python" },
+      "iac": {
+        "terraform": true,
+        "pulumi": "pulumi-python"
+      },
       "dev_test_disjoint": true,
       "verified": false
     },
@@ -118,7 +148,10 @@
       "provider": "gcp",
       "runtime_tier": "managed_container",
       "language": "python",
-      "iac": { "terraform": true, "pulumi": "pulumi-python" },
+      "iac": {
+        "terraform": true,
+        "pulumi": "pulumi-python"
+      },
       "dev_test_disjoint": true,
       "verified": false
     },
@@ -129,7 +162,10 @@
       "provider": "aws",
       "runtime_tier": "managed_container",
       "language": "python",
-      "iac": { "terraform": true, "pulumi": "pulumi-python" },
+      "iac": {
+        "terraform": true,
+        "pulumi": "pulumi-python"
+      },
       "dev_test_disjoint": true,
       "verified": false
     },
@@ -140,7 +176,10 @@
       "provider": "azure",
       "runtime_tier": "managed_container",
       "language": "python",
-      "iac": { "terraform": true, "pulumi": "pulumi-python" },
+      "iac": {
+        "terraform": true,
+        "pulumi": "pulumi-python"
+      },
       "dev_test_disjoint": true,
       "verified": false
     },
@@ -151,7 +190,52 @@
       "provider": "azure",
       "runtime_tier": "managed_container",
       "language": "dotnet-aspnet",
-      "iac": { "terraform": true, "pulumi": "pulumi-dotnet" },
+      "iac": {
+        "terraform": true,
+        "pulumi": "pulumi-dotnet"
+      },
+      "dev_test_disjoint": true,
+      "verified": false
+    },
+    {
+      "family": "canonical-eks",
+      "name": "multi-role-platform",
+      "path": "examples/canonical-eks/multi-role-platform/python",
+      "provider": "aws",
+      "runtime_tier": "k8s",
+      "language": "python",
+      "iac": {
+        "terraform": true,
+        "pulumi": "pulumi-python"
+      },
+      "dev_test_disjoint": true,
+      "verified": false
+    },
+    {
+      "family": "canonical-gke",
+      "name": "multi-role-platform",
+      "path": "examples/canonical-gke/multi-role-platform/python",
+      "provider": "gcp",
+      "runtime_tier": "k8s",
+      "language": "python",
+      "iac": {
+        "terraform": true,
+        "pulumi": "pulumi-python"
+      },
+      "dev_test_disjoint": true,
+      "verified": false
+    },
+    {
+      "family": "canonical-aks",
+      "name": "multi-role-platform",
+      "path": "examples/canonical-aks/multi-role-platform/dotnet",
+      "provider": "azure",
+      "runtime_tier": "k8s",
+      "language": "dotnet",
+      "iac": {
+        "terraform": true,
+        "pulumi": "pulumi-dotnet"
+      },
       "dev_test_disjoint": true,
       "verified": false
     }

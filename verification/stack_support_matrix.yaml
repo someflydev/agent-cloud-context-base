@@ -40,6 +40,16 @@ matrix:
         ruby:
           status: not-planned
           reason: not planned for the canonical AWS Lambda arc
+    k8s:
+      eks:
+        python:
+          status: supported
+          support_level: first-class-example
+          family: canonical-eks
+          example: multi-role-platform
+        go:
+          status: deferred
+          reason: EKS Go variant is deferred to PROMPT_30
   gcp:
     managed_container:
       cloud-run:
@@ -81,7 +91,8 @@ matrix:
           example: eventarc-monitoring-router
         java:
           status: deferred
-          reason: rare JVM-oriented Cloud Functions cases are outside this arc's seed pass
+          reason: rare JVM-oriented Cloud Functions cases are outside this arc's seed
+            pass
         dotnet:
           status: not-planned
           reason: not planned for the canonical GCP Cloud Functions arc
@@ -91,6 +102,17 @@ matrix:
         php:
           status: not-planned
           reason: not planned for the canonical GCP Cloud Functions arc
+    k8s:
+      gke:
+        python:
+          status: supported
+          support_level: first-class-example
+          family: canonical-gke
+          example: multi-role-platform
+        go:
+          status: deferred
+          reason: GKE Go variant and keda-autoscaled-workers sub-example are deferred
+            to PROMPT_30
   azure:
     managed_container:
       container-apps:
@@ -111,7 +133,8 @@ matrix:
           example: dapr-pubsub-binding
         typescript-hono:
           status: deferred
-          reason: Container Apps TypeScript Hono public API/private worker variant is deferred to PROMPT_29
+          reason: Container Apps TypeScript Hono public API/private worker variant
+            is deferred to PROMPT_29
     function:
       azure-functions:
         python:
@@ -132,3 +155,13 @@ matrix:
         powershell:
           status: deferred
           reason: PowerShell remains reserved for ops-only Azure Functions cases
+    k8s:
+      aks:
+        dotnet:
+          status: supported
+          support_level: first-class-example
+          family: canonical-aks
+          example: multi-role-platform
+        typescript:
+          status: deferred
+          reason: AKS TypeScript variant is deferred to PROMPT_30

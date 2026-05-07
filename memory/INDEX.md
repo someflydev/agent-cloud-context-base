@@ -29,6 +29,8 @@ Tracked artifacts only. Do not add entries for `memory/sessions/` or
 - [managed-container-canonical-arc-aws-gcp.md](concepts/managed-container-canonical-arc-aws-gcp.md) — PROMPT_21 Cloud Run and App Runner seed examples
 - [container-apps-canonical-arc.md](concepts/container-apps-canonical-arc.md) — PROMPT_22 Azure Container Apps seed examples
 
+- [k8s-canonical-arc.md](concepts/k8s-canonical-arc.md) — PROMPT_23 Kubernetes seed examples
+
 ## Tiers
 
 - concepts/   durable, tracked, architectural truths
