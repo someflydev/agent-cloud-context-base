@@ -1,0 +1,14 @@
+{
+  "family": "canonical-gcp-functions",
+  "name": "gcs-trigger-ocr-to-firestore",
+  "path": "examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/go",
+  "provider": "gcp",
+  "runtime_tier": "function",
+  "language": "go",
+  "iac": {
+    "terraform": true,
+    "pulumi": "pulumi-go"
+  },
+  "dev_test_disjoint": true,
+  "verified": false
+}

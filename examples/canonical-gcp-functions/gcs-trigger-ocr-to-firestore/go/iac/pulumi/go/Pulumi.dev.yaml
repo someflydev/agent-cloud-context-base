@@ -1,0 +1,6 @@
+stack: dev
+config:
+  accb:environment: dev
+  accb:gcpProject: accb-dev-gcp-project
+  accb:statePath: accb/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/dev/pulumi
+  accb:secretPath: projects/accb-dev-gcp-project/secrets/accb-dev-gcp-gcs-trigger-ocr-to-firestore-vision

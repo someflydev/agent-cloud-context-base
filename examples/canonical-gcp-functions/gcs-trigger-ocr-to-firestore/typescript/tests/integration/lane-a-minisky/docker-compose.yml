@@ -1,0 +1,9 @@
+services:
+  minisky:
+    image: qamarudeenm/minisky:latest
+    ports:
+      - "8085:8085"
+      - "8086:8086"
+    environment:
+      FIRESTORE_EMULATOR_HOST: "0.0.0.0:8085"
+      PUBSUB_EMULATOR_HOST: "0.0.0.0:8086"

@@ -1,0 +1,3 @@
+name: accb-gcp-firebase-onboarding
+runtime: python
+description: ACCB canonical GCP Cloud Functions Firebase onboarding example.

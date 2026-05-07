@@ -1,0 +1,14 @@
+{
+  "family": "canonical-gcp-functions",
+  "name": "gcs-trigger-ocr-to-firestore",
+  "path": "examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/typescript",
+  "provider": "gcp",
+  "runtime_tier": "function",
+  "language": "typescript",
+  "iac": {
+    "terraform": true,
+    "pulumi": "pulumi-typescript"
+  },
+  "dev_test_disjoint": true,
+  "verified": false
+}

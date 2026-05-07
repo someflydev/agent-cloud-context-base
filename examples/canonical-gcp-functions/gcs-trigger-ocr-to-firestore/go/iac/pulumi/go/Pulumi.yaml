@@ -1,0 +1,3 @@
+name: accb-gcp-gcs-trigger-ocr-to-firestore-go
+runtime: go
+description: ACCB canonical GCP Cloud Functions GCS OCR Go example.

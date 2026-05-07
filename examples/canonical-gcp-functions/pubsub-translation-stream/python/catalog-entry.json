@@ -1,0 +1,14 @@
+{
+  "family": "canonical-gcp-functions",
+  "name": "pubsub-translation-stream",
+  "path": "examples/canonical-gcp-functions/pubsub-translation-stream/python",
+  "provider": "gcp",
+  "runtime_tier": "function",
+  "language": "python",
+  "iac": {
+    "terraform": true,
+    "pulumi": "pulumi-python"
+  },
+  "dev_test_disjoint": true,
+  "verified": false
+}

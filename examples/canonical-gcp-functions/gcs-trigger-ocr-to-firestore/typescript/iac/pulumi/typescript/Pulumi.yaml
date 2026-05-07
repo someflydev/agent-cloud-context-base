@@ -1,0 +1,3 @@
+name: accb-gcp-gcs-trigger-ocr-to-firestore
+runtime: nodejs
+description: ACCB canonical GCP Cloud Functions GCS OCR TypeScript example.
