@@ -62,6 +62,14 @@ Reuse PROMPT_20's contract verbatim:
   - same replay and observability rules inherited from PROMPT_18
   - same registry/catalog entry shape
 
+Implementation guardrail: when copying seed example structure, do not leave
+Lane A or Lane B `test_handler.*` files as placeholders. Each new example's
+Lane A handler test must invoke the real example handler through miniblue or a
+provider-shaped fake for services miniblue does not cover, and each Lane B
+handler test must be a real deployed-function proof or a clearly executable
+module-aware harness gated by real-cloud approval. Registry commands must run
+from the correct module/package directory for languages that require it.
+
 ================================================================================
 PART 2 — REQUIRED AZURE EXPANSION EXAMPLES (3 examples)
 ================================================================================
