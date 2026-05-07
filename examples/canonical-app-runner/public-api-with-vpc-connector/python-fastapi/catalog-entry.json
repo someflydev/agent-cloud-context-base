@@ -1,0 +1,11 @@
+{
+  "family": "canonical-app-runner",
+  "name": "public-api-with-vpc-connector",
+  "path": "examples/canonical-app-runner/public-api-with-vpc-connector/python-fastapi",
+  "provider": "aws",
+  "runtime_tier": "managed_container",
+  "language": "python",
+  "iac": { "terraform": true, "pulumi": "pulumi-python" },
+  "dev_test_disjoint": true,
+  "verified": false
+}

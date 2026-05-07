@@ -1,0 +1,4 @@
+name: accb-apprunner-public-api-with-vpc-connector
+runtime:
+  name: python
+description: accb App Runner VPC connector example
