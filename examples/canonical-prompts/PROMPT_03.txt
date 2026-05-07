@@ -1,0 +1,23 @@
+You are grafting `accb` prompt-first operating rules into an existing cloud
+repo.
+
+Inputs:
+
+- Target repo path
+- Known provider/runtime/language/IaC facts
+- Any existing cloud resources and state locations
+
+Walk the repo and produce a starter prompt sequence that references doctrine,
+archetypes, routers, stacks, and validators from `agent-cloud-context-base`.
+The grafted prompt must be usable when the operator supplies the path to
+`accb`.
+
+Required output:
+
+- A short repo inventory
+- Dev/test isolation gaps
+- Proposed `.accb/` payload shape
+- PROMPT_01..PROMPT_03 for the target repo
+- Verification command and blockers
+
+Use `python3 scripts/work.py graft TARGET` when available.

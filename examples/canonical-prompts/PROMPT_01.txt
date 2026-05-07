@@ -1,0 +1,20 @@
+You are booting a new cloud-native repo from `agent-cloud-context-base`
+(`accb`).
+
+Declare the generation surface before writing files:
+
+- Provider: aws | gcp | azure
+- Runtime tier: function | container | k8s
+- Language: python | typescript | go | dotnet
+- IaC tool: terraform | pulumi
+- Dev/test isolation: separate state, env-var prefix, secret path, resource names
+
+Run:
+
+```sh
+python3 scripts/new_cloud_repo.py --help
+python3 scripts/new_cloud_repo.py <target-path> --provider <provider> --runtime-tier <tier> --language <language> --iac-tool <tool>
+```
+
+Then inspect the generated `.accb/` payload, run the generated verification
+command, and commit the initial scaffold.
