@@ -30,6 +30,7 @@ Tracked artifacts only. Do not add entries for `memory/sessions/` or
 - [container-apps-canonical-arc.md](concepts/container-apps-canonical-arc.md) — PROMPT_22 Azure Container Apps seed examples
 
 - [k8s-canonical-arc.md](concepts/k8s-canonical-arc.md) — PROMPT_23 Kubernetes seed examples
+- [cross-cutting-canonical-arc.md](concepts/cross-cutting-canonical-arc.md) — PROMPT_24 cross-cutting canonical IaC, observability, secrets, eventing, and prompt examples
 
 ## Tiers
 

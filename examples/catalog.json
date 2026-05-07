@@ -238,6 +238,141 @@
       },
       "dev_test_disjoint": true,
       "verified": false
+    },
+    {
+      "family": "canonical-iac-terraform",
+      "name": "aws",
+      "path": "examples/canonical-iac-terraform/aws",
+      "provider": "aws",
+      "runtime_tier": "iac",
+      "language": "terraform",
+      "iac": {
+        "terraform": true
+      },
+      "dev_test_disjoint": true,
+      "verified": false
+    },
+    {
+      "family": "canonical-iac-terraform",
+      "name": "gcp",
+      "path": "examples/canonical-iac-terraform/gcp",
+      "provider": "gcp",
+      "runtime_tier": "iac",
+      "language": "terraform",
+      "iac": {
+        "terraform": true
+      },
+      "dev_test_disjoint": true,
+      "verified": false
+    },
+    {
+      "family": "canonical-iac-terraform",
+      "name": "azure",
+      "path": "examples/canonical-iac-terraform/azure",
+      "provider": "azure",
+      "runtime_tier": "iac",
+      "language": "terraform",
+      "iac": {
+        "terraform": true
+      },
+      "dev_test_disjoint": true,
+      "verified": false
+    },
+    {
+      "family": "canonical-iac-pulumi",
+      "name": "typescript-aws",
+      "path": "examples/canonical-iac-pulumi/typescript/aws",
+      "provider": "aws",
+      "runtime_tier": "iac",
+      "language": "typescript",
+      "iac": {
+        "pulumi": "pulumi-typescript"
+      },
+      "dev_test_disjoint": true,
+      "verified": false
+    },
+    {
+      "family": "canonical-iac-pulumi",
+      "name": "python-gcp",
+      "path": "examples/canonical-iac-pulumi/python/gcp",
+      "provider": "gcp",
+      "runtime_tier": "iac",
+      "language": "python",
+      "iac": {
+        "pulumi": "pulumi-python"
+      },
+      "dev_test_disjoint": true,
+      "verified": false
+    },
+    {
+      "family": "canonical-iac-pulumi",
+      "name": "go-aws",
+      "path": "examples/canonical-iac-pulumi/go/aws",
+      "provider": "aws",
+      "runtime_tier": "iac",
+      "language": "go",
+      "iac": {
+        "pulumi": "pulumi-go"
+      },
+      "dev_test_disjoint": true,
+      "verified": false
+    },
+    {
+      "family": "canonical-iac-pulumi",
+      "name": "dotnet-azure",
+      "path": "examples/canonical-iac-pulumi/dotnet/azure",
+      "provider": "azure",
+      "runtime_tier": "iac",
+      "language": "dotnet",
+      "iac": {
+        "pulumi": "pulumi-dotnet"
+      },
+      "dev_test_disjoint": true,
+      "verified": false
+    },
+    {
+      "family": "canonical-observability",
+      "name": "reference-fixtures",
+      "path": "examples/canonical-observability",
+      "provider": "multi",
+      "runtime_tier": "reference",
+      "language": "multi",
+      "iac": {},
+      "dev_test_disjoint": false,
+      "verified": false
+    },
+    {
+      "family": "canonical-secrets",
+      "name": "identity-bindings",
+      "path": "examples/canonical-secrets",
+      "provider": "multi",
+      "runtime_tier": "reference",
+      "language": "multi",
+      "iac": {},
+      "dev_test_disjoint": false,
+      "verified": false
+    },
+    {
+      "family": "canonical-eventing",
+      "name": "dlq-replay-ordering",
+      "path": "examples/canonical-eventing",
+      "provider": "multi",
+      "runtime_tier": "reference",
+      "language": "multi",
+      "iac": {},
+      "dev_test_disjoint": false,
+      "verified": false
+    },
+    {
+      "family": "canonical-prompts",
+      "name": "starter-prompts",
+      "path": "examples/canonical-prompts",
+      "provider": "multi",
+      "runtime_tier": "prompt_first",
+      "language": "text",
+      "iac": {},
+      "dev_test_disjoint": false,
+      "verified": false
     }
   ]
 }

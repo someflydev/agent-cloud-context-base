@@ -524,3 +524,253 @@ families:
         cost: $5-$50
     last_verified_at: null
     last_verified_status: pending
+- name: canonical-iac-terraform
+  examples:
+  - family: canonical-iac-terraform
+    name: aws
+    provider: aws
+    runtime_tier: iac
+    language: terraform
+    iac_tool_terraform: true
+    iac_tool_pulumi: false
+    dev_test_disjoint: true
+    verify_command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-terraform/aws
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-terraform/aws
+      local_provider:
+        status: skipped
+        reason: reference IaC starter has no local provider lane
+      real_cloud:
+        status: skipped
+        reason: reference IaC starter does not provision real cloud during smoke
+    last_verified_at: null
+    last_verified_status: pending
+  - family: canonical-iac-terraform
+    name: gcp
+    provider: gcp
+    runtime_tier: iac
+    language: terraform
+    iac_tool_terraform: true
+    iac_tool_pulumi: false
+    dev_test_disjoint: true
+    verify_command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-terraform/gcp
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-terraform/gcp
+      local_provider:
+        status: skipped
+        reason: reference IaC starter has no local provider lane
+      real_cloud:
+        status: skipped
+        reason: reference IaC starter does not provision real cloud during smoke
+    last_verified_at: null
+    last_verified_status: pending
+  - family: canonical-iac-terraform
+    name: azure
+    provider: azure
+    runtime_tier: iac
+    language: terraform
+    iac_tool_terraform: true
+    iac_tool_pulumi: false
+    dev_test_disjoint: true
+    verify_command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-terraform/azure
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-terraform/azure
+      local_provider:
+        status: skipped
+        reason: reference IaC starter has no local provider lane
+      real_cloud:
+        status: skipped
+        reason: reference IaC starter does not provision real cloud during smoke
+    last_verified_at: null
+    last_verified_status: pending
+- name: canonical-iac-pulumi
+  examples:
+  - family: canonical-iac-pulumi
+    name: typescript-aws
+    provider: aws
+    runtime_tier: iac
+    language: typescript
+    iac_tool_terraform: false
+    iac_tool_pulumi: pulumi-typescript
+    dev_test_disjoint: true
+    verify_command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/typescript/aws
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/typescript/aws
+      local_provider:
+        status: skipped
+        reason: reference IaC starter has no local provider lane
+      real_cloud:
+        status: skipped
+        reason: reference IaC starter does not provision real cloud during smoke
+    last_verified_at: null
+    last_verified_status: pending
+  - family: canonical-iac-pulumi
+    name: python-gcp
+    provider: gcp
+    runtime_tier: iac
+    language: python
+    iac_tool_terraform: false
+    iac_tool_pulumi: pulumi-python
+    dev_test_disjoint: true
+    verify_command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/python/gcp
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/python/gcp
+      local_provider:
+        status: skipped
+        reason: reference IaC starter has no local provider lane
+      real_cloud:
+        status: skipped
+        reason: reference IaC starter does not provision real cloud during smoke
+    last_verified_at: null
+    last_verified_status: pending
+  - family: canonical-iac-pulumi
+    name: go-aws
+    provider: aws
+    runtime_tier: iac
+    language: go
+    iac_tool_terraform: false
+    iac_tool_pulumi: pulumi-go
+    dev_test_disjoint: true
+    verify_command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/go/aws
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/go/aws
+      local_provider:
+        status: skipped
+        reason: reference IaC starter has no local provider lane
+      real_cloud:
+        status: skipped
+        reason: reference IaC starter does not provision real cloud during smoke
+    last_verified_at: null
+    last_verified_status: pending
+  - family: canonical-iac-pulumi
+    name: dotnet-azure
+    provider: azure
+    runtime_tier: iac
+    language: dotnet
+    iac_tool_terraform: false
+    iac_tool_pulumi: pulumi-dotnet
+    dev_test_disjoint: true
+    verify_command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/dotnet/azure
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/dotnet/azure
+      local_provider:
+        status: skipped
+        reason: reference IaC starter has no local provider lane
+      real_cloud:
+        status: skipped
+        reason: reference IaC starter does not provision real cloud during smoke
+    last_verified_at: null
+    last_verified_status: pending
+- name: canonical-observability
+  examples:
+  - family: canonical-observability
+    name: reference-fixtures
+    provider: multi
+    runtime_tier: reference
+    language: multi
+    dev_test_disjoint: false
+    files:
+    - examples/canonical-observability
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: null
+      local_provider:
+        status: skipped
+        reason: reference-only family has no local provider lane
+      real_cloud:
+        status: skipped
+        reason: reference-only family has no real cloud lane
+    last_verified_at: null
+    last_verified_status: pending
+- name: canonical-secrets
+  examples:
+  - family: canonical-secrets
+    name: identity-bindings
+    provider: multi
+    runtime_tier: reference
+    language: multi
+    dev_test_disjoint: false
+    files:
+    - examples/canonical-secrets
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: null
+      local_provider:
+        status: skipped
+        reason: reference-only family has no local provider lane
+      real_cloud:
+        status: skipped
+        reason: reference-only family has no real cloud lane
+    last_verified_at: null
+    last_verified_status: pending
+- name: canonical-eventing
+  examples:
+  - family: canonical-eventing
+    name: dlq-replay-ordering
+    provider: multi
+    runtime_tier: reference
+    language: multi
+    dev_test_disjoint: false
+    files:
+    - examples/canonical-eventing
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: null
+      local_provider:
+        status: skipped
+        reason: reference-only family has no local provider lane
+      real_cloud:
+        status: skipped
+        reason: reference-only family has no real cloud lane
+    last_verified_at: null
+    last_verified_status: pending
+- name: canonical-prompts
+  examples:
+  - family: canonical-prompts
+    name: starter-prompts
+    provider: multi
+    runtime_tier: reference
+    language: multi
+    dev_test_disjoint: false
+    files:
+    - examples/canonical-prompts
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: null
+      local_provider:
+        status: skipped
+        reason: reference-only family has no local provider lane
+      real_cloud:
+        status: skipped
+        reason: reference-only family has no real cloud lane
+    last_verified_at: null
+    last_verified_status: pending
