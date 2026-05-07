@@ -1,0 +1,14 @@
+{
+  "family": "canonical-aws-lambda",
+  "name": "s3-trigger-image-moderation",
+  "path": "examples/canonical-aws-lambda/s3-trigger-image-moderation/go",
+  "provider": "aws",
+  "runtime_tier": "function",
+  "language": "go",
+  "iac": {
+    "terraform": true,
+    "pulumi": "pulumi-go"
+  },
+  "dev_test_disjoint": true,
+  "verified": false
+}

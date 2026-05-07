@@ -1,0 +1,3 @@
+name: accb-s3-trigger-image-moderation-go
+runtime: go
+description: ACCB canonical AWS Lambda SQS document moderation example.

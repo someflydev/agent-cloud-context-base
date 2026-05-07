@@ -1,0 +1,17 @@
+{
+  "name": "accb-s3-trigger-image-moderation",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "test": "node tests/smoke/test_handler.js && node tests/replay/test_replay.js"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.0.0",
+    "@aws-sdk/client-sfn": "^3.0.0",
+    "@aws-sdk/client-secrets-manager": "^3.0.0",
+    "@aws-lambda-powertools/logger": "^2.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
