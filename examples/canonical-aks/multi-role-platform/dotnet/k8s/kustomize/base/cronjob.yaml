@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: multi-role-platform-scheduled-export
+  namespace: accb-aks-platform
+spec:
+  schedule: "*/15 * * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: multi-role-platform
+          restartPolicy: Never
+          containers:
+            - name: cronjob
+              image: ghcr.io/someflydev/accb-canonical-aks-cronjob:dev
+              env:
+                - name: ACCB_ENV
+                  value: dev

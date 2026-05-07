@@ -1,0 +1,14 @@
+{
+  "family": "canonical-aks",
+  "name": "multi-role-platform",
+  "path": "examples/canonical-aks/multi-role-platform/dotnet",
+  "provider": "azure",
+  "runtime_tier": "k8s",
+  "language": "dotnet",
+  "iac": {
+    "terraform": true,
+    "pulumi": "pulumi-dotnet"
+  },
+  "dev_test_disjoint": true,
+  "verified": false
+}

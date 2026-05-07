@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: multi-role-platform-replay
+  namespace: accb-aks-platform
+spec:
+  template:
+    spec:
+      serviceAccountName: multi-role-platform
+      restartPolicy: Never
+      containers:
+        - name: job
+          image: ghcr.io/someflydev/accb-canonical-aks-job:dev
+          env:
+            - name: ACCB_ENV
+              value: dev

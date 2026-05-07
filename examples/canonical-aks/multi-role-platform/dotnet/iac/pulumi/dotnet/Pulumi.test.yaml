@@ -1,0 +1,3 @@
+stack: test
+config:
+  accb:secretPath: "https://accb-kv.vault.azure.net/secrets/aks-multi-role-platform/test/workload"

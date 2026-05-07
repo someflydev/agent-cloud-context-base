@@ -1,0 +1,3 @@
+name: accb-aks-multi-role-platform
+runtime: dotnet
+description: accb AKS multi-role platform
