@@ -5,7 +5,10 @@
   "provider": "aws",
   "runtime_tier": "function",
   "language": "go",
-  "iac": { "terraform": true, "pulumi": "pulumi-go" },
+  "iac": {
+    "terraform": true,
+    "pulumi": "pulumi-go"
+  },
   "dev_test_disjoint": true,
   "verified": false
 }

@@ -5,7 +5,10 @@
   "provider": "aws",
   "runtime_tier": "function",
   "language": "typescript",
-  "iac": { "terraform": true, "pulumi": "pulumi-typescript" },
+  "iac": {
+    "terraform": true,
+    "pulumi": "pulumi-typescript"
+  },
   "dev_test_disjoint": true,
   "verified": false
 }

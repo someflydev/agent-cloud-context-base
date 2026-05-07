@@ -21,19 +21,22 @@ matrix:
           support_level: first-class-example
           family: canonical-aws-lambda
           example: s3-trigger-image-moderation
+          coverage: full-example-surface
         typescript:
           status: supported
           support_level: first-class-example
           family: canonical-aws-lambda
           example: apigw-stripe-webhook
+          coverage: full-example-surface
         go:
           status: supported
           support_level: first-class-example
           family: canonical-aws-lambda
           example: sqs-document-translation
+          coverage: full-example-surface
         java:
           status: deferred
-          reason: rare JVM-oriented Lambda cases are outside this arc's seed pass
+          reason: rare JVM-oriented Lambda cases remain deferred outside this arc
         dotnet:
           status: not-planned
           reason: not planned for the canonical AWS Lambda arc

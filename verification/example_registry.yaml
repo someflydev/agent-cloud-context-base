@@ -12,6 +12,99 @@ families:
     dev_test_disjoint: true
     verify_command: bash examples/canonical-aws-lambda/s3-trigger-image-moderation/python/tests/verify.sh
     verify_command_local_provider: bash examples/canonical-aws-lambda/s3-trigger-image-moderation/python/tests/integration/lane-a-ministack/run.sh
+    verify_command_real_cloud: bash examples/canonical-aws-lambda/s3-trigger-image-moderation/python/tests/integration/lane-b-ephemeral-real/up.sh
+      && python3 examples/canonical-aws-lambda/s3-trigger-image-moderation/python/tests/integration/lane-b-ephemeral-real/test_handler.py
+      && bash examples/canonical-aws-lambda/s3-trigger-image-moderation/python/tests/integration/lane-b-ephemeral-real/down.sh
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aws-lambda/s3-trigger-image-moderation/python/tests/verify.sh
+      local_provider:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aws-lambda/s3-trigger-image-moderation/python/tests/integration/lane-a-ministack/run.sh
+        lane: lane-a-ministack
+        provider: ministack
+        gate: ACCB_RUN_LOCAL_PROVIDER=1
+      real_cloud:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aws-lambda/s3-trigger-image-moderation/python/tests/integration/lane-b-ephemeral-real/up.sh
+          && python3 examples/canonical-aws-lambda/s3-trigger-image-moderation/python/tests/integration/lane-b-ephemeral-real/test_handler.py
+          && bash examples/canonical-aws-lambda/s3-trigger-image-moderation/python/tests/integration/lane-b-ephemeral-real/down.sh
+        lane: lane-b-ephemeral-real
+        cost: real
+    last_verified_at: null
+    last_verified_status: pending
+  - family: canonical-aws-lambda
+    name: s3-trigger-image-moderation
+    provider: aws
+    runtime_tier: function
+    language: typescript
+    iac_tool_terraform: true
+    iac_tool_pulumi: pulumi-typescript
+    dev_test_disjoint: true
+    verify_command: bash examples/canonical-aws-lambda/s3-trigger-image-moderation/typescript/tests/verify.sh
+    verify_command_local_provider: bash examples/canonical-aws-lambda/s3-trigger-image-moderation/typescript/tests/integration/lane-a-ministack/run.sh
+    verify_command_real_cloud: bash examples/canonical-aws-lambda/s3-trigger-image-moderation/typescript/tests/integration/lane-b-ephemeral-real/up.sh
+      && node examples/canonical-aws-lambda/s3-trigger-image-moderation/typescript/tests/integration/lane-b-ephemeral-real/test_handler.js
+      && bash examples/canonical-aws-lambda/s3-trigger-image-moderation/typescript/tests/integration/lane-b-ephemeral-real/down.sh
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aws-lambda/s3-trigger-image-moderation/typescript/tests/verify.sh
+      local_provider:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aws-lambda/s3-trigger-image-moderation/typescript/tests/integration/lane-a-ministack/run.sh
+        lane: lane-a-ministack
+        provider: ministack
+        gate: ACCB_RUN_LOCAL_PROVIDER=1
+      real_cloud:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aws-lambda/s3-trigger-image-moderation/typescript/tests/integration/lane-b-ephemeral-real/up.sh
+          && node examples/canonical-aws-lambda/s3-trigger-image-moderation/typescript/tests/integration/lane-b-ephemeral-real/test_handler.js
+          && bash examples/canonical-aws-lambda/s3-trigger-image-moderation/typescript/tests/integration/lane-b-ephemeral-real/down.sh
+        lane: lane-b-ephemeral-real
+        cost: real
+    last_verified_at: null
+    last_verified_status: pending
+  - family: canonical-aws-lambda
+    name: s3-trigger-image-moderation
+    provider: aws
+    runtime_tier: function
+    language: go
+    iac_tool_terraform: true
+    iac_tool_pulumi: pulumi-go
+    dev_test_disjoint: true
+    verify_command: bash examples/canonical-aws-lambda/s3-trigger-image-moderation/go/tests/verify.sh
+    verify_command_local_provider: bash examples/canonical-aws-lambda/s3-trigger-image-moderation/go/tests/integration/lane-a-ministack/run.sh
+    verify_command_real_cloud: bash examples/canonical-aws-lambda/s3-trigger-image-moderation/go/tests/integration/lane-b-ephemeral-real/up.sh
+      && go run examples/canonical-aws-lambda/s3-trigger-image-moderation/go/tests/integration/lane-b-ephemeral-real/test_handler.go
+      && bash examples/canonical-aws-lambda/s3-trigger-image-moderation/go/tests/integration/lane-b-ephemeral-real/down.sh
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aws-lambda/s3-trigger-image-moderation/go/tests/verify.sh
+      local_provider:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aws-lambda/s3-trigger-image-moderation/go/tests/integration/lane-a-ministack/run.sh
+        lane: lane-a-ministack
+        provider: ministack
+        gate: ACCB_RUN_LOCAL_PROVIDER=1
+      real_cloud:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aws-lambda/s3-trigger-image-moderation/go/tests/integration/lane-b-ephemeral-real/up.sh
+          && go run examples/canonical-aws-lambda/s3-trigger-image-moderation/go/tests/integration/lane-b-ephemeral-real/test_handler.go
+          && bash examples/canonical-aws-lambda/s3-trigger-image-moderation/go/tests/integration/lane-b-ephemeral-real/down.sh
+        lane: lane-b-ephemeral-real
+        cost: real
     last_verified_at: null
     last_verified_status: pending
   - family: canonical-aws-lambda
@@ -24,6 +117,64 @@ families:
     dev_test_disjoint: true
     verify_command: bash examples/canonical-aws-lambda/apigw-stripe-webhook/typescript/tests/verify.sh
     verify_command_local_provider: bash examples/canonical-aws-lambda/apigw-stripe-webhook/typescript/tests/integration/lane-a-ministack/run.sh
+    verify_command_real_cloud: bash examples/canonical-aws-lambda/apigw-stripe-webhook/typescript/tests/integration/lane-b-ephemeral-real/up.sh
+      && node examples/canonical-aws-lambda/apigw-stripe-webhook/typescript/tests/integration/lane-b-ephemeral-real/test_handler.js
+      && bash examples/canonical-aws-lambda/apigw-stripe-webhook/typescript/tests/integration/lane-b-ephemeral-real/down.sh
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aws-lambda/apigw-stripe-webhook/typescript/tests/verify.sh
+      local_provider:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aws-lambda/apigw-stripe-webhook/typescript/tests/integration/lane-a-ministack/run.sh
+        lane: lane-a-ministack
+        provider: ministack
+        gate: ACCB_RUN_LOCAL_PROVIDER=1
+      real_cloud:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aws-lambda/apigw-stripe-webhook/typescript/tests/integration/lane-b-ephemeral-real/up.sh
+          && node examples/canonical-aws-lambda/apigw-stripe-webhook/typescript/tests/integration/lane-b-ephemeral-real/test_handler.js
+          && bash examples/canonical-aws-lambda/apigw-stripe-webhook/typescript/tests/integration/lane-b-ephemeral-real/down.sh
+        lane: lane-b-ephemeral-real
+        cost: real
+    last_verified_at: null
+    last_verified_status: pending
+  - family: canonical-aws-lambda
+    name: apigw-stripe-webhook
+    provider: aws
+    runtime_tier: function
+    language: python
+    iac_tool_terraform: true
+    iac_tool_pulumi: pulumi-python
+    dev_test_disjoint: true
+    verify_command: bash examples/canonical-aws-lambda/apigw-stripe-webhook/python/tests/verify.sh
+    verify_command_local_provider: bash examples/canonical-aws-lambda/apigw-stripe-webhook/python/tests/integration/lane-a-ministack/run.sh
+    verify_command_real_cloud: bash examples/canonical-aws-lambda/apigw-stripe-webhook/python/tests/integration/lane-b-ephemeral-real/up.sh
+      && python3 examples/canonical-aws-lambda/apigw-stripe-webhook/python/tests/integration/lane-b-ephemeral-real/test_handler.py
+      && bash examples/canonical-aws-lambda/apigw-stripe-webhook/python/tests/integration/lane-b-ephemeral-real/down.sh
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aws-lambda/apigw-stripe-webhook/python/tests/verify.sh
+      local_provider:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aws-lambda/apigw-stripe-webhook/python/tests/integration/lane-a-ministack/run.sh
+        lane: lane-a-ministack
+        provider: ministack
+        gate: ACCB_RUN_LOCAL_PROVIDER=1
+      real_cloud:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aws-lambda/apigw-stripe-webhook/python/tests/integration/lane-b-ephemeral-real/up.sh
+          && python3 examples/canonical-aws-lambda/apigw-stripe-webhook/python/tests/integration/lane-b-ephemeral-real/test_handler.py
+          && bash examples/canonical-aws-lambda/apigw-stripe-webhook/python/tests/integration/lane-b-ephemeral-real/down.sh
+        lane: lane-b-ephemeral-real
+        cost: real
     last_verified_at: null
     last_verified_status: pending
   - family: canonical-aws-lambda
@@ -36,6 +187,134 @@ families:
     dev_test_disjoint: true
     verify_command: bash examples/canonical-aws-lambda/sqs-document-translation/go/tests/verify.sh
     verify_command_local_provider: bash examples/canonical-aws-lambda/sqs-document-translation/go/tests/integration/lane-a-ministack/run.sh
+    verify_command_real_cloud: bash examples/canonical-aws-lambda/sqs-document-translation/go/tests/integration/lane-b-ephemeral-real/up.sh
+      && go run examples/canonical-aws-lambda/sqs-document-translation/go/tests/integration/lane-b-ephemeral-real/test_handler.go
+      && bash examples/canonical-aws-lambda/sqs-document-translation/go/tests/integration/lane-b-ephemeral-real/down.sh
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aws-lambda/sqs-document-translation/go/tests/verify.sh
+      local_provider:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aws-lambda/sqs-document-translation/go/tests/integration/lane-a-ministack/run.sh
+        lane: lane-a-ministack
+        provider: ministack
+        gate: ACCB_RUN_LOCAL_PROVIDER=1
+      real_cloud:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aws-lambda/sqs-document-translation/go/tests/integration/lane-b-ephemeral-real/up.sh
+          && go run examples/canonical-aws-lambda/sqs-document-translation/go/tests/integration/lane-b-ephemeral-real/test_handler.go
+          && bash examples/canonical-aws-lambda/sqs-document-translation/go/tests/integration/lane-b-ephemeral-real/down.sh
+        lane: lane-b-ephemeral-real
+        cost: real
+    last_verified_at: null
+    last_verified_status: pending
+  - family: canonical-aws-lambda
+    name: sqs-document-translation
+    provider: aws
+    runtime_tier: function
+    language: python
+    iac_tool_terraform: true
+    iac_tool_pulumi: pulumi-python
+    dev_test_disjoint: true
+    verify_command: bash examples/canonical-aws-lambda/sqs-document-translation/python/tests/verify.sh
+    verify_command_local_provider: bash examples/canonical-aws-lambda/sqs-document-translation/python/tests/integration/lane-a-ministack/run.sh
+    verify_command_real_cloud: bash examples/canonical-aws-lambda/sqs-document-translation/python/tests/integration/lane-b-ephemeral-real/up.sh
+      && python3 examples/canonical-aws-lambda/sqs-document-translation/python/tests/integration/lane-b-ephemeral-real/test_handler.py
+      && bash examples/canonical-aws-lambda/sqs-document-translation/python/tests/integration/lane-b-ephemeral-real/down.sh
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aws-lambda/sqs-document-translation/python/tests/verify.sh
+      local_provider:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aws-lambda/sqs-document-translation/python/tests/integration/lane-a-ministack/run.sh
+        lane: lane-a-ministack
+        provider: ministack
+        gate: ACCB_RUN_LOCAL_PROVIDER=1
+      real_cloud:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aws-lambda/sqs-document-translation/python/tests/integration/lane-b-ephemeral-real/up.sh
+          && python3 examples/canonical-aws-lambda/sqs-document-translation/python/tests/integration/lane-b-ephemeral-real/test_handler.py
+          && bash examples/canonical-aws-lambda/sqs-document-translation/python/tests/integration/lane-b-ephemeral-real/down.sh
+        lane: lane-b-ephemeral-real
+        cost: real
+    last_verified_at: null
+    last_verified_status: pending
+  - family: canonical-aws-lambda
+    name: eventbridge-cdc-relay
+    provider: aws
+    runtime_tier: function
+    language: typescript
+    iac_tool_terraform: true
+    iac_tool_pulumi: pulumi-typescript
+    dev_test_disjoint: true
+    verify_command: bash examples/canonical-aws-lambda/eventbridge-cdc-relay/typescript/tests/verify.sh
+    verify_command_local_provider: bash examples/canonical-aws-lambda/eventbridge-cdc-relay/typescript/tests/integration/lane-a-ministack/run.sh
+    verify_command_real_cloud: bash examples/canonical-aws-lambda/eventbridge-cdc-relay/typescript/tests/integration/lane-b-ephemeral-real/up.sh
+      && node examples/canonical-aws-lambda/eventbridge-cdc-relay/typescript/tests/integration/lane-b-ephemeral-real/test_handler.js
+      && bash examples/canonical-aws-lambda/eventbridge-cdc-relay/typescript/tests/integration/lane-b-ephemeral-real/down.sh
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aws-lambda/eventbridge-cdc-relay/typescript/tests/verify.sh
+      local_provider:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aws-lambda/eventbridge-cdc-relay/typescript/tests/integration/lane-a-ministack/run.sh
+        lane: lane-a-ministack
+        provider: ministack
+        gate: ACCB_RUN_LOCAL_PROVIDER=1
+      real_cloud:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aws-lambda/eventbridge-cdc-relay/typescript/tests/integration/lane-b-ephemeral-real/up.sh
+          && node examples/canonical-aws-lambda/eventbridge-cdc-relay/typescript/tests/integration/lane-b-ephemeral-real/test_handler.js
+          && bash examples/canonical-aws-lambda/eventbridge-cdc-relay/typescript/tests/integration/lane-b-ephemeral-real/down.sh
+        lane: lane-b-ephemeral-real
+        cost: real
+    last_verified_at: null
+    last_verified_status: pending
+  - family: canonical-aws-lambda
+    name: cognito-post-confirmation
+    provider: aws
+    runtime_tier: function
+    language: python
+    iac_tool_terraform: true
+    iac_tool_pulumi: pulumi-python
+    dev_test_disjoint: true
+    verify_command: bash examples/canonical-aws-lambda/cognito-post-confirmation/python/tests/verify.sh
+    verify_command_local_provider: bash examples/canonical-aws-lambda/cognito-post-confirmation/python/tests/integration/lane-a-ministack/run.sh
+    verify_command_real_cloud: bash examples/canonical-aws-lambda/cognito-post-confirmation/python/tests/integration/lane-b-ephemeral-real/up.sh
+      && python3 examples/canonical-aws-lambda/cognito-post-confirmation/python/tests/integration/lane-b-ephemeral-real/test_handler.py
+      && bash examples/canonical-aws-lambda/cognito-post-confirmation/python/tests/integration/lane-b-ephemeral-real/down.sh
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aws-lambda/cognito-post-confirmation/python/tests/verify.sh
+      local_provider:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aws-lambda/cognito-post-confirmation/python/tests/integration/lane-a-ministack/run.sh
+        lane: lane-a-ministack
+        provider: ministack
+        gate: ACCB_RUN_LOCAL_PROVIDER=1
+      real_cloud:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aws-lambda/cognito-post-confirmation/python/tests/integration/lane-b-ephemeral-real/up.sh
+          && python3 examples/canonical-aws-lambda/cognito-post-confirmation/python/tests/integration/lane-b-ephemeral-real/test_handler.py
+          && bash examples/canonical-aws-lambda/cognito-post-confirmation/python/tests/integration/lane-b-ephemeral-real/down.sh
+        lane: lane-b-ephemeral-real
+        cost: real
     last_verified_at: null
     last_verified_status: pending
 - name: canonical-gcp-functions

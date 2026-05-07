@@ -23,7 +23,7 @@ Tracked artifacts only. Do not add entries for `memory/sessions/` or
 - [template-system.md](concepts/template-system.md) — PROMPT_15 template scaffold system
 - [generation-pipeline.md](concepts/generation-pipeline.md) — PROMPT_16 generated repo pipeline scripts
 - [validation-script-layer.md](concepts/validation-script-layer.md) — PROMPT_17 validation scripts and verification tiers
-- [aws-lambda-canonical-arc.md](concepts/aws-lambda-canonical-arc.md) — PROMPT_18 AWS Lambda seed examples
+- [aws-lambda-canonical-arc.md](concepts/aws-lambda-canonical-arc.md) — PROMPT_18/PROMPT_25 AWS Lambda canonical examples
 - [gcp-functions-canonical-arc.md](concepts/gcp-functions-canonical-arc.md) — PROMPT_19 GCP Cloud Functions seed examples
 - [azure-functions-canonical-arc.md](concepts/azure-functions-canonical-arc.md) — PROMPT_20 Azure Functions seed examples
 - [managed-container-canonical-arc-aws-gcp.md](concepts/managed-container-canonical-arc-aws-gcp.md) — PROMPT_21 Cloud Run and App Runner seed examples
