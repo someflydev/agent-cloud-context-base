@@ -1,0 +1,6 @@
+stack: dev
+config:
+  azure-native:location: eastus
+  accb:environment: dev
+  accb:namePrefix: accb-dev
+  accb:secretRef: accb/dev/app/config

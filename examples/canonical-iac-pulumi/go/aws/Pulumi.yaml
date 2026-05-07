@@ -1,0 +1,3 @@
+name: accb-canonical-iac-pulumi-go-aws
+runtime: go
+description: Canonical AWS Pulumi Go starter for accb.

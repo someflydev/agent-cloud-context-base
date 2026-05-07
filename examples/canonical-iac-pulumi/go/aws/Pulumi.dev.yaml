@@ -1,0 +1,6 @@
+stack: dev
+config:
+  aws:region: us-east-1
+  accb:environment: dev
+  accb:namePrefix: accb-dev
+  accb:secretRef: accb/dev/app/config

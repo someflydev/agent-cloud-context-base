@@ -1,0 +1,3 @@
+name: accb-canonical-iac-pulumi-python-gcp
+runtime: python
+description: Canonical GCP Pulumi Python starter for accb.

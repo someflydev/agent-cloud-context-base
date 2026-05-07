@@ -1,0 +1,6 @@
+stack: test
+config:
+  azure-native:location: eastus
+  accb:environment: test
+  accb:namePrefix: accb-test
+  accb:secretRef: accb/test/app/config

@@ -1,0 +1,3 @@
+name: accb-canonical-iac-pulumi-dotnet-azure
+runtime: dotnet
+description: Canonical Azure Pulumi .NET starter for accb.
