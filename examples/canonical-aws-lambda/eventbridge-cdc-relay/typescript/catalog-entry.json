@@ -1,0 +1,14 @@
+{
+  "family": "canonical-aws-lambda",
+  "name": "eventbridge-cdc-relay",
+  "path": "examples/canonical-aws-lambda/eventbridge-cdc-relay/typescript",
+  "provider": "aws",
+  "runtime_tier": "function",
+  "language": "typescript",
+  "iac": {
+    "terraform": true,
+    "pulumi": "pulumi-typescript"
+  },
+  "dev_test_disjoint": true,
+  "verified": false
+}

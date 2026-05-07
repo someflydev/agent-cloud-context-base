@@ -1,0 +1,11 @@
+{
+  "name": "accb-eventbridge-cdc-relay-iac",
+  "private": true,
+  "dependencies": {
+    "@pulumi/aws": "^6.0.0",
+    "@pulumi/pulumi": "^3.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

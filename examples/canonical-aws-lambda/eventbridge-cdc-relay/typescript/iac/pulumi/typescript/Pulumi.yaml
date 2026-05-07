@@ -1,0 +1,3 @@
+name: accb-eventbridge-cdc-relay-typescript
+runtime: nodejs
+description: ACCB canonical AWS Lambda EventBridge CDC webhook example.

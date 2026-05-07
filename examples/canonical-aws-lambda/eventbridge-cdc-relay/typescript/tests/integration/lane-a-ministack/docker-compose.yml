@@ -1,0 +1,7 @@
+services:
+  ministack:
+    image: ministackorg/ministack:latest
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=events,dynamodb,lambda,iam,logs
