@@ -1,0 +1,4 @@
+name: accb-cloudrun-public-api-private-worker-job
+runtime:
+  name: python
+description: accb Cloud Run public service, private worker, and scheduled job

@@ -1,0 +1,15 @@
+services:
+  service:
+    build: ../../..
+    environment:
+      PORT: "8080"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel:4318"
+    ports:
+      - "8081:8080"
+  otel:
+    image: otel/opentelemetry-collector:latest
+    command: ["--config=/etc/otelcol/config.yaml"]
+    profiles: ["provider"]
+  minisky:
+    image: ghcr.io/someflydev/minisky:latest
+    profiles: ["provider"]

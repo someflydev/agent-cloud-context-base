@@ -1,0 +1,11 @@
+{
+  "family": "canonical-cloud-run",
+  "name": "multi-container-sidecar",
+  "path": "examples/canonical-cloud-run/multi-container-sidecar/python-fastapi",
+  "provider": "gcp",
+  "runtime_tier": "managed_container",
+  "language": "python",
+  "iac": { "terraform": true, "pulumi": "pulumi-python" },
+  "dev_test_disjoint": true,
+  "verified": false
+}

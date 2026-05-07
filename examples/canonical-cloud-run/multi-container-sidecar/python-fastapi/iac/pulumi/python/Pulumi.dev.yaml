@@ -1,0 +1,4 @@
+stack: dev
+config:
+  accb:environment: dev
+  accb:secret_path: /accb/dev/cloudrun/sidecar/otel

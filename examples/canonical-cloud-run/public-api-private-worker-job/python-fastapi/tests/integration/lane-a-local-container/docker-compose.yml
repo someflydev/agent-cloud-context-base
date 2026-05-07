@@ -1,0 +1,11 @@
+services:
+  service:
+    build: ../../..
+    environment:
+      PORT: "8080"
+      ACCB_CLOUDRUN_PUBLIC_WORKER_DEV_PROJECT: minisky
+    ports:
+      - "8080:8080"
+  minisky:
+    image: ghcr.io/someflydev/minisky:latest
+    profiles: ["provider"]
