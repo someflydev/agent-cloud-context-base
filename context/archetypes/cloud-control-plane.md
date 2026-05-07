@@ -21,7 +21,7 @@ Use this archetype for a thin orchestration layer, implemented as a function or 
 - the dominant provider+function or provider+container stack pack
 - the dominant heavy-compute stack pack
 - the dominant IaC stack pack
-- one canonical example from `examples/canonical-cloudrun/`, `examples/canonical-eks/`, or peer provider families
+- one canonical example from `examples/canonical-cloud-run/`, `examples/canonical-eks/`, or peer provider families
 
 ## Common Workflows
 
@@ -43,9 +43,9 @@ Use this archetype for a thin orchestration layer, implemented as a function or 
 
 ## Likely Examples
 
-- `examples/canonical-cloudrun/control-plane-over-cloud-run-jobs/`
+- `examples/canonical-cloud-run/control-plane-over-cloud-run-jobs/`
 - `examples/canonical-eks/control-api-submits-k8s-jobs/`
-- `examples/canonical-aca/control-api-container-apps-jobs/`
+- `examples/canonical-container-apps/control-api-container-apps-jobs/`
 
 ## Typical Anti-Patterns
 

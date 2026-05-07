@@ -21,7 +21,7 @@ Use this archetype for systems that ingest documents, chunk and embed content, u
 - the dominant provider+function or provider+container stack pack
 - the dominant storage and vector-store stack packs
 - the dominant IaC stack pack
-- one canonical example from `examples/canonical-gke/`, `examples/canonical-cloudrun/`, or function families
+- one canonical example from `examples/canonical-gke/`, `examples/canonical-cloud-run/`, or function families
 
 ## Common Workflows
 
@@ -43,7 +43,7 @@ Use this archetype for systems that ingest documents, chunk and embed content, u
 
 ## Likely Examples
 
-- `examples/canonical-cloudrun/rag-ingest-retrieval-api/`
+- `examples/canonical-cloud-run/rag-ingest-retrieval-api/`
 - `examples/canonical-gke/rag-knowledge-mesh/`
 - `examples/canonical-azure-functions/blob-rag-indexer/`
 

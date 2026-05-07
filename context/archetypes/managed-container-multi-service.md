@@ -20,7 +20,7 @@ Use this archetype for a small managed-container system with a public API, priva
 - `context/doctrine/iac-dev-test-isolation.md`
 - the dominant provider+managed-container stack pack
 - the dominant IaC stack pack
-- one canonical example from `examples/canonical-cloudrun/`, `examples/canonical-apprunner/`, or `examples/canonical-aca/`
+- one canonical example from `examples/canonical-cloud-run/`, `examples/canonical-app-runner/`, or `examples/canonical-container-apps/`
 
 ## Common Workflows
 
@@ -41,9 +41,9 @@ Use this archetype for a small managed-container system with a public API, priva
 
 ## Likely Examples
 
-- `examples/canonical-cloudrun/public-api-private-worker-job/`
-- `examples/canonical-apprunner/partner-adapter-with-worker/`
-- `examples/canonical-aca/api-worker-scheduled-job/`
+- `examples/canonical-cloud-run/public-api-private-worker-job/`
+- `examples/canonical-app-runner/partner-adapter-with-worker/`
+- `examples/canonical-container-apps/api-worker-scheduled-job/`
 
 ## Typical Anti-Patterns
 

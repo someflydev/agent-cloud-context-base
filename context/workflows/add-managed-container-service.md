@@ -36,7 +36,7 @@ Use this workflow when adding a Cloud Run, App Runner, or Azure Container Apps s
 - `context/doctrine/container-image-discipline.md`
 - `context/doctrine/cloud-secret-handling.md`
 - `context/stacks/cloudrun-python-fastapi.md`
-- `examples/canonical-cloudrun/public-api-private-worker-job/`
+- `examples/canonical-cloud-run/public-api-private-worker-job/`
 
 ## Common Pitfalls
 

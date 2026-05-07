@@ -106,9 +106,9 @@ patterns:
       gcp: [gcp-cloudsql, gcp-gcs, gcp-pubsub, gcp-secret-manager]
       azure: [azure-sql, azure-blob, azure-servicebus, azure-key-vault]
     preferred_examples:
-      - examples/canonical-cloudrun/public-api-private-worker-job/
-      - examples/canonical-apprunner/public-api-private-worker-job/
-      - examples/canonical-aca/public-api-private-worker-job/
+      - examples/canonical-cloud-run/public-api-private-worker-job/
+      - examples/canonical-app-runner/public-api-private-worker-job/
+      - examples/canonical-container-apps/public-api-private-worker-jobs/
   container.heavy-runtime-service:
     runtime_tier: managed_container
     archetype: managed-container-service
@@ -121,9 +121,9 @@ patterns:
       gcp: [gcp-gcs, gcp-firestore, gcp-secret-manager]
       azure: [azure-blob, azure-cosmos, azure-key-vault]
     preferred_examples:
-      - examples/canonical-cloudrun/heavy-runtime-service/
-      - examples/canonical-apprunner/heavy-runtime-service/
-      - examples/canonical-aca/heavy-runtime-service/
+      - examples/canonical-cloud-run/heavy-runtime-service/
+      - examples/canonical-app-runner/heavy-runtime-service/
+      - examples/canonical-container-apps/heavy-runtime-service/
   container.partner-adapter-gateway:
     runtime_tier: managed_container
     archetype: managed-container-multi-service
@@ -136,9 +136,9 @@ patterns:
       gcp: [gcp-cloudsql, gcp-pubsub, gcp-gcs, gcp-secret-manager]
       azure: [azure-sql, azure-servicebus, azure-blob, azure-key-vault]
     preferred_examples:
-      - examples/canonical-cloudrun/partner-adapter-gateway/
-      - examples/canonical-apprunner/partner-adapter-gateway/
-      - examples/canonical-aca/partner-adapter-gateway/
+      - examples/canonical-cloud-run/partner-adapter-gateway/
+      - examples/canonical-app-runner/partner-adapter-gateway/
+      - examples/canonical-container-apps/partner-adapter-gateway/
   container.multi-container-sidecar:
     runtime_tier: managed_container
     archetype: managed-container-service
@@ -151,8 +151,8 @@ patterns:
       gcp: [gcp-secret-manager, gcp-gcs]
       azure: [azure-key-vault, azure-blob]
     preferred_examples:
-      - examples/canonical-cloudrun/multi-container-sidecar/
-      - examples/canonical-aca/multi-container-sidecar/
+      - examples/canonical-cloud-run/multi-container-sidecar/
+      - examples/canonical-container-apps/multi-container-sidecar/
   container.job-first-container:
     runtime_tier: managed_container
     archetype: managed-container-service
@@ -165,8 +165,8 @@ patterns:
       gcp: [gcp-gcs, gcp-firestore, gcp-pubsub, gcp-secret-manager]
       azure: [azure-blob, azure-cosmos, azure-servicebus, azure-key-vault]
     preferred_examples:
-      - examples/canonical-cloudrun/job-first-container/
-      - examples/canonical-aca/job-first-container/
+      - examples/canonical-cloud-run/job-first-container/
+      - examples/canonical-container-apps/job-first-container/
   k8s.multi-role-platform:
     runtime_tier: k8s
     archetype: k8s-platform-repo

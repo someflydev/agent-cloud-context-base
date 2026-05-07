@@ -21,7 +21,7 @@ Use this archetype for cloud-side acquisition systems that fetch external source
 - `context/doctrine/iac-dev-test-isolation.md`
 - the dominant provider+function or provider+container stack pack
 - the dominant IaC stack pack
-- one canonical example from `examples/canonical-aws-lambda/`, `examples/canonical-cloudrun/`, or peer provider families
+- one canonical example from `examples/canonical-aws-lambda/`, `examples/canonical-cloud-run/`, or peer provider families
 
 ## Common Workflows
 
@@ -45,7 +45,7 @@ Use this archetype for cloud-side acquisition systems that fetch external source
 
 - `examples/canonical-aws-lambda/scheduled-source-archive/`
 - `examples/canonical-gcp-functions/http-source-normalizer/`
-- `examples/canonical-cloudrun/heavy-parser-worker/`
+- `examples/canonical-cloud-run/heavy-parser-worker/`
 
 ## Typical Anti-Patterns
 

@@ -19,7 +19,7 @@ Use this archetype for one Cloud Run, App Runner, or Container Apps service wher
 - `context/doctrine/iac-dev-test-isolation.md`
 - the dominant provider+container+language stack pack
 - the dominant IaC stack pack
-- one canonical example from `examples/canonical-cloudrun/`, `examples/canonical-apprunner/`, or `examples/canonical-aca/`
+- one canonical example from `examples/canonical-cloud-run/`, `examples/canonical-app-runner/`, or `examples/canonical-container-apps/`
 
 ## Common Workflows
 
@@ -39,9 +39,9 @@ Use this archetype for one Cloud Run, App Runner, or Container Apps service wher
 
 ## Likely Examples
 
-- `examples/canonical-cloudrun/public-fastapi-service/`
-- `examples/canonical-apprunner/public-hono-service/`
-- `examples/canonical-aca/dotnet-public-api/`
+- `examples/canonical-cloud-run/public-fastapi-service/`
+- `examples/canonical-app-runner/public-hono-service/`
+- `examples/canonical-container-apps/dotnet-public-api/`
 
 ## Typical Anti-Patterns
 

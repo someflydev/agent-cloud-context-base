@@ -47,7 +47,7 @@ Use this archetype for comparative AWS, GCP, and Azure surfaces for one workload
 - `examples/canonical-aws-lambda/s3-trigger-image-moderation/`
 - `examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/`
 - `examples/canonical-azure-functions/blob-trigger-receipt-ocr/`
-- `examples/canonical-cloudrun/public-api-private-worker-job/`
+- `examples/canonical-cloud-run/public-api-private-worker-job/`
 
 ## Typical Anti-Patterns
 
