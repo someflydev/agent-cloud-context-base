@@ -1,6 +1,8 @@
 # Managed Container Canonical Arc: AWS and GCP
 
-PROMPT_21 adds the first managed-container seed examples for `accb`.
+PROMPT_21 added the first managed-container seed examples for `accb`.
+PROMPT_28 completes the required AWS/GCP managed-container expansion surface:
+five Cloud Run examples and three App Runner examples.
 
 Seed examples:
 
@@ -15,8 +17,24 @@ Seed examples:
   models an App Runner public API reaching private Aurora Postgres through a
   VPC Connector with Secrets Manager credentials and ECR tag deployment.
 
+Expansion examples:
+
+- `examples/canonical-cloud-run/public-api-private-worker-job/go-echo/`
+  and `examples/canonical-cloud-run/public-api-private-worker-job/typescript-hono/`
+  provide the same public API, private worker callback, and scheduled cleanup
+  workflow for Go Echo and TypeScript Hono.
+- `examples/canonical-cloud-run/cloudrun-job-nightly-report/python-fastapi/`
+  models a standalone scheduled Cloud Run Job for nightly reporting with
+  isolated state, report storage, and Secret Manager references.
+- `examples/canonical-app-runner/public-api-with-vpc-connector/go-echo/`
+  provides the VPC Connector workflow for Go Echo.
+- `examples/canonical-app-runner/supplier-onboarding/python-fastapi/`
+  models an App Runner supplier onboarding API with private database reachability,
+  supplier document storage, and review queue handoff.
+
 Managed-container examples use a shifted layout from function examples:
 `Dockerfile`, `src/`, health/readiness endpoints, local-container Lane A,
 and ephemeral-real Lane B.
 
-PROMPT_22 continues the managed-container seed arc with Azure Container Apps.
+PROMPT_29 completes the managed-container expansion arc with the remaining
+Azure Container Apps examples.
