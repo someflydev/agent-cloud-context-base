@@ -1,0 +1,5 @@
+{
+  "MessageId": "accb-test-message",
+  "ApplicationProperties": {"environment": "test"},
+  "Body": {"document_id": "receipt-001"}
+}

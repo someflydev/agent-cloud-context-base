@@ -1,0 +1,10 @@
+{
+  "Records": [
+    {
+      "s3": {
+        "bucket": {"name": "accb-test-images-test"},
+        "object": {"key": "incoming/sample.jpg"}
+      }
+    }
+  ]
+}
