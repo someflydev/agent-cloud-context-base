@@ -1,0 +1,5 @@
+stack: dev
+config:
+  accb:environment: dev
+  accb:namePrefix: accb-dev-blob-trigger-receipt-ocr
+  accb:secretPath: /accb/dev/azure-functions/blob-trigger-receipt-ocr/

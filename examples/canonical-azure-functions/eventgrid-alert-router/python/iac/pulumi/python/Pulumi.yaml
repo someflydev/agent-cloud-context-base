@@ -1,0 +1,3 @@
+name: accb-azure-functions-eventgrid-alert-router
+runtime: python
+description: accb Azure Functions Event Grid alert router example

@@ -1,0 +1,11 @@
+{
+  "family": "canonical-azure-functions",
+  "name": "blob-trigger-receipt-ocr",
+  "path": "examples/canonical-azure-functions/blob-trigger-receipt-ocr/dotnet-isolated",
+  "provider": "azure",
+  "runtime_tier": "function",
+  "language": "dotnet-isolated",
+  "iac": { "terraform": true, "pulumi": "pulumi-dotnet" },
+  "dev_test_disjoint": true,
+  "verified": false
+}

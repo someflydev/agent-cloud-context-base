@@ -1,0 +1,11 @@
+{
+  "family": "canonical-azure-functions",
+  "name": "eventgrid-alert-router",
+  "path": "examples/canonical-azure-functions/eventgrid-alert-router/python",
+  "provider": "azure",
+  "runtime_tier": "function",
+  "language": "python",
+  "iac": { "terraform": true, "pulumi": "pulumi-python" },
+  "dev_test_disjoint": true,
+  "verified": false
+}

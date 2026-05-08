@@ -1,0 +1,7 @@
+services:
+  miniblue:
+    image: mcr.microsoft.com/azure-storage/azurite:latest
+    command: azurite --queueHost 0.0.0.0 --tableHost 0.0.0.0
+    ports:
+      - "10001:10001"
+      - "10002:10002"

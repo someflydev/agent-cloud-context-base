@@ -1,0 +1,3 @@
+name: accb-azure-functions-blob-receipt-ocr
+runtime: nodejs
+description: accb Azure Functions blob receipt OCR TypeScript example
