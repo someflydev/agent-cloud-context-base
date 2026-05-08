@@ -84,30 +84,52 @@ def collect_examples(registry: dict[str, Any], catalog: dict[str, Any], family: 
 
 
 def example_key(entry: dict[str, Any]) -> str:
-    return str(entry.get("id") or entry.get("name") or entry.get("path") or "")
+    if entry.get("family") and entry.get("name") and entry.get("language"):
+        return "|".join(str(entry.get(part, "")) for part in ("family", "name", "language"))
+    return str(entry.get("id") or entry.get("path") or entry.get("name") or "")
 
 
 def verify_one(root: Path, entry: dict[str, Any], tier: str) -> dict[str, Any]:
-    example_id = entry.get("id") or entry.get("name") or entry.get("path") or "unknown"
+    example_id = example_key(entry)
     for file_name in entry.get("files") or []:
         if not (root / file_name).exists():
-            return {"id": example_id, "ok": False, "message": f"missing file {file_name}"}
+            return {"id": example_id, "ok": False, "message": f"missing file {file_name}", "tiers": {}}
     commands = tier_commands(entry, tier)
     if not commands:
-        return {"id": example_id, "ok": True, "message": "no verify_command declared"}
+        return {"id": example_id, "ok": True, "message": "no verify_command declared", "tiers": {}}
     messages: list[str] = []
+    tier_results: dict[str, dict[str, Any]] = {}
+    ok = True
     for label, command, required in commands:
         if not command:
             if required:
-                return {"id": example_id, "ok": False, "message": f"missing required {label} command"}
+                tier_results[label] = {"status": "failed", "command": None, "reason": "missing required command"}
+                return {
+                    "id": example_id,
+                    "ok": False,
+                    "message": f"missing required {label} command",
+                    "tiers": tier_results,
+                }
+            tier_results[label] = {"status": "skipped", "command": None, "reason": "command not declared"}
             messages.append(f"{label}: skipped")
             continue
+        skip_reason = gated_skip_reason(label)
+        if skip_reason:
+            tier_results[label] = {"status": "skipped", "command": command, "reason": skip_reason}
+            messages.append(f"{label}: skipped ({skip_reason})")
+            continue
         result = subprocess.run(command, cwd=root, shell=True, text=True, capture_output=True, timeout=300)
-        message = result.stdout.strip() or result.stderr.strip() or f"exit {result.returncode}"
+        message = "\n".join(part for part in (result.stdout.strip(), result.stderr.strip()) if part) or f"exit {result.returncode}"
         messages.append(f"{label}: {message[:160]}")
+        if result.returncode != 0 and sandbox_skip_reason(message):
+            tier_results[label] = {"status": "skipped", "command": command, "reason": sandbox_skip_reason(message)}
+            messages[-1] = f"{label}: skipped ({sandbox_skip_reason(message)})"
+            continue
+        tier_results[label] = {"status": "passed" if result.returncode == 0 else "failed", "command": command}
         if result.returncode != 0:
-            return {"id": example_id, "ok": False, "message": "; ".join(messages)[:200]}
-    return {"id": example_id, "ok": True, "message": "; ".join(messages)[:200]}
+            ok = False
+            break
+    return {"id": example_id, "ok": ok, "message": "; ".join(messages)[:200], "tiers": tier_results}
 
 
 def tier_commands(entry: dict[str, Any], tier: str) -> list[tuple[str, str | None, bool]]:
@@ -129,13 +151,49 @@ def tier_commands(entry: dict[str, Any], tier: str) -> list[tuple[str, str | Non
     ]
 
 
+def gated_skip_reason(label: str) -> str | None:
+    import os
+
+    if label == "local-provider" and os.environ.get("ACCB_RUN_LOCAL_PROVIDER") != "1":
+        return "ACCB_RUN_LOCAL_PROVIDER=1 not set"
+    if label == "real-cloud":
+        if os.environ.get("ACCB_RUN_REAL_CLOUD") != "1":
+            return "ACCB_RUN_REAL_CLOUD=1 not set"
+        required = ("AWS_ACCESS_KEY_ID", "GOOGLE_APPLICATION_CREDENTIALS", "AZURE_TENANT_ID")
+        if not any(os.environ.get(name) for name in required):
+            return "cloud credentials not detected"
+    if label == "full":
+        if os.environ.get("ACCB_RUN_FULL") != "1":
+            return "ACCB_RUN_FULL=1 not set"
+    return None
+
+
+def sandbox_skip_reason(message: str) -> str | None:
+    lowered = message.lower()
+    if "docker daemon socket" in lowered and ("permission denied" in lowered or "operation not permitted" in lowered):
+        return "docker daemon unavailable in current environment"
+    return None
+
+
 def update_registry(registry: dict[str, Any], results: list[dict[str, Any]], stamp: str) -> None:
     by_id = {result["id"]: result for result in results}
     for fam in registry.get("families") or []:
         for example in fam.get("examples") or []:
-            example_id = example.get("id") or example.get("name") or example.get("path")
+            example_id = example_key({**example, "family": fam.get("name")})
             result = by_id.get(example_id)
             if result:
+                verification = example.setdefault("verification", {})
+                for tier, tier_result in (result.get("tiers") or {}).items():
+                    key = tier.replace("-", "_")
+                    current = verification.setdefault(key, {})
+                    current["status"] = tier_result["status"]
+                    current["command"] = tier_result.get("command")
+                    if tier_result["status"] in {"passed", "failed"}:
+                        current["verified_at"] = stamp
+                        current.pop("reason", None)
+                    else:
+                        current["verified_at"] = None
+                        current["reason"] = tier_result.get("reason") or "not executed"
                 example["last_verified_at"] = stamp
                 example["last_verified_status"] = "passed" if result["ok"] else "failed"
 

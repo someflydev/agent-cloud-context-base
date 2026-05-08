@@ -481,8 +481,7 @@ def gated(args: argparse.Namespace) -> int:
 
 def cmd_verify(root: Path, args: argparse.Namespace) -> int:
     candidates = [
-        ["python3", "scripts/validate_context.py"],
-        ["python3", "scripts/validate_manifests.py"],
+        ["python3", "scripts/run_verification.py", "--tier", "fast"],
     ]
     results = []
     for cmd in candidates:
