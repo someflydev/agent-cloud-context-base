@@ -471,8 +471,7 @@ families:
     verify_command_local_provider: bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/go/tests/integration/lane-a-minisky/run.sh
     verify_command_real_cloud: bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/go/tests/integration/lane-b-ephemeral-real/up.sh
       && (cd examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/go && go
-      run tests/integration/lane-b-ephemeral-real/test_handler.go)
-      && bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/go/tests/integration/lane-b-ephemeral-real/down.sh
+      run tests/integration/lane-b-ephemeral-real/test_handler.go) && bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/go/tests/integration/lane-b-ephemeral-real/down.sh
     verification:
       smoke:
         status: pending
@@ -490,8 +489,8 @@ families:
         verified_at: null
         command: bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/go/tests/integration/lane-b-ephemeral-real/up.sh
           && (cd examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/go
-          && go run tests/integration/lane-b-ephemeral-real/test_handler.go)
-          && bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/go/tests/integration/lane-b-ephemeral-real/down.sh
+          && go run tests/integration/lane-b-ephemeral-real/test_handler.go) && bash
+          examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/go/tests/integration/lane-b-ephemeral-real/down.sh
         lane: lane-b-ephemeral-real
         cost: real
     last_verified_at: null
@@ -1524,6 +1523,138 @@ families:
         status: pending
         verified_at: null
         command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/dotnet/azure
+      local_provider:
+        status: skipped
+        reason: reference IaC starter has no local provider lane
+      real_cloud:
+        status: skipped
+        reason: reference IaC starter does not provision real cloud during smoke
+    last_verified_at: null
+    last_verified_status: pending
+  - family: canonical-iac-pulumi
+    name: typescript-gcp
+    provider: gcp
+    runtime_tier: iac
+    language: typescript
+    iac_tool_terraform: false
+    iac_tool_pulumi: pulumi-typescript
+    dev_test_disjoint: true
+    verify_command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/typescript/gcp
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/typescript/gcp
+      local_provider:
+        status: skipped
+        reason: reference IaC starter has no local provider lane
+      real_cloud:
+        status: skipped
+        reason: reference IaC starter does not provision real cloud during smoke
+    last_verified_at: null
+    last_verified_status: pending
+  - family: canonical-iac-pulumi
+    name: typescript-azure
+    provider: azure
+    runtime_tier: iac
+    language: typescript
+    iac_tool_terraform: false
+    iac_tool_pulumi: pulumi-typescript
+    dev_test_disjoint: true
+    verify_command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/typescript/azure
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/typescript/azure
+      local_provider:
+        status: skipped
+        reason: reference IaC starter has no local provider lane
+      real_cloud:
+        status: skipped
+        reason: reference IaC starter does not provision real cloud during smoke
+    last_verified_at: null
+    last_verified_status: pending
+  - family: canonical-iac-pulumi
+    name: python-aws
+    provider: aws
+    runtime_tier: iac
+    language: python
+    iac_tool_terraform: false
+    iac_tool_pulumi: pulumi-python
+    dev_test_disjoint: true
+    verify_command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/python/aws
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/python/aws
+      local_provider:
+        status: skipped
+        reason: reference IaC starter has no local provider lane
+      real_cloud:
+        status: skipped
+        reason: reference IaC starter does not provision real cloud during smoke
+    last_verified_at: null
+    last_verified_status: pending
+  - family: canonical-iac-pulumi
+    name: python-azure
+    provider: azure
+    runtime_tier: iac
+    language: python
+    iac_tool_terraform: false
+    iac_tool_pulumi: pulumi-python
+    dev_test_disjoint: true
+    verify_command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/python/azure
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/python/azure
+      local_provider:
+        status: skipped
+        reason: reference IaC starter has no local provider lane
+      real_cloud:
+        status: skipped
+        reason: reference IaC starter does not provision real cloud during smoke
+    last_verified_at: null
+    last_verified_status: pending
+  - family: canonical-iac-pulumi
+    name: go-gcp
+    provider: gcp
+    runtime_tier: iac
+    language: go
+    iac_tool_terraform: false
+    iac_tool_pulumi: pulumi-go
+    dev_test_disjoint: true
+    verify_command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/go/gcp
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/go/gcp
+      local_provider:
+        status: skipped
+        reason: reference IaC starter has no local provider lane
+      real_cloud:
+        status: skipped
+        reason: reference IaC starter does not provision real cloud during smoke
+    last_verified_at: null
+    last_verified_status: pending
+  - family: canonical-iac-pulumi
+    name: go-azure
+    provider: azure
+    runtime_tier: iac
+    language: go
+    iac_tool_terraform: false
+    iac_tool_pulumi: pulumi-go
+    dev_test_disjoint: true
+    verify_command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/go/azure
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/go/azure
       local_provider:
         status: skipped
         reason: reference IaC starter has no local provider lane

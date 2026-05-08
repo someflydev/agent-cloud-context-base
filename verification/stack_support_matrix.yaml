@@ -216,3 +216,69 @@ matrix:
           support_level: first-class-example
           family: canonical-aks
           example: multi-role-platform
+  iac:
+    pulumi:
+      typescript:
+        aws:
+          status: supported
+          support_level: canonical-starter
+          family: canonical-iac-pulumi
+          example: typescript-aws
+          dev_test_disjoint: true
+        gcp:
+          status: supported
+          support_level: canonical-starter
+          family: canonical-iac-pulumi
+          example: typescript-gcp
+          dev_test_disjoint: true
+        azure:
+          status: supported
+          support_level: canonical-starter
+          family: canonical-iac-pulumi
+          example: typescript-azure
+          dev_test_disjoint: true
+      python:
+        aws:
+          status: supported
+          support_level: canonical-starter
+          family: canonical-iac-pulumi
+          example: python-aws
+          dev_test_disjoint: true
+        gcp:
+          status: supported
+          support_level: canonical-starter
+          family: canonical-iac-pulumi
+          example: python-gcp
+          dev_test_disjoint: true
+        azure:
+          status: supported
+          support_level: canonical-starter
+          family: canonical-iac-pulumi
+          example: python-azure
+          dev_test_disjoint: true
+      go:
+        aws:
+          status: supported
+          support_level: canonical-starter
+          family: canonical-iac-pulumi
+          example: go-aws
+          dev_test_disjoint: true
+        gcp:
+          status: supported
+          support_level: canonical-starter
+          family: canonical-iac-pulumi
+          example: go-gcp
+          dev_test_disjoint: true
+        azure:
+          status: supported
+          support_level: canonical-starter
+          family: canonical-iac-pulumi
+          example: go-azure
+          dev_test_disjoint: true
+      dotnet:
+        azure:
+          status: supported
+          support_level: canonical-starter
+          family: canonical-iac-pulumi
+          example: dotnet-azure
+          dev_test_disjoint: true
