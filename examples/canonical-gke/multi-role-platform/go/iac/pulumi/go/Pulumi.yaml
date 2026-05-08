@@ -1,0 +1,3 @@
+name: accb-gke-multi-role-platform-go
+runtime: go
+description: accb canonical GKE Go multi-role platform control plane

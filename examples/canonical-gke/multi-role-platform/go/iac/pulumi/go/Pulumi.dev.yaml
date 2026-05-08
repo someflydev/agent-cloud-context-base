@@ -1,0 +1,8 @@
+stack: dev
+config:
+  accb:environment: dev
+  accb:region: us-central1
+  accb:envVarPrefix: accb_gcp_dev
+  accb:secretPath: projects/accb/secrets/gke-multi-role-platform/dev/workload
+  accb:imageRepository: ghcr.io/someflydev/accb-canonical-gke
+  accb:imageTag: dev

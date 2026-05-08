@@ -1,0 +1,14 @@
+{
+  "family": "canonical-gke",
+  "name": "multi-role-platform",
+  "path": "examples/canonical-gke/multi-role-platform/go",
+  "provider": "gcp",
+  "runtime_tier": "k8s",
+  "language": "go",
+  "iac": {
+    "terraform": true,
+    "pulumi": "pulumi-go"
+  },
+  "dev_test_disjoint": true,
+  "verified": false
+}
