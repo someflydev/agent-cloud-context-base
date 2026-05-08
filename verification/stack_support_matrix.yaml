@@ -8,12 +8,17 @@ matrix:
           support_level: first-class-example
           family: canonical-app-runner
           example: public-api-with-vpc-connector
+          coverage: full-managed-container-surface
         go-echo:
-          status: deferred
-          reason: App Runner Go Echo variant is deferred to PROMPT_28
+          status: supported
+          support_level: first-class-example
+          family: canonical-app-runner
+          example: public-api-with-vpc-connector
         supplier-onboarding:
-          status: deferred
-          reason: App Runner supplier onboarding workflow is deferred to PROMPT_28
+          status: supported
+          support_level: first-class-example
+          family: canonical-app-runner
+          example: supplier-onboarding
     function:
       aws-lambda:
         python:
@@ -61,20 +66,27 @@ matrix:
           support_level: first-class-example
           family: canonical-cloud-run
           example: public-api-private-worker-job
+          coverage: full-managed-container-surface
         multi-container-sidecar:
           status: supported
           support_level: first-class-example
           family: canonical-cloud-run
           example: multi-container-sidecar
         go-echo:
-          status: deferred
-          reason: Cloud Run Go Echo variant is deferred to PROMPT_28
+          status: supported
+          support_level: first-class-example
+          family: canonical-cloud-run
+          example: public-api-private-worker-job
         typescript-hono:
-          status: deferred
-          reason: Cloud Run TypeScript Hono variant is deferred to PROMPT_28
+          status: supported
+          support_level: first-class-example
+          family: canonical-cloud-run
+          example: public-api-private-worker-job
         cloudrun-job:
-          status: deferred
-          reason: standalone Cloud Run job example is deferred to PROMPT_28
+          status: supported
+          support_level: first-class-example
+          family: canonical-cloud-run
+          example: cloudrun-job-nightly-report
     function:
       gcp-cloud-functions:
         python:

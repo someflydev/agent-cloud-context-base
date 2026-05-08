@@ -842,6 +842,99 @@ families:
         cost: real
     last_verified_at: null
     last_verified_status: pending
+  - family: canonical-cloud-run
+    name: public-api-private-worker-job
+    provider: gcp
+    runtime_tier: managed_container
+    language: go
+    iac_tool_terraform: true
+    iac_tool_pulumi: pulumi-go
+    dev_test_disjoint: true
+    verify_command: bash examples/canonical-cloud-run/public-api-private-worker-job/go-echo/tests/verify.sh
+    verify_command_local_provider: bash examples/canonical-cloud-run/public-api-private-worker-job/go-echo/tests/integration/lane-a-local-container/run.sh
+    verify_command_real_cloud: bash examples/canonical-cloud-run/public-api-private-worker-job/go-echo/tests/integration/lane-b-ephemeral-real/run.sh
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-cloud-run/public-api-private-worker-job/go-echo/tests/verify.sh
+      local_provider:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-cloud-run/public-api-private-worker-job/go-echo/tests/integration/lane-a-local-container/run.sh
+        lane: lane-a-local-container
+        provider: minisky
+        gate: ACCB_RUN_LOCAL_PROVIDER=1
+      real_cloud:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-cloud-run/public-api-private-worker-job/go-echo/tests/integration/lane-b-ephemeral-real/run.sh
+        lane: lane-b-ephemeral-real
+        cost: real
+    last_verified_at: null
+    last_verified_status: pending
+  - family: canonical-cloud-run
+    name: public-api-private-worker-job
+    provider: gcp
+    runtime_tier: managed_container
+    language: typescript
+    iac_tool_terraform: true
+    iac_tool_pulumi: pulumi-typescript
+    dev_test_disjoint: true
+    verify_command: bash examples/canonical-cloud-run/public-api-private-worker-job/typescript-hono/tests/verify.sh
+    verify_command_local_provider: bash examples/canonical-cloud-run/public-api-private-worker-job/typescript-hono/tests/integration/lane-a-local-container/run.sh
+    verify_command_real_cloud: bash examples/canonical-cloud-run/public-api-private-worker-job/typescript-hono/tests/integration/lane-b-ephemeral-real/run.sh
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-cloud-run/public-api-private-worker-job/typescript-hono/tests/verify.sh
+      local_provider:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-cloud-run/public-api-private-worker-job/typescript-hono/tests/integration/lane-a-local-container/run.sh
+        lane: lane-a-local-container
+        provider: minisky
+        gate: ACCB_RUN_LOCAL_PROVIDER=1
+      real_cloud:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-cloud-run/public-api-private-worker-job/typescript-hono/tests/integration/lane-b-ephemeral-real/run.sh
+        lane: lane-b-ephemeral-real
+        cost: real
+    last_verified_at: null
+    last_verified_status: pending
+  - family: canonical-cloud-run
+    name: cloudrun-job-nightly-report
+    provider: gcp
+    runtime_tier: managed_container
+    language: python
+    iac_tool_terraform: true
+    iac_tool_pulumi: pulumi-python
+    dev_test_disjoint: true
+    verify_command: bash examples/canonical-cloud-run/cloudrun-job-nightly-report/python-fastapi/tests/verify.sh
+    verify_command_local_provider: bash examples/canonical-cloud-run/cloudrun-job-nightly-report/python-fastapi/tests/integration/lane-a-local-container/run.sh
+    verify_command_real_cloud: bash examples/canonical-cloud-run/cloudrun-job-nightly-report/python-fastapi/tests/integration/lane-b-ephemeral-real/run.sh
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-cloud-run/cloudrun-job-nightly-report/python-fastapi/tests/verify.sh
+      local_provider:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-cloud-run/cloudrun-job-nightly-report/python-fastapi/tests/integration/lane-a-local-container/run.sh
+        lane: lane-a-local-container
+        provider: minisky
+        gate: ACCB_RUN_LOCAL_PROVIDER=1
+      real_cloud:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-cloud-run/cloudrun-job-nightly-report/python-fastapi/tests/integration/lane-b-ephemeral-real/run.sh
+        lane: lane-b-ephemeral-real
+        cost: real
+    last_verified_at: null
+    last_verified_status: pending
 - name: canonical-app-runner
   examples:
   - family: canonical-app-runner
@@ -871,6 +964,68 @@ families:
         status: pending
         verified_at: null
         command: bash examples/canonical-app-runner/public-api-with-vpc-connector/python-fastapi/tests/integration/lane-b-ephemeral-real/run.sh
+        lane: lane-b-ephemeral-real
+        cost: real
+    last_verified_at: null
+    last_verified_status: pending
+  - family: canonical-app-runner
+    name: public-api-with-vpc-connector
+    provider: aws
+    runtime_tier: managed_container
+    language: go
+    iac_tool_terraform: true
+    iac_tool_pulumi: pulumi-go
+    dev_test_disjoint: true
+    verify_command: bash examples/canonical-app-runner/public-api-with-vpc-connector/go-echo/tests/verify.sh
+    verify_command_local_provider: bash examples/canonical-app-runner/public-api-with-vpc-connector/go-echo/tests/integration/lane-a-local-container/run.sh
+    verify_command_real_cloud: bash examples/canonical-app-runner/public-api-with-vpc-connector/go-echo/tests/integration/lane-b-ephemeral-real/run.sh
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-app-runner/public-api-with-vpc-connector/go-echo/tests/verify.sh
+      local_provider:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-app-runner/public-api-with-vpc-connector/go-echo/tests/integration/lane-a-local-container/run.sh
+        lane: lane-a-local-container
+        provider: ministack
+        gate: ACCB_RUN_LOCAL_PROVIDER=1
+      real_cloud:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-app-runner/public-api-with-vpc-connector/go-echo/tests/integration/lane-b-ephemeral-real/run.sh
+        lane: lane-b-ephemeral-real
+        cost: real
+    last_verified_at: null
+    last_verified_status: pending
+  - family: canonical-app-runner
+    name: supplier-onboarding
+    provider: aws
+    runtime_tier: managed_container
+    language: python
+    iac_tool_terraform: true
+    iac_tool_pulumi: pulumi-python
+    dev_test_disjoint: true
+    verify_command: bash examples/canonical-app-runner/supplier-onboarding/python-fastapi/tests/verify.sh
+    verify_command_local_provider: bash examples/canonical-app-runner/supplier-onboarding/python-fastapi/tests/integration/lane-a-local-container/run.sh
+    verify_command_real_cloud: bash examples/canonical-app-runner/supplier-onboarding/python-fastapi/tests/integration/lane-b-ephemeral-real/run.sh
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-app-runner/supplier-onboarding/python-fastapi/tests/verify.sh
+      local_provider:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-app-runner/supplier-onboarding/python-fastapi/tests/integration/lane-a-local-container/run.sh
+        lane: lane-a-local-container
+        provider: ministack
+        gate: ACCB_RUN_LOCAL_PROVIDER=1
+      real_cloud:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-app-runner/supplier-onboarding/python-fastapi/tests/integration/lane-b-ephemeral-real/run.sh
         lane: lane-b-ephemeral-real
         cost: real
     last_verified_at: null
