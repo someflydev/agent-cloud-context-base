@@ -1,0 +1,3 @@
+name: accb-canonical-iac-pulumi-python-azure
+runtime: python
+description: Canonical Azure Pulumi Python starter for accb.

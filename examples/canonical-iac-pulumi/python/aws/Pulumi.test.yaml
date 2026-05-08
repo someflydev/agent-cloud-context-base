@@ -1,0 +1,6 @@
+stack: test
+config:
+  aws:region: us-east-1
+  accb:environment: test
+  accb:namePrefix: accb-test
+  accb:secretRef: accb/test/app/config

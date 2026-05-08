@@ -1,0 +1,7 @@
+stack: dev
+config:
+  gcp:project: accb-dev-project
+  gcp:region: us-central1
+  accb:environment: dev
+  accb:namePrefix: accb-dev
+  accb:secretRef: accb/dev/app/config

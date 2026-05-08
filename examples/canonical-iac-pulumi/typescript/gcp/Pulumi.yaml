@@ -1,0 +1,3 @@
+name: accb-canonical-iac-pulumi-typescript-gcp
+runtime: nodejs
+description: Canonical GCP Pulumi TypeScript starter for accb.

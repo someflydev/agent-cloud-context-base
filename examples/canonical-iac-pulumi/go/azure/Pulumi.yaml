@@ -1,0 +1,3 @@
+name: accb-canonical-iac-pulumi-go-azure
+runtime: go
+description: Canonical Azure Pulumi Go starter for accb.

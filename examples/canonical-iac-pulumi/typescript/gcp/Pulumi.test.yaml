@@ -1,0 +1,7 @@
+stack: test
+config:
+  gcp:project: accb-test-project
+  gcp:region: us-central1
+  accb:environment: test
+  accb:namePrefix: accb-test
+  accb:secretRef: accb/test/app/config

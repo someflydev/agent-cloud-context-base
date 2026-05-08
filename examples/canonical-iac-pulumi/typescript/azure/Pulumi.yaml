@@ -1,0 +1,3 @@
+name: accb-canonical-iac-pulumi-typescript-azure
+runtime: nodejs
+description: Canonical Azure Pulumi TypeScript starter for accb.

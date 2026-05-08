@@ -1,0 +1,3 @@
+name: accb-canonical-iac-pulumi-python-aws
+runtime: python
+description: Canonical AWS Pulumi Python starter for accb.
