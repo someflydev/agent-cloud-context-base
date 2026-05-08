@@ -1,0 +1,18 @@
+services:
+  api:
+    build: ../../..
+    environment:
+      PORT: "8080"
+      COSMOS_CONTAINER: workflow
+      ATTACHMENT_CONTAINER: attachments
+      SERVICEBUS_QUEUE: accb-dev-aca-work
+      API_SECRET_NAME: keyvaultref:api-key
+      MINIBLUE_ENDPOINT: http://miniblue:11000
+    ports:
+      - "8080:8080"
+    depends_on:
+      - miniblue
+  miniblue:
+    image: moabukar/miniblue:latest
+    ports:
+      - "11000:11000"

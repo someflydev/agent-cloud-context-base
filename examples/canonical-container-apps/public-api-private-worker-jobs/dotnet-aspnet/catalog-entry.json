@@ -1,0 +1,11 @@
+{
+  "family": "canonical-container-apps",
+  "name": "public-api-private-worker-jobs",
+  "path": "examples/canonical-container-apps/public-api-private-worker-jobs/dotnet-aspnet",
+  "provider": "azure",
+  "runtime_tier": "managed_container",
+  "language": "dotnet-aspnet",
+  "iac": { "terraform": true, "pulumi": "pulumi-dotnet" },
+  "dev_test_disjoint": true,
+  "verified": false
+}

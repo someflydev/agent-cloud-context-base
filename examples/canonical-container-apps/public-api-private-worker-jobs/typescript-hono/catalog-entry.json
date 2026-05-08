@@ -1,0 +1,11 @@
+{
+  "family": "canonical-container-apps",
+  "name": "public-api-private-worker-jobs",
+  "path": "examples/canonical-container-apps/public-api-private-worker-jobs/typescript-hono",
+  "provider": "azure",
+  "runtime_tier": "managed_container",
+  "language": "typescript-hono",
+  "iac": { "terraform": true, "pulumi": "pulumi-typescript" },
+  "dev_test_disjoint": true,
+  "verified": false
+}

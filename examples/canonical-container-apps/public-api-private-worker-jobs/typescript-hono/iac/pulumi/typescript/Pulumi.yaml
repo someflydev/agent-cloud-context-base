@@ -1,0 +1,3 @@
+name: accb-aca-public-worker-jobs-typescript
+runtime: nodejs
+description: accb Azure Container Apps public API, private worker, and jobs TypeScript Hono example
