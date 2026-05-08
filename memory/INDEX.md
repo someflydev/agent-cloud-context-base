@@ -31,7 +31,7 @@ Tracked artifacts only. Do not add entries for `memory/sessions/` or
 
 - [k8s-canonical-arc.md](concepts/k8s-canonical-arc.md) — PROMPT_23 Kubernetes seed examples
 - [k8s-canonical-arc-complete.md](concepts/k8s-canonical-arc-complete.md) — PROMPT_30 complete 6-platform Kubernetes canonical surface
-- [cross-cutting-canonical-arc.md](concepts/cross-cutting-canonical-arc.md) — PROMPT_24 cross-cutting canonical IaC, observability, secrets, eventing, and prompt examples
+- [cross-cutting-canonical-arc.md](concepts/cross-cutting-canonical-arc.md) — PROMPT_24/PROMPT_31 cross-cutting canonical examples and complete 10-tree Pulumi starter surface
 
 ## Tiers
 

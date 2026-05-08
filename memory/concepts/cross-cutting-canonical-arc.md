@@ -5,15 +5,15 @@ families:
 
 - `examples/canonical-iac-terraform/` with AWS, GCP, and Azure dev/test
   isolated starters.
-- `examples/canonical-iac-pulumi/` with the initial seed set:
-  TypeScript/AWS, Python/GCP, Go/AWS, and .NET/Azure.
+- `examples/canonical-iac-pulumi/` with the full 10-tree Pulumi starter
+  surface: TypeScript/AWS/GCP/Azure, Python/AWS/GCP/Azure,
+  Go/AWS/GCP/Azure, and .NET/Azure.
 - `examples/canonical-observability/` for OTel collector and structured-log
   fixtures.
 - `examples/canonical-secrets/` for identity-bound secret retrieval.
 - `examples/canonical-eventing/` for DLQ, replay, and ordering references.
 - `examples/canonical-prompts/` for starter monotonic prompt files.
 
-The initial cross-cutting seed surface is complete. PROMPT_31 owns the deferred
+The cross-cutting seed surface is complete, including PROMPT_31's deferred
 Pulumi provider and language cross-product expansion. PROMPT_32 builds the
-cross-provider integration testing harness and arc documentation over this
-surface.
+parity harness over the now-complete canonical example set.

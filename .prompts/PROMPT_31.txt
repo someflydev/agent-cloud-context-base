@@ -108,16 +108,16 @@ COMPLETION GATES
 You may edit this file in place to tick the boxes off after the prompt has
 been run.
 
-  - [ ] All 10 Pulumi starter trees now exist with the PROMPT_24 Part 2 layout.
-  - [ ] The 6 deferred required trees from PROMPT_24 are now authored.
-  - [ ] `validate_iac_isolation.py` is clean across the full Pulumi starter set.
-  - [ ] Catalog + registry + support matrix reflect the full Pulumi starter
+  - [x] All 10 Pulumi starter trees now exist with the PROMPT_24 Part 2 layout.
+  - [x] The 6 deferred required trees from PROMPT_24 are now authored.
+  - [x] `validate_iac_isolation.py` is clean across the full Pulumi starter set.
+  - [x] Catalog + registry + support matrix reflect the full Pulumi starter
         surface, including tiered verification metadata.
-  - [ ] No `acb` / `.acb/` references.
-  - [ ] `tmp/PROMPT_31_checklist.md` is fully checked.
-  - [ ] `memory/concepts/cross-cutting-canonical-arc.md` is updated to note
+  - [x] No `acb` / `.acb/` references.
+  - [x] `tmp/PROMPT_31_checklist.md` is fully checked.
+  - [x] `memory/concepts/cross-cutting-canonical-arc.md` is updated to note
         the full 10-tree Pulumi surface and that PROMPT_32 builds the parity
         harness over the now-complete canonical example set.
-  - [ ] `memory/INDEX.md` lists the updated concept.
+  - [x] `memory/INDEX.md` lists the updated concept.
 
 End of PROMPT_31.
