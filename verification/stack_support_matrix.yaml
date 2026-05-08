@@ -56,8 +56,10 @@ matrix:
           family: canonical-eks
           example: multi-role-platform
         go:
-          status: deferred
-          reason: EKS Go variant is deferred to PROMPT_30
+          status: supported
+          support_level: first-class-example
+          family: canonical-eks
+          example: multi-role-platform
   gcp:
     managed_container:
       cloud-run:
@@ -138,9 +140,12 @@ matrix:
           family: canonical-gke
           example: multi-role-platform
         go:
-          status: deferred
-          reason: GKE Go variant and keda-autoscaled-workers sub-example are deferred
-            to PROMPT_30
+          status: supported
+          support_level: first-class-example
+          family: canonical-gke
+          example: multi-role-platform
+          sub_examples:
+          - keda-autoscaled-workers
   azure:
     managed_container:
       container-apps:
@@ -207,5 +212,7 @@ matrix:
           family: canonical-aks
           example: multi-role-platform
         typescript:
-          status: deferred
-          reason: AKS TypeScript variant is deferred to PROMPT_30
+          status: supported
+          support_level: first-class-example
+          family: canonical-aks
+          example: multi-role-platform

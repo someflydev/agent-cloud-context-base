@@ -1193,6 +1193,41 @@ families:
         cost: $5-$50
     last_verified_at: null
     last_verified_status: pending
+  - family: canonical-eks
+    name: multi-role-platform
+    provider: aws
+    runtime_tier: k8s
+    language: go
+    iac_tool_terraform: true
+    iac_tool_pulumi: pulumi-go
+    dev_test_disjoint: true
+    verify_command: bash examples/canonical-eks/multi-role-platform/go/tests/verify.sh
+    verify_command_local_provider: bash examples/canonical-eks/multi-role-platform/go/tests/integration/lane-a-kind/test_platform.sh
+    verify_command_real_cloud: bash examples/canonical-eks/multi-role-platform/go/tests/integration/lane-b-ephemeral-real/up.sh
+      && bash examples/canonical-eks/multi-role-platform/go/tests/integration/lane-b-ephemeral-real/test_platform.sh
+      && bash examples/canonical-eks/multi-role-platform/go/tests/integration/lane-b-ephemeral-real/down.sh
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-eks/multi-role-platform/go/tests/verify.sh
+      local_provider:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-eks/multi-role-platform/go/tests/integration/lane-a-kind/test_platform.sh
+        lane: lane-a-kind
+        provider: ministack
+        gate: ACCB_RUN_LOCAL_PROVIDER=1
+      real_cloud:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-eks/multi-role-platform/go/tests/integration/lane-b-ephemeral-real/up.sh
+          && bash examples/canonical-eks/multi-role-platform/go/tests/integration/lane-b-ephemeral-real/test_platform.sh
+          && bash examples/canonical-eks/multi-role-platform/go/tests/integration/lane-b-ephemeral-real/down.sh
+        lane: lane-b-ephemeral-real
+        cost: $5-$50
+    last_verified_at: null
+    last_verified_status: pending
 - name: canonical-gke
   examples:
   - family: canonical-gke
@@ -1230,6 +1265,43 @@ families:
         cost: $5-$50
     last_verified_at: null
     last_verified_status: pending
+  - family: canonical-gke
+    name: multi-role-platform
+    provider: gcp
+    runtime_tier: k8s
+    language: go
+    iac_tool_terraform: true
+    iac_tool_pulumi: pulumi-go
+    dev_test_disjoint: true
+    verify_command: bash examples/canonical-gke/multi-role-platform/go/tests/verify.sh
+    verify_command_local_provider: bash examples/canonical-gke/multi-role-platform/go/tests/integration/lane-a-kind/test_platform.sh
+    verify_command_real_cloud: bash examples/canonical-gke/multi-role-platform/go/tests/integration/lane-b-ephemeral-real/up.sh
+      && bash examples/canonical-gke/multi-role-platform/go/tests/integration/lane-b-ephemeral-real/test_platform.sh
+      && bash examples/canonical-gke/multi-role-platform/go/tests/integration/lane-b-ephemeral-real/down.sh
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-gke/multi-role-platform/go/tests/verify.sh
+      local_provider:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-gke/multi-role-platform/go/tests/integration/lane-a-kind/test_platform.sh
+        lane: lane-a-kind
+        provider: minisky
+        gate: ACCB_RUN_LOCAL_PROVIDER=1
+      real_cloud:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-gke/multi-role-platform/go/tests/integration/lane-b-ephemeral-real/up.sh
+          && bash examples/canonical-gke/multi-role-platform/go/tests/integration/lane-b-ephemeral-real/test_platform.sh
+          && bash examples/canonical-gke/multi-role-platform/go/tests/integration/lane-b-ephemeral-real/down.sh
+        lane: lane-b-ephemeral-real
+        cost: $5-$50
+    sub_examples:
+    - keda-autoscaled-workers
+    last_verified_at: null
+    last_verified_status: pending
 - name: canonical-aks
   examples:
   - family: canonical-aks
@@ -1263,6 +1335,41 @@ families:
         command: bash examples/canonical-aks/multi-role-platform/dotnet/tests/integration/lane-b-ephemeral-real/up.sh
           && bash examples/canonical-aks/multi-role-platform/dotnet/tests/integration/lane-b-ephemeral-real/test_platform.sh
           && bash examples/canonical-aks/multi-role-platform/dotnet/tests/integration/lane-b-ephemeral-real/down.sh
+        lane: lane-b-ephemeral-real
+        cost: $5-$50
+    last_verified_at: null
+    last_verified_status: pending
+  - family: canonical-aks
+    name: multi-role-platform
+    provider: azure
+    runtime_tier: k8s
+    language: typescript
+    iac_tool_terraform: true
+    iac_tool_pulumi: pulumi-typescript
+    dev_test_disjoint: true
+    verify_command: bash examples/canonical-aks/multi-role-platform/typescript/tests/verify.sh
+    verify_command_local_provider: bash examples/canonical-aks/multi-role-platform/typescript/tests/integration/lane-a-kind/test_platform.sh
+    verify_command_real_cloud: bash examples/canonical-aks/multi-role-platform/typescript/tests/integration/lane-b-ephemeral-real/up.sh
+      && bash examples/canonical-aks/multi-role-platform/typescript/tests/integration/lane-b-ephemeral-real/test_platform.sh
+      && bash examples/canonical-aks/multi-role-platform/typescript/tests/integration/lane-b-ephemeral-real/down.sh
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aks/multi-role-platform/typescript/tests/verify.sh
+      local_provider:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aks/multi-role-platform/typescript/tests/integration/lane-a-kind/test_platform.sh
+        lane: lane-a-kind
+        provider: miniblue
+        gate: ACCB_RUN_LOCAL_PROVIDER=1
+      real_cloud:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-aks/multi-role-platform/typescript/tests/integration/lane-b-ephemeral-real/up.sh
+          && bash examples/canonical-aks/multi-role-platform/typescript/tests/integration/lane-b-ephemeral-real/test_platform.sh
+          && bash examples/canonical-aks/multi-role-platform/typescript/tests/integration/lane-b-ephemeral-real/down.sh
         lane: lane-b-ephemeral-real
         cost: $5-$50
     last_verified_at: null

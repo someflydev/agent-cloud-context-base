@@ -111,20 +111,20 @@ COMPLETION GATES
 You may edit this file in place to tick the boxes off after the prompt has
 been run.
 
-  - [ ] All 6 k8s multi-role platforms now exist with the PROMPT_23 layout.
-  - [ ] The 3 deferred required examples from PROMPT_23 are now authored.
-  - [ ] Every platform has parallel Kustomize + Helm manifests.
-  - [ ] Worker idempotency + cron concurrency coverage exists across the
+  - [x] All 6 k8s multi-role platforms now exist with the PROMPT_23 layout.
+  - [x] The 3 deferred required examples from PROMPT_23 are now authored.
+  - [x] Every platform has parallel Kustomize + Helm manifests.
+  - [x] Worker idempotency + cron concurrency coverage exists across the
         full k8s surface.
-  - [ ] Terraform + Pulumi-language IaC for every platform is
+  - [x] Terraform + Pulumi-language IaC for every platform is
         `validate_iac_isolation` clean.
-  - [ ] Catalog + registry + support matrix reflect the full k8s surface,
+  - [x] Catalog + registry + support matrix reflect the full k8s surface,
         including tiered verification metadata.
-  - [ ] No `acb` / `.acb/` references.
-  - [ ] `tmp/PROMPT_30_checklist.md` is fully checked.
-  - [ ] `memory/concepts/k8s-canonical-arc-complete.md` is updated to note
+  - [x] No `acb` / `.acb/` references.
+  - [x] `tmp/PROMPT_30_checklist.md` is fully checked.
+  - [x] `memory/concepts/k8s-canonical-arc-complete.md` is updated to note
         the full 6-platform surface and that PROMPT_31 completes the Pulumi
         starter cross-product before parity wiring.
-  - [ ] `memory/INDEX.md` lists the updated concept.
+  - [x] `memory/INDEX.md` lists the updated concept.
 
 End of PROMPT_30.
