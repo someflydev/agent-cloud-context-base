@@ -1,0 +1,4 @@
+name: accb-apprunner-supplier-onboarding
+runtime:
+  name: python
+description: accb App Runner VPC connector example

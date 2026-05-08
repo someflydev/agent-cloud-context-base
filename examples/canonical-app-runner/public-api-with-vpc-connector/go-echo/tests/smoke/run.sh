@@ -3,7 +3,7 @@ set -euo pipefail
 cd "$(dirname "$0")/../.."
 IMAGE="accb-apprunner-vpc:smoke"
 NAME="accb-apprunner-vpc-smoke"
-PORT="${ACCB_SMOKE_PORT:-18190}"
+PORT="${ACCB_SMOKE_PORT:-18191}"
 docker build -t "$IMAGE" .
 docker rm -f "$NAME" >/dev/null 2>&1 || true
 docker run --rm -d --name "$NAME" -p "$PORT:8080" "$IMAGE" >/dev/null

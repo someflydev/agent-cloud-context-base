@@ -1,0 +1,12 @@
+services:
+  service:
+    build: ../../..
+    environment:
+      PORT: "8080"
+      DB_HOST: "postgres.ministack.internal"
+      DB_SECRET_PATH: "/accb/dev/apprunner/vpc/db"
+    ports:
+      - "8082:8080"
+  ministack:
+    image: localstack/localstack:latest
+    profiles: ["provider"]

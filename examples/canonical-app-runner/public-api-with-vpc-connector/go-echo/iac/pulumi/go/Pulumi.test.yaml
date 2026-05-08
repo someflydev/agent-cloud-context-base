@@ -1,0 +1,6 @@
+stack: test
+config:
+  accb:environment: test
+  accb:state_path: pulumi/apprunner/public-api-with-vpc-connector/go/test
+  accb:secret_path: /accb/test/apprunner/vpc-api-go
+  accb:resource_prefix: accb-test-apprunner-vpc-api-go

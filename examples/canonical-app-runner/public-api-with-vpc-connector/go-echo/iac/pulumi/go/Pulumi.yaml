@@ -1,0 +1,4 @@
+name: accb-apprunner-public-api-with-vpc-connector-go
+runtime:
+  name: go
+description: accb App Runner Go API with VPC connector

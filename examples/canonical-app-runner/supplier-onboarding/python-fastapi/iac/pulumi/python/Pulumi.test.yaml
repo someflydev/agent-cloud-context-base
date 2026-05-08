@@ -1,0 +1,4 @@
+stack: test
+config:
+  accb:environment: test
+  accb:secret_path: /accb/test/apprunner/vpc/db

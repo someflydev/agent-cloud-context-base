@@ -3,7 +3,7 @@ set -euo pipefail
 cd "$(dirname "$0")/../.."
 IMAGE="accb-apprunner-vpc:smoke"
 NAME="accb-apprunner-vpc-smoke"
-PORT="${ACCB_SMOKE_PORT:-18190}"
+PORT="${ACCB_SMOKE_PORT:-18192}"
 docker build -t "$IMAGE" .
 docker rm -f "$NAME" >/dev/null 2>&1 || true
 docker run --rm -d --name "$NAME" -p "$PORT:8080" "$IMAGE" >/dev/null
@@ -19,4 +19,4 @@ for _ in $(seq 1 30); do
 done
 curl -fsS "http://127.0.0.1:$PORT/healthz" >/dev/null
 curl -fsS "http://127.0.0.1:$PORT/readyz" >/dev/null
-curl -fsS -X POST "http://127.0.0.1:$PORT/suppliers" -H 'content-type: application/json' -d '{"supplier_id":"smoke"}' >/dev/null
+curl -fsS -X POST "http://127.0.0.1:$PORT/suppliers/onboard" -H 'content-type: application/json' -d '{"supplier_id":"smoke"}' >/dev/null
