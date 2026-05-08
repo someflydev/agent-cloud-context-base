@@ -8,4 +8,4 @@ PROMPT_30 completes the first-class accb Kubernetes example surface with six mul
 
 Each platform keeps the PROMPT_23 contract: API, worker, job, cronjob, control-plane IaC, parallel Kustomize and Helm manifests, kind Lane A with provider fakes, ephemeral real-cluster Lane B, replay idempotency coverage, and cron `concurrencyPolicy: Forbid` coverage.
 
-The Go GKE platform includes `keda-autoscaled-workers/` for the promised Pub/Sub backlog autoscaling sub-example. PROMPT_31 completes the Pulumi starter cross-product before final parity wiring in PROMPT_33.
+The Go GKE platform includes `keda-autoscaled-workers/` for the promised Pub/Sub backlog autoscaling sub-example. PROMPT_31 completed the Pulumi starter cross-product, and PROMPT_33 completed final parity wiring.

@@ -36,5 +36,5 @@ Managed-container examples use a shifted layout from function examples:
 `Dockerfile`, `src/`, health/readiness endpoints, local-container Lane A,
 and ephemeral-real Lane B.
 
-PROMPT_29 completes the managed-container expansion arc with the remaining
+PROMPT_29 completed the managed-container expansion arc with the remaining
 Azure Container Apps examples.

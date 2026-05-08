@@ -20,5 +20,5 @@ The arc docs now live in `docs/`:
 - `docs/containers-arc-overview.md`
 - `docs/kubernetes-arc-overview.md`
 
-PROMPT_33 remains responsible for final root README wiring, ARCHITECTURE_MAP,
-and end-to-end smoke coverage.
+PROMPT_33 completed the final root README wiring, ARCHITECTURE_MAP, and
+end-to-end generation smoke coverage.

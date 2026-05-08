@@ -34,6 +34,7 @@ Tracked artifacts only. Do not add entries for `memory/sessions/` or
 - [cross-cutting-canonical-arc.md](concepts/cross-cutting-canonical-arc.md) — PROMPT_24/PROMPT_31 cross-cutting canonical examples and complete 10-tree Pulumi starter surface
 - [dogfooding-audit-resolutions.md](concepts/dogfooding-audit-resolutions.md) — PROMPT_32 dogfooding audit follow-up resolution
 - [integration-harness-and-arc-docs.md](concepts/integration-harness-and-arc-docs.md) — PROMPT_32 integration harnesses, parity runners, and arc docs
+- [cloud-arc-bootstrap-complete.md](concepts/cloud-arc-bootstrap-complete.md) — PROMPT_33 final docs, generation smoke, and bootstrap arc closure
 
 ## Tiers
 
