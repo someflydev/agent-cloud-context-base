@@ -1,0 +1,3 @@
+name: accb-eks-multi-role-platform-go
+runtime: go
+description: accb canonical EKS Go multi-role platform control plane

@@ -1,0 +1,8 @@
+stack: test
+config:
+  accb:environment: test
+  accb:region: us-east-2
+  accb:envVarPrefix: accb_aws_test
+  accb:secretPath: /accb/eks/multi-role-platform/test/workload
+  accb:imageRepository: ghcr.io/someflydev/accb-canonical-eks
+  accb:imageTag: test

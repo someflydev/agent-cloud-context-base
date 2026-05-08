@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: multi-role-platform-worker
+  namespace: accb-eks-platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: multi-role-platform, role: worker }
+  template:
+    metadata:
+      labels: { app: multi-role-platform, role: worker }
+    spec:
+      serviceAccountName: multi-role-platform
+      containers:
+        - name: worker
+          image: ghcr.io/someflydev/accb-canonical-eks-worker:dev
+          env:
+            - name: ACCB_ENV
+              value: dev
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: multi-role-platform-enrichment-worker
+  namespace: accb-eks-platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: multi-role-platform, role: enrichment-worker }
+  template:
+    metadata:
+      labels: { app: multi-role-platform, role: enrichment-worker }
+    spec:
+      serviceAccountName: multi-role-platform
+      nodeSelector:
+        accb.dev/gpu-optional: "true"
+      tolerations:
+        - key: nvidia.com/gpu
+          operator: Exists
+          effect: NoSchedule
+      containers:
+        - name: enrichment-worker
+          image: ghcr.io/someflydev/accb-canonical-eks-worker:dev
+          env:
+            - name: ACCB_ENV
+              value: dev
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: multi-role-platform-worker
+  namespace: accb-eks-platform
+spec:
+  scaleTargetRef:
+    name: multi-role-platform-worker
+  minReplicaCount: 1
+  maxReplicaCount: 10
+  triggers:
+    - type: kafka
+      metadata:
+        queueName: accb-aws-events-dev
+        lagThreshold: "10"

@@ -1,0 +1,8 @@
+stack: dev
+config:
+  accb:environment: dev
+  accb:region: us-east-1
+  accb:envVarPrefix: accb_aws_dev
+  accb:secretPath: /accb/eks/multi-role-platform/dev/workload
+  accb:imageRepository: ghcr.io/someflydev/accb-canonical-eks
+  accb:imageTag: dev
