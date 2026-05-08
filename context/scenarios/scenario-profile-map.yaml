@@ -34,6 +34,7 @@ patterns:
       - examples/canonical-aws-lambda/signed-webhook-orchestrator/
       - examples/canonical-gcp-functions/signed-webhook-orchestrator/
       - examples/canonical-azure-functions/signed-webhook-orchestrator/
+    examples_deferred: true
   function.queue-backed-worker:
     runtime_tier: function
     archetype: multi-function-platform
@@ -49,6 +50,7 @@ patterns:
       - examples/canonical-aws-lambda/queue-backed-document-classifier/
       - examples/canonical-gcp-functions/pubsub-worker/
       - examples/canonical-azure-functions/servicebus-worker/
+    examples_deferred: true
   function.change-event-relay:
     runtime_tier: function
     archetype: cloud-event-pipeline
@@ -64,6 +66,7 @@ patterns:
       - examples/canonical-aws-lambda/change-event-relay/
       - examples/canonical-gcp-functions/pubsub-change-relay/
       - examples/canonical-azure-functions/cosmos-change-feed-relay/
+    examples_deferred: true
   function.identity-or-alert-trigger:
     runtime_tier: function
     archetype: cloud-function-repo
@@ -79,6 +82,7 @@ patterns:
       - examples/canonical-aws-lambda/identity-alert-trigger/
       - examples/canonical-gcp-functions/identity-alert-trigger/
       - examples/canonical-azure-functions/identity-alert-trigger/
+    examples_deferred: true
   function.scheduled-report-or-maintenance:
     runtime_tier: function
     archetype: cloud-function-repo
@@ -94,6 +98,7 @@ patterns:
       - examples/canonical-aws-lambda/scheduled-report-maintenance/
       - examples/canonical-gcp-functions/scheduled-report-maintenance/
       - examples/canonical-azure-functions/scheduled-report-maintenance/
+    examples_deferred: true
   container.public-api-private-worker-job:
     runtime_tier: managed_container
     archetype: managed-container-multi-service
@@ -124,6 +129,7 @@ patterns:
       - examples/canonical-cloud-run/heavy-runtime-service/
       - examples/canonical-app-runner/heavy-runtime-service/
       - examples/canonical-container-apps/heavy-runtime-service/
+    examples_deferred: true
   container.partner-adapter-gateway:
     runtime_tier: managed_container
     archetype: managed-container-multi-service
@@ -139,6 +145,7 @@ patterns:
       - examples/canonical-cloud-run/partner-adapter-gateway/
       - examples/canonical-app-runner/partner-adapter-gateway/
       - examples/canonical-container-apps/partner-adapter-gateway/
+    examples_deferred: true
   container.multi-container-sidecar:
     runtime_tier: managed_container
     archetype: managed-container-service
@@ -167,6 +174,7 @@ patterns:
     preferred_examples:
       - examples/canonical-cloud-run/job-first-container/
       - examples/canonical-container-apps/job-first-container/
+    examples_deferred: true
   k8s.multi-role-platform:
     runtime_tier: k8s
     archetype: k8s-platform-repo
@@ -197,6 +205,7 @@ patterns:
       - examples/canonical-eks/stream-replay-platform/
       - examples/canonical-gke/stream-replay-platform/
       - examples/canonical-aks/stream-replay-platform/
+    examples_deferred: true
   k8s.rag-knowledge-mesh:
     runtime_tier: k8s
     archetype: k8s-platform-repo
@@ -212,6 +221,7 @@ patterns:
       - examples/canonical-eks/rag-knowledge-mesh/
       - examples/canonical-gke/rag-knowledge-mesh/
       - examples/canonical-aks/rag-knowledge-mesh/
+    examples_deferred: true
   k8s.regulated-document-platform:
     runtime_tier: k8s
     archetype: k8s-multi-tenant-platform
@@ -227,6 +237,7 @@ patterns:
       - examples/canonical-eks/regulated-document-platform/
       - examples/canonical-gke/regulated-document-platform/
       - examples/canonical-aks/regulated-document-platform/
+    examples_deferred: true
   k8s.workflow-control-plane:
     runtime_tier: k8s
     archetype: k8s-platform-repo
@@ -242,6 +253,7 @@ patterns:
       - examples/canonical-eks/workflow-control-plane/
       - examples/canonical-gke/workflow-control-plane/
       - examples/canonical-aks/workflow-control-plane/
+    examples_deferred: true
   k8s.heterogeneous-compute-platform:
     runtime_tier: k8s
     archetype: k8s-platform-repo
@@ -257,3 +269,4 @@ patterns:
       - examples/canonical-eks/heterogeneous-compute-platform/
       - examples/canonical-gke/heterogeneous-compute-platform/
       - examples/canonical-aks/heterogeneous-compute-platform/
+    examples_deferred: true
