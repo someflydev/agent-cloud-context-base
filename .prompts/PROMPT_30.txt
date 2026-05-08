@@ -89,7 +89,7 @@ surface is now real:
 VERIFICATION (this prompt)
 ================================================================================
 
-  1. `find examples/canonical-eks examples/canonical-gke examples/canonical-aks -mindepth 3 -maxdepth 3 -type d | wc -l`
+  1. `find examples/canonical-eks examples/canonical-gke examples/canonical-aks -mindepth 2 -maxdepth 2 -type d | wc -l`
      shows 6 example directories.
   2. Every platform has the PROMPT_23 Part 1 layout with parallel Kustomize
      and Helm manifests.
