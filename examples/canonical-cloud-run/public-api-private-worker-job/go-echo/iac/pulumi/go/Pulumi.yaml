@@ -1,0 +1,4 @@
+name: accb-cloudrun-public-api-private-worker-job-go
+runtime:
+  name: go
+description: accb Cloud Run Go public service, private worker, and scheduled job

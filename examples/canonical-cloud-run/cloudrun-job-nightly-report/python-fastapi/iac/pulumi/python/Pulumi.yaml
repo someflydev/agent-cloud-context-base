@@ -1,0 +1,4 @@
+name: accb-cloudrun-cloudrun-job-nightly-report
+runtime:
+  name: python
+description: accb Cloud Run public service, private worker, and scheduled job

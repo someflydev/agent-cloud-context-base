@@ -1,0 +1,4 @@
+name: accb-cloudrun-public-api-private-worker-job-typescript
+runtime:
+  name: nodejs
+description: accb Cloud Run TypeScript public service, private worker, and scheduled job

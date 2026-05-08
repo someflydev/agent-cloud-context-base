@@ -1,0 +1,11 @@
+{
+  "family": "canonical-cloud-run",
+  "name": "public-api-private-worker-job",
+  "path": "examples/canonical-cloud-run/public-api-private-worker-job/typescript-hono",
+  "provider": "gcp",
+  "runtime_tier": "managed_container",
+  "language": "typescript",
+  "iac": { "terraform": true, "pulumi": "pulumi-typescript" },
+  "dev_test_disjoint": true,
+  "verified": false
+}

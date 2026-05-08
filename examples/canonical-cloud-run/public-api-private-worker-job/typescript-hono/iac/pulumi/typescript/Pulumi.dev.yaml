@@ -1,0 +1,6 @@
+stack: dev
+config:
+  accb:environment: dev
+  accb:state_path: pulumi/cloudrun/public-api-private-worker-job/typescript/dev
+  accb:secret_path: /accb/dev/cloudrun/public-worker-typescript
+  accb:resource_prefix: accb-dev-cloudrun-public-worker-typescript

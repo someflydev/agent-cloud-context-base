@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(dirname "$0")/../.."
-IMAGE="accb-cloudrun-public-worker:smoke"
-NAME="accb-cloudrun-public-worker-smoke"
-PORT="${ACCB_SMOKE_PORT:-18180}"
+IMAGE="accb-cloudrun-public-worker-go:smoke"
+NAME="accb-cloudrun-public-worker-go-smoke"
+PORT="${ACCB_SMOKE_PORT:-18181}"
 docker build -t "$IMAGE" .
 docker rm -f "$NAME" >/dev/null 2>&1 || true
 docker run --rm -d --name "$NAME" -p "$PORT:8080" "$IMAGE" >/dev/null
