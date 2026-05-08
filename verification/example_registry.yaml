@@ -673,6 +673,111 @@ families:
         cost: real
     last_verified_at: null
     last_verified_status: pending
+  - family: canonical-azure-functions
+    name: blob-trigger-receipt-ocr
+    provider: azure
+    runtime_tier: function
+    language: typescript
+    iac_tool_terraform: true
+    iac_tool_pulumi: pulumi-typescript
+    dev_test_disjoint: true
+    verify_command: bash examples/canonical-azure-functions/blob-trigger-receipt-ocr/typescript/tests/verify.sh
+    verify_command_local_provider: bash examples/canonical-azure-functions/blob-trigger-receipt-ocr/typescript/tests/integration/lane-a-miniblue/run.sh
+    verify_command_real_cloud: bash examples/canonical-azure-functions/blob-trigger-receipt-ocr/typescript/tests/integration/lane-b-ephemeral-real/up.sh
+      && node examples/canonical-azure-functions/blob-trigger-receipt-ocr/typescript/tests/integration/lane-b-ephemeral-real/test_handler.js
+      && bash examples/canonical-azure-functions/blob-trigger-receipt-ocr/typescript/tests/integration/lane-b-ephemeral-real/down.sh
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-azure-functions/blob-trigger-receipt-ocr/typescript/tests/verify.sh
+      local_provider:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-azure-functions/blob-trigger-receipt-ocr/typescript/tests/integration/lane-a-miniblue/run.sh
+        lane: lane-a-miniblue
+        provider: miniblue
+        gate: ACCB_RUN_LOCAL_PROVIDER=1
+      real_cloud:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-azure-functions/blob-trigger-receipt-ocr/typescript/tests/integration/lane-b-ephemeral-real/up.sh
+          && node examples/canonical-azure-functions/blob-trigger-receipt-ocr/typescript/tests/integration/lane-b-ephemeral-real/test_handler.js
+          && bash examples/canonical-azure-functions/blob-trigger-receipt-ocr/typescript/tests/integration/lane-b-ephemeral-real/down.sh
+        lane: lane-b-ephemeral-real
+        cost: real
+    last_verified_at: null
+    last_verified_status: pending
+  - family: canonical-azure-functions
+    name: blob-trigger-receipt-ocr
+    provider: azure
+    runtime_tier: function
+    language: dotnet-isolated
+    iac_tool_terraform: true
+    iac_tool_pulumi: pulumi-dotnet
+    dev_test_disjoint: true
+    verify_command: bash examples/canonical-azure-functions/blob-trigger-receipt-ocr/dotnet-isolated/tests/verify.sh
+    verify_command_local_provider: bash examples/canonical-azure-functions/blob-trigger-receipt-ocr/dotnet-isolated/tests/integration/lane-a-miniblue/run.sh
+    verify_command_real_cloud: bash examples/canonical-azure-functions/blob-trigger-receipt-ocr/dotnet-isolated/tests/integration/lane-b-ephemeral-real/up.sh
+      && python3 examples/canonical-azure-functions/blob-trigger-receipt-ocr/dotnet-isolated/tests/integration/lane-b-ephemeral-real/test_handler.py
+      && bash examples/canonical-azure-functions/blob-trigger-receipt-ocr/dotnet-isolated/tests/integration/lane-b-ephemeral-real/down.sh
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-azure-functions/blob-trigger-receipt-ocr/dotnet-isolated/tests/verify.sh
+      local_provider:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-azure-functions/blob-trigger-receipt-ocr/dotnet-isolated/tests/integration/lane-a-miniblue/run.sh
+        lane: lane-a-miniblue
+        provider: miniblue
+        gate: ACCB_RUN_LOCAL_PROVIDER=1
+      real_cloud:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-azure-functions/blob-trigger-receipt-ocr/dotnet-isolated/tests/integration/lane-b-ephemeral-real/up.sh
+          && python3 examples/canonical-azure-functions/blob-trigger-receipt-ocr/dotnet-isolated/tests/integration/lane-b-ephemeral-real/test_handler.py
+          && bash examples/canonical-azure-functions/blob-trigger-receipt-ocr/dotnet-isolated/tests/integration/lane-b-ephemeral-real/down.sh
+        lane: lane-b-ephemeral-real
+        cost: real
+    last_verified_at: null
+    last_verified_status: pending
+  - family: canonical-azure-functions
+    name: eventgrid-alert-router
+    provider: azure
+    runtime_tier: function
+    language: python
+    iac_tool_terraform: true
+    iac_tool_pulumi: pulumi-python
+    dev_test_disjoint: true
+    verify_command: bash examples/canonical-azure-functions/eventgrid-alert-router/python/tests/verify.sh
+    verify_command_local_provider: bash examples/canonical-azure-functions/eventgrid-alert-router/python/tests/integration/lane-a-miniblue/run.sh
+    verify_command_real_cloud: bash examples/canonical-azure-functions/eventgrid-alert-router/python/tests/integration/lane-b-ephemeral-real/up.sh
+      && python3 examples/canonical-azure-functions/eventgrid-alert-router/python/tests/integration/lane-b-ephemeral-real/test_handler.py
+      && bash examples/canonical-azure-functions/eventgrid-alert-router/python/tests/integration/lane-b-ephemeral-real/down.sh
+    verification:
+      smoke:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-azure-functions/eventgrid-alert-router/python/tests/verify.sh
+      local_provider:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-azure-functions/eventgrid-alert-router/python/tests/integration/lane-a-miniblue/run.sh
+        lane: lane-a-miniblue
+        provider: miniblue
+        gate: ACCB_RUN_LOCAL_PROVIDER=1
+      real_cloud:
+        status: pending
+        verified_at: null
+        command: bash examples/canonical-azure-functions/eventgrid-alert-router/python/tests/integration/lane-b-ephemeral-real/up.sh
+          && python3 examples/canonical-azure-functions/eventgrid-alert-router/python/tests/integration/lane-b-ephemeral-real/test_handler.py
+          && bash examples/canonical-azure-functions/eventgrid-alert-router/python/tests/integration/lane-b-ephemeral-real/down.sh
+        lane: lane-b-ephemeral-real
+        cost: real
+    last_verified_at: null
+    last_verified_status: pending
 - name: canonical-cloud-run
   examples:
   - family: canonical-cloud-run

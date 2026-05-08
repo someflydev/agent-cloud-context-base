@@ -158,16 +158,28 @@ matrix:
           support_level: first-class-example
           family: canonical-azure-functions
           example: blob-trigger-receipt-ocr
+          coverage: full-example-surface
+          examples:
+          - blob-trigger-receipt-ocr
+          - eventgrid-alert-router
         typescript:
           status: supported
           support_level: first-class-example
           family: canonical-azure-functions
           example: cosmos-changefeed-search-sync
+          coverage: full-example-surface
+          examples:
+          - cosmos-changefeed-search-sync
+          - blob-trigger-receipt-ocr
         dotnet-isolated:
           status: supported
           support_level: first-class-example
           family: canonical-azure-functions
           example: servicebus-classification
+          coverage: full-example-surface
+          examples:
+          - servicebus-classification
+          - blob-trigger-receipt-ocr
         powershell:
           status: deferred
           reason: PowerShell remains reserved for ops-only Azure Functions cases

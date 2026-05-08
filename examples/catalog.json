@@ -513,6 +513,48 @@
       },
       "dev_test_disjoint": true,
       "verified": false
+    },
+    {
+      "family": "canonical-azure-functions",
+      "name": "blob-trigger-receipt-ocr",
+      "path": "examples/canonical-azure-functions/blob-trigger-receipt-ocr/typescript",
+      "provider": "azure",
+      "runtime_tier": "function",
+      "language": "typescript",
+      "iac": {
+        "terraform": true,
+        "pulumi": "pulumi-typescript"
+      },
+      "dev_test_disjoint": true,
+      "verified": false
+    },
+    {
+      "family": "canonical-azure-functions",
+      "name": "blob-trigger-receipt-ocr",
+      "path": "examples/canonical-azure-functions/blob-trigger-receipt-ocr/dotnet-isolated",
+      "provider": "azure",
+      "runtime_tier": "function",
+      "language": "dotnet-isolated",
+      "iac": {
+        "terraform": true,
+        "pulumi": "pulumi-dotnet"
+      },
+      "dev_test_disjoint": true,
+      "verified": false
+    },
+    {
+      "family": "canonical-azure-functions",
+      "name": "eventgrid-alert-router",
+      "path": "examples/canonical-azure-functions/eventgrid-alert-router/python",
+      "provider": "azure",
+      "runtime_tier": "function",
+      "language": "python",
+      "iac": {
+        "terraform": true,
+        "pulumi": "pulumi-python"
+      },
+      "dev_test_disjoint": true,
+      "verified": false
     }
   ]
 }
