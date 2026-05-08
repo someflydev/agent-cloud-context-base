@@ -1,7 +1,7 @@
 schema_version: 2
 name: container-cloudrun-fastapi
-description: GCP Cloud Run FastAPI service profile for a managed container API with Pulumi Python IaC, GCP storage, identity, secret, and observability bindings.
-archetype: managed-container-service
+description: GCP Cloud Run FastAPI profile for a managed container API plus private worker/job patterns with Pulumi Python IaC, GCP storage, identity, secret, and observability bindings.
+archetype: managed-container-multi-service
 primary_stack: cloudrun-python-fastapi
 secondary_stacks:
   - secrets-gcp-secret-manager
