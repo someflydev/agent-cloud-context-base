@@ -1,0 +1,15 @@
+rule_id: no-default-creds
+severity: error
+description: IaC must not depend on default local credential profiles.
+file_globs:
+  - "**/*.tf"
+  - "**/*.ts"
+  - "**/*.py"
+  - "**/*.go"
+  - "**/*.cs"
+disallowed_patterns:
+  - 'profile\s*=\s*"default"'
+  - 'AWS_PROFILE\s*=\s*"default"'
+  - GOOGLE_APPLICATION_CREDENTIALS
+  - AzureCliCredential
+fix_hint: Bind credentials through explicit dev/test secret paths or CI identities.

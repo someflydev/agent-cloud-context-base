@@ -1,0 +1,10 @@
+rule_id: dev-test-disjoint
+severity: error
+description: Dev and test IaC state, secrets, and names must be disjoint.
+file_globs:
+  - "**/backend.tf"
+  - "**/Pulumi.*.yaml"
+required_patterns:
+  - dev
+  - test
+fix_hint: Use separate backend keys or Pulumi stacks for dev and test.

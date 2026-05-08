@@ -1,0 +1,16 @@
+rule_id: resource-name-env-suffixed
+severity: error
+description: Cloud resource names must include an environment signal.
+file_globs:
+  - "**/*.tf"
+  - "**/*.ts"
+  - "**/*.py"
+  - "**/*.go"
+  - "**/*.cs"
+required_patterns:
+  - var.environment
+  - pulumi.getStack()
+  - StackName
+  - stack_name
+  - get_stack()
+fix_hint: Include dev/test in resource names through variables or stack names.
