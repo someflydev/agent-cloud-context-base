@@ -18,7 +18,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-aws-lambda/s3-trigger-image-moderation/python/tests/verify.sh
       local_provider:
         status: skipped
@@ -36,7 +36,7 @@ families:
           && bash examples/canonical-aws-lambda/s3-trigger-image-moderation/python/tests/integration/lane-b-ephemeral-real/down.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-aws-lambda
     name: s3-trigger-image-moderation
@@ -54,7 +54,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-aws-lambda/s3-trigger-image-moderation/typescript/tests/verify.sh
       local_provider:
         status: skipped
@@ -72,7 +72,7 @@ families:
           && bash examples/canonical-aws-lambda/s3-trigger-image-moderation/typescript/tests/integration/lane-b-ephemeral-real/down.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-aws-lambda
     name: s3-trigger-image-moderation
@@ -90,7 +90,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-aws-lambda/s3-trigger-image-moderation/go/tests/verify.sh
       local_provider:
         status: skipped
@@ -108,7 +108,7 @@ families:
           && bash examples/canonical-aws-lambda/s3-trigger-image-moderation/go/tests/integration/lane-b-ephemeral-real/down.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-aws-lambda
     name: apigw-stripe-webhook
@@ -126,7 +126,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-aws-lambda/apigw-stripe-webhook/typescript/tests/verify.sh
       local_provider:
         status: skipped
@@ -144,7 +144,7 @@ families:
           && bash examples/canonical-aws-lambda/apigw-stripe-webhook/typescript/tests/integration/lane-b-ephemeral-real/down.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-aws-lambda
     name: apigw-stripe-webhook
@@ -162,7 +162,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-aws-lambda/apigw-stripe-webhook/python/tests/verify.sh
       local_provider:
         status: skipped
@@ -180,7 +180,7 @@ families:
           && bash examples/canonical-aws-lambda/apigw-stripe-webhook/python/tests/integration/lane-b-ephemeral-real/down.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-aws-lambda
     name: sqs-document-translation
@@ -198,7 +198,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-aws-lambda/sqs-document-translation/go/tests/verify.sh
       local_provider:
         status: skipped
@@ -216,7 +216,7 @@ families:
           && bash examples/canonical-aws-lambda/sqs-document-translation/go/tests/integration/lane-b-ephemeral-real/down.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-aws-lambda
     name: sqs-document-translation
@@ -234,7 +234,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-aws-lambda/sqs-document-translation/python/tests/verify.sh
       local_provider:
         status: skipped
@@ -252,7 +252,7 @@ families:
           && bash examples/canonical-aws-lambda/sqs-document-translation/python/tests/integration/lane-b-ephemeral-real/down.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-aws-lambda
     name: eventbridge-cdc-relay
@@ -270,7 +270,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-aws-lambda/eventbridge-cdc-relay/typescript/tests/verify.sh
       local_provider:
         status: skipped
@@ -288,7 +288,7 @@ families:
           && bash examples/canonical-aws-lambda/eventbridge-cdc-relay/typescript/tests/integration/lane-b-ephemeral-real/down.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-aws-lambda
     name: cognito-post-confirmation
@@ -306,7 +306,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-aws-lambda/cognito-post-confirmation/python/tests/verify.sh
       local_provider:
         status: skipped
@@ -324,7 +324,7 @@ families:
           && bash examples/canonical-aws-lambda/cognito-post-confirmation/python/tests/integration/lane-b-ephemeral-real/down.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
 - name: canonical-gcp-functions
   examples:
@@ -344,7 +344,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/python/tests/verify.sh
       local_provider:
         status: skipped
@@ -362,7 +362,7 @@ families:
           && bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/python/tests/integration/lane-b-ephemeral-real/down.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-gcp-functions
     name: http-stripe-webhook
@@ -380,7 +380,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-gcp-functions/http-stripe-webhook/typescript/tests/verify.sh
       local_provider:
         status: skipped
@@ -398,7 +398,7 @@ families:
           && bash examples/canonical-gcp-functions/http-stripe-webhook/typescript/tests/integration/lane-b-ephemeral-real/down.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-gcp-functions
     name: eventarc-monitoring-router
@@ -416,7 +416,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-gcp-functions/eventarc-monitoring-router/go/tests/verify.sh
       local_provider:
         status: skipped
@@ -434,7 +434,7 @@ families:
           && bash examples/canonical-gcp-functions/eventarc-monitoring-router/go/tests/integration/lane-b-ephemeral-real/down.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-gcp-functions
     name: gcs-trigger-ocr-to-firestore
@@ -452,7 +452,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/typescript/tests/verify.sh
       local_provider:
         status: skipped
@@ -470,7 +470,7 @@ families:
           && bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/typescript/tests/integration/lane-b-ephemeral-real/down.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-gcp-functions
     name: gcs-trigger-ocr-to-firestore
@@ -488,7 +488,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/go/tests/verify.sh
       local_provider:
         status: skipped
@@ -507,7 +507,7 @@ families:
           examples/canonical-gcp-functions/gcs-trigger-ocr-to-firestore/go/tests/integration/lane-b-ephemeral-real/down.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-gcp-functions
     name: pubsub-translation-stream
@@ -525,7 +525,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-gcp-functions/pubsub-translation-stream/python/tests/verify.sh
       local_provider:
         status: skipped
@@ -543,7 +543,7 @@ families:
           && bash examples/canonical-gcp-functions/pubsub-translation-stream/python/tests/integration/lane-b-ephemeral-real/down.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-gcp-functions
     name: firebase-onboarding
@@ -561,7 +561,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-gcp-functions/firebase-onboarding/python/tests/verify.sh
       local_provider:
         status: skipped
@@ -579,7 +579,7 @@ families:
           && bash examples/canonical-gcp-functions/firebase-onboarding/python/tests/integration/lane-b-ephemeral-real/down.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
 - name: canonical-azure-functions
   examples:
@@ -599,7 +599,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-azure-functions/blob-trigger-receipt-ocr/python/tests/verify.sh
       local_provider:
         status: skipped
@@ -617,7 +617,7 @@ families:
           && bash examples/canonical-azure-functions/blob-trigger-receipt-ocr/python/tests/integration/lane-b-ephemeral-real/down.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-azure-functions
     name: servicebus-classification
@@ -635,7 +635,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-azure-functions/servicebus-classification/dotnet-isolated/tests/verify.sh
       local_provider:
         status: skipped
@@ -653,7 +653,7 @@ families:
           && bash examples/canonical-azure-functions/servicebus-classification/dotnet-isolated/tests/integration/lane-b-ephemeral-real/down.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-azure-functions
     name: cosmos-changefeed-search-sync
@@ -671,7 +671,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-azure-functions/cosmos-changefeed-search-sync/typescript/tests/verify.sh
       local_provider:
         status: skipped
@@ -689,7 +689,7 @@ families:
           && bash examples/canonical-azure-functions/cosmos-changefeed-search-sync/typescript/tests/integration/lane-b-ephemeral-real/down.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-azure-functions
     name: blob-trigger-receipt-ocr
@@ -707,7 +707,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-azure-functions/blob-trigger-receipt-ocr/typescript/tests/verify.sh
       local_provider:
         status: skipped
@@ -725,7 +725,7 @@ families:
           && bash examples/canonical-azure-functions/blob-trigger-receipt-ocr/typescript/tests/integration/lane-b-ephemeral-real/down.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-azure-functions
     name: blob-trigger-receipt-ocr
@@ -743,7 +743,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-azure-functions/blob-trigger-receipt-ocr/dotnet-isolated/tests/verify.sh
       local_provider:
         status: skipped
@@ -761,7 +761,7 @@ families:
           && bash examples/canonical-azure-functions/blob-trigger-receipt-ocr/dotnet-isolated/tests/integration/lane-b-ephemeral-real/down.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-azure-functions
     name: eventgrid-alert-router
@@ -779,7 +779,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-azure-functions/eventgrid-alert-router/python/tests/verify.sh
       local_provider:
         status: skipped
@@ -797,7 +797,7 @@ families:
           && bash examples/canonical-azure-functions/eventgrid-alert-router/python/tests/integration/lane-b-ephemeral-real/down.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
 - name: canonical-cloud-run
   examples:
@@ -832,7 +832,7 @@ families:
         command: bash examples/canonical-cloud-run/public-api-private-worker-job/python-fastapi/tests/integration/lane-b-ephemeral-real/run.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-cloud-run
     name: multi-container-sidecar
@@ -865,7 +865,7 @@ families:
         command: bash examples/canonical-cloud-run/multi-container-sidecar/python-fastapi/tests/integration/lane-b-ephemeral-real/run.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-cloud-run
     name: public-api-private-worker-job
@@ -898,7 +898,7 @@ families:
         command: bash examples/canonical-cloud-run/public-api-private-worker-job/go-echo/tests/integration/lane-b-ephemeral-real/run.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-cloud-run
     name: public-api-private-worker-job
@@ -931,7 +931,7 @@ families:
         command: bash examples/canonical-cloud-run/public-api-private-worker-job/typescript-hono/tests/integration/lane-b-ephemeral-real/run.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-cloud-run
     name: cloudrun-job-nightly-report
@@ -964,7 +964,7 @@ families:
         command: bash examples/canonical-cloud-run/cloudrun-job-nightly-report/python-fastapi/tests/integration/lane-b-ephemeral-real/run.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
 - name: canonical-app-runner
   examples:
@@ -999,7 +999,7 @@ families:
         command: bash examples/canonical-app-runner/public-api-with-vpc-connector/python-fastapi/tests/integration/lane-b-ephemeral-real/run.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-app-runner
     name: public-api-with-vpc-connector
@@ -1032,7 +1032,7 @@ families:
         command: bash examples/canonical-app-runner/public-api-with-vpc-connector/go-echo/tests/integration/lane-b-ephemeral-real/run.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-app-runner
     name: supplier-onboarding
@@ -1065,7 +1065,7 @@ families:
         command: bash examples/canonical-app-runner/supplier-onboarding/python-fastapi/tests/integration/lane-b-ephemeral-real/run.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
 - name: canonical-container-apps
   examples:
@@ -1083,7 +1083,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-container-apps/public-api-private-worker-jobs/python-fastapi/tests/verify.sh
       local_provider:
         status: skipped
@@ -1099,7 +1099,7 @@ families:
         command: bash examples/canonical-container-apps/public-api-private-worker-jobs/python-fastapi/tests/integration/lane-b-ephemeral-real/run.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-container-apps
     name: dapr-pubsub-binding
@@ -1115,7 +1115,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-container-apps/dapr-pubsub-binding/dotnet-aspnet/tests/verify.sh
       local_provider:
         status: skipped
@@ -1131,7 +1131,7 @@ families:
         command: bash examples/canonical-container-apps/dapr-pubsub-binding/dotnet-aspnet/tests/integration/lane-b-ephemeral-real/run.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-container-apps
     name: public-api-private-worker-jobs
@@ -1147,7 +1147,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-container-apps/public-api-private-worker-jobs/dotnet-aspnet/tests/verify.sh
       local_provider:
         status: skipped
@@ -1163,7 +1163,7 @@ families:
         command: bash examples/canonical-container-apps/public-api-private-worker-jobs/dotnet-aspnet/tests/integration/lane-b-ephemeral-real/run.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-container-apps
     name: public-api-private-worker-jobs
@@ -1179,7 +1179,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-container-apps/public-api-private-worker-jobs/typescript-hono/tests/verify.sh
       local_provider:
         status: skipped
@@ -1195,7 +1195,7 @@ families:
         command: bash examples/canonical-container-apps/public-api-private-worker-jobs/typescript-hono/tests/integration/lane-b-ephemeral-real/run.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
 - name: canonical-eks
   examples:
@@ -1215,7 +1215,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-eks/multi-role-platform/python/tests/verify.sh
       local_provider:
         status: skipped
@@ -1233,7 +1233,7 @@ families:
           && bash examples/canonical-eks/multi-role-platform/python/tests/integration/lane-b-ephemeral-real/down.sh
         lane: lane-b-ephemeral-real
         cost: $5-$50
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-eks
     name: multi-role-platform
@@ -1251,7 +1251,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-eks/multi-role-platform/go/tests/verify.sh
       local_provider:
         status: skipped
@@ -1269,7 +1269,7 @@ families:
           && bash examples/canonical-eks/multi-role-platform/go/tests/integration/lane-b-ephemeral-real/down.sh
         lane: lane-b-ephemeral-real
         cost: $5-$50
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
 - name: canonical-gke
   examples:
@@ -1289,7 +1289,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-gke/multi-role-platform/python/tests/verify.sh
       local_provider:
         status: skipped
@@ -1307,7 +1307,7 @@ families:
           && bash examples/canonical-gke/multi-role-platform/python/tests/integration/lane-b-ephemeral-real/down.sh
         lane: lane-b-ephemeral-real
         cost: $5-$50
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-gke
     name: multi-role-platform
@@ -1325,7 +1325,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-gke/multi-role-platform/go/tests/verify.sh
       local_provider:
         status: skipped
@@ -1345,7 +1345,7 @@ families:
         cost: $5-$50
     sub_examples:
     - keda-autoscaled-workers
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
 - name: canonical-aks
   examples:
@@ -1365,7 +1365,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-aks/multi-role-platform/dotnet/tests/verify.sh
       local_provider:
         status: skipped
@@ -1383,7 +1383,7 @@ families:
           && bash examples/canonical-aks/multi-role-platform/dotnet/tests/integration/lane-b-ephemeral-real/down.sh
         lane: lane-b-ephemeral-real
         cost: $5-$50
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-aks
     name: multi-role-platform
@@ -1401,7 +1401,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: bash examples/canonical-aks/multi-role-platform/typescript/tests/verify.sh
       local_provider:
         status: skipped
@@ -1419,7 +1419,7 @@ families:
           && bash examples/canonical-aks/multi-role-platform/typescript/tests/integration/lane-b-ephemeral-real/down.sh
         lane: lane-b-ephemeral-real
         cost: $5-$50
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
 - name: canonical-iac-terraform
   examples:
@@ -1435,7 +1435,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-terraform/aws
       local_provider:
         status: skipped
@@ -1443,7 +1443,7 @@ families:
       real_cloud:
         status: skipped
         reason: reference IaC starter does not provision real cloud during smoke
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-iac-terraform
     name: gcp
@@ -1457,7 +1457,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-terraform/gcp
       local_provider:
         status: skipped
@@ -1465,7 +1465,7 @@ families:
       real_cloud:
         status: skipped
         reason: reference IaC starter does not provision real cloud during smoke
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-iac-terraform
     name: azure
@@ -1479,7 +1479,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-terraform/azure
       local_provider:
         status: skipped
@@ -1487,7 +1487,7 @@ families:
       real_cloud:
         status: skipped
         reason: reference IaC starter does not provision real cloud during smoke
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
 - name: canonical-iac-pulumi
   examples:
@@ -1503,7 +1503,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/typescript/aws
       local_provider:
         status: skipped
@@ -1511,7 +1511,7 @@ families:
       real_cloud:
         status: skipped
         reason: reference IaC starter does not provision real cloud during smoke
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-iac-pulumi
     name: python-gcp
@@ -1525,7 +1525,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/python/gcp
       local_provider:
         status: skipped
@@ -1533,7 +1533,7 @@ families:
       real_cloud:
         status: skipped
         reason: reference IaC starter does not provision real cloud during smoke
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-iac-pulumi
     name: go-aws
@@ -1547,7 +1547,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/go/aws
       local_provider:
         status: skipped
@@ -1555,7 +1555,7 @@ families:
       real_cloud:
         status: skipped
         reason: reference IaC starter does not provision real cloud during smoke
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-iac-pulumi
     name: dotnet-azure
@@ -1569,7 +1569,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/dotnet/azure
       local_provider:
         status: skipped
@@ -1577,7 +1577,7 @@ families:
       real_cloud:
         status: skipped
         reason: reference IaC starter does not provision real cloud during smoke
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-iac-pulumi
     name: typescript-gcp
@@ -1591,7 +1591,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/typescript/gcp
       local_provider:
         status: skipped
@@ -1599,7 +1599,7 @@ families:
       real_cloud:
         status: skipped
         reason: reference IaC starter does not provision real cloud during smoke
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-iac-pulumi
     name: typescript-azure
@@ -1613,7 +1613,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/typescript/azure
       local_provider:
         status: skipped
@@ -1621,7 +1621,7 @@ families:
       real_cloud:
         status: skipped
         reason: reference IaC starter does not provision real cloud during smoke
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-iac-pulumi
     name: python-aws
@@ -1635,7 +1635,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/python/aws
       local_provider:
         status: skipped
@@ -1643,7 +1643,7 @@ families:
       real_cloud:
         status: skipped
         reason: reference IaC starter does not provision real cloud during smoke
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-iac-pulumi
     name: python-azure
@@ -1657,7 +1657,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/python/azure
       local_provider:
         status: skipped
@@ -1665,7 +1665,7 @@ families:
       real_cloud:
         status: skipped
         reason: reference IaC starter does not provision real cloud during smoke
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-iac-pulumi
     name: go-gcp
@@ -1679,7 +1679,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/go/gcp
       local_provider:
         status: skipped
@@ -1687,7 +1687,7 @@ families:
       real_cloud:
         status: skipped
         reason: reference IaC starter does not provision real cloud during smoke
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
   - family: canonical-iac-pulumi
     name: go-azure
@@ -1701,7 +1701,7 @@ families:
     verification:
       smoke:
         status: passed
-        verified_at: '2026-05-08T16:08:04+00:00'
+        verified_at: '2026-05-08T16:42:46+00:00'
         command: python3 scripts/validate_iac_isolation.py examples/canonical-iac-pulumi/go/azure
       local_provider:
         status: skipped
@@ -1709,7 +1709,7 @@ families:
       real_cloud:
         status: skipped
         reason: reference IaC starter does not provision real cloud during smoke
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
 - name: canonical-observability
   examples:
@@ -1733,7 +1733,7 @@ families:
       real_cloud:
         status: skipped
         reason: reference-only family has no real cloud lane
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
 - name: canonical-secrets
   examples:
@@ -1757,7 +1757,7 @@ families:
       real_cloud:
         status: skipped
         reason: reference-only family has no real cloud lane
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
 - name: canonical-eventing
   examples:
@@ -1781,7 +1781,7 @@ families:
       real_cloud:
         status: skipped
         reason: reference-only family has no real cloud lane
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
 - name: canonical-prompts
   examples:
@@ -1805,5 +1805,5 @@ families:
       real_cloud:
         status: skipped
         reason: reference-only family has no real cloud lane
-    last_verified_at: '2026-05-08T16:08:04+00:00'
+    last_verified_at: '2026-05-08T16:42:46+00:00'
     last_verified_status: passed
