@@ -153,16 +153,20 @@ matrix:
           status: supported
           support_level: first-class-example
           family: canonical-container-apps
-          example: dapr-pubsub-binding
+          example: public-api-private-worker-jobs
+          examples:
+          - public-api-private-worker-jobs
+          - dapr-pubsub-binding
         dapr:
           status: supported
           support_level: first-class-example
           family: canonical-container-apps
           example: dapr-pubsub-binding
         typescript-hono:
-          status: deferred
-          reason: Container Apps TypeScript Hono public API/private worker variant
-            is deferred to PROMPT_29
+          status: supported
+          support_level: first-class-example
+          family: canonical-container-apps
+          example: public-api-private-worker-jobs
     function:
       azure-functions:
         python:
