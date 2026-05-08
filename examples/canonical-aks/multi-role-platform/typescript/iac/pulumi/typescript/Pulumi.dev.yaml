@@ -1,0 +1,8 @@
+stack: dev
+config:
+  accb:environment: dev
+  accb:region: eastus
+  accb:envVarPrefix: accb_azure_dev
+  accb:secretPath: https://accb-kv.vault.azure.net/secrets/aks-multi-role-platform/dev/workload
+  accb:imageRepository: ghcr.io/someflydev/accb-canonical-aks
+  accb:imageTag: dev

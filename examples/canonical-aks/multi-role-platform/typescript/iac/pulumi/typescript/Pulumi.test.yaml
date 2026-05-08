@@ -1,0 +1,8 @@
+stack: test
+config:
+  accb:environment: test
+  accb:region: eastus2
+  accb:envVarPrefix: accb_azure_test
+  accb:secretPath: https://accb-kv.vault.azure.net/secrets/aks-multi-role-platform/test/workload
+  accb:imageRepository: ghcr.io/someflydev/accb-canonical-aks
+  accb:imageTag: test

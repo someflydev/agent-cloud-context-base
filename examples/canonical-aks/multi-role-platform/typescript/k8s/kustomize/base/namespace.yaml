@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: accb-aks-platform
+  labels:
+    accb.dev/runtime-tier: k8s
+    accb.dev/provider: azure

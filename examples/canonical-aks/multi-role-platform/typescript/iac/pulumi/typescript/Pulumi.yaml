@@ -1,0 +1,3 @@
+name: accb-aks-multi-role-platform-typescript
+runtime: nodejs
+description: accb canonical AKS TypeScript multi-role platform control plane

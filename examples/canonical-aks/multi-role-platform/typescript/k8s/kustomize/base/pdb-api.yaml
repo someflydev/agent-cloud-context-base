@@ -1,0 +1,9 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: multi-role-platform-api
+  namespace: accb-aks-platform
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels: { app: multi-role-platform, role: api }

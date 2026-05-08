@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "accb.name" . }}-api
+  labels:
+    {{- include "accb.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels: { app: multi-role-platform, role: api }
+  template:
+    metadata:
+      labels: { app: multi-role-platform, role: api }
+    spec:
+      serviceAccountName: {{ include "accb.name" . }}
+      containers:
+        - name: api
+          image: "{{ .Values.image.repository }}-api:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: 8080

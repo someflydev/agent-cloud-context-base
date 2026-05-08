@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "accb.name" . }}-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: multi-role-platform, role: worker }
+  template:
+    metadata:
+      labels: { app: multi-role-platform, role: worker }
+    spec:
+      serviceAccountName: {{ include "accb.name" . }}
+      containers:
+        - name: worker
+          image: "{{ .Values.image.repository }}-worker:{{ .Values.image.tag }}"
