@@ -2,11 +2,10 @@
 
 `scripts/` holds repo-local automation for `accb`.
 
-## Implemented In PROMPT_05
+## Runtime Continuity
 
-- `work.py` — runtime continuity, prompt-state tracking, checkpointing, startup inspection, and graft support.
-
-`work.py` subcommands:
+`work.py` manages local runtime state, checkpointing, startup inspection, and
+graft support.
 
 - `init-project` — scaffold local runtime files from tracked `*.example.md` files.
 - `resume` — print the Session Context Briefing.
@@ -23,19 +22,32 @@
 - `startup-trace` — write a startup trace when the feature gate is enabled.
 - `graft` — install a minimal `.accb/` runtime continuity layer into a target repo.
 
-## Planned For PROMPT_16
+## Generation And Payloads
 
-- `new_cloud_repo.py` — generate a new cloud repo from selected profile inputs.
-- `accb_payload.py` — assemble the `.accb/` payload.
-- `accb_inspect.py` — inspect generated payload contents.
-- `accb_verify.py` — verify generated repo payload integrity.
+- `new_cloud_repo.py` - generate a new cloud repo from selected profile inputs
+  and starter templates.
+- `accb_payload.py` - assemble the generated repo `.accb/` payload.
+- `accb_inspect.py` - inspect generated payload contents.
+- `accb_verify.py` - verify generated repo payload integrity.
 
-## Implemented In PROMPT_17
+## Validation And Drift Checks
 
-- `validate_context.py` — validate base context structure.
-- `validate_manifests.py` — validate manifest wiring.
-- `validate_iac_isolation.py` — validate dev/test IaC isolation.
-- `verify_examples.py` — verify canonical examples.
-- `run_verification.py` — coordinate verification checks.
-- `preview_context_bundle.py` — preview manifest-selected context bundles.
-- `pattern_diff.py` — compare generated output against expected patterns.
+- `validate_context.py` - validate base context structure.
+- `validate_manifests.py` - validate manifest wiring.
+- `validate_iac_isolation.py` - validate dev/test IaC isolation.
+- `verify_examples.py` - verify canonical examples.
+- `run_verification.py` - coordinate verification tiers.
+- `preview_context_bundle.py` - preview manifest-selected context bundles.
+- `pattern_diff.py` - compare generated output against expected patterns.
+- `render_parity_matrix.py` - render the provider parity documentation.
+
+## Common Commands
+
+```bash
+python3 scripts/work.py resume
+python3 scripts/new_cloud_repo.py --help
+python3 scripts/accb_payload.py --help
+python3 scripts/validate_context.py
+python3 scripts/validate_manifests.py
+python3 scripts/run_verification.py --tier fast
+```
