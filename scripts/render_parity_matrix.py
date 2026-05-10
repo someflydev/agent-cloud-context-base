@@ -54,19 +54,24 @@ def render() -> str:
     return "\n".join(lines)
 
 
-def load_catalog() -> dict[tuple[str, str], str]:
+def load_catalog() -> list[dict[str, str]]:
     import json
 
     path = ROOT / "examples/catalog.json"
     data = json.loads(path.read_text(encoding="utf-8"))
-    return {
-        (str(entry.get("family")), str(entry.get("name"))): str(entry.get("path"))
+    return [
+        {
+            "family": str(entry.get("family")),
+            "name": str(entry.get("name")),
+            "language": str(entry.get("language", "")),
+            "path": str(entry.get("path")),
+        }
         for entry in data.get("examples") or []
         if entry.get("family") and entry.get("name") and entry.get("path")
-    }
+    ]
 
 
-def flatten(matrix: dict[str, Any], catalog: dict[tuple[str, str], str]) -> list[dict[str, str]]:
+def flatten(matrix: dict[str, Any], catalog: list[dict[str, str]]) -> list[dict[str, str]]:
     rows: list[dict[str, str]] = []
     for provider, runtime_map in matrix.items():
         for runtime, platform_map in runtime_map.items():
@@ -81,7 +86,7 @@ def flatten(matrix: dict[str, Any], catalog: dict[tuple[str, str], str]) -> list
                     example = meta.get("example")
                     example_link = ""
                     if family and example:
-                        path = catalog.get((str(family), str(example)), f"examples/{family}/{example}")
+                        path = resolve_catalog_path(catalog, str(family), str(example), str(variant))
                         example_link = f"[{family}/{example}](../{path}/)"
                     follow_up = ""
                     if status == "deferred":
@@ -100,6 +105,25 @@ def flatten(matrix: dict[str, Any], catalog: dict[tuple[str, str], str]) -> list
                         }
                     )
     return rows
+
+
+def resolve_catalog_path(catalog: list[dict[str, str]], family: str, example: str, variant: str) -> str:
+    candidates = [entry for entry in catalog if entry["family"] == family and entry["name"] == example]
+    if not candidates:
+        return f"examples/{family}/{example}"
+    if len(candidates) == 1:
+        return candidates[0]["path"]
+
+    normalized_variant = variant.replace("_", "-")
+    for entry in candidates:
+        language = entry["language"].replace("_", "-")
+        path_tail = Path(entry["path"]).name.replace("_", "-")
+        if normalized_variant in {language, path_tail}:
+            return entry["path"]
+        if normalized_variant.startswith(f"{language}-") or normalized_variant.startswith(f"{path_tail}-"):
+            return entry["path"]
+
+    return candidates[0]["path"]
 
 
 def status_to_label(status: str) -> str:
