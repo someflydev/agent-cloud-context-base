@@ -1,8 +1,8 @@
 # Templates
 
 Templates are starter scaffolds for derived cloud repos. Use them when
-`scripts/new_cloud_repo.py` (PROMPT_16) or a focused manual change needs a
-short, adaptable starting point.
+`scripts/new_cloud_repo.py` or a focused manual change needs a short,
+adaptable starting point.
 
 - templates are not canonical examples (those live in `examples/`)
 - templates stay short and adaptable

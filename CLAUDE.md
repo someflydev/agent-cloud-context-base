@@ -10,10 +10,10 @@ cloud-native repo (`accb`).
 ## First Reads
 
 1. `README.md`
-2. `docs/repo-layout.md` (after PROMPT_33)
-3. `python3 scripts/work.py resume` (after PROMPT_05)
-4. `memory/INDEX.md` (after PROMPT_05)
-5. `docs/usage/SPEC_DRIVEN_ACCB_PAYLOADS.md` (after PROMPT_33)
+2. `docs/repo-layout.md`
+3. `python3 scripts/work.py resume`
+4. `memory/INDEX.md`
+5. `docs/usage/SPEC_DRIVEN_ACCB_PAYLOADS.md`
 6. one router, one workflow, one stack, and one example only when the task
    still needs narrowing
 
@@ -32,8 +32,7 @@ cloud-native repo (`accb`).
 - Do not add `memory/summaries/` or `memory/sessions/` file entries to
   `memory/INDEX.md`; those directories are gitignored and should only be
   described at the tier level.
-- Use `python3 scripts/work.py checkpoint` at natural boundaries (after
-  PROMPT_05).
+- Use `python3 scripts/work.py checkpoint` at natural boundaries.
 
 ## New Repo Routing
 
@@ -41,8 +40,8 @@ cloud-native repo (`accb`).
   new generated cloud repo unless they explicitly say they want to modify
   the base repo itself.
 - For new generated repos, prefer `scripts/new_cloud_repo.py` over manual
-  scaffolding (after PROMPT_16).
-- Make provider, runtime tier (function | container | k8s), language, IaC
+  scaffolding.
+- Make provider, runtime tier (`function`, `managed_container`, or `k8s`), language, IaC
   tool, and dev/test isolation assumptions explicit before generation.
 
 ## Claude Code-specific Notes
@@ -55,6 +54,6 @@ cloud-native repo (`accb`).
 
 ## Verification
 
-- Base repo: `python3 scripts/validate_context.py` (after PROMPT_17)
+- Base repo: `python3 scripts/validate_context.py`
 - Generated repo: `python .accb/scripts/accb_verify.py`
 - IaC isolation: `python3 scripts/validate_iac_isolation.py <path>`
