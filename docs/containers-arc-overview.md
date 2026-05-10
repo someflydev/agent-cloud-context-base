@@ -59,44 +59,47 @@ The managed-container arc captures long-running service, private worker, sidecar
 
 | Gate ID | Covering example |
 | --- | --- |
-| `containers-gate-01` | smoke verify.sh: `canonical-cloud-run/public-api-private-worker-job/python` |
-| `containers-gate-02` | structured-log-shape: `canonical-cloud-run/multi-container-sidecar/python` |
-| `containers-gate-03` | terraform dev/test isolation: `canonical-cloud-run/public-api-private-worker-job/go` |
-| `containers-gate-04` | pulumi stack isolation: `canonical-cloud-run/public-api-private-worker-job/typescript` |
-| `containers-gate-05` | replay fixtures: `canonical-cloud-run/cloudrun-job-nightly-report/python` |
-| `containers-gate-06` | lane-a local provider: `canonical-app-runner/public-api-with-vpc-connector/python` |
-| `containers-gate-07` | lane-b ephemeral real cloud: `canonical-app-runner/public-api-with-vpc-connector/go` |
+| `containers-gate-01` | smoke verify.sh: `canonical-cloud-run/public-api-private-worker-job/python-fastapi` |
+| `containers-gate-02` | structured-log-shape: `canonical-cloud-run/multi-container-sidecar/python-fastapi` |
+| `containers-gate-03` | terraform dev/test isolation: `canonical-cloud-run/public-api-private-worker-job/go-echo` |
+| `containers-gate-04` | pulumi stack isolation: `canonical-cloud-run/public-api-private-worker-job/typescript-hono` |
+| `containers-gate-05` | replay fixtures: `canonical-cloud-run/cloudrun-job-nightly-report/python-fastapi` |
+| `containers-gate-06` | lane-a local provider: `canonical-app-runner/public-api-with-vpc-connector/python-fastapi` |
+| `containers-gate-07` | lane-b ephemeral real cloud: `canonical-app-runner/public-api-with-vpc-connector/go-echo` |
 
 ## Lane Coverage
 
 | Example | Lane A | Lane B | Lane C |
 | --- | --- | --- | --- |
-| `canonical-cloud-run/public-api-private-worker-job/python` | yes | yes | deferred |
-| `canonical-cloud-run/multi-container-sidecar/python` | yes | yes | deferred |
-| `canonical-cloud-run/public-api-private-worker-job/go` | yes | yes | deferred |
-| `canonical-cloud-run/public-api-private-worker-job/typescript` | yes | yes | deferred |
-| `canonical-cloud-run/cloudrun-job-nightly-report/python` | yes | yes | deferred |
-| `canonical-app-runner/public-api-with-vpc-connector/python` | yes | yes | deferred |
-| `canonical-app-runner/public-api-with-vpc-connector/go` | yes | yes | deferred |
-| `canonical-app-runner/supplier-onboarding/python` | yes | yes | deferred |
-| `canonical-container-apps/public-api-private-worker-jobs/python` | yes | yes | deferred |
+| `canonical-cloud-run/public-api-private-worker-job/python-fastapi` | yes | yes | deferred |
+| `canonical-cloud-run/multi-container-sidecar/python-fastapi` | yes | yes | deferred |
+| `canonical-cloud-run/public-api-private-worker-job/go-echo` | yes | yes | deferred |
+| `canonical-cloud-run/public-api-private-worker-job/typescript-hono` | yes | yes | deferred |
+| `canonical-cloud-run/cloudrun-job-nightly-report/python-fastapi` | yes | yes | deferred |
+| `canonical-app-runner/public-api-with-vpc-connector/python-fastapi` | yes | yes | deferred |
+| `canonical-app-runner/public-api-with-vpc-connector/go-echo` | yes | yes | deferred |
+| `canonical-app-runner/supplier-onboarding/python-fastapi` | yes | yes | deferred |
+| `canonical-container-apps/public-api-private-worker-jobs/python-fastapi` | yes | yes | deferred |
 | `canonical-container-apps/dapr-pubsub-binding/dotnet-aspnet` | yes | yes | deferred |
 | `canonical-container-apps/public-api-private-worker-jobs/dotnet-aspnet` | yes | yes | deferred |
 | `canonical-container-apps/public-api-private-worker-jobs/typescript-hono` | yes | yes | deferred |
 
 ## Verification Status
 
+Authoritative tier metadata lives in `verification/example_registry.yaml`; this
+table is a human summary.
+
 | Example | Smoke | Local provider | Real cloud | Full |
 | --- | --- | --- | --- | --- |
-| `canonical-cloud-run/public-api-private-worker-job/python` | skipped<br>docker daemon unavailable in current environment | skipped<br>ACCB_RUN_LOCAL_PROVIDER=1 not set | pending | missing |
-| `canonical-cloud-run/multi-container-sidecar/python` | skipped<br>docker daemon unavailable in current environment | skipped<br>ACCB_RUN_LOCAL_PROVIDER=1 not set | pending | missing |
-| `canonical-cloud-run/public-api-private-worker-job/go` | skipped<br>docker daemon unavailable in current environment | skipped<br>ACCB_RUN_LOCAL_PROVIDER=1 not set | pending | missing |
-| `canonical-cloud-run/public-api-private-worker-job/typescript` | skipped<br>docker daemon unavailable in current environment | skipped<br>ACCB_RUN_LOCAL_PROVIDER=1 not set | pending | missing |
-| `canonical-cloud-run/cloudrun-job-nightly-report/python` | skipped<br>docker daemon unavailable in current environment | skipped<br>ACCB_RUN_LOCAL_PROVIDER=1 not set | pending | missing |
-| `canonical-app-runner/public-api-with-vpc-connector/python` | skipped<br>docker daemon unavailable in current environment | skipped<br>ACCB_RUN_LOCAL_PROVIDER=1 not set | pending | missing |
-| `canonical-app-runner/public-api-with-vpc-connector/go` | skipped<br>docker daemon unavailable in current environment | skipped<br>ACCB_RUN_LOCAL_PROVIDER=1 not set | pending | missing |
-| `canonical-app-runner/supplier-onboarding/python` | skipped<br>docker daemon unavailable in current environment | skipped<br>ACCB_RUN_LOCAL_PROVIDER=1 not set | pending | missing |
-| `canonical-container-apps/public-api-private-worker-jobs/python` | passed<br>2026-05-08T16:08:04+00:00 | skipped<br>ACCB_RUN_LOCAL_PROVIDER=1 not set | pending | missing |
+| `canonical-cloud-run/public-api-private-worker-job/python-fastapi` | skipped<br>docker daemon unavailable in current environment | skipped<br>ACCB_RUN_LOCAL_PROVIDER=1 not set | pending | missing |
+| `canonical-cloud-run/multi-container-sidecar/python-fastapi` | skipped<br>docker daemon unavailable in current environment | skipped<br>ACCB_RUN_LOCAL_PROVIDER=1 not set | pending | missing |
+| `canonical-cloud-run/public-api-private-worker-job/go-echo` | skipped<br>docker daemon unavailable in current environment | skipped<br>ACCB_RUN_LOCAL_PROVIDER=1 not set | pending | missing |
+| `canonical-cloud-run/public-api-private-worker-job/typescript-hono` | skipped<br>docker daemon unavailable in current environment | skipped<br>ACCB_RUN_LOCAL_PROVIDER=1 not set | pending | missing |
+| `canonical-cloud-run/cloudrun-job-nightly-report/python-fastapi` | skipped<br>docker daemon unavailable in current environment | skipped<br>ACCB_RUN_LOCAL_PROVIDER=1 not set | pending | missing |
+| `canonical-app-runner/public-api-with-vpc-connector/python-fastapi` | skipped<br>docker daemon unavailable in current environment | skipped<br>ACCB_RUN_LOCAL_PROVIDER=1 not set | pending | missing |
+| `canonical-app-runner/public-api-with-vpc-connector/go-echo` | skipped<br>docker daemon unavailable in current environment | skipped<br>ACCB_RUN_LOCAL_PROVIDER=1 not set | pending | missing |
+| `canonical-app-runner/supplier-onboarding/python-fastapi` | skipped<br>docker daemon unavailable in current environment | skipped<br>ACCB_RUN_LOCAL_PROVIDER=1 not set | pending | missing |
+| `canonical-container-apps/public-api-private-worker-jobs/python-fastapi` | passed<br>2026-05-08T16:08:04+00:00 | skipped<br>ACCB_RUN_LOCAL_PROVIDER=1 not set | pending | missing |
 | `canonical-container-apps/dapr-pubsub-binding/dotnet-aspnet` | passed<br>2026-05-08T16:08:04+00:00 | skipped<br>ACCB_RUN_LOCAL_PROVIDER=1 not set | pending | missing |
 | `canonical-container-apps/public-api-private-worker-jobs/dotnet-aspnet` | passed<br>2026-05-08T16:08:04+00:00 | skipped<br>ACCB_RUN_LOCAL_PROVIDER=1 not set | pending | missing |
 | `canonical-container-apps/public-api-private-worker-jobs/typescript-hono` | passed<br>2026-05-08T16:08:04+00:00 | skipped<br>ACCB_RUN_LOCAL_PROVIDER=1 not set | pending | missing |
@@ -107,14 +110,13 @@ The managed-container arc captures long-running service, private worker, sidecar
 - Lane C full release gates are represented only where a canonical release gate exists.
 - Deferred scenario patterns in `context/scenarios/scenario-profile-map.yaml` must be promoted by later example-authoring arcs.
 - Provider local bundles are harness contracts here; derived repos own provider-specific fixture depth.
-- PROMPT_33 wires root README, ARCHITECTURE_MAP, and end-to-end smoke coverage.
 
 ## How To Generate A New Repo From This Arc
 
 Select the closest scenario pattern, choose the provider/runtime/language cell from `docs/provider-parity-matrix.md`, then invoke `scripts/new_cloud_repo.py` with the matching manifest. Example:
 
 ```bash
-python3 scripts/new_cloud_repo.py --archetype managed-container-multi-service --provider gcp --runtime-tier managed_container --primary-stack cloudrun-python-fastapi --primary-language python --iac-tool terraform --manifest container-cloudrun-fastapi --output ../my-container-repo
+python3 scripts/new_cloud_repo.py --archetype managed-container-multi-service --provider gcp --runtime-tier managed_container --primary-stack cloudrun-python-fastapi --primary-language python --iac-tool terraform --manifest container-cloudrun-fastapi --target-dir ../my-container-repo
 ```
 
 ## Registry Detail
@@ -136,70 +138,12 @@ python3 scripts/new_cloud_repo.py --archetype managed-container-multi-service --
 
 ## Arc Operating Notes
 
-| Note | Contract impact |
-| --- | --- |
-| 1 | Catalog and registry must agree before an example is treated as canonical. |
-| 2 | IaC isolation is validated through the shared script, not per-family bespoke logic. |
-| 3 | Lane A local-provider checks remain explicitly gated by environment variables. |
-| 4 | Lane B real-cloud checks remain explicitly gated because they can create billable resources. |
-| 5 | Structured logs are part of the runtime contract for examples with executable workloads. |
-| 6 | Scenario patterns may point at deferred examples only when the map declares the deferral. |
-| 7 | Generated repos should load manifests first and broaden context only when routing requires it. |
-| 8 | Registry history is tiered so smoke, local-provider, real-cloud, and full results do not overwrite each other. |
-| 9 | Provider-specific runtime behavior is allowed when the example README owns the reason. |
-| 10 | PROMPT_33 is responsible for final README, architecture map, and end-to-end generation smoke. |
-| 11 | Catalog and registry must agree before an example is treated as canonical. |
-| 12 | IaC isolation is validated through the shared script, not per-family bespoke logic. |
-| 13 | Lane A local-provider checks remain explicitly gated by environment variables. |
-| 14 | Lane B real-cloud checks remain explicitly gated because they can create billable resources. |
-| 15 | Structured logs are part of the runtime contract for examples with executable workloads. |
-| 16 | Scenario patterns may point at deferred examples only when the map declares the deferral. |
-| 17 | Generated repos should load manifests first and broaden context only when routing requires it. |
-| 18 | Registry history is tiered so smoke, local-provider, real-cloud, and full results do not overwrite each other. |
-| 19 | Provider-specific runtime behavior is allowed when the example README owns the reason. |
-| 20 | PROMPT_33 is responsible for final README, architecture map, and end-to-end generation smoke. |
-| 21 | Catalog and registry must agree before an example is treated as canonical. |
-| 22 | IaC isolation is validated through the shared script, not per-family bespoke logic. |
-| 23 | Lane A local-provider checks remain explicitly gated by environment variables. |
-| 24 | Lane B real-cloud checks remain explicitly gated because they can create billable resources. |
-| 25 | Structured logs are part of the runtime contract for examples with executable workloads. |
-| 26 | Scenario patterns may point at deferred examples only when the map declares the deferral. |
-| 27 | Generated repos should load manifests first and broaden context only when routing requires it. |
-| 28 | Registry history is tiered so smoke, local-provider, real-cloud, and full results do not overwrite each other. |
-| 29 | Provider-specific runtime behavior is allowed when the example README owns the reason. |
-| 30 | PROMPT_33 is responsible for final README, architecture map, and end-to-end generation smoke. |
-| 31 | Catalog and registry must agree before an example is treated as canonical. |
-| 32 | IaC isolation is validated through the shared script, not per-family bespoke logic. |
-| 33 | Lane A local-provider checks remain explicitly gated by environment variables. |
-| 34 | Lane B real-cloud checks remain explicitly gated because they can create billable resources. |
-| 35 | Structured logs are part of the runtime contract for examples with executable workloads. |
-| 36 | Scenario patterns may point at deferred examples only when the map declares the deferral. |
-| 37 | Generated repos should load manifests first and broaden context only when routing requires it. |
-| 38 | Registry history is tiered so smoke, local-provider, real-cloud, and full results do not overwrite each other. |
-| 39 | Provider-specific runtime behavior is allowed when the example README owns the reason. |
-| 40 | PROMPT_33 is responsible for final README, architecture map, and end-to-end generation smoke. |
-| 41 | Catalog and registry must agree before an example is treated as canonical. |
-| 42 | IaC isolation is validated through the shared script, not per-family bespoke logic. |
-| 43 | Lane A local-provider checks remain explicitly gated by environment variables. |
-| 44 | Lane B real-cloud checks remain explicitly gated because they can create billable resources. |
-| 45 | Structured logs are part of the runtime contract for examples with executable workloads. |
-| 46 | Scenario patterns may point at deferred examples only when the map declares the deferral. |
-| 47 | Generated repos should load manifests first and broaden context only when routing requires it. |
-| 48 | Registry history is tiered so smoke, local-provider, real-cloud, and full results do not overwrite each other. |
-| 49 | Provider-specific runtime behavior is allowed when the example README owns the reason. |
-| 50 | PROMPT_33 is responsible for final README, architecture map, and end-to-end generation smoke. |
-| 51 | Catalog and registry must agree before an example is treated as canonical. |
-| 52 | IaC isolation is validated through the shared script, not per-family bespoke logic. |
-| 53 | Lane A local-provider checks remain explicitly gated by environment variables. |
-| 54 | Lane B real-cloud checks remain explicitly gated because they can create billable resources. |
-| 55 | Structured logs are part of the runtime contract for examples with executable workloads. |
-| 56 | Scenario patterns may point at deferred examples only when the map declares the deferral. |
-| 57 | Generated repos should load manifests first and broaden context only when routing requires it. |
-| 58 | Registry history is tiered so smoke, local-provider, real-cloud, and full results do not overwrite each other. |
-| 59 | Provider-specific runtime behavior is allowed when the example README owns the reason. |
-| 60 | PROMPT_33 is responsible for final README, architecture map, and end-to-end generation smoke. |
-| 61 | Catalog and registry must agree before an example is treated as canonical. |
-| 62 | IaC isolation is validated through the shared script, not per-family bespoke logic. |
-| 63 | Lane A local-provider checks remain explicitly gated by environment variables. |
-| 64 | Lane B real-cloud checks remain explicitly gated because they can create billable resources. |
-| 65 | Structured logs are part of the runtime contract for examples with executable workloads. |
+- Catalog and registry must agree before an example is treated as canonical.
+- IaC isolation is validated through the shared script, not per-family bespoke logic.
+- Lane A local-provider checks remain explicitly gated by environment variables.
+- Lane B real-cloud checks remain explicitly gated because they can create billable resources.
+- Structured logs are part of the runtime contract for examples with executable workloads.
+- Scenario patterns may point at deferred examples only when the map declares the deferral.
+- Generated repos should load manifests first and broaden context only when routing requires it.
+- Registry history is tiered so smoke, local-provider, real-cloud, and full results do not overwrite each other.
+- Provider-specific runtime behavior is allowed when the example README owns the reason.

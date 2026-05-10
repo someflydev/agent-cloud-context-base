@@ -73,6 +73,9 @@ The Kubernetes arc demonstrates multi-role platform repositories across EKS, GKE
 
 ## Verification Status
 
+Authoritative tier metadata lives in `verification/example_registry.yaml`; this
+table is a human summary.
+
 | Example | Smoke | Local provider | Real cloud | Full |
 | --- | --- | --- | --- | --- |
 | `canonical-eks/multi-role-platform/python` | passed<br>2026-05-08T16:08:04+00:00 | skipped<br>ACCB_RUN_LOCAL_PROVIDER=1 not set | pending | missing |
@@ -88,14 +91,13 @@ The Kubernetes arc demonstrates multi-role platform repositories across EKS, GKE
 - Lane C full release gates are represented only where a canonical release gate exists.
 - Deferred scenario patterns in `context/scenarios/scenario-profile-map.yaml` must be promoted by later example-authoring arcs.
 - Provider local bundles are harness contracts here; derived repos own provider-specific fixture depth.
-- PROMPT_33 wires root README, ARCHITECTURE_MAP, and end-to-end smoke coverage.
 
 ## How To Generate A New Repo From This Arc
 
 Select the closest scenario pattern, choose the provider/runtime/language cell from `docs/provider-parity-matrix.md`, then invoke `scripts/new_cloud_repo.py` with the matching manifest. Example:
 
 ```bash
-python3 scripts/new_cloud_repo.py --archetype k8s-platform-repo --provider aws --runtime-tier k8s --primary-stack eks-base --primary-language python --iac-tool pulumi-python --manifest k8s-eks-multi-role-python --output ../my-k8s-repo
+python3 scripts/new_cloud_repo.py --archetype k8s-platform-repo --provider aws --runtime-tier k8s --primary-stack eks-base --primary-language python --iac-tool pulumi-python --manifest k8s-eks-multi-role-python --target-dir ../my-k8s-repo
 ```
 
 ## Registry Detail
@@ -111,95 +113,12 @@ python3 scripts/new_cloud_repo.py --archetype k8s-platform-repo --provider aws -
 
 ## Arc Operating Notes
 
-| Note | Contract impact |
-| --- | --- |
-| 1 | Catalog and registry must agree before an example is treated as canonical. |
-| 2 | IaC isolation is validated through the shared script, not per-family bespoke logic. |
-| 3 | Lane A local-provider checks remain explicitly gated by environment variables. |
-| 4 | Lane B real-cloud checks remain explicitly gated because they can create billable resources. |
-| 5 | Structured logs are part of the runtime contract for examples with executable workloads. |
-| 6 | Scenario patterns may point at deferred examples only when the map declares the deferral. |
-| 7 | Generated repos should load manifests first and broaden context only when routing requires it. |
-| 8 | Registry history is tiered so smoke, local-provider, real-cloud, and full results do not overwrite each other. |
-| 9 | Provider-specific runtime behavior is allowed when the example README owns the reason. |
-| 10 | PROMPT_33 is responsible for final README, architecture map, and end-to-end generation smoke. |
-| 11 | Catalog and registry must agree before an example is treated as canonical. |
-| 12 | IaC isolation is validated through the shared script, not per-family bespoke logic. |
-| 13 | Lane A local-provider checks remain explicitly gated by environment variables. |
-| 14 | Lane B real-cloud checks remain explicitly gated because they can create billable resources. |
-| 15 | Structured logs are part of the runtime contract for examples with executable workloads. |
-| 16 | Scenario patterns may point at deferred examples only when the map declares the deferral. |
-| 17 | Generated repos should load manifests first and broaden context only when routing requires it. |
-| 18 | Registry history is tiered so smoke, local-provider, real-cloud, and full results do not overwrite each other. |
-| 19 | Provider-specific runtime behavior is allowed when the example README owns the reason. |
-| 20 | PROMPT_33 is responsible for final README, architecture map, and end-to-end generation smoke. |
-| 21 | Catalog and registry must agree before an example is treated as canonical. |
-| 22 | IaC isolation is validated through the shared script, not per-family bespoke logic. |
-| 23 | Lane A local-provider checks remain explicitly gated by environment variables. |
-| 24 | Lane B real-cloud checks remain explicitly gated because they can create billable resources. |
-| 25 | Structured logs are part of the runtime contract for examples with executable workloads. |
-| 26 | Scenario patterns may point at deferred examples only when the map declares the deferral. |
-| 27 | Generated repos should load manifests first and broaden context only when routing requires it. |
-| 28 | Registry history is tiered so smoke, local-provider, real-cloud, and full results do not overwrite each other. |
-| 29 | Provider-specific runtime behavior is allowed when the example README owns the reason. |
-| 30 | PROMPT_33 is responsible for final README, architecture map, and end-to-end generation smoke. |
-| 31 | Catalog and registry must agree before an example is treated as canonical. |
-| 32 | IaC isolation is validated through the shared script, not per-family bespoke logic. |
-| 33 | Lane A local-provider checks remain explicitly gated by environment variables. |
-| 34 | Lane B real-cloud checks remain explicitly gated because they can create billable resources. |
-| 35 | Structured logs are part of the runtime contract for examples with executable workloads. |
-| 36 | Scenario patterns may point at deferred examples only when the map declares the deferral. |
-| 37 | Generated repos should load manifests first and broaden context only when routing requires it. |
-| 38 | Registry history is tiered so smoke, local-provider, real-cloud, and full results do not overwrite each other. |
-| 39 | Provider-specific runtime behavior is allowed when the example README owns the reason. |
-| 40 | PROMPT_33 is responsible for final README, architecture map, and end-to-end generation smoke. |
-| 41 | Catalog and registry must agree before an example is treated as canonical. |
-| 42 | IaC isolation is validated through the shared script, not per-family bespoke logic. |
-| 43 | Lane A local-provider checks remain explicitly gated by environment variables. |
-| 44 | Lane B real-cloud checks remain explicitly gated because they can create billable resources. |
-| 45 | Structured logs are part of the runtime contract for examples with executable workloads. |
-| 46 | Scenario patterns may point at deferred examples only when the map declares the deferral. |
-| 47 | Generated repos should load manifests first and broaden context only when routing requires it. |
-| 48 | Registry history is tiered so smoke, local-provider, real-cloud, and full results do not overwrite each other. |
-| 49 | Provider-specific runtime behavior is allowed when the example README owns the reason. |
-| 50 | PROMPT_33 is responsible for final README, architecture map, and end-to-end generation smoke. |
-| 51 | Catalog and registry must agree before an example is treated as canonical. |
-| 52 | IaC isolation is validated through the shared script, not per-family bespoke logic. |
-| 53 | Lane A local-provider checks remain explicitly gated by environment variables. |
-| 54 | Lane B real-cloud checks remain explicitly gated because they can create billable resources. |
-| 55 | Structured logs are part of the runtime contract for examples with executable workloads. |
-| 56 | Scenario patterns may point at deferred examples only when the map declares the deferral. |
-| 57 | Generated repos should load manifests first and broaden context only when routing requires it. |
-| 58 | Registry history is tiered so smoke, local-provider, real-cloud, and full results do not overwrite each other. |
-| 59 | Provider-specific runtime behavior is allowed when the example README owns the reason. |
-| 60 | PROMPT_33 is responsible for final README, architecture map, and end-to-end generation smoke. |
-| 61 | Catalog and registry must agree before an example is treated as canonical. |
-| 62 | IaC isolation is validated through the shared script, not per-family bespoke logic. |
-| 63 | Lane A local-provider checks remain explicitly gated by environment variables. |
-| 64 | Lane B real-cloud checks remain explicitly gated because they can create billable resources. |
-| 65 | Structured logs are part of the runtime contract for examples with executable workloads. |
-| 66 | Scenario patterns may point at deferred examples only when the map declares the deferral. |
-| 67 | Generated repos should load manifests first and broaden context only when routing requires it. |
-| 68 | Registry history is tiered so smoke, local-provider, real-cloud, and full results do not overwrite each other. |
-| 69 | Provider-specific runtime behavior is allowed when the example README owns the reason. |
-| 70 | PROMPT_33 is responsible for final README, architecture map, and end-to-end generation smoke. |
-| 71 | Catalog and registry must agree before an example is treated as canonical. |
-| 72 | IaC isolation is validated through the shared script, not per-family bespoke logic. |
-| 73 | Lane A local-provider checks remain explicitly gated by environment variables. |
-| 74 | Lane B real-cloud checks remain explicitly gated because they can create billable resources. |
-| 75 | Structured logs are part of the runtime contract for examples with executable workloads. |
-| 76 | Scenario patterns may point at deferred examples only when the map declares the deferral. |
-| 77 | Generated repos should load manifests first and broaden context only when routing requires it. |
-| 78 | Registry history is tiered so smoke, local-provider, real-cloud, and full results do not overwrite each other. |
-| 79 | Provider-specific runtime behavior is allowed when the example README owns the reason. |
-| 80 | PROMPT_33 is responsible for final README, architecture map, and end-to-end generation smoke. |
-| 81 | Catalog and registry must agree before an example is treated as canonical. |
-| 82 | IaC isolation is validated through the shared script, not per-family bespoke logic. |
-| 83 | Lane A local-provider checks remain explicitly gated by environment variables. |
-| 84 | Lane B real-cloud checks remain explicitly gated because they can create billable resources. |
-| 85 | Structured logs are part of the runtime contract for examples with executable workloads. |
-| 86 | Scenario patterns may point at deferred examples only when the map declares the deferral. |
-| 87 | Generated repos should load manifests first and broaden context only when routing requires it. |
-| 88 | Registry history is tiered so smoke, local-provider, real-cloud, and full results do not overwrite each other. |
-| 89 | Provider-specific runtime behavior is allowed when the example README owns the reason. |
-| 90 | PROMPT_33 is responsible for final README, architecture map, and end-to-end generation smoke. |
+- Catalog and registry must agree before an example is treated as canonical.
+- IaC isolation is validated through the shared script, not per-family bespoke logic.
+- Lane A local-provider checks remain explicitly gated by environment variables.
+- Lane B real-cloud checks remain explicitly gated because they can create billable resources.
+- Structured logs are part of the runtime contract for examples with executable workloads.
+- Scenario patterns may point at deferred examples only when the map declares the deferral.
+- Generated repos should load manifests first and broaden context only when routing requires it.
+- Registry history is tiered so smoke, local-provider, real-cloud, and full results do not overwrite each other.
+- Provider-specific runtime behavior is allowed when the example README owns the reason.
