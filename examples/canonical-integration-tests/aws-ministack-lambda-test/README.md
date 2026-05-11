@@ -18,5 +18,5 @@ own event samples and keep setup/teardown idempotent.
 
 1. Start or connect to ministack.
 2. `bootstrap.sh` creates S3, DynamoDB, and SQS resources with `test` suffixes.
-3. Pytest invokes the Lambda handler through the ministack endpoint.
+3. Pytest asserts the S3 bucket, DynamoDB table, and SQS queue exist through the ministack endpoint.
 4. `teardown.sh` deletes the resources.

@@ -91,6 +91,20 @@ class RunVerificationTests(unittest.TestCase):
         ):
             self.assertIsNone(run_verification.real_cloud_skip_reason(entry))
 
+    def test_executable_harnesses_do_not_contain_placeholder_success_text(self):
+        banned = ("placeholder", "would run here")
+        harness_roots = [ROOT / "examples/canonical-integration-tests"]
+        executable_suffixes = {".py", ".sh"}
+        offenders: list[str] = []
+        for harness_root in harness_roots:
+            for path in harness_root.rglob("*"):
+                if path.suffix not in executable_suffixes:
+                    continue
+                text = path.read_text(encoding="utf-8")
+                for token in banned:
+                    if token in text:
+                        offenders.append(f"{path.relative_to(ROOT)} contains {token!r}")
+        self.assertEqual(offenders, [])
 
 
 if __name__ == "__main__":
