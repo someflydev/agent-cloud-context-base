@@ -38,7 +38,7 @@ optional_context:
   - context/doctrine/serverless-state-discipline.md
   - context/workflows/add-azure-function-trigger.md
 preferred_examples:
-  - examples/canonical-azure-functions/servicebus-worker/
+  - examples/canonical-azure-functions/cosmos-changefeed-search-sync/typescript/
 recommended_templates:
   - templates/agent-md/AGENT.template.md
   - templates/claude-md/CLAUDE.template.md

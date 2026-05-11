@@ -39,7 +39,7 @@ optional_context:
   - context/doctrine/serverless-state-discipline.md
   - context/workflows/add-azure-function-trigger.md
 preferred_examples:
-  - examples/canonical-azure-functions/signed-webhook-orchestrator/
+  - examples/canonical-azure-functions/servicebus-classification/dotnet-isolated/
 recommended_templates:
   - templates/agent-md/AGENT.template.md
   - templates/claude-md/CLAUDE.template.md

@@ -38,7 +38,7 @@ optional_context:
   - context/doctrine/serverless-state-discipline.md
   - context/workflows/add-aws-lambda-trigger.md
 preferred_examples:
-  - examples/canonical-aws-lambda/signed-webhook-orchestrator/
+  - examples/canonical-aws-lambda/apigw-stripe-webhook/typescript/
 recommended_templates:
   - templates/agent-md/AGENT.template.md
   - templates/claude-md/CLAUDE.template.md

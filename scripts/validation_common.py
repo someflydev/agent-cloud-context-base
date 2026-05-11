@@ -42,8 +42,6 @@ def path_exists_or_planned(root: Path, entry: str) -> bool:
     if path.exists():
         return True
     planned_prefixes = (
-        "examples/canonical-",
-        "examples/canonical_",
         "templates/function/",
         "templates/container/",
         "templates/iac/pulumi/",

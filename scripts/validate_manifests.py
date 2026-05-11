@@ -153,7 +153,17 @@ def validate_one(root: Path, path: Path, errors: list[str], warnings: list[str],
     for stack in data.get("secondary_stacks") or []:
         if stack not in stacks:
             errors.append(f"{rel(path, root)} secondary stack does not resolve: {stack}")
-    for key in ("required_context", "optional_context", "preferred_examples", "recommended_templates"):
+    preferred_examples = data.get("preferred_examples") or []
+    examples_deferred = data.get("examples_deferred")
+    if generated is True and not preferred_examples and not examples_deferred:
+        errors.append(f"{rel(path, root)} generated manifest must declare at least one preferred example or examples_deferred")
+    for entry in preferred_examples:
+        if not (root / entry).exists():
+            if examples_deferred:
+                warnings.append(f"{rel(path, root)} preferred_examples entry is deferred: {entry}")
+            else:
+                errors.append(f"{rel(path, root)} preferred_examples entry does not resolve: {entry}")
+    for key in ("required_context", "optional_context", "recommended_templates"):
         for entry in data.get(key) or []:
             if not path_exists_or_planned(root, entry):
                 warnings.append(f"{rel(path, root)} {key} entry is planned or missing: {entry}")

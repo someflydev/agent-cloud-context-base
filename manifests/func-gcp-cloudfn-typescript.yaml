@@ -38,7 +38,7 @@ optional_context:
   - context/doctrine/serverless-state-discipline.md
   - context/workflows/add-gcp-cloud-function-trigger.md
 preferred_examples:
-  - examples/canonical-gcp-functions/signed-webhook-orchestrator/
+  - examples/canonical-gcp-functions/http-stripe-webhook/typescript/
 recommended_templates:
   - templates/agent-md/AGENT.template.md
   - templates/claude-md/CLAUDE.template.md

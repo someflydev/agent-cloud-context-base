@@ -38,7 +38,7 @@ optional_context:
   - context/doctrine/serverless-state-discipline.md
   - context/workflows/add-eventing-seam.md
 preferred_examples:
-  - examples/canonical-gcp-functions/pubsub-worker/
+  - examples/canonical-gcp-functions/eventarc-monitoring-router/go/
 recommended_templates:
   - templates/agent-md/AGENT.template.md
   - templates/claude-md/CLAUDE.template.md
