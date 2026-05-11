@@ -832,8 +832,8 @@ families:
         command: bash examples/canonical-cloud-run/public-api-private-worker-job/python-fastapi/tests/integration/lane-b-ephemeral-real/run.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:42:46+00:00'
-    last_verified_status: passed
+    last_verified_at: null
+    last_verified_status: skipped
   - family: canonical-cloud-run
     name: multi-container-sidecar
     provider: gcp
@@ -865,8 +865,8 @@ families:
         command: bash examples/canonical-cloud-run/multi-container-sidecar/python-fastapi/tests/integration/lane-b-ephemeral-real/run.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:42:46+00:00'
-    last_verified_status: passed
+    last_verified_at: null
+    last_verified_status: skipped
   - family: canonical-cloud-run
     name: public-api-private-worker-job
     provider: gcp
@@ -898,8 +898,8 @@ families:
         command: bash examples/canonical-cloud-run/public-api-private-worker-job/go-echo/tests/integration/lane-b-ephemeral-real/run.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:42:46+00:00'
-    last_verified_status: passed
+    last_verified_at: null
+    last_verified_status: skipped
   - family: canonical-cloud-run
     name: public-api-private-worker-job
     provider: gcp
@@ -931,8 +931,8 @@ families:
         command: bash examples/canonical-cloud-run/public-api-private-worker-job/typescript-hono/tests/integration/lane-b-ephemeral-real/run.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:42:46+00:00'
-    last_verified_status: passed
+    last_verified_at: null
+    last_verified_status: skipped
   - family: canonical-cloud-run
     name: cloudrun-job-nightly-report
     provider: gcp
@@ -964,8 +964,8 @@ families:
         command: bash examples/canonical-cloud-run/cloudrun-job-nightly-report/python-fastapi/tests/integration/lane-b-ephemeral-real/run.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:42:46+00:00'
-    last_verified_status: passed
+    last_verified_at: null
+    last_verified_status: skipped
 - name: canonical-app-runner
   examples:
   - family: canonical-app-runner
@@ -999,8 +999,8 @@ families:
         command: bash examples/canonical-app-runner/public-api-with-vpc-connector/python-fastapi/tests/integration/lane-b-ephemeral-real/run.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:42:46+00:00'
-    last_verified_status: passed
+    last_verified_at: null
+    last_verified_status: skipped
   - family: canonical-app-runner
     name: public-api-with-vpc-connector
     provider: aws
@@ -1032,8 +1032,8 @@ families:
         command: bash examples/canonical-app-runner/public-api-with-vpc-connector/go-echo/tests/integration/lane-b-ephemeral-real/run.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:42:46+00:00'
-    last_verified_status: passed
+    last_verified_at: null
+    last_verified_status: skipped
   - family: canonical-app-runner
     name: supplier-onboarding
     provider: aws
@@ -1065,8 +1065,8 @@ families:
         command: bash examples/canonical-app-runner/supplier-onboarding/python-fastapi/tests/integration/lane-b-ephemeral-real/run.sh
         lane: lane-b-ephemeral-real
         cost: real
-    last_verified_at: '2026-05-08T16:42:46+00:00'
-    last_verified_status: passed
+    last_verified_at: null
+    last_verified_status: skipped
 - name: canonical-container-apps
   examples:
   - family: canonical-container-apps

@@ -5,9 +5,9 @@ from __future__ import annotations
 
 import argparse
 import os
-import random
 import subprocess
 import sys
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -15,6 +15,25 @@ from typing import Any
 import yaml
 
 from validation_common import read_json, repo_root
+
+
+FAST_FAMILY_COVERAGE = (
+    "canonical-aws-lambda",
+    "canonical-gcp-functions",
+    "canonical-azure-functions",
+    "canonical-cloud-run",
+    "canonical-iac-pulumi",
+)
+
+
+@dataclass(frozen=True)
+class CommandSpec:
+    label: str
+    command: list[str] | str
+    registry_key: str | None = None
+    tier: str | None = None
+    skipped_reason: str | None = None
+    shell: bool = False
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -29,45 +48,50 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     root = repo_root()
     commands = fast_commands(root)
-    registry_results: dict[str, dict[str, Any]] = {}
     if args.tier in {"medium", "full"}:
         commands.extend(medium_commands(root, args.update_registry))
     if args.tier == "local-provider":
-        commands.extend(local_provider_commands(root, registry_results))
+        commands.extend(local_provider_commands(root))
     if args.tier == "real-cloud":
-        commands.extend(real_cloud_commands(root, registry_results))
+        commands.extend(real_cloud_commands(root))
     if args.tier == "full":
         commands.extend(full_commands(root))
-        registry_results.update(full_registry_results(root))
+        commands.extend(full_registry_commands(root))
     failed = False
     print("verification summary")
     command_statuses: dict[str, str] = {}
-    for label, command in commands:
-        result = subprocess.run(command, cwd=root, text=True, capture_output=True)
-        status = "passed" if result.returncode == 0 else "failed"
-        command_statuses[label] = status
-        failed = failed or result.returncode != 0
-        print(f"- {label}: {status}")
-        if result.returncode != 0:
-            detail = result.stdout.strip() or result.stderr.strip()
-            if detail:
-                print(f"  {detail.splitlines()[0]}")
+    registry_results: dict[str, dict[str, Any]] = {}
+    for spec in commands:
+        result = run_spec(spec, root)
+        status, reason = command_result_status(result, spec.skipped_reason)
+        command_statuses[spec.label] = status
+        failed = failed or status == "failed"
+        print(f"- {spec.label}: {status}")
+        detail = reason or first_detail(result)
+        if detail and status in {"failed", "skipped"}:
+            print(f"  {detail}")
+        if spec.registry_key and spec.tier:
+            registry_results[spec.registry_key] = {
+                "tier": spec.tier,
+                "status": status,
+                "command": command_text(spec.command),
+                "reason": reason,
+            }
     if args.update_registry and registry_results:
-        apply_command_statuses(args.tier, registry_results, command_statuses)
         update_registry(root / "verification/example_registry.yaml", registry_results)
     print(f"overall: {'failed' if failed else 'passed'}")
     return 1 if failed else 0
 
 
-def fast_commands(root: Path) -> list[tuple[str, list[str]]]:
+def fast_commands(root: Path) -> list[CommandSpec]:
     commands = [
-        ("validate_context", ["python3", "scripts/validate_context.py"]),
-        ("validate_manifests", ["python3", "scripts/validate_manifests.py"]),
+        CommandSpec("validate_context", ["python3", "scripts/validate_context.py"]),
+        CommandSpec("validate_manifests", ["python3", "scripts/validate_manifests.py"]),
     ]
-    for family in spot_check_families(root):
-        commands.append((f"verify_examples:{family}", ["python3", "scripts/verify_examples.py", "--family", family]))
+    for family in deterministic_fast_families(root):
+        commands.append(CommandSpec(f"verify_examples:{family}", ["python3", "scripts/verify_examples.py", "--family", family]))
     commands.append(
-        (
+        CommandSpec(
             "accb_payload_snapshot",
             [
                 "python3",
@@ -91,31 +115,39 @@ def fast_commands(root: Path) -> list[tuple[str, list[str]]]:
             ],
         )
     )
-    commands.append(("iac_parity", ["python3", "verification/iac/run_parity_check.py"]))
-    commands.append(("scenario_parity", ["python3", "verification/scenarios/run_scenario_check.py"]))
+    commands.extend(
+        [
+            CommandSpec("functions_parity", ["python3", "verification/functions/run_parity_check.py"]),
+            CommandSpec("containers_parity", ["python3", "verification/containers/run_parity_check.py"]),
+            CommandSpec("kubernetes_parity", ["python3", "verification/kubernetes/run_parity_check.py"]),
+            CommandSpec("iac_parity", ["python3", "verification/iac/run_parity_check.py"]),
+            CommandSpec("scenario_parity", ["python3", "verification/scenarios/run_scenario_check.py"]),
+        ]
+    )
     return commands
 
 
-def spot_check_families(root: Path) -> list[str]:
+def deterministic_fast_families(root: Path) -> list[str]:
     catalog = read_json(root / "examples/catalog.json")
     families = sorted({entry.get("family") for entry in catalog.get("examples") or [] if entry.get("family")})
-    return random.sample(families, min(3, len(families))) if families else []
+    selected = [family for family in FAST_FAMILY_COVERAGE if family in families]
+    return selected or families[:3]
 
 
-def medium_commands(root: Path, update_registry: bool = False) -> list[tuple[str, list[str]]]:
+def medium_commands(root: Path, update_registry: bool = False) -> list[CommandSpec]:
     verify_command = ["python3", "scripts/verify_examples.py"]
     if update_registry:
         verify_command.append("--update-registry")
-    commands = [("verify_examples", verify_command)]
+    commands = [CommandSpec("verify_examples", verify_command)]
     for iac_root in example_iac_roots(root):
-        commands.append((f"validate_iac_isolation:{iac_root.relative_to(root)}", ["python3", "scripts/validate_iac_isolation.py", str(iac_root)]))
+        commands.append(CommandSpec(f"validate_iac_isolation:{iac_root.relative_to(root)}", ["python3", "scripts/validate_iac_isolation.py", str(iac_root)]))
     commands.extend(
         [
-            ("functions_parity", ["python3", "verification/functions/run_parity_check.py"]),
-            ("containers_parity", ["python3", "verification/containers/run_parity_check.py"]),
-            ("kubernetes_parity", ["python3", "verification/kubernetes/run_parity_check.py"]),
-            ("iac_parity", ["python3", "verification/iac/run_parity_check.py"]),
-            ("scenario_parity", ["python3", "verification/scenarios/run_scenario_check.py"]),
+            CommandSpec("functions_parity", ["python3", "verification/functions/run_parity_check.py"]),
+            CommandSpec("containers_parity", ["python3", "verification/containers/run_parity_check.py"]),
+            CommandSpec("kubernetes_parity", ["python3", "verification/kubernetes/run_parity_check.py"]),
+            CommandSpec("iac_parity", ["python3", "verification/iac/run_parity_check.py"]),
+            CommandSpec("scenario_parity", ["python3", "verification/scenarios/run_scenario_check.py"]),
         ]
     )
     return commands
@@ -135,69 +167,92 @@ def example_iac_roots(root: Path) -> list[Path]:
     return roots
 
 
-def full_commands(root: Path) -> list[tuple[str, list[str]]]:
-    return [("ephemeral_real", ["python3", "-c", "print('cloud credentials absent; skipping operator-driven full checks')"])]
+def full_commands(root: Path) -> list[CommandSpec]:
+    return [CommandSpec("full_gate", ["python3", "-c", "print('skipped: no full verification commands are declared')"])]
 
 
-def local_provider_commands(root: Path, registry_results: dict[str, dict[str, Any]]) -> list[tuple[str, list[str]]]:
-    commands = [
-        ("aws_ministack_harness", ["bash", "examples/canonical-integration-tests/aws-ministack-lambda-test/run.sh"]),
-        ("gcp_minisky_harness", ["bash", "examples/canonical-integration-tests/gcp-minisky-firestore-pubsub-test/run.sh"]),
-        ("azure_miniblue_harness", ["bash", "examples/canonical-integration-tests/azure-miniblue-fn-test/run.sh"]),
-    ]
-    status = "passed" if os.environ.get("ACCB_RUN_LOCAL_PROVIDER") == "1" else "skipped"
-    reason = None if status == "passed" else "ACCB_RUN_LOCAL_PROVIDER=1 not set"
+def local_provider_commands(root: Path) -> list[CommandSpec]:
+    if os.environ.get("ACCB_RUN_LOCAL_PROVIDER") != "1":
+        reason = "ACCB_RUN_LOCAL_PROVIDER=1 not set"
+        return [
+                CommandSpec(
+                    f"local_provider:{entry['family']}:{entry['name']}:{entry['language']}",
+                    entry["verify_command_local_provider"],
+                    registry_key=entry_key(entry),
+                    tier="local_provider",
+                    skipped_reason=reason,
+                    shell=True,
+                )
+            for entry in registry_entries(root)
+            if entry.get("verify_command_local_provider")
+        ]
+    commands: list[CommandSpec] = []
     for entry in registry_entries(root):
         command = entry.get("verify_command_local_provider")
         if command:
-            registry_results[entry_key(entry)] = {
-                "tier": "local_provider",
-                "status": status,
-                "command": command,
-                "reason": reason,
-            }
+            commands.append(
+                CommandSpec(
+                    f"local_provider:{entry['family']}:{entry['name']}:{entry['language']}",
+                    command,
+                    registry_key=entry_key(entry),
+                    tier="local_provider",
+                    shell=True,
+                )
+            )
     return commands
 
 
-def real_cloud_commands(root: Path, registry_results: dict[str, dict[str, Any]]) -> list[tuple[str, list[str]]]:
-    commands = [
-        ("pulumi_ephemeral_real", ["bash", "examples/canonical-integration-tests/ephemeral-real-pulumi-up-down/run.sh"]),
-        ("terraform_ephemeral_real", ["bash", "examples/canonical-integration-tests/ephemeral-real-terraform-apply/run.sh"]),
-    ]
-    status, reason = real_cloud_status()
+def real_cloud_commands(root: Path) -> list[CommandSpec]:
+    commands: list[CommandSpec] = []
     for entry in registry_entries(root):
         command = entry.get("verify_command_real_cloud")
         if command:
-            registry_results[entry_key(entry)] = {
-                "tier": "real_cloud",
-                "status": status,
-                "command": command,
-                "reason": reason,
-            }
+            reason = real_cloud_skip_reason(entry)
+            commands.append(
+                CommandSpec(
+                    f"real_cloud:{entry['family']}:{entry['name']}:{entry['language']}",
+                    command,
+                    registry_key=entry_key(entry),
+                    tier="real_cloud",
+                    skipped_reason=reason,
+                    shell=reason is None,
+                )
+            )
     return commands
 
 
-def full_registry_results(root: Path) -> dict[str, dict[str, Any]]:
-    status = "skipped"
-    reason = "ACCB_RUN_FULL=1 not set"
-    if os.environ.get("ACCB_RUN_FULL") == "1":
-        status = "passed"
-        reason = None
-    results: dict[str, dict[str, Any]] = {}
+def full_registry_commands(root: Path) -> list[CommandSpec]:
+    commands: list[CommandSpec] = []
     for entry in registry_entries(root):
         command = entry.get("verify_command_full")
         if command:
-            results[entry_key(entry)] = {"tier": "full", "status": status, "command": command, "reason": reason}
-    return results
+            reason = None if os.environ.get("ACCB_RUN_FULL") == "1" else "ACCB_RUN_FULL=1 not set"
+            commands.append(
+                CommandSpec(
+                    f"full:{entry['family']}:{entry['name']}:{entry['language']}",
+                    command,
+                    registry_key=entry_key(entry),
+                    tier="full",
+                    skipped_reason=reason,
+                    shell=reason is None,
+                )
+            )
+    return commands
 
 
-def real_cloud_status() -> tuple[str, str | None]:
+def real_cloud_skip_reason(entry: dict[str, Any]) -> str | None:
     if os.environ.get("ACCB_RUN_REAL_CLOUD") != "1":
-        return "skipped", "ACCB_RUN_REAL_CLOUD=1 not set"
-    required = ("AWS_ACCESS_KEY_ID", "GOOGLE_APPLICATION_CREDENTIALS", "AZURE_TENANT_ID")
-    if not any(os.environ.get(name) for name in required):
-        return "skipped", "cloud credentials not detected"
-    return "passed", None
+        return "ACCB_RUN_REAL_CLOUD=1 not set"
+    provider = entry.get("provider")
+    required_by_provider = {
+        "aws": ("AWS_ACCESS_KEY_ID",),
+        "gcp": ("GOOGLE_APPLICATION_CREDENTIALS",),
+        "azure": ("AZURE_TENANT_ID",),
+    }
+    required = required_by_provider.get(str(provider), ())
+    if required and not all(os.environ.get(name) for name in required):
+        return f"{provider} cloud credentials not detected"
+    return None
 
 
 def registry_entries(root: Path) -> list[dict[str, Any]]:
@@ -235,27 +290,67 @@ def update_registry(path: Path, results: dict[str, dict[str, Any]]) -> None:
                 current.setdefault("lane", "lane-a-local-provider")
             if tier in {"real_cloud", "full"}:
                 current.setdefault("cost", "real")
-            example["last_verified_at"] = stamp
-            example["last_verified_status"] = result["status"]
+            refresh_derived_status(example)
     path.write_text(yaml.safe_dump(registry, sort_keys=False), encoding="utf-8")
 
 
-def apply_command_statuses(tier: str, results: dict[str, dict[str, Any]], command_statuses: dict[str, str]) -> None:
-    if tier == "local-provider" and any(command_statuses.get(label) == "failed" for label in (
-        "aws_ministack_harness",
-        "gcp_minisky_harness",
-        "azure_miniblue_harness",
-    )):
-        for result in results.values():
-            result["status"] = "failed"
-            result["reason"] = "local provider harness failed"
-    if tier == "real-cloud" and any(command_statuses.get(label) == "failed" for label in (
-        "pulumi_ephemeral_real",
-        "terraform_ephemeral_real",
-    )):
-        for result in results.values():
-            result["status"] = "failed"
-            result["reason"] = "real cloud harness failed"
+def run_spec(spec: CommandSpec, root: Path) -> subprocess.CompletedProcess[str]:
+    if spec.skipped_reason:
+        return subprocess.CompletedProcess(spec.command, 0, stdout=f"skipped: {spec.skipped_reason}\n", stderr="")
+    return subprocess.run(spec.command, cwd=root, text=True, capture_output=True, shell=spec.shell)
+
+
+def command_result_status(result: subprocess.CompletedProcess[str], skipped_reason: str | None = None) -> tuple[str, str | None]:
+    output = "\n".join(part for part in (result.stdout, result.stderr) if part)
+    skip_line = next((line.strip() for line in output.splitlines() if line.strip().startswith("skipped:")), None)
+    if skip_line:
+        return "skipped", skip_line.removeprefix("skipped:").strip() or skipped_reason
+    if skipped_reason:
+        return "skipped", skipped_reason
+    if result.returncode == 0:
+        return "passed", None
+    return "failed", first_detail(result) or f"exit code {result.returncode}"
+
+
+def first_detail(result: subprocess.CompletedProcess[str]) -> str | None:
+    detail = result.stdout.strip() or result.stderr.strip()
+    return detail.splitlines()[0] if detail else None
+
+
+def command_text(command: list[str] | str) -> str:
+    return command if isinstance(command, str) else " ".join(command)
+
+
+def refresh_derived_status(example: dict[str, Any]) -> None:
+    verification = example.get("verification") or {}
+    passed = [
+        tier
+        for tier, result in verification.items()
+        if isinstance(result, dict) and result.get("status") == "passed" and result.get("verified_at")
+    ]
+    if passed:
+        latest = max((verification[tier]["verified_at"], tier) for tier in passed)
+        example["last_verified_at"] = latest[0]
+        example["last_verified_status"] = "passed"
+        return
+    failed = [
+        tier
+        for tier, result in verification.items()
+        if isinstance(result, dict) and result.get("status") == "failed" and result.get("verified_at")
+    ]
+    if failed:
+        latest = max((verification[tier]["verified_at"], tier) for tier in failed)
+        example["last_verified_at"] = latest[0]
+        example["last_verified_status"] = "failed"
+        return
+    skipped = [
+        tier
+        for tier, result in verification.items()
+        if isinstance(result, dict) and result.get("status") == "skipped"
+    ]
+    if skipped:
+        example["last_verified_at"] = None
+        example["last_verified_status"] = "skipped"
 
 
 if __name__ == "__main__":

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import subprocess
 import sys
 from concurrent.futures import ThreadPoolExecutor
@@ -113,7 +114,7 @@ def verify_one(root: Path, entry: dict[str, Any], tier: str) -> dict[str, Any]:
             tier_results[label] = {"status": "skipped", "command": None, "reason": "command not declared"}
             messages.append(f"{label}: skipped")
             continue
-        skip_reason = gated_skip_reason(label)
+        skip_reason = gated_skip_reason(label, entry)
         if skip_reason:
             tier_results[label] = {"status": "skipped", "command": command, "reason": skip_reason}
             messages.append(f"{label}: skipped ({skip_reason})")
@@ -121,6 +122,11 @@ def verify_one(root: Path, entry: dict[str, Any], tier: str) -> dict[str, Any]:
         result = subprocess.run(command, cwd=root, shell=True, text=True, capture_output=True, timeout=300)
         message = "\n".join(part for part in (result.stdout.strip(), result.stderr.strip()) if part) or f"exit {result.returncode}"
         messages.append(f"{label}: {message[:160]}")
+        output_skip = explicit_skip_reason(message)
+        if result.returncode == 0 and output_skip:
+            tier_results[label] = {"status": "skipped", "command": command, "reason": output_skip}
+            messages[-1] = f"{label}: skipped ({output_skip})"
+            continue
         if result.returncode != 0 and sandbox_skip_reason(message):
             tier_results[label] = {"status": "skipped", "command": command, "reason": sandbox_skip_reason(message)}
             messages[-1] = f"{label}: skipped ({sandbox_skip_reason(message)})"
@@ -151,20 +157,31 @@ def tier_commands(entry: dict[str, Any], tier: str) -> list[tuple[str, str | Non
     ]
 
 
-def gated_skip_reason(label: str) -> str | None:
-    import os
-
+def gated_skip_reason(label: str, entry: dict[str, Any]) -> str | None:
     if label == "local-provider" and os.environ.get("ACCB_RUN_LOCAL_PROVIDER") != "1":
         return "ACCB_RUN_LOCAL_PROVIDER=1 not set"
     if label == "real-cloud":
         if os.environ.get("ACCB_RUN_REAL_CLOUD") != "1":
             return "ACCB_RUN_REAL_CLOUD=1 not set"
-        required = ("AWS_ACCESS_KEY_ID", "GOOGLE_APPLICATION_CREDENTIALS", "AZURE_TENANT_ID")
-        if not any(os.environ.get(name) for name in required):
-            return "cloud credentials not detected"
+        required_by_provider = {
+            "aws": ("AWS_ACCESS_KEY_ID",),
+            "gcp": ("GOOGLE_APPLICATION_CREDENTIALS",),
+            "azure": ("AZURE_TENANT_ID",),
+        }
+        required = required_by_provider.get(str(entry.get("provider")), ())
+        if required and not all(os.environ.get(name) for name in required):
+            return f"{entry.get('provider')} cloud credentials not detected"
     if label == "full":
         if os.environ.get("ACCB_RUN_FULL") != "1":
             return "ACCB_RUN_FULL=1 not set"
+    return None
+
+
+def explicit_skip_reason(message: str) -> str | None:
+    for line in message.splitlines():
+        line = line.strip()
+        if line.startswith("skipped:"):
+            return line.removeprefix("skipped:").strip() or "not executed"
     return None
 
 
@@ -194,8 +211,34 @@ def update_registry(registry: dict[str, Any], results: list[dict[str, Any]], sta
                     else:
                         current["verified_at"] = None
                         current["reason"] = tier_result.get("reason") or "not executed"
-                example["last_verified_at"] = stamp
-                example["last_verified_status"] = "passed" if result["ok"] else "failed"
+                refresh_derived_status(example)
+
+
+def refresh_derived_status(example: dict[str, Any]) -> None:
+    verification = example.get("verification") or {}
+    passed = [
+        tier
+        for tier, result in verification.items()
+        if isinstance(result, dict) and result.get("status") == "passed" and result.get("verified_at")
+    ]
+    if passed:
+        latest = max((verification[tier]["verified_at"], tier) for tier in passed)
+        example["last_verified_at"] = latest[0]
+        example["last_verified_status"] = "passed"
+        return
+    failed = [
+        tier
+        for tier, result in verification.items()
+        if isinstance(result, dict) and result.get("status") == "failed" and result.get("verified_at")
+    ]
+    if failed:
+        latest = max((verification[tier]["verified_at"], tier) for tier in failed)
+        example["last_verified_at"] = latest[0]
+        example["last_verified_status"] = "failed"
+        return
+    if any(isinstance(result, dict) and result.get("status") == "skipped" for result in verification.values()):
+        example["last_verified_at"] = None
+        example["last_verified_status"] = "skipped"
 
 
 if __name__ == "__main__":
