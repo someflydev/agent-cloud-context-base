@@ -27,7 +27,7 @@ PROFILES = {
     ],
     "container_cloudrun_fastapi.txt": [
         "--archetype",
-        "managed-container-service",
+        "managed-container-multi-service",
         "--provider",
         "gcp",
         "--runtime-tier",

@@ -1,5 +1,5 @@
 accb new repo plan: <TARGET>
-profile: managed-container-service | gcp | managed_container | cloudrun-python-fastapi | pulumi-python
+profile: managed-container-multi-service | gcp | managed_container | cloudrun-python-fastapi | pulumi-python
 write set:
 - .gitignore
 - .prompts/PROMPT_01.txt
